@@ -1,0 +1,30 @@
+name: Validate Marketplace
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace & plugins
+        run: claude plugin validate .
+
+      - name: Verify cross-tool skill discovery
+        env:
+          DISABLE_TELEMETRY: "1"
+        run: npx -y skills add . --list
+
+      - name: Ensure Cursor manifest is up to date
+        run: node scripts/build-cursor-manifest.mjs --check

@@ -1,0 +1,15 @@
+{
+  "name": "ai-marketplace",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "筱锋のAI插件库 —— 面向 AI 编码助手的开源 Skills 与 Plugins 市场",
+  "scripts": {
+    "build": "node scripts/build-cursor-manifest.mjs",
+    "check": "node scripts/build-cursor-manifest.mjs --check",
+    "validate": "claude plugin validate ."
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

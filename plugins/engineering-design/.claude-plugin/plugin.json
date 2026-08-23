@@ -1,0 +1,13 @@
+{
+  "name": "engineering-design",
+  "description": "工程设计文档管理：draft/research/rfc/adr 四技能分管草案、调研、提案与定稿，docs-init 一键初始化目录，共享全局四位编号与流转规则",
+  "version": "0.0.1",
+  "author": {
+    "name": "筱锋 (Xiao Lfeng)",
+    "url": "https://github.com/xiaolfeng"
+  },
+  "homepage": "https://github.com/xiaolfeng/ai-marketplace",
+  "repository": "https://github.com/xiaolfeng/ai-marketplace",
+  "license": "MIT",
+  "keywords": ["docs", "adr", "rfc", "research", "draft", "workflow"]
+}
