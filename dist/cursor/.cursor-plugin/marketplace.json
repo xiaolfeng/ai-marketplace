@@ -30,7 +30,7 @@
       "name": "discovery",
       "source": "./plugins/discovery",
       "description": "项目探索与知识库构建：由内到外生成分层 AGENTS.md 知识库，让 AI Agent 快速看懂任何项目",
-      "version": "0.0.1",
+      "version": "0.0.3",
       "keywords": [
         "agents",
         "docs",

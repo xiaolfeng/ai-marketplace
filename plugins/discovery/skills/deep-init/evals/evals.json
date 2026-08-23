@@ -1,0 +1,42 @@
+{
+  "skill_name": "deep-init",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为。运行方式见 Anthropic skill-creator 插件。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "这是个新的小工具项目，就十几个 Go 文件全平铺在根目录，帮我初始化一下知识库",
+      "expected_output": "判定为单层结构：只在根目录生成一份带同步标记的 AGENTS.md，不为子目录强行分层；validate.mjs 退出码 0；回报含文件清单与哈希",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "之前 deep init 过了，最近我们重构了支付模块还加了个 webhook 目录，知识库同步一下吧",
+      "expected_output": "读取存量标记哈希做 diff 分析，只重写受影响段落并保留其余原文表述，刷新标记为当前 HEAD；未变更的 scope 被跳过并在回报中说明",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "刚从网上下载了个开源项目压缩包（没有 .git），帮我看看结构顺便把 AGENTS.md 建了",
+      "expected_output": "触发问询协议 Q3：说明增量能力依赖 git，给出「降级继续 / 先 git init」选项等待用户决定，而不是直接开写",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "我们 src/utils/ 下面三十多个工具文件，给里面每个子目录都生成一份 AGENTS.md",
+      "expected_output": "先按分层判定给出专业意见（同类文件集合通常不值得逐目录分层），说明理由后尊重用户最终决定；若执行则每份都通过校验闭环",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "我们这个开源库马上要对外发布首个版本了，帮我初始化一下知识库，项目大概三万行代码分了四个模块",
+      "expected_output": "除生成分层 AGENTS.md 外，第 5 步应命中可选文档信号（≥1 万行 → ARCHITECTURE.md；对外发布 → SECURITY.md/CHANGELOG.md 等），按 Q4 列出候选让用户勾选后再生成，而不是只写 AGENTS.md 收工",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "我们团队一半人用 Cursor 一半用 Claude Code 还有人用 aider，知识库能不能让他们行为一致？别搞出好几份各改各的",
+      "expected_output": "命中 AI 定制类信号：说明 AGENTS.md 本身就是跨工具单一事实源（Cursor 原生读、Claude 走 @AGENTS.md 引用、aider 用 read: 配置指向），按 Q4 提议指针型适配而非复制多份快照，并说明快照型仅作兜底且须带生成标记",
+      "files": []
+    }
+  ]
+}
