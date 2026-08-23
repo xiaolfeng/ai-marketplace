@@ -61,3 +61,8 @@ RFC 进度：
 动笔前读同文体的完整对照示例：
 [references/example.md](./references/example.md)。
 重点看坏例怎么把一页纸的决策写成三页汇报——那是最常见的失败方式。
+
+## 成品样例
+
+需要参考完整颗粒度时读 [examples/sample.md](./examples/sample.md)——
+可直接复制其结构与详略，替换为本次主题的内容。

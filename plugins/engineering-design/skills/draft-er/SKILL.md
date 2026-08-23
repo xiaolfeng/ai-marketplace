@@ -57,3 +57,14 @@ research（缺证据）或 rfc（其实已经收敛了）。
 - 想法需要证据 → 转 research-er；
 - 写着写着发现已经收敛 → 直接转 rfc-er，草案标 `resolved` 并链接 RFC；
 - 问题本身消失 → 标 `superseded` 或 `resolved`，一句话说明即可，不删文。
+
+## 好坏对照
+
+动笔前读一份同文体的完整对照示例：
+[references/example.md](./references/example.md)。
+重点看坏例怎么把草案写成结论先行的假草案——那是草案最常见的死法。
+
+## 成品样例
+
+需要参考完整颗粒度时读 [examples/sample.md](./examples/sample.md)——
+可直接复制其结构与详略，替换为本次主题的内容。

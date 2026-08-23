@@ -58,3 +58,8 @@ python3 scripts/init_docs.py <项目根目录>
 
 逐条列出「新建了什么 / 跳过了什么」，并提示后续可用
 draft-er → research-er → rfc-er → adr-er 开始写作。
+
+## 成品样例
+
+第 2 步生成的最小索引长什么样见 [examples/minimal-index.md](./examples/minimal-index.md)——
+内容与之一致即可，不要自行加章节。

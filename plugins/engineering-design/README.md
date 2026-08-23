@@ -61,17 +61,28 @@ engineering-design/skills/
 │   ├── conventions.md      # 五阶段目录 + 编号命名（公共）
 │   ├── lifecycle.md        # 流转方向 + 状态机（公共）
 │   └── writing-style.md    # 输出语言纪律（公共）
-├── draft-er/SKILL.md
+├── draft-er/
+│   ├── SKILL.md
+│   ├── references/example.md
+│   └── examples/sample.md
 ├── research-er/
 │   ├── SKILL.md
-│   └── references/example.md
+│   ├── references/example.md
+│   └── examples/sample.md
 ├── rfc-er/
 │   ├── SKILL.md
-│   └── references/example.md
+│   ├── references/example.md
+│   └── examples/sample.md
 ├── adr-er/
 │   ├── SKILL.md
-│   └── references/example.md
+│   ├── references/example.md
+│   └── examples/sample.md
 └── docs-init/
     ├── SKILL.md
+    ├── examples/minimal-index.md
     └── scripts/init_docs.py
 ```
+
+`references/example.md` 是好坏对照教学材料；`examples/sample.md`
+是可直接复制改写的完整成品样例——四技能的样例共用「构建产物入库」
+一条主题线，连起来正好演示 draft → research → rfc → adr 的完整流转与共享编号。
