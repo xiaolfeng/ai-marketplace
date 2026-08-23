@@ -4,7 +4,10 @@ node_modules/
 .pnp.*
 
 # ---------- Build output ----------
-dist/
+# Cursor 市场清单是随仓库分发的导出产物（CI --check 校验其时效性），需入库；
+# dist 下其余构建产物仍忽略。
+dist/*
+!dist/cursor/
 build/
 out/
 .next/

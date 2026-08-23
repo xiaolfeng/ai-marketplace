@@ -1,0 +1,70 @@
+{
+  "name": "xiaofeng-plugins",
+  "owner": {
+    "name": "筱锋 (Xiao Lfeng)",
+    "url": "https://github.com/xiaolfeng"
+  },
+  "metadata": {
+    "description": "筱锋のAI插件库 —— 面向 AI 编码助手的开源 Skills 与 Plugins 合集"
+  },
+  "plugins": [
+    {
+      "name": "git-manage",
+      "source": "./plugins/git-manage",
+      "description": "Git 工作流管理：分析 diff 自动生成规范化中文提交信息，并直接执行提交，scope 统一业务环境命名",
+      "version": "0.0.1",
+      "keywords": [
+        "git",
+        "commit"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "git",
+        "commit"
+      ],
+      "skills": [
+        "./skills"
+      ]
+    },
+    {
+      "name": "discovery",
+      "source": "./plugins/discovery",
+      "description": "项目探索与知识库构建：由内到外生成分层 AGENTS.md 知识库，让 AI Agent 快速看懂任何项目",
+      "version": "0.0.1",
+      "keywords": [
+        "agents",
+        "docs",
+        "init"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "agents-md",
+        "knowledge-base",
+        "onboarding"
+      ],
+      "skills": [
+        "./skills"
+      ]
+    },
+    {
+      "name": "engineering-design",
+      "source": "./plugins/engineering-design",
+      "description": "工程设计文档管理：draft/research/rfc/adr 四技能分管草案、调研、提案与定稿，docs-init 一键初始化目录，scope-manage 统一分类判定",
+      "version": "0.0.1",
+      "keywords": [
+        "docs",
+        "adr",
+        "rfc"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "docs",
+        "adr",
+        "rfc"
+      ],
+      "skills": [
+        "./skills"
+      ]
+    }
+  ]
+}

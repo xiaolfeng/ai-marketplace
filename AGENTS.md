@@ -16,7 +16,7 @@
 - `.claude-plugin/marketplace.json` — 市场清单（单一事实源）
 - `plugins/<plugin-name>/` — 插件源码（manifest 位于各自 `.claude-plugin/plugin.json`）
 - `scripts/build-cursor-manifest.mjs` — Cursor 清单导出器（`--check` 供 CI 校验）
-- `dist/` — 构建产物，不入库（已 gitignore）
+- `dist/cursor/` — Cursor 清单导出产物，随仓库分发（`dist/` 其余内容不入库）
 
 ## 维护规则
 

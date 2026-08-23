@@ -17,7 +17,7 @@
 ## ✨ 特性
 
 - **一次编写，多端运行** — 技能层遵循开放的 SKILL.md 规范，Claude Code、Codex、Cursor、GitHub Copilot、Gemini CLI、Windsurf 等主流工具通用
-- **单一事实源** — 仅维护一份 `.claude-plugin/marketplace.json`，Cursor 清单由 CI 自动导出
+- **单一事实源** — 仅维护一份 `.claude-plugin/marketplace.json`，Cursor 清单由脚本导出并随仓库分发
 - **开放打包标准** — 插件结构与 [Agent Plugins 1.0](https://agent-plugins.org) 保持兼容
 - **安全优先** — 插件不内嵌任何密钥；发布前经过 `claude plugin validate` 校验
 
@@ -32,7 +32,7 @@ ai-marketplace/
 │       ├── .claude-plugin/
 │       │   └── plugin.json     # 插件 manifest
 │       └── skills/<skill>/SKILL.md
-├── dist/                       # CI 导出产物（如 Cursor 市场清单）
+├── dist/cursor/                # 导出的 Cursor 市场清单（随仓库分发）
 └── docs/                       # 项目文档
 ```
 
@@ -53,6 +53,7 @@ ai-marketplace/
    ```bash
    claude plugin validate .
    npx skills add ./ --list     # 确认技能能被发现
+   npm run build                # 同步导出 Cursor 清单
    ```
 
 4. 提交 Pull Request。
