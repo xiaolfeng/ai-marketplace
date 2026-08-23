@@ -18,7 +18,7 @@
 ```bash
 # Claude Code
 /plugin marketplace add xiaolfeng/ai-marketplace
-/plugin install discovery@xiaofeng-plugins
+/plugin install discovery@ai-marketplace
 
 # 或任意支持 Agent Skills 的工具（78+）
 npx skills add xiaolfeng/ai-marketplace --skill deep-init

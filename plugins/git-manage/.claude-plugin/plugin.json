@@ -3,8 +3,8 @@
   "description": "Git 工作流管理：分析 diff 自动生成规范化中文提交信息并直接执行，scope 分类体系统一业务环境命名",
   "version": "0.0.1",
   "author": {
-    "name": "筱锋 (Xiao Lfeng)",
-    "url": "https://github.com/xiaolfeng"
+    "name": "xiao_lfeng",
+    "url": "https://www.x-lf.com"
   },
   "homepage": "https://github.com/xiaolfeng/ai-marketplace",
   "repository": "https://github.com/xiaolfeng/ai-marketplace",

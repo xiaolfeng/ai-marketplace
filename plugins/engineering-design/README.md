@@ -26,7 +26,7 @@
 ```bash
 # Claude Code
 /plugin marketplace add xiaolfeng/ai-marketplace
-/plugin install engineering-design@xiaofeng-plugins
+/plugin install engineering-design@ai-marketplace
 
 # 或任意支持 Agent Skills 的工具（78+）
 npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --skill rfc-er --skill adr-er --skill docs-init

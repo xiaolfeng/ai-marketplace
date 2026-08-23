@@ -50,7 +50,7 @@ rebase 前还会检测源分支是否已推送并警告历史改写后果。全�
 ```bash
 # Claude Code
 /plugin marketplace add xiaolfeng/ai-marketplace
-/plugin install git-manage@xiaofeng-plugins
+/plugin install git-manage@ai-marketplace
 
 # 或任意支持 Agent Skills 的工具（78+）
 npx skills add xiaolfeng/ai-marketplace --skill git-commit
