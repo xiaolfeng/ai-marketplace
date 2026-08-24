@@ -32,7 +32,7 @@ docs/
 
 ```
 初始化进度：
-- [ ] 1. 运行 init_docs.py <项目根目录>，确认五目录 + .gitkeep 就位
+- [ ] 1. 运行 init_docs.mjs <项目根目录>，确认五目录 + .gitkeep 就位
 - [ ] 2. docs/README.md 不存在时生成最小索引
 - [ ] 3. 回报创建清单；全部已存在则说明无需变更
 ```
@@ -42,7 +42,7 @@ docs/
 脚本幂等——目录已存在则跳过，绝不覆盖已有文件：
 
 ```bash
-python3 scripts/init_docs.py <项目根目录>
+node scripts/init_docs.mjs <项目根目录>
 # 不传参数时默认当前目录
 ```
 

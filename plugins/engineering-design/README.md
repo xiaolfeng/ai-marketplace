@@ -11,7 +11,7 @@
 | [`research-er`](./skills/research-er/) | 调研 | 只记现状与证据，判断标「倾向」不拍板 |
 | [`rfc-er`](./skills/rfc-er/) | 提案 | 给评审人拍的：采用什么、不做什么、哪些没定 |
 | [`adr-er`](./skills/adr-er/) | 定稿 | 冻结长期约束，每条可单独引用 |
-| [`docs-init`](./skills/docs-init/) | 初始化 | Python 脚本幂等创建五段式文档目录 |
+| [`docs-init`](./skills/docs-init/) | 初始化 | Node 脚本幂等创建五段式文档目录 |
 
 ## 设计
 
@@ -80,7 +80,7 @@ engineering-design/skills/
 └── docs-init/
     ├── SKILL.md
     ├── examples/minimal-index.md
-    └── scripts/init_docs.py
+    └── scripts/init_docs.mjs
 ```
 
 `references/example.md` 是好坏对照教学材料；`examples/sample.md`

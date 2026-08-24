@@ -24,7 +24,7 @@ engineering-design/
     ├── research-er/          # 调研：只记现状与证据，不拍板
     ├── rfc-er/               # 提案：给评审人拍板的收敛方案
     ├── adr-er/               # 定稿：冻结长期约束
-    └── docs-init/            # 初始化器：Python 脚本幂等建目录
+    └── docs-init/            # 初始化器：Node 脚本幂等建目录
 ```
 
 每个写作技能内部固定三件套：`SKILL.md`（操作清单 + 文档骨架）、
@@ -38,7 +38,7 @@ engineering-design/
 | 改流转方向或状态机 | `skills/_shared/lifecycle.md` | 单向流动是底线 |
 | 加新写作阶段技能 | `skills/<name>/` 三件套照抄现有结构 | 同步更新 README 技能表 |
 | 调整文风纪律 | `skills/_shared/writing-style.md` | 空话词禁用表也在这里 |
-| 改目录初始化行为 | `skills/docs-init/scripts/init_docs.py` | 保持幂等可重跑 |
+| 改目录初始化行为 | `skills/docs-init/scripts/init_docs.mjs` | 保持幂等可重跑 |
 
 ## 约定
 
