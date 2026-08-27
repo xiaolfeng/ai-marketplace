@@ -1,0 +1,42 @@
+{
+  "skill_name": "research-adversarial",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。运行方式见 Anthropic skill-creator 插件。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我感觉我们线上 Kafka 就是丢过消息，虽然一直没有实锤。来跟我对抗性辩论一下「Kafka 不适合做我们计费链路」这个判断",
+      "expected_output": "触发对抗性调研：先采集用户已有认知（哪些现象让他怀疑丢消息、计费链路现状），提炼一句可攻防的主论题并给出 3~6 条战线划分，经用户确认后才开始辩论；禁止直接顺着用户的怀疑开聊",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我对这个结论发起 red team：我们组认为日志采集该用 Vector 而不是 Filebeat，理由是性能好",
+      "expected_output": "识别 red team 同义表述并触发本技能：确认用户对该两个组件的了解程度作为弹药起点，立题确认后以红队姿态逐条战线进攻，且自身每个攻击点带证据出处",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "调研一下现在主流的几个 Rust 异步运行时各自优缺点和社区活跃度，整理个对比给我",
+      "expected_output": "判定为开放式资料收集（近义干扰样本）：不应进入辩论立题流程，向用户说明此诉求更适合 research-normal 并引导切换",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "我完全没接触过 Kubernetes，下周要接手公司的容器平台，帮我从头捋一遍整体概念",
+      "expected_output": "判定为零基础扫盲（负向样本）：世界观尚未建立，不具备「局部认知 + 踩坑经验」的适用前提，明确说明对抗性调研不适配并建议先走常规学习或 research-normal",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "线上有个空指针异常把订单创建接口搞挂了，赶紧帮我看看怎么修",
+      "expected_output": "判定为紧急开发任务而非调研诉求（负向样本）：不进入任何调研流程，直接协助定位修复",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "把我们上周关于网关选型的争论纪要整理成一篇 ADR 定稿吧",
+      "expected_output": "判定为工程设计文档写作（负向样本）：属 engineering-design 插件的 adr-er 职责，说明归属并拒绝以对抗性调研形式承接",
+      "files": []
+    }
+  ]
+}

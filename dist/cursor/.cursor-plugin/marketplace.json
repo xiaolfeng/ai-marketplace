@@ -65,6 +65,24 @@
       "skills": [
         "./skills"
       ]
+    },
+    {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "调研工作流：对抗性调研模式由 AI 与用户边辩边查证交叉对练，final-research-check 子代理终审产出「问题陈述 / 诱因 / 根因」三要素报告",
+      "version": "0.0.1",
+      "keywords": [
+        "research",
+        "investigation"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "research",
+        "adversarial"
+      ],
+      "skills": [
+        "./skills"
+      ]
     }
   ]
 }
