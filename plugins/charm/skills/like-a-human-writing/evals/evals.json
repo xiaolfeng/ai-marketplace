@@ -1,0 +1,42 @@
+{
+  "skill_name": "like-a-human-writing",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。运行方式见 Anthropic skill-creator 插件。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "这段 README 开头是 AI 生成的，读着一股 ChatGPT 味，「全方位赋能开发者效率提升」，帮我改得像个人写的",
+      "expected_output": "触发写作系：先判级（README 归标准档），对照黑名单标注病灶（B6/A1 类），三段式交付改后全文与改动说明，事实与术语零篡改",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我写随笔的，附上一篇我自己过去的感觉：「说来也怪，那家面馆搬家之后我就再没吃过那么烫嘴还非吃不可的面。」照这个劲儿把下面这段改改",
+      "expected_output": "命中 E1 风格样本情形：以用户样本文风为最高基准做风格迁移，通用法则仅用于查漏；不把样本没有的习惯硬塞进去",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "帮我把这段接口报错提示润色一下：「Error: invalid parameter format in request body field user.tags」",
+      "expected_output": "判定为 API 文案（克制档）：只清黑名单病灶、保持技术格式与字段名原样，不加人味修饰也不改变量名拼写",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "你这回复太僵硬了，说话自然点呗，跟朋友聊天那样",
+      "expected_output": "判定为对话语感诉求（近义干扰负向样本）：路由到 like-a-human-speaking 而不是套用写作流程",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "把我们这版道歉声明写得正式庄重一点，法务看过的口径不能动",
+      "expected_output": "命中 E4 反向诉求或 E3 守门边界：方向是增加 Formality 且属法务口径，不做鲜活化改造，说明归属并按常规保守润色处理",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "用鲁迅的风格给我写一篇短篇小说，主角是个外卖员",
+      "expected_output": "判定为虚构代笔（负向样本）：description 已声明不承接虚构小说创作，说明范围并建议直接进行常规创意写作请求",
+      "files": []
+    }
+  ]
+}

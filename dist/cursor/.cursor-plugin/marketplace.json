@@ -83,6 +83,26 @@
       "skills": [
         "./skills"
       ]
+    },
+    {
+      "name": "charm",
+      "source": "./plugins/charm",
+      "description": "魅力文学：基于语言学实证与经典写作准则的双技能人文风格插件——like-a-human-writing 去除书面 AI 腔，like-a-human-speaking 让对话语感回到活人",
+      "version": "0.0.1",
+      "keywords": [
+        "style",
+        "tone",
+        "humanize"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "style",
+        "human-like",
+        "writing"
+      ],
+      "skills": [
+        "./skills"
+      ]
     }
   ]
 }
