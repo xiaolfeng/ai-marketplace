@@ -1,4 +1,4 @@
-<!-- deep-init:synced@b43b534 -->
+<!-- deep-init:synced@94e32fb -->
 
 # 筱锋のAI插件库 · 知识库
 
@@ -42,7 +42,7 @@ ai-marketplace/
 | 子系统 | 位置 | 职责 |
 | --- | --- | --- |
 | 清单源 | `.claude-plugin/marketplace.json` | 唯一手写的市场索引 |
-| 插件层 | `plugins/<name>/` | 三个独立插件，互不依赖代码，仅共享 scope 词表约定 |
+| 插件层 | `plugins/<name>/` | 五个独立插件，互不依赖代码 |
 | 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式 |
 | 文档层 | `docs/` | 上架标准、scope 总账、五阶段工程文档 |
 
@@ -100,4 +100,6 @@ npm run check               # 门 3：CI 用 --check 核对导出物是否漂移
 - [discovery](./plugins/discovery/AGENTS.md) — 项目知识库构建插件（本知识库体系由其 deep-init 技能生成）
 - [engineering-design](./plugins/engineering-design/AGENTS.md) — 工程设计文档写作插件
 - [git-manage](./plugins/git-manage/AGENTS.md) — Git 工作流插件
+- [research](./plugins/research/AGENTS.md) — 双模式调研插件：常规收集对比 + 对抗性辩论终审
+- [charm](./plugins/charm/AGENTS.md) — 魅力文学插件：书面去 AI 腔 + 对话口语感人味化
 - [docs](./docs/AGENTS.md) — 文档中心：编号、Scope 词表与流转规则

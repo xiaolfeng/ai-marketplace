@@ -41,8 +41,10 @@ ai-marketplace/
 | 插件 | 说明 | 版本 |
 | --- | --- | --- |
 | [git-manage](./plugins/git-manage/) | Git 工作流管理：分析 diff 生成规范化中文提交信息，scope 统一业务域词表 | 0.0.1 |
-| [discovery](./plugins/discovery/) | 项目知识库构建：由内到外生成分层 AGENTS.md，让 AI 快速看懂项目 | 0.0.1 |
-| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→adr 全链路 + docs-init 初始化 | 0.0.1 |
+| [discovery](./plugins/discovery/) | 项目知识库构建：由内到外生成分层 AGENTS.md，让 AI 快速看懂项目 | 0.0.3 |
+| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→adr 全链路 + docs-init 初始化 | 0.0.2 |
+| [research](./plugins/research/) | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告 | 0.0.1 |
+| [charm](./plugins/charm/) | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造 | 0.0.1 |
 
 ## ➕ 如何添加插件
 
