@@ -33,7 +33,7 @@ ai-marketplace/
 | --- | --- | --- |
 | 新增或修改插件 | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步 |
 | 发布前校验 | 三连命令见「常用命令」 | 本地全绿再提 PR |
-| 写工程文档 | `docs/engineering/` 五阶段目录 | 全局四位编号，技能代写 |
+| 写工程文档 | `docs/engineering/` 五阶段目录 | 各阶段独立四位编号，技能代写；整理走 doc-clean |
 | 查或登记 Scope | `docs/scope-manage.md` | Git 提交与工程文档共用词表 |
 | 找某层的就地规则 | 见「引用」段各层知识库 | 就近生效，离被编辑文件最近的胜出 |
 
@@ -61,14 +61,16 @@ ai-marketplace/
 
 ## 约定
 
-1. 新增或修改插件后，必须同步更新 marketplace.json 条目（含 version），并运行：
-   `claude plugin validate . && npx skills add . --list && npm run build`；
+1. 添加插件或更新版本号后，除同步 marketplace.json 条目（含 version）外，
+   必须同步更新根 `README.md` 的插件列表（版本取值以 manifest 为准，缺一即门面
+   数据脱钩），并运行：`claude plugin validate . && npx skills add . --list &&
+   npm run build`；
 2. 插件命名 kebab-case；SKILL.md 的 `name` 与目录名一致，`description` 写清触发场景且 ≤1024 字符；
 3. `skills/` 目录保持单层结构，不使用嵌套分组；
 4. 不引入任何运行时依赖；构建脚本保持零依赖 Node（>=18）可执行；
 5. 不要把密钥或敏感值写入任何清单文件；
 6. 设计文档一律按 `docs/README.md` 规范管理：`draft/research/rfc/design/adr` 五阶段目录 +
-   `NNNN-<scope>-<title>.md` 全局四位编号（scope 取自 `docs/scope-manage.md` 业务域词表），
+   `NNNN-<scope>-<title>.md` 各阶段独立四位编号（scope 取自 `docs/scope-manage.md` 业务域词表），
    日常写作由 engineering-design 插件执行。
 
 ## 反模式

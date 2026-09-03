@@ -49,8 +49,8 @@
     {
       "name": "engineering-design",
       "source": "./plugins/engineering-design",
-      "description": "工程设计文档管理：draft/research/rfc/adr 四技能分管草案、调研、提案与定稿，docs-init 一键初始化目录，scope-manage 统一分类判定",
-      "version": "0.0.2",
+      "description": "工程设计文档管理：draft/research/rfc/adr 四技能分管草案、调研、提案与定稿，docs-init 初始化目录，doc-clean 整理编号/引用/错位",
+      "version": "0.0.3",
       "keywords": [
         "docs",
         "adr",

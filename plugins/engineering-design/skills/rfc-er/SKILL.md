@@ -22,7 +22,7 @@ RFC 进度：
 - [ ] 1. 确认方案已收敛（还有并列选项 → 先回 research）
 - [ ] 2. 按骨架成文：问题 / 方案 / 不做什么 / 备选 / 待定
 - [ ] 3. 对照 writing-style.md 删空话，做一遍删减测试
-- [ ] 4. 取号命名 NNNN-rfc-<title>.md，落盘 docs/engineering/rfc/，状态 draft
+- [ ] 4. 只扫 rfc/ 取最大编号 +1，命名 NNNN-rfc-<title>.md，落盘 docs/engineering/rfc/，状态 draft
 - [ ] 5. 登记 docs/README.md，回报路径与待定项
 ```
 

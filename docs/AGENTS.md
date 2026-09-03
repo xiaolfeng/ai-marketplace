@@ -35,13 +35,13 @@ docs/
 
 ## 约定
 
-- **编号是全子目录共享的一个序列**：`NNNN-<scope>-<title>.md` 的四位编号不按
-  类型分列，取 `engineering/` 下现有全局最大编号 +1——按「当前目录内最大值」
-  取号必然撞号。
+- **编号按阶段分列**：`NNNN-<scope>-<title>.md` 的四位编号在 draft / research /
+  rfc / design / adr 各自独立递增。写 RFC 只看 `rfc/` 的最大号，写 ADR 只看
+  `adr/`——拿「全部子目录全局最大号」续号会把 RFC 和 ADR 拧成一条序列。
 - **阶段与 Scope 正交**：目录名（draft/research/…）表达生命周期阶段，Scope 是
   文件名里的业务域段，取自 `scope-manage.md` 词表英文单词列——两者不可互相替代。
 - **单向流动，不回改旧文**：draft→research→rfc→(adr|design)；同一主题跨阶段
-  各拿新编号；被取代的旧文保留原文并在文首标注去向。
+  在目标目录内单独取号，承接靠文首链接；被取代的旧文保留原文并在文首标注去向。
 - **词表三列一次填齐**：2 字中文、4 字中文、英文单词即使当前只用一列也照填，
   防未来切换提交模式出现歧义。
 
@@ -54,7 +54,8 @@ docs/
 
 ## 调试路径
 
-1. 编号疑似冲突 → `ls engineering/*/` 取全部子目录的全局最大编号核对；
+1. 编号疑似冲突或引用打空 → 跑 engineering-design 的 `doc-clean`，
+   不要手算跨目录编号；
 2. Scope 拿不准 → 查 `scope-manage.md` 词表，任一名字列语义命中即视为同域复用；
 3. 阶段选择困惑 → 对照 `README.md` 流转规则与 `_shared/lifecycle.md` 状态机。
 

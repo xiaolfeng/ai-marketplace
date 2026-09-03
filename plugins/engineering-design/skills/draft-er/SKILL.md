@@ -23,7 +23,7 @@ Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 - [ ] 1. 一句话写出「现在困惑什么」
 - [ ] 2. 倾倒初步想法，并列的都保留，不做自我审查
 - [ ] 3. 列出走到下一步还缺的证据或决定
-- [ ] 4. 取号命名 NNNN-draft-<title>.md，落盘 docs/engineering/draft/，状态 open
+- [ ] 4. 只扫 draft/ 取最大编号 +1，命名 NNNN-draft-<title>.md，落盘 docs/engineering/draft/，状态 open
 - [ ] 5. 登记 docs/README.md，回报路径
 ```
 

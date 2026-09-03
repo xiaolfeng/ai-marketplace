@@ -1,6 +1,6 @@
 <!-- 成品样例：复制本文件后替换为你的内容。命名 NNNN-<scope>-<title>.md，落盘 docs/engineering/rfc/ -->
 
-> 状态：draft · 承接 [0008](../research/0008-build-dist-conventions.md)
+> 状态：draft · 承接 [0001](../research/0001-build-dist-conventions.md)
 
 ## 问题
 dist 产物入库与否悬而未决：每次全量 build 都污染 git status，

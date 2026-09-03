@@ -22,7 +22,7 @@ ADR 进度：
 - [ ] 1. 确认约束的是长期决定（一次性细节 → 不写 ADR）
 - [ ] 2. 找到承接的 RFC/research，链接进文档
 - [ ] 3. 按骨架成文，逐条检查「能否被单独引用」
-- [ ] 4. 取号命名 NNNN-adr-<title>.md，落盘 docs/engineering/adr/，状态 proposed
+- [ ] 4. 只扫 adr/ 取最大编号 +1，命名 NNNN-adr-<title>.md，落盘 docs/engineering/adr/，状态 proposed
 - [ ] 5. 登记 docs/README.md，回报路径
 ```
 

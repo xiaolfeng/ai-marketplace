@@ -1,0 +1,23 @@
+{
+  "skill_name": "doc-clean",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "请整理 plugins/engineering-design/skills/doc-clean/evals/files/messy 这个小项目的工程文档卫生：编号、引用、放错位置都要看。",
+      "expected_output": "跑 scan_docs.mjs 后报告含 NUM-GAP（research 缺 0002、rfc 从 0006 起像串号）、LOC-WRONG（docs 根下的编号文档）、LINK-EMPTY / LINK-BROKEN、INDEX-STALE / INDEX-MISSING、STATUS-ILLEGAL（rfc 写成 open）、STAGE-MISMATCH（rfc 里像 adr）、SUPERSEDE-ONEWAY、SCOPE-UNKNOWN（treehole）。安全项可直接修；重编号/搬文件列入待确认。不把 adr/0001 与 rfc/0006 当成互相撞号。",
+      "files": ["evals/files/messy"]
+    },
+    {
+      "id": 2,
+      "prompt": "扫一下 plugins/engineering-design/skills/doc-clean/evals/files/clean。rfc 和 adr 都叫 0001-plugin-single-source.md，这算串号吗？",
+      "expected_output": "不算串号。阶段序列独立，rfc/0001 与 adr/0001 可以同时存在。findings 为空（或仅外链 warning）。回报里写清扫了 3 篇、撞号检查是干净的。",
+      "files": ["evals/files/clean"]
+    },
+    {
+      "id": 3,
+      "prompt": "整理本仓库（ai-marketplace）的工程文档，检查编号有没有串、引用有没有打空。",
+      "expected_output": "research 0001–0005 连续且已在 docs/README.md 登记。不把 README 里指向 engineering/ 目录的导航链当成失效索引。不把跨阶段同号当成撞号。结构检查应干净。",
+      "files": []
+    }
+  ]
+}

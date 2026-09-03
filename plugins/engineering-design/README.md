@@ -1,7 +1,7 @@
 # engineering-design
 
-工程设计文档管理插件。四个写作技能分管全链路四个阶段，外加一个目录初始化器——
-每个技能自带好坏对照示例与可复制操作清单。
+工程设计文档管理插件。四个写作技能分管全链路四个阶段，外加目录初始化器
+和文档卫生整理——写作技能自带好坏对照示例与可复制操作清单。
 
 ## 包含技能
 
@@ -12,6 +12,7 @@
 | [`rfc-er`](./skills/rfc-er/) | 提案 | 给评审人拍的：采用什么、不做什么、哪些没定 |
 | [`adr-er`](./skills/adr-er/) | 定稿 | 冻结长期约束，每条可单独引用 |
 | [`docs-init`](./skills/docs-init/) | 初始化 | Node 脚本幂等创建五段式文档目录 |
+| [`doc-clean`](./skills/doc-clean/) | 整理 | 扫描编号/引用/错位，安全项直接修，重编号先请示 |
 
 ## 设计
 
@@ -29,7 +30,7 @@
 /plugin install engineering-design@ai-marketplace
 
 # 或任意支持 Agent Skills 的工具（78+）
-npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --skill rfc-er --skill adr-er --skill docs-init
+npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --skill rfc-er --skill adr-er --skill docs-init --skill doc-clean
 ```
 
 ## 使用
@@ -41,6 +42,7 @@ npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --s
 | 方案要评审 | 「写个 RFC 提议 X」 | `rfc-er` |
 | 决定要定稿 | 「把这个决定记下来」 | `adr-er` |
 | 新项目搭文档骨架 | 「初始化文档」 | `docs-init` |
+| 编号乱了、引用打空、文件放错 | 「整理一下工程文档」 | `doc-clean` |
 
 也可显式调用：
 
@@ -50,6 +52,7 @@ npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --s
 /rfc-er
 /adr-er
 /docs-init
+/doc-clean
 ```
 
 ## 结构
@@ -58,7 +61,7 @@ npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --s
 engineering-design/skills/
 ├── _shared/
 │   ├── scope-manage.md     # 业务域词表对接（公共）
-│   ├── conventions.md      # 五阶段目录 + 编号命名（公共）
+│   ├── conventions.md      # 五阶段目录 + 阶段内独立编号（公共）
 │   ├── lifecycle.md        # 流转方向 + 状态机（公共）
 │   └── writing-style.md    # 输出语言纪律（公共）
 ├── draft-er/
@@ -77,12 +80,18 @@ engineering-design/skills/
 │   ├── SKILL.md
 │   ├── references/example.md
 │   └── examples/sample.md
-└── docs-init/
+├── docs-init/
+│   ├── SKILL.md
+│   ├── examples/minimal-index.md
+│   └── scripts/init_docs.mjs
+└── doc-clean/
     ├── SKILL.md
-    ├── examples/minimal-index.md
-    └── scripts/init_docs.mjs
+    ├── references/checks.md
+    ├── examples/sample-report.md
+    └── scripts/scan_docs.mjs
 ```
 
 `references/example.md` 是好坏对照教学材料；`examples/sample.md`
 是可直接复制改写的完整成品样例——四技能的样例共用「构建产物入库」
-一条主题线，连起来正好演示 draft → research → rfc → adr 的完整流转与共享编号。
+一条主题线，连起来正好演示 draft → research → rfc → adr 的完整流转；
+各阶段编号独立递增，承接靠文首链接而不是跨目录续号。

@@ -1,6 +1,6 @@
 # 公共约定：目录与编号
 
-四个技能（draft-er / research-er / rfc-er / adr-er）共用本文件。
+写作技能与 doc-clean 共用本文件。
 业务域词表见 [scope-manage.md](./scope-manage.md)，目录初始化由
 [docs-init](../docs-init/SKILL.md) 负责。
 
@@ -23,17 +23,27 @@
 
 `NNNN-<scope>-<title>.md`
 
-- `NNNN`：四位编号，五目录共享一个序列；
+- `NNNN`：四位编号，每个阶段目录各自一条序列——rfc 有 rfc 的号，
+  adr 有 adr 的号，draft / research / design 同理，互不占用；
 - `<scope>`：业务域英文单词，取自项目根 `docs/scope-manage.md` 词表；
 - `<title>`：kebab-case 英文短标题。
 
-示例：树洞匿名提案 → `rfc/0003-treehole-anonymous.md`
+示例：树洞匿名提案 → `rfc/0003-treehole-anonymous.md`；
+同主题定稿可以是 `adr/0001-treehole-anonymous.md`——两条序列互不续号。
 
 ## 取号
 
-1. 扫描五个目录下全部现有文件的编号；
-2. 最大值 +1，补零到四位；
-3. 不复用旧编号——同一主题跨阶段也拿新号。
+每个阶段目录单独计数，写哪一类就只看那一类的目录：
+
+1. 只扫描**目标阶段目录**下现有文件的编号（写 RFC 只扫 `rfc/`，
+   写 ADR 只扫 `adr/`，其余同理）；
+2. 该目录最大值 +1，补零到四位；目录为空则从 `0001` 起；
+3. 不复用该目录内的旧编号。同一主题跨阶段时，在目标目录内单独取号，
+   不沿用上一阶段的编号，也不去其他目录「续号」。
+
+承接关系写在文首链接里（「承接 [0003](../rfc/0003-xxx.md)」），
+不靠跨目录编号相等来表达。RFC `0001` 和 ADR `0001` 可以同时存在，
+它们不是同一个号。
 
 ## 登记
 

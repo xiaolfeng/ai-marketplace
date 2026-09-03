@@ -1,6 +1,6 @@
 # 公共约定：流转与状态
 
-四个技能（draft-er / research-er / rfc-er / adr-er）共用本文件。
+写作技能与 doc-clean 共用本文件。
 
 ## 流转方向
 
@@ -15,7 +15,8 @@ draft ──► research ──► rfc ──► adr
 - draft 钉住困惑和初步想法，允许粗糙；
 - research 的倾向判断由 rfc 论证，research 自己不拍板；
 - rfc 收敛后二选一下游：长期约束抽成 adr；要写实施工作方式则进 design；
-- 同一主题跨阶段时各拿新编号，不复用。
+- 同一主题跨阶段时，在目标目录内单独取号；承接关系用文首链接，
+  不靠编号对齐，也不把 rfc / adr 拧成一条总序列。
 
 ## 状态机
 

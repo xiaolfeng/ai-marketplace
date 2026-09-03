@@ -1,6 +1,6 @@
 # Scope 管理：业务域词表（工程文档侧）
 
-四个技能（draft-er / research-er / rfc-er / adr-er）共用。
+写作技能与 doc-clean 共用。
 本文与 git-manage 的同名文件共用同一套定义：**Scope 就是业务域**——
 从项目业务里分析出的一类业务环境，如养成系软件的 用户(user)、树洞(treehole)。
 目录落点见 [conventions.md](./conventions.md)，流转与状态见 [lifecycle.md](./lifecycle.md)。
@@ -26,7 +26,7 @@
 1. 动笔前先查台账：要写的主题属于哪个既有业务域？取其英文单词列；
 2. 找不到贴切业务域时不要硬套：为新域同时起三个名字
   （2 字中文 / 4 字中文 / 英文单词），请用户确认后登记进台账，再回来取英文列；
-3. 编号仍按 conventions 的全局序列取最大值 +1。
+3. 编号按 conventions：只在目标阶段目录内取最大值 +1。
 
 ## 防同义词纪律
 

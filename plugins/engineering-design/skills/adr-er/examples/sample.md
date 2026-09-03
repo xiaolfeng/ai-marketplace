@@ -1,6 +1,6 @@
 <!-- 成品样例：复制本文件后替换为你的内容。命名 NNNN-<scope>-<title>.md，落盘 docs/engineering/adr/ -->
 
-> 状态：proposed · 承接 [0009](../rfc/0009-build-dist-commit.md)
+> 状态：proposed · 承接 [0001](../rfc/0001-build-dist-commit.md)
 
 ## 背景
 「哪些文件属于仓库交付物」在多次 PR 里反复争论，且已发生过一次手改产物导致

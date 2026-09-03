@@ -22,7 +22,7 @@ Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 - [ ] 1. 明确核心问题（一句话写不出来就还没想清楚）
 - [ ] 2. 收集证据：官方文档 / 源码实测 / 二手资料
 - [ ] 3. 按骨架成文，对照 writing-style.md 过一遍语言
-- [ ] 4. 取号命名 NNNN-research-<title>.md，落盘 docs/engineering/research/
+- [ ] 4. 只扫 research/ 取最大编号 +1，命名 NNNN-research-<title>.md，落盘 docs/engineering/research/
 - [ ] 5. 登记 docs/README.md，回报路径
 ```
 

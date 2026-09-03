@@ -14,20 +14,23 @@
 
 所有文档统一命名为 `NNNN-<scope>-<title>.md`：
 
-- **`NNNN`**：四位全局递增编号，全部子目录共享一个序列（不按类型分列），取现有最大编号 +1；
+- **`NNNN`**：四位编号，每个阶段目录各自一条递增序列（rfc 有 rfc 的号，adr 有 adr 的号，其余同理），取**该目录**现有最大编号 +1；目录为空从 `0001` 起；
 - **`<scope>`**：业务域英文单词，取自 [Scope 总账](./scope-manage.md) 词表（目录名表达的是生命周期阶段，与 scope 正交）；
 - **`<title>`**：kebab-case 英文短标题。
 
-示例：树洞匿名提案 → `engineering/rfc/0003-treehole-anonymous.md`
+示例：树洞匿名提案 → `engineering/rfc/0003-treehole-anonymous.md`；
+同主题定稿可以是 `engineering/adr/0001-treehole-anonymous.md`（两条序列互不续号）。
 
 ## 流转规则
 
 一篇内容沿 `draft → research → rfc → adr` 单向流动：草案钉住想法，
 调研为提案供证据，提案收敛后固化为决策；需要写实施方式时进 design。
-同一主题在相邻阶段沿用各自的新编号；
+同一主题在相邻阶段于目标目录内单独取号，不沿用上一阶段编号，也不跨目录续号——
+承接关系写在文首链接里。
 已被取代的旧文不删除，保留讨论上下文并在文首标注去向。
 
-日常写作由 AI 依照 **engineering-design** 插件的技能执行（含编号分配与模板约束）。
+日常写作由 AI 依照 **engineering-design** 插件的技能执行（含编号分配与模板约束）；
+整理编号、引用和错位走 **doc-clean**。
 
 ## 现有内容
 
