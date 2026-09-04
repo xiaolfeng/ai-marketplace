@@ -108,7 +108,7 @@
       "name": "html",
       "source": "./plugins/html",
       "description": "HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构图与技术拓扑可视化，十字长线与米字八向折角，杜绝 AI 模板腔",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "keywords": [
         "architecture",
         "diagram",

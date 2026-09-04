@@ -71,13 +71,16 @@
  Mobile App              Ingress Controller      Kafka Event Broker        S3 Object Storage
 ```
 
-### 3.1 节点尺寸与内边距铁律
-- **卡片标准宽度**：
-  - 接入端：`160px`（高度 `64px`）
-  - 网关端：`165px ~ 170px`（高度 `74px`）
-  - 微服务集群：`175px`（高度 `64px`）
-  - 消息总线/持久层：`185px`（高度 `60px ~ 64px`）
-- **文字呼吸边距**：文字距卡片右侧边界必须保留 $\ge 12\text{px}$，严禁字长贴边！
+### 3.1 节点尺寸与四周内边距一致性（对称居中排布）
+- **严禁文字或图元偏向一侧**：每个节点卡片内部内容（左侧图标 + 间距 + 右侧文字）必须在水平与垂直方向整体对称居中！
+- **水平对称居中算法（Horizontal Centering）**：
+  - 内容块总宽 $W_{content} = 16(\text{icon}) + 10(\text{gap}) + \max(W_{title}, W_{subtitle})$；
+  - 左右对称留白：$Padding_H = (W_{card} - W_{content}) / 2$；
+  - 图标起点坐标：$X_{icon} = Padding_H$；文字起点坐标：$X_{text} = Padding_H + 26$；
+  - 严格保证 $Padding_{Left} \equiv Padding_{Right}$，消除偏左或偏右留白的视觉失衡；
+- **垂直对称居中算法（Vertical Centering）**：
+  - 标题基线与副标基线分别平衡排布于卡片垂直中心线两侧，确保顶部内边距与底部内边距相等；
+  - 带 Badge 徽章的节点（如 API Gateway），徽章自身在水平方向居中（$X_{badge} = (W_{card} - W_{badge}) / 2$），徽章内文本使用 `text-anchor="middle"` 居中；
 - **不透明防透底底衬**：节点底层必须绘制 `<rect fill="var(--node-base)"/>`，防止穿底透出背景连线。
 
 ---

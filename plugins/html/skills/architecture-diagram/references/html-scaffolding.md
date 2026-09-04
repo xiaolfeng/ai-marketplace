@@ -35,11 +35,6 @@ Header 采用醒目清晰的双行 Hero 结构，突出技术图纸的核心定�
         <svg ...><!-- Lucide 状态图标 --></svg>
         <span>PRODUCTION BLUEPRINT · v1.0.0</span>
       </div>
-      <div class="tenet-tags">
-        <span class="tag-item">MANHATTAN 90°</span>
-        <span class="tag-item">OCTILINEAR 45°</span>
-        <span class="tag-item">PLANAR ZERO-CROSSING</span>
-      </div>
     </div>
 
     <!-- 平铺展开工具栏（严禁收缩） -->
@@ -61,7 +56,20 @@ Header 采用醒目清晰的双行 Hero 结构，突出技术图纸的核心定�
 
 ---
 
-## 3. 双主题（Dark / Light）与 CSS 变量联动
+## 3. 画板自适应与自由平移缩放引擎（Pan & Zoom Engine）
+
+技术架构图通常具备丰富的微服务节点与长走线链路，固定的画板宽度会导致小屏幕出现粗笨横向滚动条、大屏幕受限憋屈。
+
+### 3.1 默认自适应与视口交互规则
+1. **默认自适应（Auto-fit by Default）**：SVG 默认以 `viewBox="0 0 1200 660"` 与 `preserveAspectRatio="xMidYMid meet"` 完整填充容器视口，打开即是一览无余的全景图，绝无死板固定宽度与截断；
+2. **鼠标自由平移（Drag to Pan）**：按住鼠标左键在画板空白区域滑动，光标自 `grab` 切换为 `grabbing`，画板跟随指针顺滑平移；
+3. **滚轮焦点缩放（Wheel to Zoom at Cursor）**：滚轮缩放以当前鼠标指针所在的实际 SVG 物理坐标为中心缩放，支持 `0.25x ~ 6x` 缩放范围；
+4. **悬浮工程控制栏与双击还原**：右下角提供极简平铺控制栏（放大、当前缩放比、缩小、自适应还原），双击画板任何位置即可瞬时恢复 100% 自适应全景；
+5. **视口与导出严格解耦**：导出 SVG、PNG、PDF 或复制图片时，程序自动克隆并强制将 viewBox 锁定回设计尺寸 `0 0 1200 660`，同时自动滤除悬浮控制栏与操作提示，确保导出的图纸永远是居中、完整、没有任何交互偏移的工业蓝图。
+
+---
+
+## 4. 双主题（Dark / Light）与 CSS 变量联动
 
 ### 3.1 变量映射表
 通过 `data-theme="dark"` 与 `data-theme="light"` 统领所有页面颜色与 SVG 内部填充/描边：
@@ -115,50 +123,55 @@ function toggleTheme() {
 
 ---
 
-## 4. 导出工具链实现（SVG / PNG / PDF / Copy）
+## 5. 纯画布导出流水线（SVG / PNG / PDF / Copy）
 
-### 4.1 导出 SVG（纯矢量独立源文件）
-**关键细节**：SVG 若直接序列化，外部 CSS 变量在其他矢量编辑软件（Illustrator/Figma）中会失效。导出脚本必须动态克隆 SVG，并向其根部注入内联计算样式表：
+**铁律：导出操作 100% 仅针对架构图画布（Diagram Canvas Only）进行，绝对不导出外层的 Header、图例面板或网页边框！**
+
+### 5.1 导出 SVG（纯矢量独立源文件）
+**关键细节**：SVG 若直接序列化，外部 CSS 变量与 class 样式在其他浏览器、Illustrator 或 Figma 中会失效，表现为线条、箭头、文字或节点消失。导出前必须执行“样式实体化”：
+
+1. 克隆 SVG；
+2. 逐一对应源节点与克隆节点，通过 `getComputedStyle()` 读取 `fill`、`stroke`、`color`、线宽、虚线、字体与可见性等最终值；
+3. 把最终值写入克隆节点的 `style`；若原 `fill` / `stroke` / `color` 属性包含 `var(...)`，还要把解析后的具体色值回写到属性；
+4. 保留 `url(#marker)`、`url(#pattern)` 等本地引用，不能被计算样式覆盖；
+5. 在 `<defs>` 之后注入与当前主题一致的背景矩形；
+6. 强制重置 `viewBox="0 0 1200 660"`，补齐 `xmlns`、`xmlns:xlink`、`width="1200"` 与 `height="660"` 后再序列化下载。
+
+### 5.2 纯画布 Canvas 渲染（createDiagramCanvas）
+为了保证 PNG、复制图片与 PDF **完全只包含架构图本身**，摒弃了传统的全局网页截屏工具（`html2canvas` 遍历全局 DOM 会截取外部 Header 和操作栏），改用浏览器原生高质量 SVG 栅格化流水线：
+
 ```javascript
-function downloadSVG(btn) {
-  const svg = document.getElementById('main-diagram-svg');
-  const clone = svg.cloneNode(true);
-  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-  const isDark = currentTheme === 'dark';
-
-  const styleEl = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-  styleEl.textContent = `
-    svg { font-family: 'Inter', sans-serif; background: ${isDark ? '#090d16' : '#f8fafc'}; }
-    .node-title { fill: ${isDark ? '#f8fafc' : '#0f172a'}; font-weight: 600; font-size: 11.5px; }
-    .node-subtitle { fill: ${isDark ? '#94a3b8' : '#475569'}; font-size: 9px; }
-    .line-label { fill: ${isDark ? '#94a3b8' : '#475569'}; font-size: 8.5px; }
-  `;
-  clone.insertBefore(styleEl, clone.firstChild);
-
-  const serializer = new XMLSerializer();
-  const svgString = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(clone);
-  const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+async function createDiagramCanvas(scale = 2) {
+  await waitForExportAssets();
+  const standaloneSvg = createStandaloneSvg();
+  const serialized = new XMLSerializer().serializeToString(standaloneSvg);
+  const blob = new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'architecture-topology.svg';
-  link.click();
-  URL.revokeObjectURL(url);
+  try {
+    const img = new Image();
+    img.src = url;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = DEFAULT_VIEWBOX.w * scale;
+    canvas.height = DEFAULT_VIEWBOX.h * scale;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = getExportBackground();
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }
 ```
 
-### 4.2 导出 PNG & 复制到剪贴板
-采用固定 CDN 的 `html2canvas`（带有 Subresource Integrity）：
-- 自动读取当前主题底色（`#090d16` 或 `#f8fafc`），避免透明背景撕裂；
-- 设置 `scale: 2` 生成 Retina 视网膜高清图像；
-- 过滤 `.toolbar-flat`，防止操作栏污染截图。
-
-### 4.3 导出 PDF
-采用 `jspdf` 将 2x Canvas 数据组装为矢量比例 PDF，`orientation` 自适应横竖屏。
+- **复制图片 (Copy Image)**：将上述纯画布 Canvas 导出的 2x PNG Blob 写入剪贴板；
+- **下载 PNG**：触发下载上述 `2400 × 1320` 视网膜级纯画布 PNG；
+- **下载 PDF**：将该纯画布渲染至与 `1200:660` 画布比例完全一致的单页 PDF，呈现干净利落的独立工程图纸。
 
 ---
 
-## 5. 外部引用与安全规范（CDN & SRI）
+## 6. 外部引用与安全规范（CDN & SRI）
 
 HTML `<head>` 中引入的两个轻量库必须锁定版本并携带 SRI 校验哈希：
 ```html
