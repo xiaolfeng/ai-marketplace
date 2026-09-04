@@ -59,11 +59,11 @@
     {
       "name": "html",
       "source": "./plugins/html",
-      "description": "HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构图与技术拓扑可视化，十字长线与米字八向折角，杜绝 AI 模板腔",
-      "version": "0.0.3",
+      "description": "HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构全景拓扑图与 Excalidraw 手绘白板业务流程图，双主题交互与多格式导出，告别 AI 模板腔",
+      "version": "0.0.4",
       "category": "developer-tools",
-      "tags": ["html", "architecture", "diagram", "svg", "topology"],
-      "keywords": ["architecture", "diagram", "html", "svg", "system-design"],
+      "tags": ["html", "architecture", "diagram", "svg", "topology", "excalidraw", "whiteboard"],
+      "keywords": ["architecture", "diagram", "html", "svg", "system-design", "excalidraw", "whiteboard"],
       "skills": ["./skills"]
     }
   ]

@@ -104,5 +104,5 @@ npm run check               # 门 3：CI 用 --check 核对导出物是否漂移
 - [git-manage](./plugins/git-manage/AGENTS.md) — Git 工作流插件
 - [research](./plugins/research/AGENTS.md) — 双模式调研插件：常规收集对比 + 对抗性辩论终审
 - [charm](./plugins/charm/AGENTS.md) — 魅力文学插件：书面去 AI 腔 + 对话口语感人味化
-- [html](./plugins/html/AGENTS.md) — HTML 视觉与架构图表套件插件：遵循 huashu-design 的系统全景架构拓扑图
+- [html](./plugins/html/AGENTS.md) — HTML 视觉与架构图表套件插件：遵循 huashu-design 的系统架构全景拓扑图与 Excalidraw 手绘白板图表
 - [docs](./docs/AGENTS.md) — 文档中心：编号、Scope 词表与流转规则
