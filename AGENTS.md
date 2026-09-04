@@ -42,7 +42,7 @@ ai-marketplace/
 | 子系统 | 位置 | 职责 |
 | --- | --- | --- |
 | 清单源 | `.claude-plugin/marketplace.json` | 唯一手写的市场索引 |
-| 插件层 | `plugins/<name>/` | 五个独立插件，互不依赖代码 |
+| 插件层 | `plugins/<name>/` | 六个独立插件，互不依赖代码 |
 | 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式 |
 | 文档层 | `docs/` | 上架标准、scope 总账、五阶段工程文档 |
 
@@ -104,4 +104,5 @@ npm run check               # 门 3：CI 用 --check 核对导出物是否漂移
 - [git-manage](./plugins/git-manage/AGENTS.md) — Git 工作流插件
 - [research](./plugins/research/AGENTS.md) — 双模式调研插件：常规收集对比 + 对抗性辩论终审
 - [charm](./plugins/charm/AGENTS.md) — 魅力文学插件：书面去 AI 腔 + 对话口语感人味化
+- [html](./plugins/html/AGENTS.md) — HTML 视觉与架构图表套件插件：遵循 huashu-design 的系统全景架构拓扑图
 - [docs](./docs/AGENTS.md) — 文档中心：编号、Scope 词表与流转规则
