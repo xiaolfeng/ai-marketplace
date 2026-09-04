@@ -1,135 +1,128 @@
-# SVG 架构拓扑描述与几何制图规范
+# SVG 语义结构与几何规范
 
-本手册详细定义系统架构图 SVG 内部的结构描述、几何走线算法、图层堆叠顺序与矢量图标标准。
+本文件是架构图 SVG 的唯一几何规范。先表达关系，再计算坐标；模板和示例只消费本规范，不重复维护同一组数值。
 
----
+## 1. 先建语义模型
 
-## 1. 画布与视口坐标系（Canvas & ViewBox）
+生成坐标前，按顺序标记：
 
-### 1.1 基础尺寸与纵横比
-- **推荐基础尺寸**：`viewBox="0 0 1200 660"` 或 `viewBox="0 0 1260 700"`；
-- **自适应响应**：SVG 元素设置 `width: 100%; height: auto; min-width: 1100px; display: block;`，外层包裹 `overflow-x: auto` 的直角面板，保证小屏幕平滑横向滚动，大屏幕矢量自适应。
+1. 同步主调用链；
+2. 异步事件链；
+3. 安全、鉴权与管理通道；
+4. 同一部署边界中的节点；
+5. 外部依赖与持久化节点；
+6. 当前启用与未来预留节点；
+7. 需要水平或垂直对齐的直接依赖；
+8. 各类通道的独立走廊；
+9. 节点尺寸、端口和坐标。
 
-### 1.2 背景点阵参考网格
-在 `<defs>` 中使用轻量 pattern，不增加额外 DOM 负担：
+主调用链优先直线；直接依赖优先对齐；同一边界内节点视觉上靠近。弱依赖、异步通道与预留节点不得抢占主链层级。预留节点使用低饱和色与虚线。节点只表达已知关系，不为填满画布虚构组件或分区。
+
+## 2. 固定 SVG 图层契约
+
 ```xml
-<pattern id="grid-pattern" width="28" height="28" patternUnits="userSpaceOnUse">
-  <path d="M 28 0 L 0 0 0 28" fill="none" stroke="var(--grid-line)" stroke-width="0.75"/>
-  <circle cx="0" cy="0" r="0.8" fill="var(--grid-dot)"/>
-</pattern>
-<rect width="100%" height="100%" fill="url(#grid-pattern)"/>
+<g id="boundaries">...</g>
+<g id="connections-bent">...</g>
+<g id="connections-straight">...</g>
+<g id="connection-labels">...</g>
+<g id="nodes">...</g>
 ```
 
----
+- 边界最底层；线路位于节点下层；折线先画、直线后画，保留 Straight-over-Bent；
+- 标签使用独立层，不进入节点物理区域，也不依赖提高层级穿过节点；
+- 节点使用不透明底衬，遮住经过卡片底下的线路；
+- 标签独立层不得改变折线与直线的优先级。
 
-## 2. 纯矢量 Lucide 图标标准（杜绝 Emoji）
+每条连接与标签使用稳定关联：
 
-技术架构图要求严谨沉稳的工程质感，**严禁使用任何系统 Emoji**。图标一律内联 Lucide 规范路径：
-
-### 2.1 `<defs>` 符号库定义
-在 `<defs>` 内部定义 `16×16` 视口的常用技术符号：
 ```xml
-<!-- 网络网关 -->
-<g id="icon-network">
-  <rect x="2" y="2" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <rect x="10" y="2" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <rect x="6" y="10" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <path d="M4 6v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6M8 10v-2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<g id="flow-a-b" data-flow="a-b">
+  <path id="connection-a-b" data-from="node-a" data-to="node-b" d="M 180 220 L 300 220" marker-end="url(#arrow-service)"/>
 </g>
-<!-- 服务节点 -->
-<g id="icon-server">
-  <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
-  <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
-</g>
-<!-- 数据库存储 -->
-<g id="icon-database">
-  <ellipse cx="8" cy="4" rx="6" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  <path d="M2 4v4c0 1.1 2.7 2 6 2s6-.9 6-2V4M2 8v4c0 1.1 2.7 2 6 2s6-.9 6-2V8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+
+<g id="connection-labels">
+  <text class="line-label" data-label-for="connection-a-b" x="240" y="206" text-anchor="middle">
+    Request
+  </text>
 </g>
 ```
 
-### 2.2 节点中引用
-在节点 `<g>` 内部通过 `<use>` 复用，动态继承所在组件的颜色：
+`data-from` 与 `data-to` 必须指向真实节点 `id`。线路起点和终点必须落在对应 `data-node-box` 的边界上，不能停在卡片外侧，也不能因节点重排而留在旧坐标。关联只说明归属，不豁免端点、标签与线路、箭头、转折点的可读性检查。
+
+## 3. 线路与箭头
+
+- 长距离主干只走水平或垂直线；
+- 折线优先正交转弯；短偏置需要斜角时，只用 45° 八向线段；
+- 箭头进入节点前保留至少 `20px` 直线段；
+- 转折点与节点边缘之间保留独立缓冲段；
+- 尽量无交叉；无法避免时，直线在折线上方，且必须保持语义可追踪；
+- 箭头切线只能落在 `0°`、`45°`、`90°`、`135°`、`180°`、`225°`、`270°`、`315°`。
+
+## 4. 连线标签
+
+默认不使用标签背景框。标签被遮挡时，按以下顺序解决：
+
+1. 拉开节点间距；
+2. 调整标签位置；
+3. 移到线条上方、下方或侧边；
+4. 调整线路走廊；
+5. 调整节点尺寸；
+6. 重新规划局部拓扑。
+
+只有用户明确要求，或背景对比度确实不足时，才使用弱背景；弱背景不应呈现为独立节点卡片。
+
+位置规则：
+
+- 水平线标签优先放在线条上方或下方；
+- 垂直线标签优先放在线条左侧或右侧；
+- 标签不直接压在线条中心；
+- 标签优先占用自然留白；
+- 标签不能贴住节点边缘；
+- 标签不能依赖背景框掩盖错误布局。
+
+## 5. 默认密度与留白
+
+这些值是排版参考建议，不是硬性机器阈值：
+
+| 项目 | 默认建议 |
+| --- | --- |
+| 同层节点水平间距 | `40–56px` |
+| 同列节点垂直间距 | `28–40px` |
+| 标签与关联线条间距 | `10–14px` |
+| 标签与节点边缘间距 | 至少 `12px` |
+| 箭头进入节点前直线段 | 至少 `20px` |
+| 节点与区域边界间距 | `20–24px` |
+| 区域标题与首个节点间距 | 至少 `24px` |
+
+## 6. 节点尺寸由内容决定
+
+节点不强制同尺寸：
+
+- 单一职责叶子节点使用标准卡片；
+- 多职责节点按内容横向或纵向扩展；
+- 重要节点可用宽卡片呈现真实职责分区；
+- 尺寸由文字长度、职责数量与连接数量共同决定；
+- 扩大后仍需保持内容整体居中；
+- 内部分区不得挤占主标题、副标题或连接端口；
+- 同一边的多个端口之间需保留足够距离；
+- 不为填满卡片虚构内部组件。
+
+节点及分区建议显式标记：
+
 ```xml
-<g transform="translate(14, 18)" color="var(--c-service)">
-  <use href="#icon-server"/>
+<g id="node-wide" data-node>
+  <rect data-node-box width="260" height="116" rx="6"/>
+  <text data-node-title>Primary Component</text>
+  <g data-partition="capability-a">
+    <rect data-partition-box x="16" y="60" width="108" height="40" rx="4"/>
+    <text>Capability A</text>
+  </g>
 </g>
 ```
 
----
+## 7. 图标与文字
 
-## 3. 架构分层与栅格布局（Tiered Layering）
-
-拓扑布局从左向右严格按照四层职责流水线排布：
-
-```
-[Layer 1: Ingress]  ->  [Layer 2: Gateway]  ->  [Layer 3: Computing]  ->  [Layer 4: Persistence]
- x: 30 ~ 195             x: 255 ~ 420            x: 485 ~ 855              x: 920 ~ 1150
- Web Frontend            API Gateway             Auth / Core / Order       PostgreSQL / Redis
- Mobile App              Ingress Controller      Kafka Event Broker        S3 Object Storage
-```
-
-### 3.1 节点尺寸与四周内边距一致性（对称居中排布）
-- **严禁文字或图元偏向一侧**：每个节点卡片内部内容（左侧图标 + 间距 + 右侧文字）必须在水平与垂直方向整体对称居中！
-- **水平对称居中算法（Horizontal Centering）**：
-  - 内容块总宽 $W_{content} = 16(\text{icon}) + 10(\text{gap}) + \max(W_{title}, W_{subtitle})$；
-  - 左右对称留白：$Padding_H = (W_{card} - W_{content}) / 2$；
-  - 图标起点坐标：$X_{icon} = Padding_H$；文字起点坐标：$X_{text} = Padding_H + 26$；
-  - 严格保证 $Padding_{Left} \equiv Padding_{Right}$，消除偏左或偏右留白的视觉失衡；
-- **垂直对称居中算法（Vertical Centering）**：
-  - 标题基线与副标基线分别平衡排布于卡片垂直中心线两侧，确保顶部内边距与底部内边距相等；
-  - 带 Badge 徽章的节点（如 API Gateway），徽章自身在水平方向居中（$X_{badge} = (W_{card} - W_{badge}) / 2$），徽章内文本使用 `text-anchor="middle"` 居中；
-- **不透明防透底底衬**：节点底层必须绘制 `<rect fill="var(--node-base)"/>`，防止穿底透出背景连线。
-
----
-
-## 4. 走线几何约束与图层优先级（Straight-over-Bent）
-
-### 4.1 核心五项几何铁律
-1. **长线十字星（Manhattan 90°）**：长距离走线只允许水平（$\Delta y = 0$）或垂直（$\Delta x = 0$）；
-2. **折线米字型（Octilinear 45°）**：折角与偏置接入（Dogleg）严格使用 45° 方向切角，保持 $|\Delta x| = |\Delta y|$；
-3. **离散八向箭头**：箭头末端切线角度收敛于米字型 8 个离散角度（`0°, 45°, 90°, 135°, 180°, 225°, 270°, 315°`）；
-4. **平面零交叉规划**：同步主调用走中央水平走廊，异步事件与鉴权验证走上下外围通道，主链路 100% 零交叉；
-5. **直线层级高于折线（Straight-over-Bent）**：若存在视觉重叠，**直线的图层优先级永远高于折线**。
-
-### 4.2 图层分层书写顺序
-SVG 遵循文档序渲染（后写的元素覆盖先写的元素）。连线层必须严格分为两组：
-```xml
-<!-- 1. 折线组（底层）：先绘制所有包含 45° 切角或直角偏置的连线 -->
-<g id="connections-bent">
-  <path d="M 195 342 L 215 342 L 235 222 L 255 222" ... />
-  <path d="M 337 170 L 337 137 L 485 137" ... />
-  <path d="M 337 244 L 337 327 L 485 327" ... />
-  <path d="M 577 359 L 577 455" ... />
-  <path d="M 855 485 L 875 485 L 895 452 L 920 452" ... />
-</g>
-
-<!-- 2. 直线组（高优先级层）：后绘制所有主数据流正交直线，覆盖于折线上方 -->
-<g id="connections-straight">
-  <path d="M 195 202 L 255 202" ... />
-  <path d="M 420 212 L 485 212" ... />
-  <path d="M 660 212 L 920 212" ... />
-  <path d="M 660 327 L 920 327" ... />
-  <path d="M 670 485 L 690 485" ... />
-</g>
-
-<!-- 3. 节点卡片组（最上层）：节点完全覆盖连线端口 -->
-<g id="nodes"> ... </g>
-```
-
----
-
-## 5. 八向箭头定义（Markers）
-
-在 `<defs>` 中为不同语义的连线定义 `orient="auto"` 的离散箭头：
-```xml
-<marker id="arrow-gateway" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-  <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-gateway)" />
-</marker>
-<marker id="arrow-service" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-  <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-service)" />
-</marker>
-```
-由于连线在接入节点前已正交或 45° 对齐，箭头会自动对齐到 8 个离散方向之一，呈现整洁的机械制图质感。
+- 图标统一使用内联 Lucide SVG，不使用 Emoji；
+- 卡片内容作为整体居中，四周留白均衡；
+- 标准文本与图标组的水平起点按内容总宽计算，不固定套同一个 `x`；
+- 所有节点与标签保证无文字溢出，走廊自然清晰。

@@ -1,7 +1,7 @@
 {
   "name": "html",
   "description": "HTML 视觉与架构图表套件：遵循 huashu-design 设计规范的高保真系统架构图、拓扑可视化与技术图纸组件，告别 AI 模板腔",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "xiao_lfeng",
     "url": "https://www.x-lf.com"

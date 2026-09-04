@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400">
+  <defs>
+    <style>
+      .title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
+      .sub { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
+      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+    </style>
+    <marker id="arrow-event" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5,7 3,0 5.5" fill="#8b5cf6"/>
+    </marker>
+    <g id="icon-server">
+      <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
+      <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
+    </g>
+  </defs>
+
+  <rect width="720" height="400" fill="#090d16"/>
+
+  <g id="boundaries">
+    <rect x="24" y="24" width="672" height="352" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
+    <text x="40" y="48" class="sub">EVENT PROCESSING BOUNDARY</text>
+  </g>
+
+  <g id="connections-bent">
+    <g id="flow-bus-consumer-a" data-flow="bus-consumer-a">
+      <path id="connection-bus-consumer-a" data-from="node-event-bus" data-to="node-consumer-a" d="M 416 190 L 452 190 L 472 130 L 520 130" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+    <g id="flow-bus-consumer-b" data-flow="bus-consumer-b">
+      <path id="connection-bus-consumer-b" data-from="node-event-bus" data-to="node-consumer-b" d="M 416 190 L 452 190 L 472 270 L 520 270" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+  </g>
+
+  <g id="connections-straight">
+    <g id="flow-producer-bus" data-flow="producer-bus">
+      <path id="connection-producer-bus" data-from="node-producer" data-to="node-event-bus" d="M 188 190 L 248 190" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+  </g>
+
+  <g id="connection-labels">
+    <text x="218" y="174" text-anchor="middle" class="line-label" data-label-for="connection-producer-bus">Publish</text>
+    <text x="458" y="114" text-anchor="middle" class="line-label" data-label-for="connection-bus-consumer-a">Subscription A</text>
+    <text x="458" y="252" text-anchor="middle" class="line-label" data-label-for="connection-bus-consumer-b">Subscription B</text>
+  </g>
+
+  <g id="nodes">
+    <g id="node-producer" data-node transform="translate(40 158)">
+      <rect data-node-box width="148" height="64" rx="6" fill="#0b1329" stroke="#10b981"/>
+      <g transform="translate(18 24)" color="#10b981"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Producer Node</text>
+      <text x="44" y="47" class="sub">Event publisher</text>
+    </g>
+
+    <g id="node-event-bus" data-node transform="translate(248 138)">
+      <rect data-node-box width="168" height="104" rx="6" fill="#0b1329" stroke="#8b5cf6" stroke-width="1.5"/>
+      <g transform="translate(18 20)" color="#8b5cf6"><use href="#icon-server"/></g>
+      <text x="44" y="26" class="title">Event Bus</text>
+      <text x="44" y="43" class="sub">Distributed channel</text>
+      <g data-partition="channel-a">
+        <rect data-partition-box x="16" y="60" width="62" height="28" rx="4" fill="#211941" stroke="#6850b4"/>
+        <text x="47" y="78" text-anchor="middle" class="sub">Channel A</text>
+      </g>
+      <g data-partition="channel-b">
+        <rect data-partition-box x="90" y="60" width="62" height="28" rx="4" fill="#211941" stroke="#6850b4"/>
+        <text x="121" y="78" text-anchor="middle" class="sub">Channel B</text>
+      </g>
+    </g>
+
+    <g id="node-consumer-a" data-node transform="translate(520 98)">
+      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
+      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Consumer Node A</text>
+      <text x="44" y="47" class="sub">Primary subscriber</text>
+    </g>
+
+    <g id="node-consumer-b" data-node transform="translate(520 238)">
+      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
+      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Consumer Node B</text>
+      <text x="44" y="47" class="sub">Secondary subscriber</text>
+    </g>
+  </g>
+</svg>

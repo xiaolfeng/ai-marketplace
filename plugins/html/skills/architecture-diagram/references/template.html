@@ -354,6 +354,61 @@
       gap: 0.5rem;
     }
 
+    @media (max-width: 768px) {
+      body {
+        padding: 1.25rem 0.75rem;
+        overflow-x: hidden;
+      }
+      .container {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+      .hero-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.25rem;
+      }
+      .hero-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.85rem;
+      }
+      .hero-meta { justify-content: flex-start; }
+      .toolbar-flat {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.4rem;
+        width: 100%;
+      }
+      .btn {
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+        padding: 0.5rem 0.4rem;
+        font-size: 0.75rem;
+      }
+      .btn-theme-toggle { grid-column: span 2; }
+      .hero-main h1 {
+        font-size: 1.6rem;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .hero-main .subtitle {
+        font-size: 0.875rem;
+        overflow-wrap: anywhere;
+      }
+      .diagram-panel {
+        height: 480px;
+        min-height: 380px;
+      }
+      .viewport-hints { display: none; }
+      .legend-deck { min-width: 0; padding: 1rem; }
+      .legend-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+      .spec-cards { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+      .spec-card { min-width: 0; padding: 1rem; }
+      .footer { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    }
+
     @media print {
       body { background: #ffffff !important; color: #000000 !important; padding: 0; }
       .toolbar-flat { display: none !important; }
@@ -427,7 +482,7 @@
       </div>
     </header>
 
-    <!-- Main Diagram Canvas (纯净起手空白底板，默认自适应与自由平移缩放) -->
+    <!-- Main Diagram Canvas（标准空白模板） -->
     <div class="diagram-panel" id="diagram-panel">
       <!-- 悬浮视口操作栏 -->
       <div class="viewport-controls">
@@ -453,7 +508,7 @@
         <span>拖拽平移 · 滚轮缩放 · 双击重置</span>
       </div>
 
-      <svg class="diagram-canvas" id="main-diagram-svg" viewBox="0 0 1200 660">
+      <svg class="diagram-canvas" id="main-diagram-svg" viewBox="0 0 1200 660" data-export-viewbox="0 0 1200 660">
         <defs>
           <!-- Subtle Blueprint Grid Pattern -->
           <pattern id="grid-pattern" width="28" height="28" patternUnits="userSpaceOnUse">
@@ -523,48 +578,16 @@
         <rect width="100%" height="100%" fill="url(#grid-pattern)"/>
 
         <!-- =================================================================
-             SLOT 1: BOUNDARIES (网络与区域隔离边界)
-             说明：在此处添加 VPC 顶层大框、DMZ 子网、集群子网等。区域边界采用 rx="8" 或 rx="10"
+             FREE DIAGRAM CANVAS
+             模板不预设组件、分层、节点尺寸或走线结构。
+             请从 references/components/ 选择需要的中性组件，按 references/svg-design.md
+             的语义关系重新组合到下方；根据内容自由修改 viewBox 与 data-export-viewbox。
              ================================================================= -->
-        <g id="boundaries">
-          <!-- 示例区域外框插槽 (可根据实际架构扩充或替换) -->
-          <!--
-          <rect x="220" y="30" width="950" height="600" rx="10" fill="transparent" stroke="var(--c-boundary)" stroke-width="1.25" stroke-dasharray="6,4"/>
-          <text x="238" y="52" fill="var(--c-boundary-text)" font-size="10" font-weight="600" class="svg-mono">VPC REGION (10.0.0.0/16)</text>
-          -->
-        </g>
-
-        <!-- =================================================================
-             SLOT 2: CONNECTIONS - BENT (折线层，先画置于底层)
-             说明：在此处添加带 45° 米字折角、直角绕行或异步回流连线
-             ================================================================= -->
-        <g id="connections-bent">
-          <!-- 例如: <path d="M x1 y1 L (x2-20) y1 L x2 (y1-20) L x2 y2" fill="none" stroke="var(--c-client)" stroke-width="1.5" marker-end="url(#arrow-client)"/> -->
-        </g>
-
-        <!-- =================================================================
-             SLOT 3: CONNECTIONS - STRAIGHT (十字直线层，后画置于上层)
-             说明：在此处添加同步主调用十字正交长线。直线的图层优先级高于折线，确保视觉清晰
-             ================================================================= -->
-        <g id="connections-straight">
-          <!-- 例如: <path d="M x1 y L x2 y" fill="none" stroke="var(--c-gateway)" stroke-width="1.5" marker-end="url(#arrow-gateway)"/> -->
-        </g>
-
-        <!-- =================================================================
-             SLOT 4: NODES & COMPONENTS (架构节点层)
-             说明：节点卡片保持 rx="6"，最底层必须垫一层与主题同色的不透明底矩形，文字预留充裕 padding
-             ================================================================= -->
-        <g id="nodes">
-          <!-- 标准节点模版范例 (单组件复制参考):
-          <g id="node-sample-service" transform="translate(485, 180)">
-            <rect width="175" height="64" rx="6" fill="var(--node-base)"/>
-            <rect width="175" height="64" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="var(--c-service)" stroke-width="1.25"/>
-            <g transform="translate(14, 18)" color="var(--c-service)"><use href="#icon-server"/></g>
-            <text x="38" y="30" class="node-title">Sample Service</text>
-            <text x="38" y="48" class="node-subtitle">Go gRPC · Cluster Pods</text>
-          </g>
-          -->
-        </g>
+        <g id="boundaries"></g>
+        <g id="connections-bent"></g>
+        <g id="connections-straight"></g>
+        <g id="connection-labels"></g>
+        <g id="nodes"></g>
       </svg>
     </div>
 
@@ -605,15 +628,15 @@
           <div class="legend-items">
             <div class="legend-item">
               <span class="legend-line-sample" style="background: var(--c-gateway);"></span>
-              <span>十字直线主链路：最高展示图层优先级 (REST / gRPC)</span>
+              <span>十字直线主链路：最高展示图层优先级 (Synchronous)</span>
             </div>
             <div class="legend-item">
               <span class="legend-line-sample" style="border-top: 2px dashed var(--c-message);"></span>
-              <span>异步解耦流：米字折角与事件流 (Kafka / MQ)</span>
+              <span>异步解耦流：米字折角与事件通道 (Asynchronous)</span>
             </div>
             <div class="legend-item">
               <span class="legend-line-sample" style="border-top: 2px dashed var(--c-security);"></span>
-              <span>安全鉴权通道：双向加密隧道 (mTLS / OIDC)</span>
+              <span>安全校验通道：鉴权与管理链路 (Security)</span>
             </div>
             <div class="legend-item">
               <span class="legend-swatch" style="background: var(--bg-card); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: bold; color: var(--c-client);">8-DIR</span>
@@ -631,7 +654,7 @@
             </div>
             <div class="legend-item">
               <span class="legend-line-sample" style="border-top: 2px dashed rgba(14, 165, 233, 0.4);"></span>
-              <span>公网暴露区 DMZ (Public Ingress)</span>
+              <span>外部访问区域 (External Area)</span>
             </div>
             <div class="legend-item">
               <span class="legend-line-sample" style="border-top: 2px dashed rgba(16, 185, 129, 0.4);"></span>
@@ -656,9 +679,9 @@
           <span>网络隔离与访问控制</span>
         </div>
         <ul class="spec-list">
-          <li>严格遵循零信任网络架构，DMZ 网关对外暴露统一入口</li>
-          <li>微服务间全面启用 mTLS 双向认证与 IAM 策略检验</li>
-          <li>数据库仅对私有子网中的计算节点开放授权访问端口</li>
+          <li>在此填写架构边界与访问控制说明</li>
+          <li>在此填写同步、异步或管理通道约束</li>
+          <li>在此填写依赖节点与内部组件的访问关系</li>
         </ul>
       </div>
 
@@ -732,8 +755,18 @@
     // ==========================================================================
     // VIEWPORT PAN & ZOOM ENGINE (平移、缩放、自适应与焦点缩放)
     // ==========================================================================
-    const DEFAULT_VIEWBOX = { x: 0, y: 0, w: 1200, h: 660 };
-    let currentVb = { ...DEFAULT_VIEWBOX };
+    function readDesignViewBox() {
+      const svg = document.getElementById('main-diagram-svg');
+      const value = svg?.getAttribute('data-export-viewbox') || svg?.getAttribute('viewBox') || '0 0 1200 660';
+      const [x, y, w, h] = value.trim().split(/[ ,]+/).map(Number);
+      if (![x, y, w, h].every(Number.isFinite) || w <= 0 || h <= 0) {
+        throw new Error('main-diagram-svg 需要合法 viewBox');
+      }
+      return { x, y, w, h };
+    }
+
+    const DESIGN_VIEWBOX = readDesignViewBox();
+    let currentVb = { ...DESIGN_VIEWBOX };
     let isPanning = false;
     let panStart = { x: 0, y: 0 };
     let vbStart = { x: 0, y: 0 };
@@ -744,13 +777,13 @@
       currentVb = { ...vb };
       svg.setAttribute('viewBox', `${currentVb.x} ${currentVb.y} ${currentVb.w} ${currentVb.h}`);
       
-      const scalePct = Math.round((DEFAULT_VIEWBOX.w / currentVb.w) * 100);
+      const scalePct = Math.round((DESIGN_VIEWBOX.w / currentVb.w) * 100);
       const badge = document.getElementById('scale-indicator');
       if (badge) badge.textContent = `${scalePct}%`;
     }
 
     function resetZoom() {
-      updateViewBox({ ...DEFAULT_VIEWBOX });
+      updateViewBox({ ...DESIGN_VIEWBOX });
     }
 
     function zoomAt(factor, clientX, clientY) {
@@ -766,8 +799,8 @@
       let newW = currentVb.w * factor;
       let newH = currentVb.h * factor;
 
-      const minW = DEFAULT_VIEWBOX.w * 0.16;
-      const maxW = DEFAULT_VIEWBOX.w * 4.0;
+      const minW = DESIGN_VIEWBOX.w * 0.16;
+      const maxW = DESIGN_VIEWBOX.w * 4.0;
       if (newW < minW || newW > maxW) return;
 
       const newX = mouseSvgX - (focusX / rect.width) * newW;
@@ -938,15 +971,15 @@
       clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
       clone.setAttribute('preserveAspectRatio', 'xMidYMid meet');
       // 导出时始终锁定标准全景设计尺寸，不受画布当前交互位移影响
-      clone.setAttribute('viewBox', `${DEFAULT_VIEWBOX.x} ${DEFAULT_VIEWBOX.y} ${DEFAULT_VIEWBOX.w} ${DEFAULT_VIEWBOX.h}`);
-      clone.setAttribute('width', String(DEFAULT_VIEWBOX.w));
-      clone.setAttribute('height', String(DEFAULT_VIEWBOX.h));
+      clone.setAttribute('viewBox', `${DESIGN_VIEWBOX.x} ${DESIGN_VIEWBOX.y} ${DESIGN_VIEWBOX.w} ${DESIGN_VIEWBOX.h}`);
+      clone.setAttribute('width', String(DESIGN_VIEWBOX.w));
+      clone.setAttribute('height', String(DESIGN_VIEWBOX.h));
 
       const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      background.setAttribute('x', String(DEFAULT_VIEWBOX.x));
-      background.setAttribute('y', String(DEFAULT_VIEWBOX.y));
-      background.setAttribute('width', String(DEFAULT_VIEWBOX.w));
-      background.setAttribute('height', String(DEFAULT_VIEWBOX.h));
+      background.setAttribute('x', String(DESIGN_VIEWBOX.x));
+      background.setAttribute('y', String(DESIGN_VIEWBOX.y));
+      background.setAttribute('width', String(DESIGN_VIEWBOX.w));
+      background.setAttribute('height', String(DESIGN_VIEWBOX.h));
       background.setAttribute('fill', getExportBackground());
       background.setAttribute('data-export-background', 'true');
 
@@ -985,8 +1018,8 @@
         img.src = url;
         await img.decode();
         const canvas = document.createElement('canvas');
-        canvas.width = DEFAULT_VIEWBOX.w * scale;
-        canvas.height = DEFAULT_VIEWBOX.h * scale;
+        canvas.width = DESIGN_VIEWBOX.w * scale;
+        canvas.height = DESIGN_VIEWBOX.h * scale;
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = getExportBackground();
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1065,10 +1098,10 @@
         const pdf = new jsPDF({
           orientation: 'landscape',
           unit: 'px',
-          format: [DEFAULT_VIEWBOX.w, DEFAULT_VIEWBOX.h],
+          format: [DESIGN_VIEWBOX.w, DESIGN_VIEWBOX.h],
           hotfixes: ['px_scaling']
         });
-        pdf.addImage(imgData, 'PNG', 0, 0, DEFAULT_VIEWBOX.w, DEFAULT_VIEWBOX.h, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', 0, 0, DESIGN_VIEWBOX.w, DESIGN_VIEWBOX.h, undefined, 'FAST');
         pdf.save(`${EXPORT_FILE_BASENAME}.pdf`);
         btn.querySelector('span').textContent = '已完成!';
       } catch (err) {

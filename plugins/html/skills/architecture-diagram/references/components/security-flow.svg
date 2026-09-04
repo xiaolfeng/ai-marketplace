@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400">
+  <defs>
+    <style>
+      .title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
+      .sub { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
+      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+    </style>
+    <marker id="arrow-security" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5,7 3,0 5.5" fill="#f43f5e"/>
+    </marker>
+    <marker id="arrow-service" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5,7 3,0 5.5" fill="#10b981"/>
+    </marker>
+    <g id="icon-shield">
+      <path d="M8 2s5 1.5 5 5c0 5-5 7-5 7s-5-2-5-7c0-3.5 5-5 5-5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
+    <g id="icon-server">
+      <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
+      <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
+    </g>
+  </defs>
+
+  <rect width="720" height="400" fill="#090d16"/>
+
+  <g id="boundaries">
+    <rect x="24" y="24" width="672" height="352" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
+    <text x="40" y="48" class="sub">SECURITY BOUNDARY</text>
+  </g>
+
+  <g id="connections-bent">
+    <g id="flow-gateway-identity" data-flow="gateway-identity">
+      <path id="connection-gateway-identity" data-from="node-security-gateway" data-to="node-identity" d="M 350 176 L 382 176 L 402 104 L 452 104" fill="none" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-security)"/>
+    </g>
+  </g>
+
+  <g id="connections-straight">
+    <g id="flow-client-gateway" data-flow="client-gateway">
+      <path id="connection-client-gateway" data-from="node-external" data-to="node-security-gateway" d="M 180 200 L 222 200" fill="none" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#arrow-security)"/>
+    </g>
+    <g id="flow-gateway-internal" data-flow="gateway-internal">
+      <path id="connection-gateway-internal" data-from="node-security-gateway" data-to="node-internal" d="M 350 220 L 500 220" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-service)"/>
+    </g>
+  </g>
+
+  <g id="connection-labels">
+    <text x="201" y="184" text-anchor="middle" class="line-label" data-label-for="connection-client-gateway">Protected</text>
+    <text x="397" y="90" text-anchor="middle" class="line-label" data-label-for="connection-gateway-identity">Verify</text>
+    <text x="425" y="204" text-anchor="middle" class="line-label" data-label-for="connection-gateway-internal">Authorized</text>
+  </g>
+
+  <g id="nodes">
+    <g id="node-external" data-node transform="translate(40 168)">
+      <rect data-node-box width="140" height="64" rx="6" fill="#0b1329" stroke="#94a3b8"/>
+      <g transform="translate(18 24)" color="#94a3b8"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">External Node</text>
+      <text x="44" y="47" class="sub">Untrusted caller</text>
+    </g>
+
+    <g id="node-security-gateway" data-node transform="translate(222 160)">
+      <rect data-node-box width="128" height="96" rx="6" fill="#0b1329" stroke="#f43f5e" stroke-width="1.5"/>
+      <g transform="translate(16 18)" color="#f43f5e"><use href="#icon-shield"/></g>
+      <text x="42" y="25" class="title">Security Gateway</text>
+      <text x="42" y="42" class="sub">Policy enforcement</text>
+      <g data-partition="policy">
+        <rect data-partition-box x="16" y="58" width="96" height="24" rx="4" fill="#32151f" stroke="#8c2b46"/>
+        <text x="64" y="74" text-anchor="middle" class="sub">Policy checks</text>
+      </g>
+    </g>
+
+    <g id="node-identity" data-node transform="translate(452 72)">
+      <rect data-node-box width="180" height="64" rx="6" fill="#0b1329" stroke="#f43f5e"/>
+      <g transform="translate(22 24)" color="#f43f5e"><use href="#icon-shield"/></g>
+      <text x="48" y="29" class="title">Identity Component</text>
+      <text x="48" y="47" class="sub">Credential verification</text>
+    </g>
+
+    <g id="node-internal" data-node transform="translate(500 188)">
+      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#10b981"/>
+      <g transform="translate(18 24)" color="#10b981"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Internal Node</text>
+      <text x="44" y="47" class="sub">Trusted dependency</text>
+    </g>
+  </g>
+</svg>

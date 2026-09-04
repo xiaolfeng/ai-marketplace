@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <style>
+      .node-title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
+      .node-subtitle { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
+      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+    </style>
+    <marker id="arrow-service" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5,7 3,0 5.5" fill="#10b981"/>
+    </marker>
+    <g id="icon-server">
+      <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
+      <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
+    </g>
+    <g id="icon-database">
+      <ellipse cx="8" cy="4" rx="6" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M2 4v4c0 1.1 2.7 2 6 2s6-.9 6-2V4M2 8v4c0 1.1 2.7 2 6 2s6-.9 6-2V8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </g>
+  </defs>
+
+  <rect width="640" height="360" fill="#090d16"/>
+
+  <g id="boundaries">
+    <rect x="24" y="24" width="592" height="312" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
+    <text x="40" y="48" class="node-subtitle">DEPLOYMENT BOUNDARY</text>
+  </g>
+
+  <g id="connections-bent"></g>
+
+  <g id="connections-straight">
+    <g id="flow-client-main" data-flow="client-main">
+      <path id="connection-client-main" data-from="node-client" data-to="node-primary" d="M 182 156 L 242 156" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-service)"/>
+    </g>
+    <g id="flow-main-store" data-flow="main-store">
+      <path id="connection-main-store" data-from="node-primary" data-to="node-store" d="M 438 156 L 486 156" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-service)"/>
+    </g>
+  </g>
+
+  <g id="connection-labels">
+    <text x="212" y="140" text-anchor="middle" class="line-label" data-label-for="connection-client-main">Request</text>
+    <text x="462" y="140" text-anchor="middle" class="line-label" data-label-for="connection-main-store">Read / Write</text>
+  </g>
+
+  <g id="nodes">
+    <g id="node-client" data-node transform="translate(42 124)">
+      <rect data-node-box width="140" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
+      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="node-title">Client Node</text>
+      <text x="44" y="47" class="node-subtitle">External caller</text>
+    </g>
+
+    <g id="node-primary" data-node transform="translate(242 98)">
+      <rect data-node-box width="196" height="116" rx="6" fill="#0b1329" stroke="#10b981" stroke-width="1.5"/>
+      <g transform="translate(18 20)" color="#10b981"><use href="#icon-server"/></g>
+      <text data-node-title x="44" y="26" class="node-title">Primary Component</text>
+      <text x="44" y="43" class="node-subtitle">Multiple responsibilities</text>
+      <g data-partition="capability-a">
+        <rect data-partition-box x="16" y="60" width="76" height="40" rx="4" fill="#102c2a" stroke="#237c68"/>
+        <text x="54" y="78" text-anchor="middle" class="node-title">Unit A</text>
+        <text x="54" y="91" text-anchor="middle" class="node-subtitle">Role A</text>
+      </g>
+      <g data-partition="capability-b">
+        <rect data-partition-box x="104" y="60" width="76" height="40" rx="4" fill="#102c2a" stroke="#237c68"/>
+        <text x="142" y="78" text-anchor="middle" class="node-title">Unit B</text>
+        <text x="142" y="91" text-anchor="middle" class="node-subtitle">Role B</text>
+      </g>
+    </g>
+
+    <g id="node-store" data-node transform="translate(486 124)">
+      <rect data-node-box width="130" height="64" rx="6" fill="#0b1329" stroke="#f59e0b"/>
+      <g transform="translate(14 24)" color="#f59e0b"><use href="#icon-database"/></g>
+      <text x="40" y="29" class="node-title">Storage Node</text>
+      <text x="40" y="47" class="node-subtitle">Persistent state</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420">
+  <defs>
+    <style>
+      .title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
+      .sub { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
+      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+    </style>
+    <marker id="arrow-event" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5,7 3,0 5.5" fill="#8b5cf6"/>
+    </marker>
+    <g id="icon-server">
+      <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
+      <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
+    </g>
+  </defs>
+
+  <rect width="760" height="420" fill="#090d16"/>
+
+  <g id="boundaries">
+    <rect x="24" y="24" width="712" height="372" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
+    <text x="40" y="48" class="sub">PROCESSING BOUNDARY</text>
+  </g>
+
+  <g id="connections-bent">
+    <g id="flow-source-processor" data-flow="source-processor">
+      <path id="connection-source-processor" data-from="node-source" data-to="node-processor" d="M 178 156 L 208 156 L 228 210 L 270 210" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+    <g id="flow-processor-sink-b" data-flow="processor-sink-b">
+      <path id="connection-processor-sink-b" data-from="node-processor" data-to="node-sink-b" d="M 466 210 L 500 210 L 520 292 L 566 292" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+  </g>
+
+  <g id="connections-straight">
+    <g id="flow-processor-sink-a" data-flow="processor-sink-a">
+      <path id="connection-processor-sink-a" data-from="node-processor" data-to="node-sink-a" d="M 466 180 L 566 180" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+    </g>
+  </g>
+
+  <g id="connection-labels">
+    <text x="210" y="142" text-anchor="middle" class="line-label" data-label-for="connection-source-processor">Input stream</text>
+    <text x="516" y="164" text-anchor="middle" class="line-label" data-label-for="connection-processor-sink-a">Output A</text>
+    <text x="514" y="264" text-anchor="middle" class="line-label" data-label-for="connection-processor-sink-b">Output B</text>
+  </g>
+
+  <g id="nodes">
+    <g id="node-source" data-node transform="translate(38 124)">
+      <rect data-node-box width="140" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
+      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Source Node</text>
+      <text x="44" y="47" class="sub">Event producer</text>
+    </g>
+
+    <g id="node-processor" data-node transform="translate(270 146)">
+      <rect data-node-box width="196" height="128" rx="6" fill="#0b1329" stroke="#10b981" stroke-width="1.5"/>
+      <g transform="translate(18 20)" color="#10b981"><use href="#icon-server"/></g>
+      <text data-node-title x="44" y="26" class="title">Processing Component</text>
+      <text x="44" y="43" class="sub">Stateful transformation</text>
+      <g data-partition="stage-a">
+        <rect data-partition-box x="16" y="62" width="76" height="44" rx="4" fill="#102c2a" stroke="#237c68"/>
+        <text x="54" y="81" text-anchor="middle" class="title">Stage A</text>
+        <text x="54" y="95" text-anchor="middle" class="sub">Transform</text>
+      </g>
+      <g data-partition="stage-b">
+        <rect data-partition-box x="104" y="62" width="76" height="44" rx="4" fill="#102c2a" stroke="#237c68"/>
+        <text x="142" y="81" text-anchor="middle" class="title">Stage B</text>
+        <text x="142" y="95" text-anchor="middle" class="sub">Aggregate</text>
+      </g>
+    </g>
+
+    <g id="node-sink-a" data-node transform="translate(566 148)">
+      <rect data-node-box width="150" height="64" rx="6" fill="#0b1329" stroke="#f59e0b"/>
+      <g transform="translate(18 24)" color="#f59e0b"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Output Node A</text>
+      <text x="44" y="47" class="sub">Primary consumer</text>
+    </g>
+
+    <g id="node-sink-b" data-node transform="translate(566 260)">
+      <rect data-node-box width="150" height="64" rx="6" fill="#0b1329" stroke="#f59e0b"/>
+      <g transform="translate(18 24)" color="#f59e0b"><use href="#icon-server"/></g>
+      <text x="44" y="29" class="title">Output Node B</text>
+      <text x="44" y="47" class="sub">Secondary consumer</text>
+    </g>
+  </g>
+</svg>

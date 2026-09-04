@@ -1,185 +1,94 @@
-# HTML 脚手架与前端工程规范
+# HTML 壳层、交互与浏览器验证
 
-本手册指导如何将架构拓扑 SVG 封装为工业级、自包含（Self-contained）的单文件 HTML 工程交付物。
+模板只是自由页面壳层，不拥有任何组件结构或布局。节点、流式关系、分层服务、事件与安全组件统一从 [components/README.md](components/README.md) 选择，再按 [svg-design.md](svg-design.md) 的语义流程重新组合；禁止把组件约束重新写回模板。
 
----
+## 1. 页面结构
 
-## 1. 架构总览与设计原则
-
-生成的 HTML 是一份完全独立的单文件技术蓝图，无需启动 Node.js 或 Web 开发服务器，双击即开。
-
-### 1.1 外层硬核直角 vs 内部图优雅圆角
-- **外层硬核直角（`border-radius: 0`）**：
-  - 网页容器 `.container`
-  - 顶部规格徽章 `.status-badge` 与标签 `.tag-item`
-  - 平铺工具栏所有按钮 `.btn`
-  - 图例面板 `.legend-deck`
-  - 规格技术卡片 `.spec-card`
-  - 彻底杜绝软绵绵的消费级圆角卡片，呈现严谨硬核的工业图纸质感；
-- **内部架构图优雅圆角（SVG 内 `rx="6"` 或 `rx="8"`）**：
-  - 微服务节点卡片保持 `rx="6"`
-  - 网段边界保持 `rx="8"`
-  - 图标与图形识别度更高，与外层直角形成刚柔并济的层次对比。
-
----
-
-## 2. Hero 模式 Header 构建
-
-Header 采用醒目清晰的双行 Hero 结构，突出技术图纸的核心定位：
+页面外壳保持直角，内部 SVG 节点可使用小圆角。Header 只展示真实标题、说明与操作，不添加无信息量标签。工具栏直接显示主题、复制、PNG、SVG、PDF 操作。
 
 ```html
-<header class="hero-header">
-  <div class="hero-top-bar">
-    <div class="hero-meta">
-      <div class="status-badge">
-        <svg ...><!-- Lucide 状态图标 --></svg>
-        <span>PRODUCTION BLUEPRINT · v1.0.0</span>
-      </div>
-    </div>
-
-    <!-- 平铺展开工具栏（严禁收缩） -->
-    <div class="toolbar-flat">
-      <button class="btn btn-theme-toggle" onclick="toggleTheme()"><!-- 主题切换 --></button>
-      <button class="btn" onclick="copyAsImage(this)"><!-- 复制图片 --></button>
-      <button class="btn" onclick="downloadPNG(this)"><!-- 导出 PNG --></button>
-      <button class="btn" onclick="downloadSVG(this)"><!-- 导出 SVG --></button>
-      <button class="btn" onclick="downloadPDF(this)"><!-- 导出 PDF --></button>
-    </div>
+<div class="container">
+  <header class="hero-header">...</header>
+  <div class="diagram-panel">
+    <div class="viewport-controls">...</div>
+    <svg id="main-diagram-svg" class="diagram-canvas">...</svg>
   </div>
-
-  <div class="hero-main">
-    <h1>[PROJECT NAME] 系统架构全景拓扑</h1>
-    <p class="subtitle">端到端微服务集群全景拓扑 · 零信任接入网络 · 曼哈顿十字正交平面零交叉数据流走廊</p>
-  </div>
-</header>
+  <section class="legend-deck">...</section>
+  <section class="spec-cards">...</section>
+</div>
 ```
 
----
+## 2. 画板交互
 
-## 3. 画板自适应与自由平移缩放引擎（Pan & Zoom Engine）
+- 默认 `viewBox` 显示完整画布；画布尺寸由当前 SVG 内容决定，不由模板写死；
+- `#main-diagram-svg` 同时声明 `viewBox` 与 `data-export-viewbox`，两者可按内容自由设置；
+- 滚轮以指针为中心缩放；
+- 鼠标/触摸拖拽平移；
+- 双击或重置按钮恢复标准 `viewBox`；
+- 交互视口不改变标准导出尺寸。
 
-技术架构图通常具备丰富的微服务节点与长走线链路，固定的画板宽度会导致小屏幕出现粗笨横向滚动条、大屏幕受限憋屈。
+## 3. 移动端默认规则
 
-### 3.1 默认自适应与视口交互规则
-1. **默认自适应（Auto-fit by Default）**：SVG 默认以 `viewBox="0 0 1200 660"` 与 `preserveAspectRatio="xMidYMid meet"` 完整填充容器视口，打开即是一览无余的全景图，绝无死板固定宽度与截断；
-2. **鼠标自由平移（Drag to Pan）**：按住鼠标左键在画板空白区域滑动，光标自 `grab` 切换为 `grabbing`，画板跟随指针顺滑平移；
-3. **滚轮焦点缩放（Wheel to Zoom at Cursor）**：滚轮缩放以当前鼠标指针所在的实际 SVG 物理坐标为中心缩放，支持 `0.25x ~ 6x` 缩放范围；
-4. **悬浮工程控制栏与双击还原**：右下角提供极简平铺控制栏（放大、当前缩放比、缩小、自适应还原），双击画板任何位置即可瞬时恢复 100% 自适应全景；
-5. **视口与导出严格解耦**：导出 SVG、PNG、PDF 或复制图片时，程序自动克隆并强制将 viewBox 锁定回设计尺寸 `0 0 1200 660`，同时自动滤除悬浮控制栏与操作提示，确保导出的图纸永远是居中、完整、没有任何交互偏移的工业蓝图。
-
----
-
-## 4. 双主题（Dark / Light）与 CSS 变量联动
-
-### 3.1 变量映射表
-通过 `data-theme="dark"` 与 `data-theme="light"` 统领所有页面颜色与 SVG 内部填充/描边：
+移动端只改变页面阅读布局，不改变 SVG 标准坐标系：
 
 ```css
-:root, [data-theme="dark"] {
-  --bg-canvas: #090d16;
-  --bg-panel: rgba(15, 23, 42, 0.85);
-  --node-base: #0b1329;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --c-client: #38bdf8;
-  --c-gateway: #0ea5e9;
-  --c-service: #10b981;
-  --c-storage: #f59e0b;
-  --c-security: #f43f5e;
-  --c-message: #8b5cf6;
-}
-
-[data-theme="light"] {
-  --bg-canvas: #f8fafc;
-  --bg-panel: #ffffff;
-  --node-base: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --c-client: #0284c7;
-  --c-gateway: #0369a1;
-  --c-service: #059669;
-  --c-storage: #d97706;
-  --c-security: #e11d48;
-  --c-message: #7c3aed;
+@media (max-width: 768px) {
+  body { padding: 1.25rem .75rem; overflow-x: hidden; }
+  .container { width: 100%; min-width: 0; max-width: 100%; }
+  .hero-top-bar { flex-direction: column; align-items: stretch; }
+  .toolbar-flat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .btn { width: 100%; min-width: 0; justify-content: center; }
+  .btn-theme-toggle { grid-column: span 2; }
+  .hero-main h1 { overflow-wrap: anywhere; word-break: break-word; }
+  .legend-grid, .spec-cards { grid-template-columns: minmax(0, 1fr); }
+  .legend-deck, .spec-card { min-width: 0; }
+  .diagram-panel { height: 480px; min-height: 380px; }
 }
 ```
 
-### 3.2 主题切换与持久化脚本
-```javascript
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  const isDark = theme === 'dark';
-  document.getElementById('theme-icon-sun').style.display = isDark ? 'none' : 'inline-block';
-  document.getElementById('theme-icon-moon').style.display = isDark ? 'inline-block' : 'none';
-  document.getElementById('theme-btn-text').textContent = isDark ? '浅色模式' : '深色模式';
-  localStorage.setItem('arch_diagram_theme', theme);
-}
+使用 Chrome `--window-size` 不能证明 CSS viewport 精确。移动端验证优先使用 Playwright、Puppeteer，或 Chrome DevTools Protocol 的 `Emulation.setDeviceMetricsOverride`。
 
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
+至少读取：
+
+```js
+{
+  innerWidth: window.innerWidth,
+  pageScrollWidth: document.documentElement.scrollWidth,
+  toolbarRect: toolbar.getBoundingClientRect(),
+  titleRect: title.getBoundingClientRect(),
+  panelRect: panel.getBoundingClientRect(),
+  buttonRects: [...buttons].map(button => button.getBoundingClientRect())
 }
 ```
 
----
+`390px` 视口必须满足：页面无横向溢出；标题完整换行；按钮均在视口内；图例与规格卡片单列；画板和控制栏完整可见。
 
-## 5. 纯画布导出流水线（SVG / PNG / PDF / Copy）
+## 4. 主题与导出
 
-**铁律：导出操作 100% 仅针对架构图画布（Diagram Canvas Only）进行，绝对不导出外层的 Header、图例面板或网页边框！**
+深浅主题通过 CSS 变量驱动。导出前要把 SVG 计算样式实体化：
 
-### 5.1 导出 SVG（纯矢量独立源文件）
-**关键细节**：SVG 若直接序列化，外部 CSS 变量与 class 样式在其他浏览器、Illustrator 或 Figma 中会失效，表现为线条、箭头、文字或节点消失。导出前必须执行“样式实体化”：
+1. 克隆 `#main-diagram-svg`；
+2. 把最终 `fill`、`stroke`、字体等写入克隆；
+3. 保留 `url(#marker)`、`url(#pattern)` 引用；
+4. 注入当前主题背景；
+5. 恢复当前 SVG 自己声明的 `data-export-viewbox`、`width`、`height`，不使用模板固定尺寸；
+6. 确认序列化结果无 `var(...)`。
 
-1. 克隆 SVG；
-2. 逐一对应源节点与克隆节点，通过 `getComputedStyle()` 读取 `fill`、`stroke`、`color`、线宽、虚线、字体与可见性等最终值；
-3. 把最终值写入克隆节点的 `style`；若原 `fill` / `stroke` / `color` 属性包含 `var(...)`，还要把解析后的具体色值回写到属性；
-4. 保留 `url(#marker)`、`url(#pattern)` 等本地引用，不能被计算样式覆盖；
-5. 在 `<defs>` 之后注入与当前主题一致的背景矩形；
-6. 强制重置 `viewBox="0 0 1200 660"`，补齐 `xmlns`、`xmlns:xlink`、`width="1200"` 与 `height="660"` 后再序列化下载。
+SVG、PNG、PDF、Copy 都只导出 `#main-diagram-svg`，不包含 Header、工具栏、图例或规格卡片。PNG/Copy/PDF 统一从独立 SVG 栅格化，不截整个页面。
 
-### 5.2 纯画布 Canvas 渲染（createDiagramCanvas）
-为了保证 PNG、复制图片与 PDF **完全只包含架构图本身**，摒弃了传统的全局网页截屏工具（`html2canvas` 遍历全局 DOM 会截取外部 Header 和操作栏），改用浏览器原生高质量 SVG 栅格化流水线：
+## 5. 强制浏览器验证
 
-```javascript
-async function createDiagramCanvas(scale = 2) {
-  await waitForExportAssets();
-  const standaloneSvg = createStandaloneSvg();
-  const serialized = new XMLSerializer().serializeToString(standaloneSvg);
-  const blob = new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  try {
-    const img = new Image();
-    img.src = url;
-    await img.decode();
-    const canvas = document.createElement('canvas');
-    canvas.width = DEFAULT_VIEWBOX.w * scale;
-    canvas.height = DEFAULT_VIEWBOX.h * scale;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = getExportBackground();
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    return canvas;
-  } finally {
-    URL.revokeObjectURL(url);
-  }
-}
+脚本通过不等于交互完成。交付前必须实际执行：
+
+- 桌面：完整渲染、标题、工具栏、画布、节点/线路/标签、图例、规格卡片、深浅主题；
+- 交互：主题切换、放大、缩小、拖拽、重置；
+- 导出：独立 SVG、PNG Canvas、PDF；环境支持时测试 Copy；
+- 移动：精确约 `390px` CSS viewport，无页面级横向溢出。
+
+可重复回归命令：
+
+```bash
+node tests/browser-regression.mjs examples/example.html
 ```
 
-- **复制图片 (Copy Image)**：将上述纯画布 Canvas 导出的 2x PNG Blob 写入剪贴板；
-- **下载 PNG**：触发下载上述 `2400 × 1320` 视网膜级纯画布 PNG；
-- **下载 PDF**：将该纯画布渲染至与 `1200:660` 画布比例完全一致的单页 PDF，呈现干净利落的独立工程图纸。
-
----
-
-## 6. 外部引用与安全规范（CDN & SRI）
-
-HTML `<head>` 中引入的两个轻量库必须锁定版本并携带 SRI 校验哈希：
-```html
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" 
-        integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" 
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" 
-        integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" 
-        crossorigin="anonymous"></script>
-```
-若离线环境不可用 CDN，页面视图与 SVG 渲染 100% 正常工作，仅影响右上角位图/PDF 导出功能。
+一张静态截图不是完整验证。

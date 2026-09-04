@@ -1,91 +1,88 @@
 ---
 name: architecture-diagram
-description: 基于 huashu-design 设计规范生成高保真工业级系统架构全景图（单文件 HTML+SVG）。具备醒目清晰的 Hero 标题模式、明暗色（Dark / Light）双主题无缝切换、平铺工具栏与 SVG/PNG/PDF 多格式导出。严格遵循外层硬核直角、内部图优雅圆角，曼哈顿十字正交走线，折线与末端米字型（45°），八向箭头，直线更高图层展示优先级，零重叠零交叉拓扑布局，全内联 Lucide 矢量图标，杜绝 Emoji 与 AI 霓虹 Slop。
-compatibility: Requires modern browser or Node.js >= 18 for verification
+description: 生成可交互、可导出的 HTML+SVG 系统架构图。适用于整体架构、组件关系、流式处理、事件流、安全通道与部署边界可视化；先分析真实依赖，再计算节点尺寸、走廊、标签与坐标，并保证桌面、移动端、交互和导出完整可用。
 license: MIT
 metadata:
-  version: "0.0.2"
+  version: "0.0.3"
 ---
 
-# Architecture Diagram · 系统架构拓扑生成器
+# Architecture Diagram
 
-基于 `huashu-design` 哲学的高保真系统架构与基础设施拓扑生成器。产出单文件自包含（Self-contained）的 `HTML + SVG` 交互式工程图纸，具备印刷级排版质量、严苛的走线几何约束、明暗双主题自适应与工业级视觉审美。
+产出单文件 HTML+SVG 架构图。页面提供深浅主题、平移缩放和纯画布导出；SVG 使用中性视觉语法表达真实关系，不套固定业务模板。
 
 ## 资源地图
 
-| 需要什么 | 去哪里 | 说明 |
-| --- | --- | --- |
-| 基础工程底板模板 | [references/template.html](references/template.html) | 单文件双主题起手模板，开箱即用 |
-| SVG 拓扑几何与走线规范 | [references/svg-design.md](references/svg-design.md) | 曼哈顿十字、米字 45° 切角、八向箭头与 Straight-over-Bent 层级 |
-| HTML 脚手架与前端工程 | [references/html-scaffolding.md](references/html-scaffolding.md) | Hero 模式、明暗 CSS 变量、平铺导出工具链与安全规范 |
-| 完备生产级参考示例 | [examples/example.html](examples/example.html) · [examples/sample-architecture.md](examples/sample-architecture.md) | 全球分布式电商全景架构真实工程样例 |
-| 文字越界量化计算器 | `scripts/verify-overflow.mjs` | 物理 BBox 度量与字符排印模型双引擎校验工具 |
-
----
-
-## 核心设计与几何铁律（摘要）
-
-1. **反 AI Slop 与纯矢量图标**：严禁霓虹发光与脉冲呼吸灯，**100% 杜绝 Emoji**，统一使用内联 Lucide 矢量图标；
-2. **外层硬核直角 vs 内部图优雅圆角**：页面边框、按钮、图例全部为硬核直角（`border-radius: 0`），内部节点卡片保持精致微圆角（`rx="6"`）；
-3. **Hero 模式 Header 与平铺工具栏**：超粗 800 字重主标题，杜绝形式主义的口号标签，右上角工具栏严禁收缩，直接平铺明暗切换、复制、PNG、SVG 与 PDF；
-4. **画板默认自适应与自由平移缩放（Pan & Zoom）**：画板默认 100% 完整自适应视口呈现全貌，支持鼠标拖拽平移、滚轮焦点缩放、触控捏合与双击还原；导出时自动解耦视口，确保导出的图纸始终为 100% 完整无偏移的架构全貌；
-5. **走线几何与图层优先级（Straight-over-Bent）**：
-   - 长线必须十字星（水平或垂直正交），折线仅允许 45° 米字切角；
-   - 箭头严格为 8 个离散米字方向；
-   - 同步主数据流与异步事件流严格分道，实现平面零交叉；
-   - **直线的图层优先级永远高于折线**（`<g id="connections-straight">` 覆盖于 `<g id="connections-bent">` 之上）；
-6. **卡片内内容四周内边距一致性（对称居中）**：
-   - 严禁文字或图标偏向一侧；每个节点卡片内部内容（图标 + 间距 + 文字）整体水平对称居中，左右留白相等：$Padding_H = (W_{card} - W_{content}) / 2$；
-   - 标题与副标基线上下对称平衡排布，卡片四周留白均等，消除视觉偏沉；
-7. **纯画布导出（Diagram Canvas Only）**：
-   - 复制图片、导出 PNG、导出 SVG、导出 PDF **100% 仅对架构图画布内容（#main-diagram-svg）进行**；
-   - 严禁导出外层的 Header、平铺工具栏、图例面板或网页边框；
-   - 导出时视口与用户交互（Pan & Zoom）严格解耦，强制锁定标准设计尺寸 `0 0 1200 660`。
-
----
+| 资源 | 位置 |
+| --- | --- |
+| 空白 HTML 起手模板 | [references/template.html](references/template.html)（只提供自由页面壳层，不规定组件与画布尺寸） |
+| SVG 语义、几何、标签和密度规范 | [references/svg-design.md](references/svg-design.md) |
+| 页面、移动端、交互和导出规范 | [references/html-scaffolding.md](references/html-scaffolding.md) |
+| 中性 SVG 组件（模板内容从这里选） | [references/components/README.md](references/components/README.md) |
+| 通用完整示例 | [examples/example.html](examples/example.html) |
 
 ## 执行流程
 
-复制此清单随做随勾：
+### 1. 语义布局规划
 
+生成坐标前完成九步分析：
+
+1. 找出同步主调用链；
+2. 找出异步事件链；
+3. 找出安全、鉴权和管理通道；
+4. 找出同一部署边界内的节点；
+5. 找出外部依赖和持久化节点；
+6. 标记当前启用与未来预留节点；
+7. 确定需要水平或垂直对齐的节点；
+8. 为每类通道预留独立走廊；
+9. 再计算节点尺寸、端口与坐标。
+
+主调用链优先直线；直接依赖优先对齐；同一边界节点保持靠近。弱依赖、异步通道和预留节点不抢占主链层级。预留节点使用低饱和色与虚线。不为对称或填满画布虚构组件。
+
+### 2. 计算节点与标签
+
+节点尺寸由文字长度、职责数与连接数共同决定。叶子节点可紧凑，多职责节点可扩展并使用真实内部分区；扩展后内容仍整体居中，分区不挤压标题、说明或端口。
+
+图层顺序固定为：
+
+```xml
+<g id="boundaries">...</g>
+<g id="connections-bent">...</g>
+<g id="connections-straight">...</g>
+<g id="connection-labels">...</g>
+<g id="nodes">...</g>
 ```
-架构图生成进度：
-- [ ] 1. 分析系统拓扑层级与通道（Ingress -> Gateway -> Service -> Persistence）
-- [ ] 2. 复制 references/template.html 作为起手底板并填写 Hero 标题
-- [ ] 3. 规划无交叉走廊，折线置于 bent 层，正交十字直线置于 straight 层
-- [ ] 4. 实例化节点并匹配内联 Lucide 图标与低饱和语义色
-- [ ] 5. 补充图例面板与技术规格说明卡片
-- [ ] 6. 运行 scripts/verify-overflow.mjs 自检确保 0 越界并交付
-```
 
-### 第 1 步 · 规划层级与无交叉走廊
-按业务调用流向将服务从左到右划分入四大层级：接入端（`35~195`）、网关（`255~420`）、计算集群（`485~855`）、持久化（`920~1150`），规划独立水平走廊以实现 100% 零交叉。
+每条线路使用唯一 `id`，用 `data-from` / `data-to` 指向起止节点 `id`，且线路首尾坐标必须吸附在对应 `data-node-box` 边界；标签用 `data-label-for` 关联线路。标签占用自然留白，不默认添加背景框；位置和排版建议见 [references/svg-design.md](references/svg-design.md)。
 
-### 第 2 步 · 绘制连线与分层堆叠
-- 先在 `<g id="connections-bent">` 中绘制带有 45° 切角的折线与异步回流；
-- 后在 `<g id="connections-straight">` 中绘制同步主调用正交直线，确保直线处于视觉上层。
+### 3. 构建页面
 
-### 第 3 步 · 绘制节点并配置防透底
-节点底层铺设 `<rect fill="var(--node-base)"/>` 防走线穿底，挑选匹配语义的 Lucide 图标。
+复制 [references/template.html](references/template.html) 作为自由页面壳层。模板不规定组件类型、节点尺寸、布局列数或画布坐标；根据需求从 [references/components/README.md](references/components/README.md) 选取中性 SVG 组件，再依照语义关系重新组合。画布 `viewBox` 与 `data-export-viewbox` 由实际图形边界决定，可自由扩展。移动样式只调整页面阅读，不改导出坐标。
 
-### 第 4 步 · 运行计算器验证越界闭环
-```bash
-node <skill_dir>/scripts/verify-overflow.mjs <产出的html文件>
-```
-若存在 `❌ OVERFLOW` 或 `⚠️ TIGHT`，调宽相应节点卡片或调整字号，直至通过校验。
+## 交付检查
 
----
+### SVG 布局与视觉
 
-## 交付自检清单
+- [ ] 节点文字无越界，内部分区无重叠或贴边
+- [ ] 连线标签不被节点遮挡，标签之间无重叠
+- [ ] 每条线路首尾端点准确吸附对应卡片边界
+- [ ] 标签不压线、不贴箭头，并与节点保持舒适呼吸感
+- [ ] 线路无非预期交叉，节点与边界和相邻节点间距充足
 
-- [ ] Header 采用 Hero 模式，大号标题清晰突出，无冗余空泛口号标签
-- [ ] 画板默认完整自适应呈现全景，支持自由拖拽平移、滚轮缩放、双击重置与右下角悬浮控制栏
-- [ ] 右上角工具栏平铺展开（包含明暗切换、复制、PNG、SVG 纯矢量导出、PDF）
-- [ ] 导出（SVG、PNG、PDF、复制图片）100% 仅针对架构图画布进行，不包含外层 Header、工具栏与图例面板
-- [ ] 卡片内部内容（图标 + 文字）四周内边距一致，整体对称居中，无偏向左侧或右侧现象
-- [ ] SVG 导出已实体化所有计算样式，线条、marker、节点与文字完整，且不含未解析的 `var(--*)`
-- [ ] 深色与浅色模式分别验证导出背景及语义色正确
-- [ ] 全文 0 Emoji，全部采用规范内联的 Lucide 矢量图标
-- [ ] 外层容器与卡片坚决直角（`border-radius: 0`），内部节点圆角精致
-- [ ] 连线 100% 遵循曼哈顿正交长线、45° 米字切角与八向箭头，直线在折线上方
-- [ ] 运行 `verify-overflow.mjs` 退出码为 0，所有文字在框选内部且保留充足呼吸感
+### 页面布局
+
+- [ ] 桌面端无截断，标题、工具栏、画布、图例和规格卡片完整
+- [ ] 移动端无页面级横向溢出，按钮无需横向滚动即可操作
+- [ ] 标题正常换行，图例和规格卡片收敛为单列
+- [ ] 深色和浅色主题均可读
+
+### 交互
+
+- [ ] 主题切换、放大、缩小、拖拽和平移重置均可正常工作
+- [ ] SVG、PNG、PDF 已支持；环境支持时 Copy 可用
+
+### 导出
+
+- [ ] 导出只包含 `#main-diagram-svg`
+- [ ] 导出使用当前架构图声明的 `data-export-viewbox`、`width`、`height`，不套固定尺寸
+- [ ] 样式已实体化，不含未解析 CSS 变量
+- [ ] 深浅主题结果正确，当前 pan/zoom 不污染导出
