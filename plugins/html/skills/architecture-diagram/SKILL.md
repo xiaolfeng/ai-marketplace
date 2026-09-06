@@ -3,7 +3,7 @@ name: architecture-diagram
 description: 生成可交互、可导出的 HTML+SVG 系统架构图。适用于整体架构、组件关系、流式处理、事件流、安全通道与部署边界可视化；先分析真实依赖，再计算节点尺寸、走廊、标签与坐标，并保证桌面、移动端、交互和导出完整可用。
 license: MIT
 metadata:
-  version: "0.0.3"
+  version: "0.0.4"
 ---
 
 # Architecture Diagram

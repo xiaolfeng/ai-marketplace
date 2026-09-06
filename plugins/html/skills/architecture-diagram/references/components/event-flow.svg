@@ -1,84 +1,126 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" class="architecture-component" viewBox="0 0 960 400" data-export-viewbox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="event-flow-title event-flow-desc">
+  <title id="event-flow-title">事件发布与订阅</title>
+  <desc id="event-flow-desc">发布者向包含两个通道的事件总线发布事件，两条独立订阅线路分别到达消费者。</desc>
   <defs>
     <style>
-      .title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
-      .sub { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
-      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+      /* Default values match example.html; inherited page tokens take precedence. */
+      .architecture-component { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .architecture-component[data-theme="light"] {
+        --bg-canvas: #f8fafc;
+        --node-base: #ffffff;
+        --grid-line: rgba(100, 116, 139, 0.08);
+        --grid-dot: rgba(100, 116, 139, 0.22);
+        --c-client: #0284c7;
+        --c-gateway: #0369a1;
+        --c-service: #059669;
+        --c-storage: #d97706;
+        --c-security: #e11d48;
+        --c-message: #7c3aed;
+        --c-boundary: rgba(100, 116, 139, 0.35);
+        --c-boundary-text: #334155;
+        --node-title-fill: #0f172a;
+        --node-sub-fill: #475569;
+        --line-label-fill: #475569;
+      }
+      .architecture-component .node-title { fill: var(--node-title-fill, #f8fafc); font-size: 11.5px; font-weight: 600; }
+      .architecture-component .node-subtitle { fill: var(--node-sub-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 400; }
+      .architecture-component .node-tag { font-family: "JetBrains Mono", monospace; font-size: 8px; font-weight: 600; }
+      .architecture-component .line-label { fill: var(--line-label-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 8.5px; font-weight: 600; }
+      .architecture-component .boundary-title { fill: var(--c-boundary-text, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 600; }
+      .architecture-component .region-title { font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 600; }
     </style>
-    <marker id="arrow-event" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0.5,7 3,0 5.5" fill="#8b5cf6"/>
+    <pattern id="event-flow-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="var(--grid-line, rgba(148, 163, 184, 0.05))" stroke-width="0.75"/>
+      <circle cx="0" cy="0" r="0.8" fill="var(--grid-dot, rgba(148, 163, 184, 0.18))"/>
+    </pattern>
+    <marker id="event-flow-arrow-message" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-message, #8b5cf6)"/>
     </marker>
-    <g id="icon-server">
+    <g id="event-flow-icon-server">
       <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
       <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
       <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
       <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
     </g>
+    <g id="event-flow-icon-zap">
+      <polygon points="9 1.5 3 9 7.5 9 7 14.5 13 7 8.5 7 9 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
   </defs>
 
-  <rect width="720" height="400" fill="#090d16"/>
+  <rect width="960" height="400" fill="var(--bg-canvas, #090d16)"/>
+  <rect width="960" height="400" fill="url(#event-flow-grid)"/>
 
   <g id="boundaries">
-    <rect x="24" y="24" width="672" height="352" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
-    <text x="40" y="48" class="sub">EVENT PROCESSING BOUNDARY</text>
+    <rect x="24" y="24" width="912" height="352" rx="10" fill="none" stroke="var(--c-boundary, rgba(148, 163, 184, 0.22))" stroke-width="1.25" stroke-dasharray="6 4"/>
+    <text x="40" y="46" class="boundary-title">EVENT PROCESSING BOUNDARY</text>
+    <rect x="40" y="68" width="188" height="284" rx="8" fill="rgba(16, 185, 129, 0.03)" stroke="var(--c-service, #10b981)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="56" y="90" class="region-title" fill="var(--c-service, #10b981)">PUBLISHER</text>
+    <rect x="328" y="68" width="296" height="284" rx="8" fill="rgba(139, 92, 246, 0.03)" stroke="var(--c-message, #8b5cf6)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="344" y="90" class="region-title" fill="var(--c-message, #8b5cf6)">EVENT CHANNELS</text>
+    <rect x="724" y="68" width="204" height="284" rx="8" fill="rgba(56, 189, 248, 0.03)" stroke="var(--c-client, #38bdf8)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="740" y="90" class="region-title" fill="var(--c-client, #38bdf8)">SUBSCRIBERS</text>
   </g>
 
   <g id="connections-bent">
     <g id="flow-bus-consumer-a" data-flow="bus-consumer-a">
-      <path id="connection-bus-consumer-a" data-from="node-event-bus" data-to="node-consumer-a" d="M 416 190 L 452 190 L 472 130 L 520 130" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+      <path id="connection-bus-consumer-a" data-from="node-event-bus" data-to="node-consumer-a" d="M 608 198 L 638 198 L 658 178 L 658 170 L 678 150 L 744 150" fill="none" stroke="var(--c-message, #8b5cf6)" stroke-width="1.5" marker-end="url(#event-flow-arrow-message)"/>
     </g>
     <g id="flow-bus-consumer-b" data-flow="bus-consumer-b">
-      <path id="connection-bus-consumer-b" data-from="node-event-bus" data-to="node-consumer-b" d="M 416 190 L 452 190 L 472 270 L 520 270" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+      <path id="connection-bus-consumer-b" data-from="node-event-bus" data-to="node-consumer-b" d="M 608 230 L 638 230 L 658 250 L 658 290 L 678 310 L 744 310" fill="none" stroke="var(--c-message, #8b5cf6)" stroke-width="1.5" marker-end="url(#event-flow-arrow-message)"/>
     </g>
   </g>
 
   <g id="connections-straight">
     <g id="flow-producer-bus" data-flow="producer-bus">
-      <path id="connection-producer-bus" data-from="node-producer" data-to="node-event-bus" d="M 188 190 L 248 190" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-event)"/>
+      <path id="connection-producer-bus" data-from="node-producer" data-to="node-event-bus" d="M 212 214 L 344 214" fill="none" stroke="var(--c-message, #8b5cf6)" stroke-width="1.5" marker-end="url(#event-flow-arrow-message)"/>
     </g>
   </g>
 
   <g id="connection-labels">
-    <text x="218" y="174" text-anchor="middle" class="line-label" data-label-for="connection-producer-bus">Publish</text>
-    <text x="458" y="114" text-anchor="middle" class="line-label" data-label-for="connection-bus-consumer-a">Subscription A</text>
-    <text x="458" y="252" text-anchor="middle" class="line-label" data-label-for="connection-bus-consumer-b">Subscription B</text>
+    <text x="278" y="200" class="line-label" text-anchor="middle" data-label-for="connection-producer-bus">Publish</text>
+    <text x="701" y="136" class="line-label" text-anchor="middle" data-label-for="connection-bus-consumer-a">Channel A</text>
+    <text x="701" y="296" class="line-label" text-anchor="middle" data-label-for="connection-bus-consumer-b">Channel B</text>
   </g>
 
   <g id="nodes">
-    <g id="node-producer" data-node transform="translate(40 158)">
-      <rect data-node-box width="148" height="64" rx="6" fill="#0b1329" stroke="#10b981"/>
-      <g transform="translate(18 24)" color="#10b981"><use href="#icon-server"/></g>
-      <text x="44" y="29" class="title">Producer Node</text>
-      <text x="44" y="47" class="sub">Event publisher</text>
+    <g id="node-producer" data-node="" transform="translate(48 182)">
+      <rect data-node-box="" width="164" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="164" height="64" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="var(--c-service, #10b981)" stroke-width="1.25"/>
+      <g transform="translate(24 24)" color="var(--c-service, #10b981)"><use href="#event-flow-icon-server"/></g>
+      <text x="50" y="29" class="node-title" data-node-title="">Producer Node</text>
+      <text x="50" y="47" class="node-subtitle">Event publisher</text>
     </g>
 
-    <g id="node-event-bus" data-node transform="translate(248 138)">
-      <rect data-node-box width="168" height="104" rx="6" fill="#0b1329" stroke="#8b5cf6" stroke-width="1.5"/>
-      <g transform="translate(18 20)" color="#8b5cf6"><use href="#icon-server"/></g>
-      <text x="44" y="26" class="title">Event Bus</text>
-      <text x="44" y="43" class="sub">Distributed channel</text>
+    <g id="node-event-bus" data-node="" transform="translate(344 144)">
+      <rect data-node-box="" width="264" height="140" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="264" height="140" rx="6" fill="rgba(139, 92, 246, 0.1)" stroke="var(--c-message, #8b5cf6)" stroke-width="1.5"/>
+      <g transform="translate(62 22)" color="var(--c-message, #8b5cf6)"><use href="#event-flow-icon-zap"/></g>
+      <text x="88" y="31" class="node-title" data-node-title="">Event Bus</text>
+      <text x="88" y="49" class="node-subtitle">Distributed channel</text>
       <g data-partition="channel-a">
-        <rect data-partition-box x="16" y="60" width="62" height="28" rx="4" fill="#211941" stroke="#6850b4"/>
-        <text x="47" y="78" text-anchor="middle" class="sub">Channel A</text>
+        <rect data-partition-box="" x="20" y="76" width="104" height="40" rx="3" fill="rgba(139, 92, 246, 0.15)"/>
+        <text x="72" y="99" class="node-tag" text-anchor="middle" fill="var(--c-message, #8b5cf6)">CHANNEL A</text>
       </g>
       <g data-partition="channel-b">
-        <rect data-partition-box x="90" y="60" width="62" height="28" rx="4" fill="#211941" stroke="#6850b4"/>
-        <text x="121" y="78" text-anchor="middle" class="sub">Channel B</text>
+        <rect data-partition-box="" x="140" y="76" width="104" height="40" rx="3" fill="rgba(139, 92, 246, 0.15)"/>
+        <text x="192" y="99" class="node-tag" text-anchor="middle" fill="var(--c-message, #8b5cf6)">CHANNEL B</text>
       </g>
     </g>
 
-    <g id="node-consumer-a" data-node transform="translate(520 98)">
-      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
-      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
-      <text x="44" y="29" class="title">Consumer Node A</text>
-      <text x="44" y="47" class="sub">Primary subscriber</text>
+    <g id="node-consumer-a" data-node="" transform="translate(744 118)">
+      <rect data-node-box="" width="168" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="168" height="64" rx="6" fill="rgba(56, 189, 248, 0.08)" stroke="var(--c-client, #38bdf8)" stroke-width="1.25"/>
+      <g transform="translate(17 24)" color="var(--c-client, #38bdf8)"><use href="#event-flow-icon-server"/></g>
+      <text x="43" y="29" class="node-title" data-node-title="">Consumer Node A</text>
+      <text x="43" y="47" class="node-subtitle">Primary subscriber</text>
     </g>
 
-    <g id="node-consumer-b" data-node transform="translate(520 238)">
-      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
-      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
-      <text x="44" y="29" class="title">Consumer Node B</text>
-      <text x="44" y="47" class="sub">Secondary subscriber</text>
+    <g id="node-consumer-b" data-node="" transform="translate(744 278)">
+      <rect data-node-box="" width="168" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="168" height="64" rx="6" fill="rgba(56, 189, 248, 0.08)" stroke="var(--c-client, #38bdf8)" stroke-width="1.25"/>
+      <g transform="translate(17 24)" color="var(--c-client, #38bdf8)"><use href="#event-flow-icon-server"/></g>
+      <text x="43" y="29" class="node-title" data-node-title="">Consumer Node B</text>
+      <text x="43" y="47" class="node-subtitle">Secondary subscriber</text>
     </g>
   </g>
 </svg>

@@ -1,79 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" class="architecture-component" viewBox="0 0 960 424" data-export-viewbox="0 0 960 424" width="960" height="424" role="img" aria-labelledby="layered-services-title layered-services-desc">
+  <title id="layered-services-title">服务分层与同步、异步调用</title>
+  <desc id="layered-services-desc">入口同步调用主服务，主服务访问下游依赖；入口通过独立的异步通道向工作节点分发任务。</desc>
   <defs>
     <style>
-      .title { fill: #f8fafc; font: 600 12px Inter, sans-serif; }
-      .sub { fill: #94a3b8; font: 9px "JetBrains Mono", monospace; }
-      .line-label { fill: #94a3b8; font: 600 9px "JetBrains Mono", monospace; }
+      /* Default values match example.html; inherited page tokens take precedence. */
+      .architecture-component { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .architecture-component[data-theme="light"] {
+        --bg-canvas: #f8fafc;
+        --node-base: #ffffff;
+        --grid-line: rgba(100, 116, 139, 0.08);
+        --grid-dot: rgba(100, 116, 139, 0.22);
+        --c-client: #0284c7;
+        --c-gateway: #0369a1;
+        --c-service: #059669;
+        --c-storage: #d97706;
+        --c-security: #e11d48;
+        --c-message: #7c3aed;
+        --c-boundary: rgba(100, 116, 139, 0.35);
+        --c-boundary-text: #334155;
+        --node-title-fill: #0f172a;
+        --node-sub-fill: #475569;
+        --line-label-fill: #475569;
+      }
+      .architecture-component .node-title { fill: var(--node-title-fill, #f8fafc); font-size: 11.5px; font-weight: 600; }
+      .architecture-component .node-subtitle { fill: var(--node-sub-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 400; }
+      .architecture-component .node-tag { font-family: "JetBrains Mono", monospace; font-size: 8px; font-weight: 600; }
+      .architecture-component .line-label { fill: var(--line-label-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 8.5px; font-weight: 600; }
+      .architecture-component .boundary-title { fill: var(--c-boundary-text, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 600; }
+      .architecture-component .region-title { font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 600; }
     </style>
-    <marker id="arrow-sync" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0.5,7 3,0 5.5" fill="#10b981"/>
+    <pattern id="layered-services-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="var(--grid-line, rgba(148, 163, 184, 0.05))" stroke-width="0.75"/>
+      <circle cx="0" cy="0" r="0.8" fill="var(--grid-dot, rgba(148, 163, 184, 0.18))"/>
+    </pattern>
+    <marker id="layered-services-arrow-gateway" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-gateway, #0ea5e9)"/>
     </marker>
-    <marker id="arrow-async" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0.5,7 3,0 5.5" fill="#8b5cf6"/>
+    <marker id="layered-services-arrow-service" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-service, #10b981)"/>
     </marker>
-    <g id="icon-server">
+    <marker id="layered-services-arrow-message" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-message, #8b5cf6)"/>
+    </marker>
+    <g id="layered-services-icon-network">
+      <rect x="2" y="2" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="10" y="2" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <rect x="6" y="10" width="4" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M4 6v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6M8 10v-2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </g>
+    <g id="layered-services-icon-server">
       <rect x="2" y="2" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
       <rect x="2" y="8" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
       <circle cx="4.5" cy="4" r="0.75" fill="currentColor"/>
       <circle cx="4.5" cy="10" r="0.75" fill="currentColor"/>
     </g>
+    <g id="layered-services-icon-zap">
+      <polygon points="9 1.5 3 9 7.5 9 7 14.5 13 7 8.5 7 9 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
+    <g id="layered-services-icon-box">
+      <path d="M2 5.2 8 2.4 14 5.2 8 8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M2 5.2V11l6 2.8V8M14 5.2V11l-6 2.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
   </defs>
 
-  <rect width="720" height="400" fill="#090d16"/>
+  <rect width="960" height="424" fill="var(--bg-canvas, #090d16)"/>
+  <rect width="960" height="424" fill="url(#layered-services-grid)"/>
 
   <g id="boundaries">
-    <rect x="24" y="24" width="672" height="352" rx="10" fill="none" stroke="#475569" stroke-dasharray="6 4"/>
-    <text x="40" y="48" class="sub">SHARED DEPLOYMENT BOUNDARY</text>
+    <rect x="24" y="24" width="912" height="376" rx="10" fill="none" stroke="var(--c-boundary, rgba(148, 163, 184, 0.22))" stroke-width="1.25" stroke-dasharray="6 4"/>
+    <text x="40" y="46" class="boundary-title">SHARED DEPLOYMENT BOUNDARY</text>
+    <rect x="40" y="68" width="196" height="308" rx="8" fill="rgba(14, 165, 233, 0.03)" stroke="var(--c-gateway, #0ea5e9)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="56" y="90" class="region-title" fill="var(--c-gateway, #0ea5e9)">ENTRY</text>
+    <rect x="356" y="68" width="240" height="308" rx="8" fill="rgba(16, 185, 129, 0.03)" stroke="var(--c-service, #10b981)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="372" y="90" class="region-title" fill="var(--c-service, #10b981)">APPLICATION</text>
+    <rect x="716" y="68" width="204" height="308" rx="8" fill="rgba(245, 158, 11, 0.03)" stroke="var(--c-storage, #f59e0b)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
+    <text x="732" y="90" class="region-title" fill="var(--c-storage, #f59e0b)">DEPENDENCY</text>
   </g>
 
   <g id="connections-bent">
     <g id="flow-gateway-worker" data-flow="gateway-worker">
-      <path id="connection-gateway-worker" data-from="node-gateway" data-to="node-worker" d="M 184 188 L 208 188 L 224 286 L 268 286" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-async)"/>
+      <path id="connection-gateway-worker" data-from="node-gateway" data-to="node-worker" d="M 138 218 L 138 294 L 158 314 L 372 314" fill="none" stroke="var(--c-message, #8b5cf6)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#layered-services-arrow-message)"/>
     </g>
   </g>
 
   <g id="connections-straight">
     <g id="flow-gateway-primary" data-flow="gateway-primary">
-      <path id="connection-gateway-primary" data-from="node-gateway" data-to="node-primary" d="M 184 156 L 268 156" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-sync)"/>
+      <path id="connection-gateway-primary" data-from="node-gateway" data-to="node-primary" d="M 220 186 L 372 186" fill="none" stroke="var(--c-gateway, #0ea5e9)" stroke-width="1.5" marker-end="url(#layered-services-arrow-gateway)"/>
     </g>
     <g id="flow-primary-dependent" data-flow="primary-dependent">
-      <path id="connection-primary-dependent" data-from="node-primary" data-to="node-dependent" d="M 444 156 L 520 156" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-sync)"/>
+      <path id="connection-primary-dependent" data-from="node-primary" data-to="node-dependent" d="M 580 186 L 732 186" fill="none" stroke="var(--c-service, #10b981)" stroke-width="1.5" marker-end="url(#layered-services-arrow-service)"/>
     </g>
   </g>
 
   <g id="connection-labels">
-    <text x="226" y="140" text-anchor="middle" class="line-label" data-label-for="connection-gateway-primary">Synchronous</text>
-    <text x="218" y="264" text-anchor="middle" class="line-label" data-label-for="connection-gateway-worker">Asynchronous</text>
-    <text x="482" y="140" text-anchor="middle" class="line-label" data-label-for="connection-primary-dependent">Dependency</text>
+    <text x="296" y="172" class="line-label" text-anchor="middle" data-label-for="connection-gateway-primary">Synchronous</text>
+    <text x="656" y="172" class="line-label" text-anchor="middle" data-label-for="connection-primary-dependent">Dependency</text>
+    <text x="282" y="300" class="line-label" text-anchor="middle" data-label-for="connection-gateway-worker">Asynchronous</text>
   </g>
 
   <g id="nodes">
-    <g id="node-gateway" data-node transform="translate(40 124)">
-      <rect data-node-box width="144" height="64" rx="6" fill="#0b1329" stroke="#38bdf8"/>
-      <g transform="translate(18 24)" color="#38bdf8"><use href="#icon-server"/></g>
-      <text x="44" y="29" class="title">Gateway Node</text>
-      <text x="44" y="47" class="sub">Entry point</text>
+    <g id="node-gateway" data-node="" transform="translate(56 154)">
+      <rect data-node-box="" width="164" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="164" height="64" rx="6" fill="rgba(14, 165, 233, 0.1)" stroke="var(--c-gateway, #0ea5e9)" stroke-width="1.5"/>
+      <g transform="translate(28 24)" color="var(--c-gateway, #0ea5e9)"><use href="#layered-services-icon-network"/></g>
+      <text x="54" y="29" class="node-title" data-node-title="">Gateway Node</text>
+      <text x="54" y="47" class="node-subtitle">Entry point</text>
     </g>
 
-    <g id="node-primary" data-node transform="translate(268 124)">
-      <rect data-node-box width="176" height="64" rx="6" fill="#0b1329" stroke="#10b981"/>
-      <g transform="translate(22 24)" color="#10b981"><use href="#icon-server"/></g>
-      <text x="48" y="29" class="title">Primary Service</text>
-      <text x="48" y="47" class="sub">Synchronous processing</text>
+    <g id="node-primary" data-node="" transform="translate(372 154)">
+      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="208" height="64" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="var(--c-service, #10b981)" stroke-width="1.25"/>
+      <g transform="translate(29 24)" color="var(--c-service, #10b981)"><use href="#layered-services-icon-server"/></g>
+      <text x="55" y="29" class="node-title" data-node-title="">Primary Service</text>
+      <text x="55" y="47" class="node-subtitle">Synchronous processing</text>
     </g>
 
-    <g id="node-worker" data-node transform="translate(268 254)">
-      <rect data-node-box width="176" height="64" rx="6" fill="#0b1329" stroke="#8b5cf6"/>
-      <g transform="translate(22 24)" color="#8b5cf6"><use href="#icon-server"/></g>
-      <text x="48" y="29" class="title">Worker Node</text>
-      <text x="48" y="47" class="sub">Asynchronous processing</text>
+    <g id="node-worker" data-node="" transform="translate(372 282)">
+      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="208" height="64" rx="6" fill="rgba(139, 92, 246, 0.1)" stroke="var(--c-message, #8b5cf6)" stroke-width="1.25"/>
+      <g transform="translate(29 24)" color="var(--c-message, #8b5cf6)"><use href="#layered-services-icon-zap"/></g>
+      <text x="55" y="29" class="node-title" data-node-title="">Worker Node</text>
+      <text x="55" y="47" class="node-subtitle">Asynchronous processing</text>
     </g>
 
-    <g id="node-dependent" data-node transform="translate(520 124)">
-      <rect data-node-box width="160" height="64" rx="6" fill="#0b1329" stroke="#f59e0b"/>
-      <g transform="translate(18 24)" color="#f59e0b"><use href="#icon-server"/></g>
-      <text x="44" y="29" class="title">Dependent Node</text>
-      <text x="44" y="47" class="sub">Downstream service</text>
+    <g id="node-dependent" data-node="" transform="translate(732 154)">
+      <rect data-node-box="" width="172" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect width="172" height="64" rx="6" fill="rgba(245, 158, 11, 0.08)" stroke="var(--c-storage, #f59e0b)" stroke-width="1.25"/>
+      <g transform="translate(21 24)" color="var(--c-storage, #f59e0b)"><use href="#layered-services-icon-box"/></g>
+      <text x="47" y="29" class="node-title" data-node-title="">Dependent Node</text>
+      <text x="47" y="47" class="node-subtitle">Downstream service</text>
     </g>
   </g>
 </svg>

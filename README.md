@@ -45,7 +45,7 @@ ai-marketplace/
 | [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→adr 全链路 + docs-init 初始化 + doc-clean 卫生整理 | 0.0.3 |
 | [research](./plugins/research/) | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告 | 0.0.1 |
 | [charm](./plugins/charm/) | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造 | 0.0.1 |
-| [html](./plugins/html/) | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.4 |
+| [html](./plugins/html/) | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.5 |
 
 ## ➕ 如何添加插件
 
