@@ -3,7 +3,7 @@ name: excalidraw-diagram
 description: 生成可交互、可导出的 Excalidraw 手绘白板风格流程图与拓扑图（单文件 HTML+SVG 与原生 .excalidraw）。适用于业务流程、系统拓扑、泳道活动、思维导图、时序图与数据流图可视化；先规划业务走向与走廊，再计算图元尺寸与坐标，支持深浅双主题、平移缩放及 SVG/PNG/PDF/Excalidraw 源码导出。
 license: MIT
 metadata:
-  version: "0.0.3"
+  version: "0.0.4"
 ---
 
 # Excalidraw Diagram

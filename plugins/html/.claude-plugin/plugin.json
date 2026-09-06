@@ -1,7 +1,7 @@
 {
   "name": "html",
   "description": "HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构全景拓扑图与 Excalidraw 手绘白板业务流程图，双主题交互与多格式导出，告别 AI 模板腔",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": {
     "name": "xiao_lfeng",
     "url": "https://www.x-lf.com"

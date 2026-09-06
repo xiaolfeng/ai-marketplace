@@ -171,11 +171,23 @@
       overflow: hidden;
       height: 660px;
       min-height: 480px;
-      cursor: grab;
+      cursor: default;
       user-select: none;
       -webkit-user-select: none;
+      touch-action: auto;
+      transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .diagram-panel.is-active {
+      cursor: grab;
       touch-action: none;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), 0 0 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .diagram-panel:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 4px;
     }
 
     .diagram-panel.is-panning {
@@ -445,7 +457,7 @@
     </header>
 
     <!-- Main Diagram Canvas (纯净起手空白底板，默认自适应与自由平移缩放) -->
-    <div class="diagram-panel" id="diagram-panel">
+    <div class="diagram-panel" id="diagram-panel" tabindex="0" role="region" aria-label="交互画板" aria-describedby="viewport-hint">
       <!-- 悬浮视口操作栏 -->
       <div class="viewport-controls">
         <button class="viewport-btn" onclick="zoomAt(0.85)" title="放大 (Zoom In)">
@@ -467,7 +479,7 @@
       </div>
 
       <div class="viewport-hints">
-        <span>拖拽平移 · 滚轮缩放 · 双击重置</span>
+        <span id="viewport-hint">点击画板或按 Enter 激活 · 当前可滚动页面</span>
       </div>
 
       <svg class="diagram-canvas" id="main-diagram-svg" viewBox="0 0 1200 660" role="img" aria-label="Switchboard Gateway 目标架构：Phase 1A 文本由公共 Durable Dispatch Engine 控制并经同 Pod LiteLLM 外发；媒体当前仍由 Runtime 生产，Phase 4 才逐 Capability 接入，具体薄出口实现待定；本图不表示系统已部署">
@@ -893,8 +905,57 @@
       const panel = document.getElementById('diagram-panel');
       if (!panel) return;
 
+      let isActive = false;
+      let touchStartDist = 0;
+      const hint = document.getElementById('viewport-hint');
+
+      function stopPan() {
+        isPanning = false;
+        touchStartDist = 0;
+        panel.classList.remove('is-panning');
+      }
+
+      function setActive(active) {
+        isActive = active;
+        panel.classList.toggle('is-active', active);
+        if (!active) stopPan();
+        if (hint) hint.textContent = active
+          ? '拖拽平移 · 滚轮缩放 · 双击重置 · Esc 或点击外部退出'
+          : '点击画板或按 Enter 激活 · 当前可滚动页面';
+      }
+
+      // 首次点击只激活，避免悬浮按钮在激活前改变视口。
+      panel.addEventListener('click', (e) => {
+        if (isActive) return;
+        e.preventDefault();
+        e.stopPropagation();
+        setActive(true);
+        panel.focus({ preventScroll: true });
+      }, { capture: true });
+
+      document.addEventListener('pointerdown', (e) => {
+        if (!panel.contains(e.target)) setActive(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isActive) {
+          e.preventDefault();
+          setActive(false);
+        }
+      });
+      panel.addEventListener('keydown', (e) => {
+        if (e.target === panel && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          setActive(true);
+        }
+      });
+      panel.addEventListener('focusout', (e) => {
+        if (!panel.contains(e.relatedTarget)) setActive(false);
+      });
+      window.addEventListener('blur', () => setActive(false));
+      panel.addEventListener('touchcancel', stopPan);
+
       panel.addEventListener('mousedown', (e) => {
-        if (e.button !== 0) return;
+        if (!isActive || e.button !== 0) return;
         if (e.target.closest('.viewport-controls')) return;
         isPanning = true;
         panel.classList.add('is-panning');
@@ -925,18 +986,20 @@
       });
 
       panel.addEventListener('wheel', (e) => {
+        if (!isActive) return;
         e.preventDefault();
         const factor = e.deltaY > 0 ? 1.1 : 0.9;
         zoomAt(factor, e.clientX, e.clientY);
       }, { passive: false });
 
       panel.addEventListener('dblclick', (e) => {
+        if (!isActive) return;
         if (e.target.closest('.viewport-controls')) return;
         resetZoom();
       });
 
-      let touchStartDist = 0;
       panel.addEventListener('touchstart', (e) => {
+        if (!isActive || e.target.closest('.viewport-controls')) return;
         if (e.touches.length === 1) {
           isPanning = true;
           panStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -951,6 +1014,7 @@
       }, { passive: true });
 
       panel.addEventListener('touchmove', (e) => {
+        if (!isActive) return;
         if (isPanning && e.touches.length === 1) {
           const rect = panel.getBoundingClientRect();
           const dx = e.touches[0].clientX - panStart.x;
