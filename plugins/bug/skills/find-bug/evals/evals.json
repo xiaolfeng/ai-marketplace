@@ -1,0 +1,42 @@
+{
+  "skill_name": "find-bug",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。运行方式见 Anthropic skill-creator 插件。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我看看 billing/discount.go 这段折扣计算有没有逻辑错误，先别改代码，我要带去站会",
+      "expected_output": "触发 find-bug：圈定范围与规格假设，只读审查后产出带 Q- 编号、位置、证据等级与置信度的发现清单；建议方向只写不变量，不改业务代码、不给完整补丁",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "review 一下这次 PR 的正确性，尤其是空指针、重试和并发，find bugs",
+      "expected_output": "触发质量缺陷发现：按 C1/C2/C6 等分类取证，风格/格式意见不进清单；空报告也要写覆盖缺口而不是硬造条目",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这段订单 API 会不会越权或 SQL 注入？帮我做次安全审查",
+      "expected_output": "判定为安全专项（近义干扰负向样本）：不按质量分类展开，说明应走 find-security-bug 并引导切换",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "线上订单创建接口空指针挂了，赶紧帮我看看怎么修",
+      "expected_output": "判定为已暴露故障且要补丁（负向样本）：转交 fix-bug，可把当前观察写成临时发现一并带走，但本技能不直接改代码",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "把变量名和注释格式也一起挑了，这段读着不够优雅",
+      "expected_output": "命中铁律与 E3：拒绝把风格/命名/格式报成缺陷，只接受运行时正确性与可靠性问题",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "调研一下现在主流的几个 Rust 异步运行时怎么选",
+      "expected_output": "判定为选型调研（负向样本）：属 research 插件，不进入缺陷发现流程",
+      "files": []
+    }
+  ]
+}

@@ -131,6 +131,28 @@
       "skills": [
         "./skills"
       ]
+    },
+    {
+      "name": "bug",
+      "source": "./plugins/bug",
+      "description": "缺陷工作流：find-bug 找质量缺陷，find-security-bug 做授权范围内的安全审查，fix-bug 按根因落地最小修复",
+      "version": "0.0.1",
+      "keywords": [
+        "bug",
+        "debug",
+        "security",
+        "fix"
+      ],
+      "category": "developer-tools",
+      "tags": [
+        "bug",
+        "debug",
+        "security",
+        "review"
+      ],
+      "skills": [
+        "./skills"
+      ]
     }
   ]
 }

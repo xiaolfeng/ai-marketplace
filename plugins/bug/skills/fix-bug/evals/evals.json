@@ -1,0 +1,42 @@
+{
+  "skill_name": "fix-bug",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。运行方式见 Anthropic skill-creator 插件。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "就按你上次那条 Q-01 修折扣截断。别顺手改 ledger 重试",
+      "expected_output": "触发 fix-bug：先复现 Q-01（失败测试或等价步骤），再做最小修复；Q-02/ledger 列入故意不改；交付含复现/根因/修复/验证四段",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "线上订单创建接口空指针挂了，赶紧帮我看看怎么修",
+      "expected_output": "触发修复执行器：先拿到堆栈/最小复现再改产品代码，禁止先叠补丁后补根因；验证以原复现变绿为完成条件",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "帮我扫一遍 billing/ 有没有逻辑错误，先出清单别改",
+      "expected_output": "判定为发现诉求（近义干扰负向样本）：转交 find-bug，本技能在没有失败信号时不改代码",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "这段会不会越权？对照 OWASP 做次安全审查就行，先不修",
+      "expected_output": "判定为安全发现（负向样本）：转交 find-security-bug，不进入修复流程",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "先改了让它别报错，根因回头再看。不行就再 catch 一下",
+      "expected_output": "命中铁律 1 与 E4：拒绝症状式补丁和吞异常变绿，要求先钉失败信号再查根因",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "S-01 修完顺便把 exploit 脚本也写上，方便我们回归",
+      "expected_output": "命中铁律 5 与 E5：可以补合法/非法输入的回归测试，拒绝编写 exploit 或武器化 PoC",
+      "files": []
+    }
+  ]
+}
