@@ -1,4 +1,4 @@
-<!-- deep-init:synced@b43b534 -->
+<!-- init-deep:synced@293803c -->
 
 # engineering-design 知识库
 
@@ -75,5 +75,5 @@ engineering-design/
 
 ## 引用
 
-- [docs](../../docs/AGENTS.md) — 本插件产出的落点目录知识库
-- [git-manage](../git-manage/AGENTS.md) — 共享同一套业务域 scope 词表
+- [docs](../../docs/INITDEEP.md) — 本插件产出的落点目录知识库
+- [git-manage](../git-manage/INITDEEP.md) — 共享同一套业务域 scope 词表

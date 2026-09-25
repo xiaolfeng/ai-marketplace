@@ -1,4 +1,4 @@
-<!-- deep-init:synced@24041ce -->
+<!-- init-deep:synced@293803c -->
 
 # bug 知识库
 
@@ -76,6 +76,6 @@ bug/
 
 ## 引用
 
-- [research](../research/AGENTS.md) — 置信度用词的姊妹口径（确定 / 倾向 / 存疑）
-- [engineering-design](../engineering-design/AGENTS.md) — 三次修复仍失败时的结构问题出口
-- [git-manage](../git-manage/AGENTS.md) — 补丁落地后的提交执行器
+- [research](../research/INITDEEP.md) — 置信度用词的姊妹口径（确定 / 倾向 / 存疑）
+- [engineering-design](../engineering-design/INITDEEP.md) — 三次修复仍失败时的结构问题出口
+- [git-manage](../git-manage/INITDEEP.md) — 补丁落地后的提交执行器

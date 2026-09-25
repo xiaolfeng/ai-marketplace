@@ -1,4 +1,4 @@
-<!-- deep-init:synced@b43b534 -->
+<!-- init-deep:synced@293803c -->
 
 # docs 知识库
 
@@ -62,4 +62,4 @@ docs/
 
 ## 引用
 
-- [engineering-design](../plugins/engineering-design/AGENTS.md) — 本目录写作技能的宿主插件
+- [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录写作技能的宿主插件

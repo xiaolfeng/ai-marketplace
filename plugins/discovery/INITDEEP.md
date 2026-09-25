@@ -1,4 +1,4 @@
-<!-- deep-init:synced@b43b534 -->
+<!-- init-deep:synced@293803c -->
 
 # discovery 知识库
 

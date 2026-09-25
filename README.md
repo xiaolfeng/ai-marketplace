@@ -25,6 +25,8 @@
 
 ```text
 ai-marketplace/
+├── AGENTS.md                    # 每次工作适用的简短入口
+├── INITDEEP.md                  # 项目目录导航与按需阅读索引
 ├── .claude-plugin/
 │   └── marketplace.json        # 市场清单（唯一手写的索引）
 ├── plugins/                    # 插件源码

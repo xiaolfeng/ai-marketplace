@@ -1,4 +1,4 @@
-<!-- deep-init:synced@94e32fb -->
+<!-- init-deep:synced@293803c -->
 
 # research 知识库
 
@@ -73,5 +73,5 @@ research/
 
 ## 引用
 
-- [engineering-design](../engineering-design/AGENTS.md) — 报告转化工程动作的下游宿主（ADR 流程）
-- [charm](../charm/AGENTS.md) — 同批上架的姊妹插件，同为四件套规格
+- [engineering-design](../engineering-design/INITDEEP.md) — 报告转化工程动作的下游宿主（ADR 流程）
+- [charm](../charm/INITDEEP.md) — 同批上架的姊妹插件，同为四件套规格
