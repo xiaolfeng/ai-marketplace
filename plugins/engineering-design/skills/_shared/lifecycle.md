@@ -7,14 +7,14 @@
 ```text
 draft ──► research ──► rfc ──► adr
 (草案)     (调研)       (提案)   (定稿)
-                └──► design（方向已接受后写清怎么工作）
+                └──► design（方向已确认后写清实施方式）
 ```
 
 单向流动，不回头改旧文：
 
 - draft 钉住困惑和初步想法，允许粗糙；
 - research 的倾向判断由 rfc 论证，research 自己不拍板；
-- rfc 收敛后二选一下游：长期约束抽成 adr；要写实施工作方式则进 design；
+- rfc 收敛后二选一下游：长期约束抽成 adr；已确认的方向需要写实施方式时进 design；
 - 同一主题跨阶段时，在目标目录内单独取号；承接关系用文首链接，
   不靠编号对齐，也不把 rfc / adr 拧成一条总序列。
 
@@ -25,6 +25,7 @@ draft ──► research ──► rfc ──► adr
 | draft | `open` → `resolved` / `superseded` | `open` |
 | research | 无状态；头部记调研日期 | — |
 | rfc | `draft` → `in-review` → `accepted` / `rejected` / `superseded` | `draft` |
+| design | `draft` → `in-review` → `accepted` / `superseded` | `draft` |
 | adr | `proposed` → `accepted` / `rejected` / `superseded` | `proposed` |
 
 四条纪律：

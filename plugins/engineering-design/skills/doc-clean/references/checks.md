@@ -16,11 +16,11 @@
 | `LINK-HTTP-404` | 文内 https 返回 404/410；超时或网络失败为 warning | 外链失效读者走不通 | report |
 | `INDEX-MISSING` | 文件存在但 README 没链到；或没有 README | 写完要登记，漏登等于文档失踪 | safe |
 | `INDEX-STALE` | README 链到不存在的工程文档 | 索引比目录新或搬过文件没改 | safe |
-| `STATUS-ILLEGAL` | 状态不在该阶段合法集；research 写了状态；draft/rfc/adr 缺状态 | 状态机是死命令，错值会让流转读不懂 | 用了别的阶段默认值则 safe，其余 report |
+| `STATUS-ILLEGAL` | 状态不在该阶段合法集；research 写了状态；draft/rfc/design/adr 缺状态 | 状态机是死命令，错值会让流转读不懂 | 用了别的阶段默认值则 safe，其余 report |
 | `SUPERSEDE-ONEWAY` | `superseded` / `resolved` 没链后继，或后继没回指 | 去向断了，旧文就变成死胡同 | 后继已有文首 blockquote 则 safe，否则 report |
 | `STAGE-MISMATCH` | 二级标题更像另一个阶段的骨架 | 文件可能放错目录 | report |
 | `LOC-WRONG` | 编号文档在 `docs/` 根、`engineering/` 根，或不在五段目录 | 阶段目录是落点，根目录不是 | ask |
 
 `rfc/0001` 与 `adr/0001` 同时存在**不是** `NUM-DUP`。
-`design/` 不参与 `STAGE-MISMATCH`（写作技能待补）。
+`design/` 按设计稿骨架参与 `STAGE-MISMATCH`。
 `example.com` / `localhost` 外链跳过，避免示例域名误报。
