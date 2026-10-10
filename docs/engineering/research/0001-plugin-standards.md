@@ -59,16 +59,17 @@ skill-name/
 
 `SKILL.md` frontmatter 字段：
 
-| 字段 | 必需 | 约束 |
-| --- | --- | --- |
-| `name` | 是 | ≤64 字符，小写字母/数字/连字符，不得以 `-` 开头结尾，须与目录名一致 |
-| `description` | 是 | ≤1024 字符，说明做什么+何时用（是模型路由的关键依据）|
-| `license` | 否 | 许可证名称 |
-| `compatibility` | 否 | ≤500 字符，环境要求 |
-| `metadata` | 否 | 自由 string→string 键值对 |
-| `allowed-tools` | 否 | 空格分隔的预授权工具列表（实验性）|
+| 字段            | 必需 | 约束                                                                |
+| --------------- | ---- | ------------------------------------------------------------------- |
+| `name`          | 是   | ≤64 字符，小写字母/数字/连字符，不得以 `-` 开头结尾，须与目录名一致 |
+| `description`   | 是   | ≤1024 字符，说明做什么+何时用（是模型路由的关键依据）               |
+| `license`       | 否   | 许可证名称                                                          |
+| `compatibility` | 否   | ≤500 字符，环境要求                                                 |
+| `metadata`      | 否   | 自由 string→string 键值对                                           |
+| `allowed-tools` | 否   | 空格分隔的预授权工具列表（实验性）                                  |
 
 **渐进式披露（Progressive Disclosure）** 是该规范的核心设计：
+
 1. 启动时只加载所有 skill 的 `name` + `description`（~100 tokens/个）
 2. 激活时才读完整 `SKILL.md` 正文（建议 <5000 tokens，<500 行）
 3. `scripts/`、`references/`、`assets/` 仅按需读取
@@ -111,6 +112,7 @@ hello-plugin/
 ```
 
 设计要点：
+
 - **包边界约束**：配置中的相对路径必须以 `./` 开头并解析在插件根内；禁止用 symlink 逃逸出包。
 - **mcp.json** 显式声明传输类型：`{"type": "stdio", "command": ...}` 或 `{"type": "http", "url": ...}`。
 - **客户端扩展（client extensions）**：允许为特定客户端附加命名空间化的私有行为，不破坏可移植契约。
@@ -122,17 +124,17 @@ hello-plugin/
 
 完整组件表：
 
-| 组件 | 位置 | 说明 |
-| --- | --- | --- |
-| Skills | `skills/<name>/SKILL.md` | 与开放标准一致 |
-| Commands | `commands/*.md` | 旧式扁平命令文件（新插件建议用 skills）|
-| Agents | `agents/*.md` | 子代理定义 |
-| Hooks | `hooks/hooks.json` | 事件处理器（PreToolUse/PostToolUse/Stop 等）|
-| MCP | `.mcp.json` | MCP 服务器配置 |
-| LSP | `.lsp.json` | 语言服务器（代码智能）|
-| Monitors | `monitors/monitors.json` | 后台监控（stdout 每行→通知）|
-| bin/ | `bin/` | 加入 PATH 的可执行文件 |
-| settings | `settings.json` | 默认设置（目前仅 `agent`、`subagentStatusLine` 键）|
+| 组件     | 位置                     | 说明                                                |
+| -------- | ------------------------ | --------------------------------------------------- |
+| Skills   | `skills/<name>/SKILL.md` | 与开放标准一致                                      |
+| Commands | `commands/*.md`          | 旧式扁平命令文件（新插件建议用 skills）             |
+| Agents   | `agents/*.md`            | 子代理定义                                          |
+| Hooks    | `hooks/hooks.json`       | 事件处理器（PreToolUse/PostToolUse/Stop 等）        |
+| MCP      | `.mcp.json`              | MCP 服务器配置                                      |
+| LSP      | `.lsp.json`              | 语言服务器（代码智能）                              |
+| Monitors | `monitors/monitors.json` | 后台监控（stdout 每行→通知）                        |
+| bin/     | `bin/`                   | 加入 PATH 的可执行文件                              |
+| settings | `settings.json`          | 默认设置（目前仅 `agent`、`subagentStatusLine` 键） |
 
 **Marketplace 清单**（`.claude-plugin/marketplace.json`）——对本项目最关键的格式：
 
@@ -160,6 +162,7 @@ hello-plugin/
 `source` 支持七种类型：相对路径（`./`）、`github`（repo/ref/sha）、`url`（git URL）、`git-subdir`（稀疏检出）、`npm`（包名/版本/私有 registry）、`archive`（HTTPS zip + sha256 校验）、`command`（本地命令产出，每 session 重跑）。
 
 分发机制：
+
 - 用户通过 `/plugin marketplace add <owner/repo>` 注册，`/plugin install <plugin>@<marketplace>` 安装
 - 官方市场 `claude-plugins-official`（Anthropic 策展）+ 社区市场 `claude-community`（提交审核制，审批后 pin commit SHA，夜间同步进 catalog）
 - 有保留名称黑名单（如 `agent-skills`、`claude-plugins-official` 等，第三方不可注册）
@@ -169,12 +172,13 @@ hello-plugin/
 
 Cursor 同时加载两种格式：
 
-| 格式 | 清单位置 | 组件范围 |
-| --- | --- | --- |
-| **Agent Plugins（开放标准）** | 根级 `plugin.json` | skills + mcp servers |
+| 格式                          | 清单位置                     | 组件范围                                                     |
+| ----------------------------- | ---------------------------- | ------------------------------------------------------------ |
+| **Agent Plugins（开放标准）** | 根级 `plugin.json`           | skills + mcp servers                                         |
 | **Cursor Plugin（私有超集）** | `.cursor-plugin/plugin.json` | rules + skills + agents + commands + hooks + mcp + variables |
 
 Cursor 私有超集的独有组件：
+
 - **Rules**（`.mdc` 文件）：frontmatter 含 `alwaysApply`、`globs`，提供持久化编码规范
 - **Variables**：manifest 里用 JSON Schema 声明变量**名**（如 API_TOKEN），真实值由用户在 Dashboard 配置，`${VAR}` 占位注入 mcp.json——这是密钥管理的优雅方案，值得借鉴
 - Hooks 事件更丰富：`beforeShellExecution`、`beforeMCPExecution`、Tab 相关 hook 等
@@ -185,12 +189,12 @@ Marketplace 清单：`.cursor-plugin/marketplace.json`，结构与 Claude 版高
 
 **Skills**：完全遵循 agentskills.io 标准。扫描路径优先级：
 
-| 范围 | 位置 |
-| --- | --- |
-| REPO | `$CWD/.agents/skills` → 上级目录 → `$REPO_ROOT/.agents/skills` |
-| USER | `$HOME/.agents/skills` |
-| ADMIN | `/etc/codex/skills` |
-| SYSTEM | OpenAI 内置 |
+| 范围   | 位置                                                           |
+| ------ | -------------------------------------------------------------- |
+| REPO   | `$CWD/.agents/skills` → 上级目录 → `$REPO_ROOT/.agents/skills` |
+| USER   | `$HOME/.agents/skills`                                         |
+| ADMIN  | `/etc/codex/skills`                                            |
+| SYSTEM | OpenAI 内置                                                    |
 
 注意 Codex 用的是**中立的 `.agents/skills` 目录**（不是 `.codex/skills`）——这是跨工具共享的关键设计。同名 skill 不合并，都会出现在选择器里。
 
@@ -232,13 +236,13 @@ npx skills list / update / remove                   # 生命周期管理
 
 安装位置映射（同一份 SKILL.md，CLI 自动放置）：
 
-| Agent | 项目级位置 |
-| --- | --- |
-| Claude Code | `.claude/skills/` |
-| Codex | `.agents/skills/` |
-| Cursor | `.cursor/skills/` |
+| Agent          | 项目级位置        |
+| -------------- | ----------------- |
+| Claude Code    | `.claude/skills/` |
+| Codex          | `.agents/skills/` |
+| Cursor         | `.cursor/skills/` |
 | GitHub Copilot | `.github/skills/` |
-| Gemini CLI | `.gemini/skills/` |
+| Gemini CLI     | `.gemini/skills/` |
 
 skills.sh 本身是目录 + 排行榜（按安装量排名，遥测匿名统计）。头部数据参考：`find-skills` 180 万+ 安装、anthropics 的 `frontend-design` 48 万+。
 
@@ -246,19 +250,20 @@ skills.sh 本身是目录 + 排行榜（按安装量排名，遥测匿名统计�
 
 ## 四、兼容性与差异对照矩阵
 
-| 能力 | 开放标准 (Agent Skills/Plugins) | Claude Code | Codex | Cursor | Gemini CLI |
-| --- | --- | --- | --- | --- | --- |
-| SKILL.md 技能 | ✅ 规范本体 | ✅ | ✅ | ✅ | ✅ |
-| 插件 manifest | ✅ 根 `plugin.json` | ✅ 但用 `.claude-plugin/` 点目录 | ✅ 支持安装 | ✅ 双格式 | ❌ 用 gemini-extension.json |
-| MCP 配置 | ✅ `mcp.json` | ✅ `.mcp.json` | ✅ config.toml | ✅ `mcp.json` | ✅ 内嵌于扩展 |
-| Rules/持久指令 | ❌ | 部分（settings/CLAUDE.md）| AGENTS.md | ✅ `.mdc` rules | GEMINI.md |
-| Subagents | ❌ | ✅ `agents/` | ❌（有 agents/openai.yaml 辅助）| ✅ `agents/` | ❌ |
-| Hooks | ❌ | ✅ | ❌ | ✅ 更丰富事件 | ❌ |
-| 变量/密钥注入 | ❌ | `${CLAUDE_PLUGIN_ROOT}` 等环境变量 | ❌ | ✅ variables schema | ❌ |
-| Marketplace 清单 | 刻意不管 | ✅ marketplace.json | 通过 plugins search | ✅ marketplace.json | ❌ |
-| 官方市场 | ❌ | ✅ 审核 pin SHA 制 | ✅ 官方 catalog | ✅ 人工审核 | ❌ |
+| 能力             | 开放标准 (Agent Skills/Plugins) | Claude Code                        | Codex                            | Cursor              | Gemini CLI                  |
+| ---------------- | ------------------------------- | ---------------------------------- | -------------------------------- | ------------------- | --------------------------- |
+| SKILL.md 技能    | ✅ 规范本体                     | ✅                                 | ✅                               | ✅                  | ✅                          |
+| 插件 manifest    | ✅ 根 `plugin.json`             | ✅ 但用 `.claude-plugin/` 点目录   | ✅ 支持安装                      | ✅ 双格式           | ❌ 用 gemini-extension.json |
+| MCP 配置         | ✅ `mcp.json`                   | ✅ `.mcp.json`                     | ✅ config.toml                   | ✅ `mcp.json`       | ✅ 内嵌于扩展               |
+| Rules/持久指令   | ❌                              | 部分（settings/CLAUDE.md）         | AGENTS.md                        | ✅ `.mdc` rules     | GEMINI.md                   |
+| Subagents        | ❌                              | ✅ `agents/`                       | ❌（有 agents/openai.yaml 辅助） | ✅ `agents/`        | ❌                          |
+| Hooks            | ❌                              | ✅                                 | ❌                               | ✅ 更丰富事件       | ❌                          |
+| 变量/密钥注入    | ❌                              | `${CLAUDE_PLUGIN_ROOT}` 等环境变量 | ❌                               | ✅ variables schema | ❌                          |
+| Marketplace 清单 | 刻意不管                        | ✅ marketplace.json                | 通过 plugins search              | ✅ marketplace.json | ❌                          |
+| 官方市场         | ❌                              | ✅ 审核 pin SHA 制                 | ✅ 官方 catalog                  | ✅ 人工审核         | ❌                          |
 
 **关键洞察**：
+
 1. `SKILL.md` 是最大公约数——任何插件库都应以它为底层资产。
 2. Agent Plugins 的 `plugin.json` + `skills/` + `mcp.json` 组合能被 Cursor 直接加载、被 Codex 安装，转换到 Claude 格式只需把 `plugin.json` 移入 `.claude-plugin/` 子目录（字段基本兼容）。
 3. Marketplace 层是「客户端各自为政」的重灾区，但两份主流 marketplace.json 结构相似度高，适合「单一源 → 多格式导出」。
@@ -308,15 +313,15 @@ ai-marketplace/
 
 ## 六、参考链接
 
-| 主题 | 链接 |
-| --- | --- |
-| Agent Skills 规范 | https://agentskills.io/specification |
-| Agent Plugins 1.0 标准 | https://agent-plugins.org/plugin-authors |
-| Agent Plugins 发布公告 | https://aws.amazon.com/cn/blogs/devops/announcing-agent-plugins-v1-0/ |
-| Claude Code 插件文档 | https://code.claude.com/docs/en/plugins |
-| Claude marketplace 格式 | https://code.claude.com/docs/en/plugin-marketplaces |
-| Cursor 插件参考 | https://cursor.com/docs/reference/plugins |
-| Codex Skills 文档 | https://developers.openai.com/codex/skills |
-| MCP Registry | https://registry.modelcontextprotocol.io/ |
-| skills.sh（Vercel） | https://skills.sh |
-| skills CLI 源码 | https://github.com/vercel-labs/skills |
+| 主题                    | 链接                                                                  |
+| ----------------------- | --------------------------------------------------------------------- |
+| Agent Skills 规范       | https://agentskills.io/specification                                  |
+| Agent Plugins 1.0 标准  | https://agent-plugins.org/plugin-authors                              |
+| Agent Plugins 发布公告  | https://aws.amazon.com/cn/blogs/devops/announcing-agent-plugins-v1-0/ |
+| Claude Code 插件文档    | https://code.claude.com/docs/en/plugins                               |
+| Claude marketplace 格式 | https://code.claude.com/docs/en/plugin-marketplaces                   |
+| Cursor 插件参考         | https://cursor.com/docs/reference/plugins                             |
+| Codex Skills 文档       | https://developers.openai.com/codex/skills                            |
+| MCP Registry            | https://registry.modelcontextprotocol.io/                             |
+| skills.sh（Vercel）     | https://skills.sh                                                     |
+| skills CLI 源码         | https://github.com/vercel-labs/skills                                 |

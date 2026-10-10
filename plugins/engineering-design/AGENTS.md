@@ -34,14 +34,14 @@ engineering-design/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 改编号或命名规则 | `skills/_shared/conventions.md` | 写作技能与 doc-clean 同时生效 |
-| 改流转方向或状态机 | `skills/_shared/lifecycle.md` | 单向流动是底线 |
-| 加新写作阶段技能 | `skills/<name>/` 三件套照抄现有结构 | 同步更新 README 技能表 |
-| 调整文风纪律 | `skills/_shared/writing-style.md` | 空话词禁用表也在这里 |
-| 改目录初始化行为 | `skills/docs-init/scripts/init_docs.mjs` | 保持幂等可重跑 |
-| 改卫生检查项 | `skills/doc-clean/references/checks.md` | 与 `scan_docs.mjs` 的 code 同步 |
+| 任务               | 位置                                     | 说明                            |
+| ------------------ | ---------------------------------------- | ------------------------------- |
+| 改编号或命名规则   | `skills/_shared/conventions.md`          | 写作技能与 doc-clean 同时生效   |
+| 改流转方向或状态机 | `skills/_shared/lifecycle.md`            | 单向流动是底线                  |
+| 加新写作阶段技能   | `skills/<name>/` 三件套照抄现有结构      | 同步更新 README 技能表          |
+| 调整文风纪律       | `skills/_shared/writing-style.md`        | 空话词禁用表也在这里            |
+| 改目录初始化行为   | `skills/docs-init/scripts/init_docs.mjs` | 保持幂等可重跑                  |
+| 改卫生检查项       | `skills/doc-clean/references/checks.md`  | 与 `scan_docs.mjs` 的 code 同步 |
 
 ## 约定
 

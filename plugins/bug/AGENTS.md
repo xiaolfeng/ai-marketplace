@@ -41,15 +41,15 @@ bug/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 改触发词与路由边界 | 三份 SKILL.md frontmatter | 负向触发器必须成对出现 |
-| 改清单字段或严重度口径 | `_shared/finding-schema.md` | 三技能唯一模板 |
-| 改证据等级或安全取证 | `_shared/evidence.md` | 升级规则与「不算证据」清单 |
-| 增删质量类别 | find-bug `references/quality-taxonomy.md` | C1–C6，安全形状只转交 |
-| 增删安全类别 | find-security-bug `references/security-taxonomy.md` | 以 OWASP:2025 为主、CWE 为辅 |
-| 改修复阶段与反模式 | fix-bug `references/debug-playbook.md` | 三次失败停手 |
-| 补触发评测 | 各技能 `evals/evals.json` | 负样本必须是近似干扰项 |
+| 任务                   | 位置                                                | 说明                         |
+| ---------------------- | --------------------------------------------------- | ---------------------------- |
+| 改触发词与路由边界     | 三份 SKILL.md frontmatter                           | 负向触发器必须成对出现       |
+| 改清单字段或严重度口径 | `_shared/finding-schema.md`                         | 三技能唯一模板               |
+| 改证据等级或安全取证   | `_shared/evidence.md`                               | 升级规则与「不算证据」清单   |
+| 增删质量类别           | find-bug `references/quality-taxonomy.md`           | C1–C6，安全形状只转交        |
+| 增删安全类别           | find-security-bug `references/security-taxonomy.md` | 以 OWASP:2025 为主、CWE 为辅 |
+| 改修复阶段与反模式     | fix-bug `references/debug-playbook.md`              | 三次失败停手                 |
+| 补触发评测             | 各技能 `evals/evals.json`                           | 负样本必须是近似干扰项       |
 
 ## 约定
 

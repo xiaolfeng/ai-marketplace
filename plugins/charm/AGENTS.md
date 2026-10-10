@@ -35,13 +35,13 @@ charm/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 增删 AI 腔病灶 | `_shared/slop-blacklist.md` | 双技能共用的唯一诊断口径 |
-| 追加写作手法 | writing `references/craft.md` | 新条目必须标注 W*/经典出处 |
-| 追加口语特征 | speaking `references/speech-signals.md` | S* 编号对应，移植推断需显式声明 |
-| 更新参考文献 | `_shared/human-sources.md` | 附取用纪律，先读再加 |
-| 调整两技能边界 | 两份 frontmatter description | 互为对方的负向触发器 |
+| 任务           | 位置                                    | 说明                            |
+| -------------- | --------------------------------------- | ------------------------------- |
+| 增删 AI 腔病灶 | `_shared/slop-blacklist.md`             | 双技能共用的唯一诊断口径        |
+| 追加写作手法   | writing `references/craft.md`           | 新条目必须标注 W*/经典出处      |
+| 追加口语特征   | speaking `references/speech-signals.md` | S* 编号对应，移植推断需显式声明 |
+| 更新参考文献   | `_shared/human-sources.md`              | 附取用纪律，先读再加            |
+| 调整两技能边界 | 两份 frontmatter description            | 互为对方的负向触发器            |
 
 ## 约定
 

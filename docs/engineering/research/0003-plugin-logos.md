@@ -48,12 +48,12 @@
 
 ### 2.2 视觉字段说明
 
-| 字段 | 类型 | 用途 |
-| --- | --- | --- |
-| `logo` | 相对路径 | 插件目录/详情页的主 logo |
+| 字段           | 类型     | 用途                             |
+| -------------- | -------- | -------------------------------- |
+| `logo`         | 相对路径 | 插件目录/详情页的主 logo         |
 | `composerIcon` | 相对路径 | 输入框/composer 场景的小尺寸图标 |
-| `screenshots` | 路径数组 | 安装页截图轮播 |
-| `brandColor` | 颜色串 | 品牌主色（可空）|
+| `screenshots`  | 路径数组 | 安装页截图轮播                   |
+| `brandColor`   | 颜色串   | 品牌主色（可空）                 |
 
 ### 2.3 工作机制
 
@@ -81,12 +81,12 @@
 
 2025-10-17 版 schema 中 `ServerDetail.icons` 是结构化数组，每项：
 
-| 字段 | 说明 |
-| --- | --- |
-| `src` | 必需，HTTPS URI（≤255 字符）|
-| `mimeType` | 可选覆盖：png/jpeg/jpg/svg+xml/webp |
-| `sizes` | `"48x48"`、`"96x96"`… 或 `"any"`（SVG）|
-| `theme` | `light` / `dark`（明暗两套图）|
+| 字段       | 说明                                    |
+| ---------- | --------------------------------------- |
+| `src`      | 必需，HTTPS URI（≤255 字符）            |
+| `mimeType` | 可选覆盖：png/jpeg/jpg/svg+xml/webp     |
+| `sizes`    | `"48x48"`、`"96x96"`… 或 `"any"`（SVG） |
+| `theme`    | `light` / `dark`（明暗两套图）          |
 
 配套的兼容性要求：客户端 **MUST** 支持 png/jpeg，**SHOULD** 支持 svg/webp；schema 明确警告 SVG 可能内嵌 JS，消费端需防护。这是目前设计最完备的 icon 元数据模型。
 
@@ -121,16 +121,17 @@ SKILL.md 规范不含图像字段，skills.sh 列表以文字 + 排行数据为�
 
 ## 四、机制横向对比
 
-| 平台 | 声明位置 | 取值形式 | 渲染来源 | 多尺寸/主题 |
-| --- | --- | --- | --- | --- |
-| Codex | `.codex-plugin/plugin.json` → `interface.logo` + `composerIcon` | 相对路径 `./assets/…` | 本地插件缓存文件 | 两档图标（大/小），无主题区分 |
-| Cursor | `plugin.json` 顶层 `logo` | 相对路径或绝对 URL | 解析为 raw.githubusercontent（按 commit SHA 固定）| 单图 |
-| MCP Registry | `server.json` → `icons[]` | HTTPS URL 数组 | 远程拉取 | ✅ sizes + theme |
-| Agent Plugins 标准 | ❌（走 `extensions` 私有命名空间）| 由客户端自定义 | — | 交给客户端 |
-| Claude Code | ❌ 不支持 | — | 默认占位图 | — |
-| ZCode | ❌ 不支持 | — | 纯文字详情页 | — |
+| 平台               | 声明位置                                                        | 取值形式              | 渲染来源                                           | 多尺寸/主题                   |
+| ------------------ | --------------------------------------------------------------- | --------------------- | -------------------------------------------------- | ----------------------------- |
+| Codex              | `.codex-plugin/plugin.json` → `interface.logo` + `composerIcon` | 相对路径 `./assets/…` | 本地插件缓存文件                                   | 两档图标（大/小），无主题区分 |
+| Cursor             | `plugin.json` 顶层 `logo`                                       | 相对路径或绝对 URL    | 解析为 raw.githubusercontent（按 commit SHA 固定） | 单图                          |
+| MCP Registry       | `server.json` → `icons[]`                                       | HTTPS URL 数组        | 远程拉取                                           | ✅ sizes + theme              |
+| Agent Plugins 标准 | ❌（走 `extensions` 私有命名空间）                              | 由客户端自定义        | —                                                  | 交给客户端                    |
+| Claude Code        | ❌ 不支持                                                       | —                     | 默认占位图                                         | —                             |
+| ZCode              | ❌ 不支持                                                       | —                     | 纯文字详情页                                       | —                             |
 
 **三种工程流派**：
+
 1. **随包分发**：logo 与代码同仓同版（Codex/Cursor）——离线可用、版本一致，代价是仓库膨胀；
 2. **元数据外链**：registry 只存 URL（MCP）——灵活、可 CDN 化，代价是链接失效与供应链风险（故强制 HTTPS + 同域建议）；
 3. **平台代偿**：无字段时用 GitHub 头像/OG 图兜底（第三方站通用做法）。
@@ -152,11 +153,11 @@ SKILL.md 规范不含图像字段，skills.sh 列表以文字 + 排行数据为�
 
 ## 六、参考链接
 
-| 主题 | 链接 |
-| --- | --- |
-| Codex 插件构建文档（interface 字段权威定义）| https://developers.openai.com/codex/plugins/build |
-| openai/plugins 官方插件库 | https://github.com/openai/plugins |
-| build-web-apps 真实 manifest 案例 | https://github.com/openai/plugins/blob/main/plugins/build-web-apps/.codex-plugin/plugin.json |
-| Agent Plugins manifest（封闭 schema + extensions）| https://agent-plugins.org/plugin-authors/manifest |
-| MCP server.schema.json（icons 定义）| https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json |
-| Claude Code 图标 feature request | https://github.com/anthropics/claude-code/issues/28187 |
+| 主题                                               | 链接                                                                                         |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Codex 插件构建文档（interface 字段权威定义）       | https://developers.openai.com/codex/plugins/build                                            |
+| openai/plugins 官方插件库                          | https://github.com/openai/plugins                                                            |
+| build-web-apps 真实 manifest 案例                  | https://github.com/openai/plugins/blob/main/plugins/build-web-apps/.codex-plugin/plugin.json |
+| Agent Plugins manifest（封闭 schema + extensions） | https://agent-plugins.org/plugin-authors/manifest                                            |
+| MCP server.schema.json（icons 定义）               | https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json                 |
+| Claude Code 图标 feature request                   | https://github.com/anthropics/claude-code/issues/28187                                       |

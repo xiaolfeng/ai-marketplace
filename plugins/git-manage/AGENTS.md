@@ -28,13 +28,13 @@ git-manage/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 改提交信息规范 | `skills/git-commit/SKILL.md` | 类型表、作用域优先级都在正文 |
-| 加特殊提交场景处置 | `skills/git-commit/references/edge-cases.md` | 按 E 编号条目式追加 |
-| 改分支操作安全规则 | `skills/_shared/branch-safety.md` | 两技能同时生效 |
-| 调整触发词 | 各 `SKILL.md` frontmatter 的 `description` | 触发匹配的唯一依据 |
-| 补示例 | `skills/git-commit/examples/` | 好坏对照必须成对出现 |
+| 任务               | 位置                                         | 说明                         |
+| ------------------ | -------------------------------------------- | ---------------------------- |
+| 改提交信息规范     | `skills/git-commit/SKILL.md`                 | 类型表、作用域优先级都在正文 |
+| 加特殊提交场景处置 | `skills/git-commit/references/edge-cases.md` | 按 E 编号条目式追加          |
+| 改分支操作安全规则 | `skills/_shared/branch-safety.md`            | 两技能同时生效               |
+| 调整触发词         | 各 `SKILL.md` frontmatter 的 `description`   | 触发匹配的唯一依据           |
+| 补示例             | `skills/git-commit/examples/`                | 好坏对照必须成对出现         |
 
 ## 约定
 

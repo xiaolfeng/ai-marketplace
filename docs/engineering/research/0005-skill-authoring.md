@@ -15,11 +15,11 @@ engineering-design 插件当前的三份技能只有「描述性规则」，存�
 
 ### 核心原则
 
-| 原则 | 要点 |
-| --- | --- |
-| 简洁至上 | 上下文窗口是公共资源。默认假设模型已经很聪明，只写它不知道的；每段都要证明自己值得占用的 token |
+| 原则       | 要点                                                                                                       |
+| ---------- | ---------------------------------------------------------------------------------------------------------- |
+| 简洁至上   | 上下文窗口是公共资源。默认假设模型已经很聪明，只写它不知道的；每段都要证明自己值得占用的 token             |
 | 自由度分级 | 按「任务出错代价」匹配指引强度：易碎操作给死命令（低自由度），有惯例给模板（中），靠判断力的给启发式（高） |
-| 评估先行 | 先建评估场景再写文档——解决真实问题，而不是想象中的问题 |
+| 评估先行   | 先建评估场景再写文档——解决真实问题，而不是想象中的问题                                                     |
 
 ### description 写法（决定技能能否被发现）
 
@@ -42,7 +42,7 @@ SKILL.md 是目录页不是百科全书（正文 <500 行）：
 
 **① 示例模式（Examples pattern）**：输出质量依赖「见过好样子」的技能，
 直接给 input/output 对照组，比任何描述都有效。官方明确：
-*示例传达风格与详略水平的能力强于描述*。
+_示例传达风格与详略水平的能力强于描述_。
 
 **② 模板模式（Template pattern)**：区分两种严格度——
 格式必须精确时用「ALWAYS use this exact template」；
@@ -91,19 +91,19 @@ SKILL.md 是目录页不是百科全书（正文 <500 行）：
 
 ## 三、对 engineering-design 插件的应用方案
 
-| 缺陷 | 对策 | 来源 |
-| --- | --- | --- |
-| 无示例 | 每个技能加 `references/example.md`：同主题的好例 vs 坏例对照 | 官方 Examples pattern |
-| 无模板 | SKILL.md 内嵌严格骨架（代码块给出），区分「固定块」与「灵活块」 | Template pattern |
-| 无分层 | SKILL.md 精简为入口；细节下沉 references/，引用保持一层深 | 渐进披露 |
-| AI 腔 | `_shared/writing-style.md` 共享输出纪律：正面风格 + 中文负面清单 + 删减测试 | Anti-Slop |
-| 流程模糊 | 操作步骤配可复制的检查清单 | Workflow pattern |
-| 自由度错配 | 编号/命名 = 低自由度死命令；文体结构 = 中自由度模板；行文语气 = 高自由度原则 | 自由度分级 |
+| 缺陷       | 对策                                                                         | 来源                  |
+| ---------- | ---------------------------------------------------------------------------- | --------------------- |
+| 无示例     | 每个技能加 `references/example.md`：同主题的好例 vs 坏例对照                 | 官方 Examples pattern |
+| 无模板     | SKILL.md 内嵌严格骨架（代码块给出），区分「固定块」与「灵活块」              | Template pattern      |
+| 无分层     | SKILL.md 精简为入口；细节下沉 references/，引用保持一层深                    | 渐进披露              |
+| AI 腔      | `_shared/writing-style.md` 共享输出纪律：正面风格 + 中文负面清单 + 删减测试  | Anti-Slop             |
+| 流程模糊   | 操作步骤配可复制的检查清单                                                   | Workflow pattern      |
+| 自由度错配 | 编号/命名 = 低自由度死命令；文体结构 = 中自由度模板；行文语气 = 高自由度原则 | 自由度分级            |
 
 ## 参考
 
-| 主题 | 链接 |
-| --- | --- |
-| Anthropic Skill authoring best practices | https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices |
-| Anti-Slop AI Writing Guide | https://github.com/louisfb01/ai-engineering-cheatsheets/blob/main/Anti_Slop_AI_Writing_Guide.md |
-| Claude prompting best practices | https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices |
+| 主题                                     | 链接                                                                                                     |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Anthropic Skill authoring best practices | https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices                         |
+| Anti-Slop AI Writing Guide               | https://github.com/louisfb01/ai-engineering-cheatsheets/blob/main/Anti_Slop_AI_Writing_Guide.md          |
+| Claude prompting best practices          | https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices |

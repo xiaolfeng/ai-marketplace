@@ -29,27 +29,27 @@ ai-marketplace/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 新增或修改插件 | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步 |
-| 发布前校验 | 三连命令见「常用命令」 | 本地全绿再提 PR |
-| 写工程文档 | `docs/engineering/` 五阶段目录 | 各阶段独立四位编号，技能代写；整理走 doc-clean |
-| 查或登记 Scope | `docs/scope-manage.md` | Git 提交与工程文档共用词表 |
-| 找某层的就地规则 | 见「引用」段各层知识库 | 就近生效，离被编辑文件最近的胜出 |
+| 任务             | 位置                                        | 说明                                           |
+| ---------------- | ------------------------------------------- | ---------------------------------------------- |
+| 新增或修改插件   | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步                       |
+| 发布前校验       | 三连命令见「常用命令」                      | 本地全绿再提 PR                                |
+| 写工程文档       | `docs/engineering/` 五阶段目录              | 各阶段独立四位编号，技能代写；整理走 doc-clean |
+| 查或登记 Scope   | `docs/scope-manage.md`                      | Git 提交与工程文档共用词表                     |
+| 找某层的就地规则 | 见「引用」段各层知识库                      | 就近生效，离被编辑文件最近的胜出               |
 
 ## 模块架构
 
-| 子系统 | 位置 | 职责 |
-| --- | --- | --- |
-| 清单源 | `.claude-plugin/marketplace.json` | 唯一手写的市场索引 |
-| 插件层 | `plugins/<name>/` | 七个独立插件，互不依赖代码 |
-| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式 |
-| 文档层 | `docs/` | 上架标准、scope 总账、五阶段工程文档 |
+| 子系统 | 位置                                                 | 职责                                 |
+| ------ | ---------------------------------------------------- | ------------------------------------ |
+| 清单源 | `.claude-plugin/marketplace.json`                    | 唯一手写的市场索引                   |
+| 插件层 | `plugins/<name>/`                                    | 七个独立插件，互不依赖代码           |
+| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式         |
+| 文档层 | `docs/`                                              | 上架标准、scope 总账、五阶段工程文档 |
 
 ## 代码地图
 
-| 符号 | 类型 | 位置 | 作用 |
-| --- | --- | --- | --- |
+| 符号               | 类型 | 位置                                | 作用                                      |
+| ------------------ | ---- | ----------------------------------- | ----------------------------------------- |
 | `toCursorManifest` | 函数 | `scripts/build-cursor-manifest.mjs` | Claude 条目按白名单字段透传为 Cursor 清单 |
 
 ## 独特风格
@@ -64,7 +64,7 @@ ai-marketplace/
 1. 添加插件或更新版本号后，除同步 marketplace.json 条目（含 version）外，
    必须同步更新根 `README.md` 的插件列表（版本取值以 manifest 为准，缺一即门面
    数据脱钩），并运行：`claude plugin validate . && npx skills add . --list &&
-   npm run build`；
+npm run build`；
 2. 插件命名 kebab-case；SKILL.md 的 `name` 与目录名一致，`description` 写清触发场景且 ≤1024 字符；
 3. `skills/` 目录保持单层结构，不使用嵌套分组；
 4. 不引入任何运行时依赖；构建脚本保持零依赖 Node（>=18）可执行；

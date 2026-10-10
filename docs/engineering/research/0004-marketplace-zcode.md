@@ -31,15 +31,16 @@
 
 `marketplace.json` 与 Claude 版对照：
 
-| 能力 | ZCode | Claude Code |
-| --- | --- | --- |
-| 顶层字段 | name/description/plugins/pluginRoot/allowCrossMarketplaceDependenciesOn | 相同 |
-| source 类型 | 相对路径 / directory / github(repo+path+ref) / git(url+path+ref) / file / url(可带 headers) / npm | github/url/git-subdir/npm/archive/command |
-| 插件依赖 | `name@market` 或同市场裸 `name` | `name@marketplace` |
-| strict 字段 | 有 | 有 |
-| 用户配置扩展 | `userConfig`（界面化配置项：type/title/default/required/sensitive，`${user_config.键}` 在 mcp.json 中引用）| pluginConfigs |
+| 能力         | ZCode                                                                                                       | Claude Code                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 顶层字段     | name/description/plugins/pluginRoot/allowCrossMarketplaceDependenciesOn                                     | 相同                                      |
+| source 类型  | 相对路径 / directory / github(repo+path+ref) / git(url+path+ref) / file / url(可带 headers) / npm           | github/url/git-subdir/npm/archive/command |
+| 插件依赖     | `name@market` 或同市场裸 `name`                                                                             | `name@marketplace`                        |
+| strict 字段  | 有                                                                                                          | 有                                        |
+| 用户配置扩展 | `userConfig`（界面化配置项：type/title/default/required/sensitive，`${user_config.键}` 在 mcp.json 中引用） | pluginConfigs                             |
 
 差异点：
+
 - ZCode 的 `channels` / `lspServers` / `outputStyles` / `settings` 字段**仅登记不执行**（诊断提示，不影响其他组件加载）；
 - `userConfig.sensitive` 敏感值暂不支持界面填写；
 - 插件内 skills 必须单层目录，嵌套分组目录里的技能不会被 Agent 识别；
@@ -71,11 +72,11 @@
 
 ## 三、对插件库的影响评估
 
-| 维度 | 影响 |
-| --- | --- |
-| 分发覆盖 | ✅ 现有方案零成本新增一个客户端：Claude marketplace 格式清单 → ZCode 手动添加仓库源即可使用 |
-| 需要避开的坑 | 插件内 skills 保持单层目录；不要依赖 `lspServers`/`settings` 等 ZCode 不执行的字段；版本号需同步更新 marketplace.json 条目（ZCode 以条目 version 判更新）|
-| 潜在机会 | ZCode 商店的「公开」目录来自官方收录——若插件质量高可争取进入其精选；`userConfig` 可作为比 Cursor variables 更进一步的用户配置声明参考 |
+| 维度         | 影响                                                                                                                                                      |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 分发覆盖     | ✅ 现有方案零成本新增一个客户端：Claude marketplace 格式清单 → ZCode 手动添加仓库源即可使用                                                               |
+| 需要避开的坑 | 插件内 skills 保持单层目录；不要依赖 `lspServers`/`settings` 等 ZCode 不执行的字段；版本号需同步更新 marketplace.json 条目（ZCode 以条目 version 判更新） |
+| 潜在机会     | ZCode 商店的「公开」目录来自官方收录——若插件质量高可争取进入其精选；`userConfig` 可作为比 Cursor variables 更进一步的用户配置声明参考                     |
 
 **结论**：「以 Claude marketplace 格式为单一事实源」的策略经 ZCode 验证再次加分——这一份格式现已覆盖 Claude Code、Codex（legacy 兼容读取）、Vercel 双安装器、ZCode 四类消费方。
 
@@ -83,10 +84,10 @@
 
 ## 四、参考链接
 
-| 主题 | 链接 |
-| --- | --- |
-| ZCode Skill 官方文档 | https://zcode.z.ai/cn/docs/skill |
-| ZCode Plugin 官方文档（含字段速查）| https://zcode.z.ai/cn/docs/plugin |
-| ZCode 产品页 | https://zcode.z.ai/cn |
-| 智谱开放平台 ZCode 文档 | https://docs.bigmodel.cn/cn/coding-plan/tool/zcode |
-| zai-org 官方插件市场（Claude 格式分发实例）| https://github.com/zai-org/zai-coding-plugins |
+| 主题                                        | 链接                                               |
+| ------------------------------------------- | -------------------------------------------------- |
+| ZCode Skill 官方文档                        | https://zcode.z.ai/cn/docs/skill                   |
+| ZCode Plugin 官方文档（含字段速查）         | https://zcode.z.ai/cn/docs/plugin                  |
+| ZCode 产品页                                | https://zcode.z.ai/cn                              |
+| 智谱开放平台 ZCode 文档                     | https://docs.bigmodel.cn/cn/coding-plan/tool/zcode |
+| zai-org 官方插件市场（Claude 格式分发实例） | https://github.com/zai-org/zai-coding-plugins      |

@@ -29,14 +29,14 @@ discovery/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 改扫描或校验逻辑 | `skills/deep-init/scripts/*.mjs` | 保持零依赖 Node ≥18 |
-| 改同步标记格式或正文模板 | `references/templates.md` | 标记定义、模板与字段速查都在此 |
-| 加边界情况处置 | `references/edge-cases.md` | E1~E7 编号条目式追加 |
-| 增加可选文档候选 | `references/optional-docs.md` / `ai-rules.md` | 信号 → 候选速查表各管一类 |
-| 对齐产出口吻 | `examples/root-agents.md` 等 | 动笔前先读黄金样例 |
-| 调整触发词 | `SKILL.md` frontmatter 的 `description` | 触发匹配的唯一依据 |
+| 任务                     | 位置                                          | 说明                           |
+| ------------------------ | --------------------------------------------- | ------------------------------ |
+| 改扫描或校验逻辑         | `skills/deep-init/scripts/*.mjs`              | 保持零依赖 Node ≥18            |
+| 改同步标记格式或正文模板 | `references/templates.md`                     | 标记定义、模板与字段速查都在此 |
+| 加边界情况处置           | `references/edge-cases.md`                    | E1~E7 编号条目式追加           |
+| 增加可选文档候选         | `references/optional-docs.md` / `ai-rules.md` | 信号 → 候选速查表各管一类      |
+| 对齐产出口吻             | `examples/root-agents.md` 等                  | 动笔前先读黄金样例             |
+| 调整触发词               | `SKILL.md` frontmatter 的 `description`       | 触发匹配的唯一依据             |
 
 ## 约定
 

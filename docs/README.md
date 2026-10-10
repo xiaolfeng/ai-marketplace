@@ -2,13 +2,13 @@
 
 工程文档统一落在 [`engineering/`](./engineering/) 下，按「草案 → 调研 → 提案 → 决策」的生命周期分块：
 
-| 目录 | 定位 | 何时写入 |
-| --- | --- | --- |
-| [`engineering/draft/`](./engineering/draft/) | 草案——钉住困惑与初步想法 | 想法未收敛、证据不足时先记一笔 |
-| [`engineering/research/`](./engineering/research/) | 调研笔记——记录「现状是什么」 | 需要摸清外部标准、竞品或技术机制时 |
-| [`engineering/rfc/`](./engineering/rfc/) | 提案——主张「建议怎么做」，尚待讨论收敛 | 方案方向基本成形、需要评审与反馈时 |
-| [`engineering/design/`](./engineering/design/) | 设计——方向已接受后写清具体怎样工作 | 预留目录，写作技能待补 |
-| [`engineering/adr/`](./engineering/adr/) | 架构决策记录（ADR）——沉淀「最终定了什么、为什么」 | 提案被接受后冻结为长期约束时 |
+| 目录                                               | 定位                                              | 何时写入                           |
+| -------------------------------------------------- | ------------------------------------------------- | ---------------------------------- |
+| [`engineering/draft/`](./engineering/draft/)       | 草案——钉住困惑与初步想法                          | 想法未收敛、证据不足时先记一笔     |
+| [`engineering/research/`](./engineering/research/) | 调研笔记——记录「现状是什么」                      | 需要摸清外部标准、竞品或技术机制时 |
+| [`engineering/rfc/`](./engineering/rfc/)           | 提案——主张「建议怎么做」，尚待讨论收敛            | 方案方向基本成形、需要评审与反馈时 |
+| [`engineering/design/`](./engineering/design/)     | 设计——方向已接受后写清具体怎样工作                | 预留目录，写作技能待补             |
+| [`engineering/adr/`](./engineering/adr/)           | 架构决策记录（ADR）——沉淀「最终定了什么、为什么」 | 提案被接受后冻结为长期约束时       |
 
 ## 命名规范
 

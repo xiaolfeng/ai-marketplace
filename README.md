@@ -8,11 +8,11 @@
 所有插件以 [Agent Skills](https://agentskills.io/specification) 规范编写，以 Claude marketplace 格式作为单一清单源，
 因此可以被以下三条通道直接消费，无需任何转换：
 
-| 客户端 / 工具 | 安装命令 |
-| --- | --- |
-| Claude Code | ```/plugin marketplace add xiaolfeng/ai-marketplace``` |
-| 任意支持 Agent Skills 的 agent（78+） | ```npx skills add xiaolfeng/ai-marketplace``` |
-| Claude Code / Cursor 插件安装器 | ```npx plugins add xiaolfeng/ai-marketplace``` |
+| 客户端 / 工具                         | 安装命令                                           |
+| ------------------------------------- | -------------------------------------------------- |
+| Claude Code                           | `/plugin marketplace add xiaolfeng/ai-marketplace` |
+| 任意支持 Agent Skills 的 agent（78+） | `npx skills add xiaolfeng/ai-marketplace`          |
+| Claude Code / Cursor 插件安装器       | `npx plugins add xiaolfeng/ai-marketplace`         |
 
 ## ✨ 特性
 
@@ -38,15 +38,15 @@ ai-marketplace/
 
 ## 🧩 插件列表
 
-| 插件 | 说明 | 版本 |
-| --- | --- | --- |
-| [git-manage](./plugins/git-manage/) | Git 工作流管理：分析 diff 生成规范化中文提交信息，scope 统一业务域词表 | 0.0.1 |
-| [discovery](./plugins/discovery/) | 项目知识库构建：由内到外生成分层 AGENTS.md，让 AI 快速看懂项目 | 0.0.3 |
-| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→adr 全链路 + docs-init 初始化 + doc-clean 卫生整理 | 0.0.3 |
-| [research](./plugins/research/) | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告 | 0.0.1 |
-| [charm](./plugins/charm/) | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造 | 0.0.1 |
-| [html](./plugins/html/) | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
-| [bug](./plugins/bug/) | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复 | 0.0.1 |
+| 插件                                                | 说明                                                                                                                     | 版本  |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
+| [git-manage](./plugins/git-manage/)                 | Git 工作流管理：分析 diff 生成规范化中文提交信息，scope 统一业务域词表                                                   | 0.0.1 |
+| [discovery](./plugins/discovery/)                   | 项目知识库构建：由内到外生成分层 AGENTS.md，让 AI 快速看懂项目                                                           | 0.0.3 |
+| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→adr 全链路 + docs-init 初始化 + doc-clean 卫生整理                                  | 0.0.4 |
+| [research](./plugins/research/)                     | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告                                                            | 0.0.2 |
+| [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                          | 0.0.1 |
+| [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
+| [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                       | 0.0.1 |
 
 ## ➕ 如何添加插件
 

@@ -25,13 +25,13 @@ metadata:
 
 ## 资源地图
 
-| 需要什么 | 去哪里 |
-| --- | --- |
-| 同步标记格式与两套正文模板 | [references/templates.md](references/templates.md) |
-| 边界情况处置手册 | [references/edge-cases.md](references/edge-cases.md) |
-| 根位置可选文档（ARCHITECTURE 等）的取舍与骨架 | [references/optional-docs.md](references/optional-docs.md) |
-| AI 定制规则的分层归属与多工具同步策略 | [references/ai-rules.md](references/ai-rules.md) |
-| 成品长什么样（黄金样例） | [examples/root-agents.md](examples/root-agents.md) · [examples/submodule-agents.md](examples/submodule-agents.md) |
+| 需要什么                                      | 去哪里                                                                                                            |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 同步标记格式与两套正文模板                    | [references/templates.md](references/templates.md)                                                                |
+| 边界情况处置手册                              | [references/edge-cases.md](references/edge-cases.md)                                                              |
+| 根位置可选文档（ARCHITECTURE 等）的取舍与骨架 | [references/optional-docs.md](references/optional-docs.md)                                                        |
+| AI 定制规则的分层归属与多工具同步策略         | [references/ai-rules.md](references/ai-rules.md)                                                                  |
+| 成品长什么样（黄金样例）                      | [examples/root-agents.md](examples/root-agents.md) · [examples/submodule-agents.md](examples/submodule-agents.md) |
 
 ## 执行流程
 
@@ -61,11 +61,11 @@ node <skill_dir>/scripts/scan.mjs <项目根目录>
 对每个候选目录回答一个问题：它是否有**独立的架构约定**，以至于 AI 在其中
 工作时需要一份就地导航？
 
-| 信号 | 结论 |
-| --- | --- |
-| 有自己的分层模式或编码约定，与项目其他部分不同 | 分层 |
-| 子目录各自成体系（≥3 个可独立描述的子系统） | 分层 |
-| 只是同类文件的集合，或完全遵循上层规则 | 不分层，交给上层约束 |
+| 信号                                           | 结论                 |
+| ---------------------------------------------- | -------------------- |
+| 有自己的分层模式或编码约定，与项目其他部分不同 | 分层                 |
+| 子目录各自成体系（≥3 个可独立描述的子系统）    | 分层                 |
+| 只是同类文件的集合，或完全遵循上层规则         | 不分层，交给上层约束 |
 
 阈值为经验值而非硬线：4 个文件但承载核心约定的目录值得分层；
 20 个文件的扁平工具目录可能不值得。拿不准时不分层——少而准胜过多而滥。
@@ -117,12 +117,12 @@ WARN 属提醒：确属不需要的段落可忽略，但要在回报中说明。
 
 唯一允许提问的封闭清单，之外一律直接执行：
 
-| 编号 | 触发情形 | 动作 |
-| --- | --- | --- |
-| Q1 | 根目录已有 `CLAUDE.md` 且内容 ≠ `@AGENTS.md` | 三选一：保留不动（推荐）/ 追加一行引用 / 覆盖重写 |
-| Q2 | 存量 `AGENTS.md` 无同步标记 | 三选一：另存 deep-init 版本 / 征得同意后改造并入 / 放弃该文件 |
-| Q3 | 目标不是 git 仓库 | 说明增量能力不可用：降级继续（不写标记）或先 `git init` |
-| Q4 | 根位置命中可选文件信号 | 候选来自 [references/optional-docs.md](references/optional-docs.md)（公约类）与 [references/ai-rules.md](references/ai-rules.md)（AI 定制类），多选一次问完 |
+| 编号 | 触发情形                                     | 动作                                                                                                                                                        |
+| ---- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q1   | 根目录已有 `CLAUDE.md` 且内容 ≠ `@AGENTS.md` | 三选一：保留不动（推荐）/ 追加一行引用 / 覆盖重写                                                                                                           |
+| Q2   | 存量 `AGENTS.md` 无同步标记                  | 三选一：另存 deep-init 版本 / 征得同意后改造并入 / 放弃该文件                                                                                               |
+| Q3   | 目标不是 git 仓库                            | 说明增量能力不可用：降级继续（不写标记）或先 `git init`                                                                                                     |
+| Q4   | 根位置命中可选文件信号                       | 候选来自 [references/optional-docs.md](references/optional-docs.md)（公约类）与 [references/ai-rules.md](references/ai-rules.md)（AI 定制类），多选一次问完 |
 
 问询用带选项的多选题形式一次一个，选项附影响说明并标注推荐项；得到答复立即继续，
 不复述、不再二次确认。

@@ -12,13 +12,13 @@ metadata:
 
 ## 资源地图
 
-| 资源 | 位置 |
-| --- | --- |
-| 空白 HTML 起手模板 | [references/template.html](references/template.html)（只提供自由页面壳层，不规定组件与画布尺寸） |
-| SVG 语义、几何、标签和密度规范 | [references/svg-design.md](references/svg-design.md) |
-| 页面、移动端、交互和导出规范 | [references/html-scaffolding.md](references/html-scaffolding.md) |
-| 中性 SVG 组件（模板内容从这里选） | [references/components/README.md](references/components/README.md) |
-| 通用完整示例 | [examples/example.html](examples/example.html) |
+| 资源                              | 位置                                                                                             |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 空白 HTML 起手模板                | [references/template.html](references/template.html)（只提供自由页面壳层，不规定组件与画布尺寸） |
+| SVG 语义、几何、标签和密度规范    | [references/svg-design.md](references/svg-design.md)                                             |
+| 页面、移动端、交互和导出规范      | [references/html-scaffolding.md](references/html-scaffolding.md)                                 |
+| 中性 SVG 组件（模板内容从这里选） | [references/components/README.md](references/components/README.md)                               |
+| 通用完整示例                      | [examples/example.html](examples/example.html)                                                   |
 
 ## 执行流程
 

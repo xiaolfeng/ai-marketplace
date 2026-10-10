@@ -20,12 +20,12 @@ draft ──► research ──► rfc ──► adr
 
 ## 状态机
 
-| 阶段 | 合法状态 | 新建默认 |
-| --- | --- | --- |
-| draft | `open` → `resolved` / `superseded` | `open` |
-| research | 无状态；头部记调研日期 | — |
-| rfc | `draft` → `in-review` → `accepted` / `rejected` / `superseded` | `draft` |
-| adr | `proposed` → `accepted` / `rejected` / `superseded` | `proposed` |
+| 阶段     | 合法状态                                                       | 新建默认   |
+| -------- | -------------------------------------------------------------- | ---------- |
+| draft    | `open` → `resolved` / `superseded`                             | `open`     |
+| research | 无状态；头部记调研日期                                         | —          |
+| rfc      | `draft` → `in-review` → `accepted` / `rejected` / `superseded` | `draft`    |
+| adr      | `proposed` → `accepted` / `rejected` / `superseded`            | `proposed` |
 
 四条纪律：
 

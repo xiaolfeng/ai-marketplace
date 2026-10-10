@@ -21,10 +21,10 @@ description: >
 
 从用户的话里提取两个分支，解析规则：
 
-| 用户说 | 源分支 | 目标分支 |
-| --- | --- | --- |
-| 「把 feature/x 合并到 main」「merge feat into main」 | `feature/x` | `main` |
-| 「把 feature/x 合并进来」（只提一个分支） | `feature/x` | 当前分支 |
+| 用户说                                               | 源分支      | 目标分支 |
+| ---------------------------------------------------- | ----------- | -------- |
+| 「把 feature/x 合并到 main」「merge feat into main」 | `feature/x` | `main`   |
+| 「把 feature/x 合并进来」（只提一个分支）            | `feature/x` | 当前分支 |
 
 一个分支名都没提时不要猜：用 `git branch` 列出本地分支让用户指定源与目标后再继续。
 

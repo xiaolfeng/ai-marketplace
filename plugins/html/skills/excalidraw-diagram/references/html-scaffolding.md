@@ -22,7 +22,7 @@ Excalidraw 网页模板采用单一文件自由壳层架构，在保留完整原
   <div class="diagram-panel" id="diagram-panel">
     <div class="viewport-controls">...</div>
     <svg id="main-diagram-svg" class="diagram-canvas">
-      <rect width="100%" height="100%" fill="url(#grid-pattern)"/>
+      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
       <g id="excalidraw-content"></g>
     </svg>
   </div>
@@ -34,13 +34,13 @@ Excalidraw 网页模板采用单一文件自由壳层架构，在保留完整原
 
 <!-- 单一事实源：原生 Excalidraw JSON 数据 -->
 <script type="application/json" id="excalidraw-data">
-{
-  "type": "excalidraw",
-  "version": 2,
-  "source": "https://excalidraw.com",
-  "elements": [ ... ],
-  "appState": { ... }
-}
+  {
+    "type": "excalidraw",
+    "version": 2,
+    "source": "https://excalidraw.com",
+    "elements": [ ... ],
+    "appState": { ... }
+  }
 </script>
 ```
 
@@ -59,16 +59,53 @@ Excalidraw 网页模板采用单一文件自由壳层架构，在保留完整原
 
 ```css
 @media (max-width: 768px) {
-  body { padding: 1.25rem 0.75rem; overflow-x: hidden; }
-  .container { width: 100%; min-width: 0; max-width: 100%; }
-  .hero-top-bar { flex-direction: column; align-items: stretch; gap: 0.85rem; }
-  .toolbar-flat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; }
-  .btn { width: 100%; min-width: 0; justify-content: center; font-size: 0.75rem; }
-  .btn-theme-toggle { grid-column: span 2; }
-  .hero-main h1 { font-size: 1.6rem; overflow-wrap: anywhere; word-break: break-word; }
-  .diagram-panel { height: 480px; min-height: 380px; }
-  .legend-grid, .spec-cards { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-  .footer { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  body {
+    padding: 1.25rem 0.75rem;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hero-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+  .toolbar-flat {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+  .btn {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+  .btn-theme-toggle {
+    grid-column: span 2;
+  }
+  .hero-main h1 {
+    font-size: 1.6rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .diagram-panel {
+    height: 480px;
+    min-height: 380px;
+  }
+  .legend-grid,
+  .spec-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
 }
 ```
 

@@ -4,13 +4,13 @@
 
 视觉以 [example.html](../../examples/example.html) 的 SVG 为基准：低对比度蓝图网格、淡色虚线区域、带不透明底衬的着色节点、内联线性图标，以及不带背景框的连线标签。示例中的具体业务文案不进入组件。
 
-| 文件 | 用途 |
-| --- | --- |
-| [node-and-flow.svg](node-and-flow.svg) | 标准叶子节点、宽主节点、内部分区与同步流 |
-| [stream-flow.svg](stream-flow.svg) | 输入、处理、分支输出的流式拓扑 |
-| [layered-services.svg](layered-services.svg) | 同步主链、异步工作节点与直接依赖 |
-| [event-flow.svg](event-flow.svg) | 发布者、事件通道与订阅者分支 |
-| [security-flow.svg](security-flow.svg) | 外部节点、安全入口、身份校验与内部依赖 |
+| 文件                                         | 用途                                     |
+| -------------------------------------------- | ---------------------------------------- |
+| [node-and-flow.svg](node-and-flow.svg)       | 标准叶子节点、宽主节点、内部分区与同步流 |
+| [stream-flow.svg](stream-flow.svg)           | 输入、处理、分支输出的流式拓扑           |
+| [layered-services.svg](layered-services.svg) | 同步主链、异步工作节点与直接依赖         |
+| [event-flow.svg](event-flow.svg)             | 发布者、事件通道与订阅者分支             |
+| [security-flow.svg](security-flow.svg)       | 外部节点、安全入口、身份校验与内部依赖   |
 
 ## 样式与主题
 

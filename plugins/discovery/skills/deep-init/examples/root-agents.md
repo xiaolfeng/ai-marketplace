@@ -22,17 +22,17 @@ ai-marketplace/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 新增插件 | `plugins/<name>/` + marketplace.json 登记 | 缺一不可 |
-| 校验插件 | `claude plugin validate .` | 提交前必跑 |
-| 跨工具发现检查 | `npx skills add . --list` | 确认技能可被发现 |
-| 重新导出 Cursor 清单 | `npm run build` | CI 用 `--check` 校验 |
+| 任务                 | 位置                                      | 说明                 |
+| -------------------- | ----------------------------------------- | -------------------- |
+| 新增插件             | `plugins/<name>/` + marketplace.json 登记 | 缺一不可             |
+| 校验插件             | `claude plugin validate .`                | 提交前必跑           |
+| 跨工具发现检查       | `npx skills add . --list`                 | 确认技能可被发现     |
+| 重新导出 Cursor 清单 | `npm run build`                           | CI 用 `--check` 校验 |
 
 ## 代码地图
 
-| 符号 | 类型 | 位置 | 作用 |
-| --- | --- | --- | --- |
+| 符号               | 类型 | 位置                                | 作用                              |
+| ------------------ | ---- | ----------------------------------- | --------------------------------- |
 | `toCursorManifest` | 函数 | `scripts/build-cursor-manifest.mjs` | Claude 条目 → Cursor 清单字段透传 |
 
 ## 约定

@@ -12,17 +12,17 @@ metadata:
 
 ## 资源地图
 
-| 资源 | 位置 | 说明 |
-| --- | --- | --- |
-| 空白 HTML 起手模板 | [references/template.html](references/template.html) | 提供自适应视口、双主题、交互与全格式导出的独立单文件壳层 |
-| 白板手绘设计与几何规范 | [references/excalidraw-design.md](references/excalidraw-design.md) | 图元比例、粗糙度、语义色彩、走线与文字排版计算指南 |
-| 页面壳层、交互与浏览器验证 | [references/html-scaffolding.md](references/html-scaffolding.md) | 视口平移缩放、主题切换机制、全格式导出与移动端约 390px 验收标准 |
-| 图元类型规范指南 | [references/element-types.md](references/element-types.md) | 矩形、椭圆、菱形、箭头、连线与独立文本图元规范速查 |
-| JSON 数据结构参考 | [references/excalidraw-schema.md](references/excalidraw-schema.md) | 原生 `.excalidraw` 数据协议与字段说明 |
-| 端到端实战示例页面 | [examples/example.html](examples/example.html) | 电商订单结算与风控履约完整业务流示例 |
-| 示例业务说明 | [examples/sample-flow.md](examples/sample-flow.md) | 示例图表覆盖维度与交付验收对照 |
-| 典型图表模板库 | [references/templates/](references/templates/) | 包含流程图、泳道图、类图、ER图、时序图、导图等 8 种原生模板 |
-| 辅助工具脚本 | [scripts/](scripts/) | 包含 HTML 转换生成、连线注入、图标库拆解等自动化脚本 |
+| 资源                       | 位置                                                               | 说明                                                            |
+| -------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- |
+| 空白 HTML 起手模板         | [references/template.html](references/template.html)               | 提供自适应视口、双主题、交互与全格式导出的独立单文件壳层        |
+| 白板手绘设计与几何规范     | [references/excalidraw-design.md](references/excalidraw-design.md) | 图元比例、粗糙度、语义色彩、走线与文字排版计算指南              |
+| 页面壳层、交互与浏览器验证 | [references/html-scaffolding.md](references/html-scaffolding.md)   | 视口平移缩放、主题切换机制、全格式导出与移动端约 390px 验收标准 |
+| 图元类型规范指南           | [references/element-types.md](references/element-types.md)         | 矩形、椭圆、菱形、箭头、连线与独立文本图元规范速查              |
+| JSON 数据结构参考          | [references/excalidraw-schema.md](references/excalidraw-schema.md) | 原生 `.excalidraw` 数据协议与字段说明                           |
+| 端到端实战示例页面         | [examples/example.html](examples/example.html)                     | 电商订单结算与风控履约完整业务流示例                            |
+| 示例业务说明               | [examples/sample-flow.md](examples/sample-flow.md)                 | 示例图表覆盖维度与交付验收对照                                  |
+| 典型图表模板库             | [references/templates/](references/templates/)                     | 包含流程图、泳道图、类图、ER图、时序图、导图等 8 种原生模板     |
+| 辅助工具脚本               | [scripts/](scripts/)                                               | 包含 HTML 转换生成、连线注入、图标库拆解等自动化脚本            |
 
 ## 执行流程
 

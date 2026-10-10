@@ -25,13 +25,13 @@ docs/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 写调研笔记 | `engineering/research/` | 只记现状与证据 |
-| 写提案 | `engineering/rfc/` | 方向已收敛、需评审时 |
-| 定稿长期决策 | `engineering/adr/` | 从被接受的 RFC 冻结 |
-| 登记新业务域 Scope | `scope-manage.md` | 三列一次填齐 |
-| 修改插件上架标准 | `plugin-guidelines.md` | 全平台实测结论，改动需附依据 |
+| 任务               | 位置                    | 说明                         |
+| ------------------ | ----------------------- | ---------------------------- |
+| 写调研笔记         | `engineering/research/` | 只记现状与证据               |
+| 写提案             | `engineering/rfc/`      | 方向已收敛、需评审时         |
+| 定稿长期决策       | `engineering/adr/`      | 从被接受的 RFC 冻结          |
+| 登记新业务域 Scope | `scope-manage.md`       | 三列一次填齐                 |
+| 修改插件上架标准   | `plugin-guidelines.md`  | 全平台实测结论，改动需附依据 |
 
 ## 约定
 

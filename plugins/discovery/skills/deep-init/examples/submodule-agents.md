@@ -26,12 +26,12 @@ git-manage/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 生成并执行提交 | `skills/git-commit/SKILL.md` | 铁律与问询协议都在正文内 |
-| 合并 A 到 B | `skills/need-merge/SKILL.md` | 仅本地分支 |
-| 变基更新基座 | `skills/need-rebase/SKILL.md` | 会改写历史，须用户明确要求 |
-| 查 scope 词表规则 | `skills/_shared/scope-manage.md` | 全项目一套业务域词表 |
+| 任务              | 位置                             | 说明                       |
+| ----------------- | -------------------------------- | -------------------------- |
+| 生成并执行提交    | `skills/git-commit/SKILL.md`     | 铁律与问询协议都在正文内   |
+| 合并 A 到 B       | `skills/need-merge/SKILL.md`     | 仅本地分支                 |
+| 变基更新基座      | `skills/need-rebase/SKILL.md`    | 会改写历史，须用户明确要求 |
+| 查 scope 词表规则 | `skills/_shared/scope-manage.md` | 全项目一套业务域词表       |
 
 ## 约定
 

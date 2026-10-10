@@ -31,9 +31,9 @@ skills/git-commit/
 
 除 git-commit 外，插件附带两个本地分支操作技能（跨 Agent Skills 工具通用）：
 
-| 技能 | 语义 | 底层动作 |
-| --- | --- | --- |
-| `need-merge` | 把源合并入目标：「把 feature/x 合并到 main」 | `git switch <目标> && git merge <源>` |
+| 技能          | 语义                                             | 底层动作                               |
+| ------------- | ------------------------------------------------ | -------------------------------------- |
+| `need-merge`  | 把源合并入目标：「把 feature/x 合并到 main」     | `git switch <目标> && git merge <源>`  |
 | `need-rebase` | 把源变基到目标之上：「把 feature/x 变基到 main」 | `git switch <源> && git rebase <目标>` |
 
 两个说法都成立：提全「源 + 目标」按说的来；只提一个分支名时，目标默认当前分支。

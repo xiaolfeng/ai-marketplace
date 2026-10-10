@@ -22,13 +22,13 @@
 
 ### 2.1 基本信息
 
-| 项目 | 内容 |
-| --- | --- |
-| npm 包名 | `skills` |
-| 仓库 | vercel-labs/skills（MIT 协议）|
-| 发布时间 | 2026-01-20 首发，v1.1.x 加入交互式发现并开源 |
-| 支持范围 | 78 个 agent（Claude Code、Codex、Cursor、Copilot、Windsurf、Cline、Qwen Code、iFlow CLI、Grok Build 等）|
-| 运行时依赖 | 零依赖，单文件 ESM bundle，Node.js 18+ |
+| 项目       | 内容                                                                                                     |
+| ---------- | -------------------------------------------------------------------------------------------------------- |
+| npm 包名   | `skills`                                                                                                 |
+| 仓库       | vercel-labs/skills（MIT 协议）                                                                           |
+| 发布时间   | 2026-01-20 首发，v1.1.x 加入交互式发现并开源                                                             |
+| 支持范围   | 78 个 agent（Claude Code、Codex、Cursor、Copilot、Windsurf、Cline、Qwen Code、iFlow CLI、Grok Build 等） |
+| 运行时依赖 | 零依赖，单文件 ESM bundle，Node.js 18+                                                                   |
 
 ### 2.2 命令全集
 
@@ -60,6 +60,7 @@ npx skills init [name]         # 生成 SKILL.md 模板脚手架
 **① 源解析**：GitHub shorthand → HTTPS URL → SSH/git URL → GitLab → 本地路径 → 直链下载（SKILL.md 文件或 zip/tar/tgz 归档，下载限 10 MiB、解压限 25 MiB、1000 文件上限）。私仓认证走三级回退：Git 凭据助手 → `gh repo clone` → SSH fallback；GitHub API 查询则匿名 → 环境变量 token → `gh api`。
 
 **② Skill 发现**（在一个源仓库里怎么找到技能）：
+
 - 扫描固定位置：仓库根、`skills/`、`skills/.curated/.experimental/.system/`，以及全部 78 个 agent 的约定目录（`.claude/skills/`、`.agents/skills/`…）
 - 容器目录向下最多走 **3 层**（覆盖 `skills/<分类>/<名称>/SKILL.md` 两级分类布局）；浅层的 SKILL.md 会遮蔽其下的嵌套项
 - **兼容 Claude 插件清单**：若存在 `.claude-plugin/marketplace.json` 或 `.claude-plugin/plugin.json`，其中声明的 skills 路径也会被发现——这就是为什么一个 Claude marketplace 仓库可以同时被 `npx skills add` 消费
@@ -67,38 +68,38 @@ npx skills init [name]         # 生成 SKILL.md 模板脚手架
 
 **③ 安装模型**：
 
-| 维度 | 行为 |
-| --- | --- |
-| Scope | 默认项目级 `./<agent>/skills/`（随 git 提交共享）；`-g` 全局 `~/<agent>/skills/` |
-| 方法 | 默认推荐 **symlink**：每个 agent 目录 → 同一份 canonical copy，单一事实源，更新一处全部生效；不支持 symlink 时选 copy |
-| 目标选择 | 自动检测本机装了哪些 agent；未检测到则交互式让用户勾选 |
+| 维度     | 行为                                                                                                                  |
+| -------- | --------------------------------------------------------------------------------------------------------------------- |
+| Scope    | 默认项目级 `./<agent>/skills/`（随 git 提交共享）；`-g` 全局 `~/<agent>/skills/`                                      |
+| 方法     | 默认推荐 **symlink**：每个 agent 目录 → 同一份 canonical copy，单一事实源，更新一处全部生效；不支持 symlink 时选 copy |
+| 目标选择 | 自动检测本机装了哪些 agent；未检测到则交互式让用户勾选                                                                |
 
 **④ 遥测**：匿名上报安装事件（仅 GitHub 确认为公开仓库才带 repo/skill 标识），驱动 skills.sh 排行榜。`DISABLE_TELEMETRY=1` 关闭。
 
 ### 2.4 关键目录映射表（节选，完整表见 README）
 
-| Agent | `--agent` 名 | 项目级路径 | 全局路径 |
-| --- | --- | --- | --- |
-| Claude Code | `claude-code` | `.claude/skills/` | `~/.claude/skills/` |
-| Codex | `codex` | `.agents/skills/` | `~/.codex/skills/` |
-| Cursor | `cursor` | `.agents/skills/` ⚠️ | `~/.cursor/skills/` |
-| GitHub Copilot | `github-copilot` | `.agents/skills/` ⚠️ | `~/.copilot/skills/` |
-| Gemini CLI | `gemini-cli` | `.agents/skills/` | `~/.gemini/skills/` |
-| Windsurf | `windsurf` | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
-| Cline / Zed / Warp / Kimi 等 | 各自名字 | `.agents/skills/` | `~/.agents/skills/` |
-| Qwen Code | `qwen-code` | `.qwen/skills/` | `~/.qwen/skills/` |
-| iFlow CLI | `iflow-cli` | `.iflow/skills/` | `~/.iflow/skills/` |
+| Agent                        | `--agent` 名     | 项目级路径           | 全局路径                      |
+| ---------------------------- | ---------------- | -------------------- | ----------------------------- |
+| Claude Code                  | `claude-code`    | `.claude/skills/`    | `~/.claude/skills/`           |
+| Codex                        | `codex`          | `.agents/skills/`    | `~/.codex/skills/`            |
+| Cursor                       | `cursor`         | `.agents/skills/` ⚠️ | `~/.cursor/skills/`           |
+| GitHub Copilot               | `github-copilot` | `.agents/skills/` ⚠️ | `~/.copilot/skills/`          |
+| Gemini CLI                   | `gemini-cli`     | `.agents/skills/`    | `~/.gemini/skills/`           |
+| Windsurf                     | `windsurf`       | `.windsurf/skills/`  | `~/.codeium/windsurf/skills/` |
+| Cline / Zed / Warp / Kimi 等 | 各自名字         | `.agents/skills/`    | `~/.agents/skills/`           |
+| Qwen Code                    | `qwen-code`      | `.qwen/skills/`      | `~/.qwen/skills/`             |
+| iFlow CLI                    | `iflow-cli`      | `.iflow/skills/`     | `~/.iflow/skills/`            |
 
 ⚠️ 注意：**越来越多新 agent 把项目级路径收敛到了中立目录 `.agents/skills/`**（Codex、Cursor、Copilot、Gemini CLI、Cline、OpenCode 都是）——「一个目录、多家识别」正在成为项目级分发的事实走向，全局目录仍各自为政。
 
 **功能兼容性差异**（同一份 SKILL.md 在不同 agent 下）：
 
-| 特性 | 覆盖情况 |
-| --- | --- |
-| 基本 skills | 所有 agent ✅ |
+| 特性            | 覆盖情况                              |
+| --------------- | ------------------------------------- |
+| 基本 skills     | 所有 agent ✅                         |
 | `allowed-tools` | 多数 ✅，Kiro CLI / GitHub Copilot ❌ |
-| `context: fork` | 仅 Claude Code ✅ |
-| Hooks | 仅 Claude Code / Cline / Kiro CLI ✅ |
+| `context: fork` | 仅 Claude Code ✅                     |
+| Hooks           | 仅 Claude Code / Cline / Kiro CLI ✅  |
 
 ---
 
@@ -106,12 +107,12 @@ npx skills init [name]         # 生成 SKILL.md 模板脚手架
 
 ### 3.1 基本信息
 
-| 项目 | 内容 |
-| --- | --- |
+| 项目     | 内容                                                      |
+| -------- | --------------------------------------------------------- |
 | npm 包名 | [`plugins`](https://www.npmjs.com/package/plugins) v1.3.1 |
-| 仓库 | vercel-labs/plugins（Apache-2.0）|
-| 支持目标 | **仅 Claude Code + Cursor**（当前版本）|
-| 设计理念 | 「Plugin authors write once; the CLI handles the rest」|
+| 仓库     | vercel-labs/plugins（Apache-2.0）                         |
+| 支持目标 | **仅 Claude Code + Cursor**（当前版本）                   |
+| 设计理念 | 「Plugin authors write once; the CLI handles the rest」   |
 
 ### 3.2 用法
 
@@ -145,7 +146,10 @@ MCP 层没有 Vercel 式的统一安装器，而是三种形态并存：
 ```json
 {
   "mcpServers": {
-    "postgres": { "command": "npx", "args": ["-y", "@modelcontextprotocol/server-postgres"] }
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"]
+    }
   }
 }
 ```
@@ -154,21 +158,21 @@ MCP 层没有 Vercel 式的统一安装器，而是三种形态并存：
 
 ### 形态 B：客户端自带注册命令
 
-| 客户端 | 命令示例 |
-| --- | --- |
-| Claude Code | `claude mcp add <name> -- npx -y <pkg>`（支持 user/project/local scope、`--transport http/sse`）|
-| Codex | `codex mcp add`（写 `config.toml` 的 `[mcp_servers]`）；旧版需手动编辑或 `codex mcp add --json` |
-| Cursor | `cursor mcp add <name> <command>`（Deep Link `deeplink:mcp/install` 可一键跳转安装）|
-| VS Code / Insiders | `code --add-mcp '{"name":...,"transport":"http","url":...}'` |
-| Gemini CLI | 手动编辑 `settings.json` 的 `mcpServers`（无 CLI 子命令）|
+| 客户端             | 命令示例                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| Claude Code        | `claude mcp add <name> -- npx -y <pkg>`（支持 user/project/local scope、`--transport http/sse`） |
+| Codex              | `codex mcp add`（写 `config.toml` 的 `[mcp_servers]`）；旧版需手动编辑或 `codex mcp add --json`  |
+| Cursor             | `cursor mcp add <name> <command>`（Deep Link `deeplink:mcp/install` 可一键跳转安装）             |
+| VS Code / Insiders | `code --add-mcp '{"name":...,"transport":"http","url":...}'`                                     |
+| Gemini CLI         | 手动编辑 `settings.json` 的 `mcpServers`（无 CLI 子命令）                                        |
 
 ### 形态 C：第三方「配置写入器」
 
-| 工具 | 命令 | 说明 |
-| --- | --- | --- |
-| Neon `add-mcp` | `npx add-mcp <owner/repo>` | 从 GitHub 仓库读 package.json 里的 `mcpServers` 字段，写入所有检测到的客户端配置；支持 `--client`、`--transport http/sse`、`--install-global` |
-| Smithery | `npx -y @smithery/cli install <server> --client claude` | Smithery registry 的配套安装器，服务端托管运行 |
-| mcp-get | `npx @mcp-get install <server>` | 社区 registry 安装器（早期方案）|
+| 工具           | 命令                                                    | 说明                                                                                                                                          |
+| -------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Neon `add-mcp` | `npx add-mcp <owner/repo>`                              | 从 GitHub 仓库读 package.json 里的 `mcpServers` 字段，写入所有检测到的客户端配置；支持 `--client`、`--transport http/sse`、`--install-global` |
+| Smithery       | `npx -y @smithery/cli install <server> --client claude` | Smithery registry 的配套安装器，服务端托管运行                                                                                                |
+| mcp-get        | `npx @mcp-get install <server>`                         | 社区 registry 安装器（早期方案）                                                                                                              |
 
 ### Registry 层的角色
 
@@ -192,11 +196,11 @@ MCP 层没有 Vercel 式的统一安装器，而是三种形态并存：
 
 ### 6.1 一份格式，三条通道
 
-| 分发通道 | 消费的格式 | 用户命令 |
-| --- | --- | --- |
-| Claude Code 原生市场 | `.claude-plugin/marketplace.json` | `/plugin marketplace add <owner/repo>` |
-| Vercel skills 安装器 | 同上（读取其中声明的 skills 路径）| `npx skills add <owner/repo>` |
-| Vercel plugins 安装器 | 同上 | `npx plugins add <owner/repo>` |
+| 分发通道              | 消费的格式                         | 用户命令                               |
+| --------------------- | ---------------------------------- | -------------------------------------- |
+| Claude Code 原生市场  | `.claude-plugin/marketplace.json`  | `/plugin marketplace add <owner/repo>` |
+| Vercel skills 安装器  | 同上（读取其中声明的 skills 路径） | `npx skills add <owner/repo>`          |
+| Vercel plugins 安装器 | 同上                               | `npx plugins add <owner/repo>`         |
 
 ### 6.2 边界一：skills CLI 的发现主路径是目录约定，manifest 只是补充
 
@@ -266,12 +270,12 @@ ai-marketplace/
 
 ## 七、参考链接
 
-| 主题 | 链接 |
-| --- | --- |
-| skills CLI（README 含 78 agent 映射全表）| https://github.com/vercel-labs/skills |
-| skills.sh 目录与排行榜 | https://skills.sh |
-| plugins CLI（npm）| https://www.npmjs.com/package/plugins |
-| plugins CLI（源码）| https://github.com/vercel-labs/plugins |
-| Vercel Plugin 文档（plugins add 的样板案例）| https://vercel.com/docs/agent-resources/vercel-plugin |
-| Neon add-mcp | https://github.com/neondatabase/add-mcp |
-| Smithery CLI | https://smithery.ai/docs |
+| 主题                                         | 链接                                                  |
+| -------------------------------------------- | ----------------------------------------------------- |
+| skills CLI（README 含 78 agent 映射全表）    | https://github.com/vercel-labs/skills                 |
+| skills.sh 目录与排行榜                       | https://skills.sh                                     |
+| plugins CLI（npm）                           | https://www.npmjs.com/package/plugins                 |
+| plugins CLI（源码）                          | https://github.com/vercel-labs/plugins                |
+| Vercel Plugin 文档（plugins add 的样板案例） | https://vercel.com/docs/agent-resources/vercel-plugin |
+| Neon add-mcp                                 | https://github.com/neondatabase/add-mcp               |
+| Smithery CLI                                 | https://smithery.ai/docs                              |

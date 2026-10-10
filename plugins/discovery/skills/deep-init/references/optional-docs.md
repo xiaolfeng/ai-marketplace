@@ -23,17 +23,17 @@ AGENTS.md 回答「AI 在这里怎么干活」，但一个完整仓库的根位�
 
 ## 信号 → 候选文档速查
 
-| 信号 | 候选文档 | 一句话理由 |
-| --- | --- | --- |
-| 代码量 ≥1 万行或存在多层/多模块边界 | ARCHITECTURE.md | 新贡献者定位修改点的时间占大头，需要物理架构地图 |
-| 接受外部 PR / 公开仓库 | CONTRIBUTING.md · CODE_OF_CONDUCT.md | 贡献流程与行为准则是外部协作的前提 |
-| 产出可被外部执行的软件 | SECURITY.md | 漏洞报告必须有私密渠道，不能走公开 issue |
-| 有版本化发布（库/工具） | CHANGELOG.md | 变更历史是升级决策的唯一可信来源 |
-| 多个维护者或组织背书 | GOVERNANCE.md · CODEOWNERS | 决策权与评审路由要成文，避免口头政治 |
-| 提供社区问答渠道 | SUPPORT.md | 把求助引到正确的地方，保护 issue 区干净 |
-| 分发制品包含第三方代码 | NOTICE / THIRD-PARTY-NOTICES.md | 许可证合规要求 |
-| 学术用途软件 | CITATION.cff | 让引用格式机器可读 |
-| 需要赞助的开源项目 | FUNDING.yml | GitHub 端展示赞助按钮的标准位 |
+| 信号                                | 候选文档                             | 一句话理由                                       |
+| ----------------------------------- | ------------------------------------ | ------------------------------------------------ |
+| 代码量 ≥1 万行或存在多层/多模块边界 | ARCHITECTURE.md                      | 新贡献者定位修改点的时间占大头，需要物理架构地图 |
+| 接受外部 PR / 公开仓库              | CONTRIBUTING.md · CODE_OF_CONDUCT.md | 贡献流程与行为准则是外部协作的前提               |
+| 产出可被外部执行的软件              | SECURITY.md                          | 漏洞报告必须有私密渠道，不能走公开 issue         |
+| 有版本化发布（库/工具）             | CHANGELOG.md                         | 变更历史是升级决策的唯一可信来源                 |
+| 多个维护者或组织背书                | GOVERNANCE.md · CODEOWNERS           | 决策权与评审路由要成文，避免口头政治             |
+| 提供社区问答渠道                    | SUPPORT.md                           | 把求助引到正确的地方，保护 issue 区干净          |
+| 分发制品包含第三方代码              | NOTICE / THIRD-PARTY-NOTICES.md      | 许可证合规要求                                   |
+| 学术用途软件                        | CITATION.cff                         | 让引用格式机器可读                               |
+| 需要赞助的开源项目                  | FUNDING.yml                          | GitHub 端展示赞助按钮的标准位                    |
 
 GitHub Community Standards 官方清单（README、License、Code of conduct、
 Contributing、Issue/PR 模板、Security policy）可作为开源项目的及格线自查。
@@ -50,18 +50,22 @@ README 与 CONTRIBUTING 旁边常备此文件。
 # 架构总览
 
 ## 解决什么问题
+
 鸟瞰一段：系统为谁解决什么问题，外部依赖是什么。
 
 ## Codemap
-| 模块 | 职责 | 关键符号 |
-| --- | --- | --- |
-（粗粒度模块 + 关系；只列名字不放链接）
+
+| 模块                                    | 职责 | 关键符号 |
+| --------------------------------------- | ---- | -------- |
+| （粗粒度模块 + 关系；只列名字不放链接） |
 
 ## 边界与不变量
+
 - 层 A 不得引用层 B（缺席性约束：代码里"没有出现"的规则必须写下来）
 - 模块 X 是唯一允许触碰 Y 的入口
 
 ## 横切关注点
+
 日志、错误处理、配置加载、并发模型的统一约定。
 ```
 
@@ -77,23 +81,23 @@ README 与 CONTRIBUTING 旁边常备此文件。
 
 ## 社区与协作类
 
-| 文档 | 最小内容 | 参考标准 |
-| --- | --- | --- |
-| CONTRIBUTING.md | 本地开发步骤、分支与 commit 规范、PR 流程、DCO/CLA 要求 | 各大基金会贡献指南惯例 |
-| CODE_OF_CONDUCT.md | 行为准则与举报渠道 | Contributor Covenant v2.1 |
-| SUPPORT.md | 问询渠道优先级（讨论区/IM/issue） | GitHub 默认社区健康文件 |
-| GOVERNANCE.md | 决策机制、角色与晋升、争议处理 | opensource.guide 治理篇 |
-| CODEOWNERS | 目录 → 必需评审人映射（置于 `.github/`） | GitHub 官方语法 |
+| 文档               | 最小内容                                                | 参考标准                  |
+| ------------------ | ------------------------------------------------------- | ------------------------- |
+| CONTRIBUTING.md    | 本地开发步骤、分支与 commit 规范、PR 流程、DCO/CLA 要求 | 各大基金会贡献指南惯例    |
+| CODE_OF_CONDUCT.md | 行为准则与举报渠道                                      | Contributor Covenant v2.1 |
+| SUPPORT.md         | 问询渠道优先级（讨论区/IM/issue）                       | GitHub 默认社区健康文件   |
+| GOVERNANCE.md      | 决策机制、角色与晋升、争议处理                          | opensource.guide 治理篇   |
+| CODEOWNERS         | 目录 → 必需评审人映射（置于 `.github/`）                | GitHub 官方语法           |
 
 ## 发布与合规类
 
-| 文档 | 最小内容 | 参考标准 |
-| --- | --- | --- |
-| CHANGELOG.md | 按「新增/变更/弃用/移除/修复/安全」分组记录每个版本 | Keep a Changelog 1.1 + SemVer |
-| SECURITY.md | 私密漏洞上报渠道、响应时限、支持版本范围 | GitHub 官方安全策略格式 |
-| NOTICE / THIRD-PARTY-NOTICES.md | 第三方组件清单及其许可证 | Apache-2.0 NOTICE 惯例 |
-| CITATION.cff | 作者、标题、DOI、引用格式 | Citation File Format 规范 |
-| FUNDING.yml | 赞助平台与账户 | GitHub Sponsors 配置格式 |
+| 文档                            | 最小内容                                            | 参考标准                      |
+| ------------------------------- | --------------------------------------------------- | ----------------------------- |
+| CHANGELOG.md                    | 按「新增/变更/弃用/移除/修复/安全」分组记录每个版本 | Keep a Changelog 1.1 + SemVer |
+| SECURITY.md                     | 私密漏洞上报渠道、响应时限、支持版本范围            | GitHub 官方安全策略格式       |
+| NOTICE / THIRD-PARTY-NOTICES.md | 第三方组件清单及其许可证                            | Apache-2.0 NOTICE 惯例        |
+| CITATION.cff                    | 作者、标题、DOI、引用格式                           | Citation File Format 规范     |
+| FUNDING.yml                     | 赞助平台与账户                                      | GitHub Sponsors 配置格式      |
 
 ## 决策记录类
 

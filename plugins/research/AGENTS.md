@@ -35,13 +35,13 @@ research/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 改触发词与路由边界 | 两份 SKILL.md frontmatter | 负向触发器是双模式互斥的关键 |
-| 攻击手法与战线判定 | adversarial `references/debate-playbook.md` | 含认输协议的动作规范 |
-| 信源取舍与置信度 | normal `references/source-evaluation.md` | 全仓库取证都要过它的分级 |
-| 报告结构与输出契约 | `agents/final-research-check.md` | 六节模板的唯一事实源 |
-| 补触发评测 | 各技能 `evals/evals.json` | 负样本必须是近似干扰项 |
+| 任务               | 位置                                        | 说明                         |
+| ------------------ | ------------------------------------------- | ---------------------------- |
+| 改触发词与路由边界 | 两份 SKILL.md frontmatter                   | 负向触发器是双模式互斥的关键 |
+| 攻击手法与战线判定 | adversarial `references/debate-playbook.md` | 含认输协议的动作规范         |
+| 信源取舍与置信度   | normal `references/source-evaluation.md`    | 全仓库取证都要过它的分级     |
+| 报告结构与输出契约 | `agents/final-research-check.md`            | 六节模板的唯一事实源         |
+| 补触发评测         | 各技能 `evals/evals.json`                   | 负样本必须是近似干扰项       |
 
 ## 约定
 

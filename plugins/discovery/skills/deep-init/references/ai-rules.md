@@ -31,11 +31,11 @@ Agentic AI Foundation 托管，60k+ 项目采用。它的官方定位就是
 
 ## 三层模型：用户约定的归属
 
-| 层 | 典型位置 | 是否提交 | 放什么 |
-| --- | --- | --- | --- |
-| 个人全局 | `~/.claude/CLAUDE.md`、各工具全局配置 | 否 | 个人语言、风格、习惯偏好 |
-| 项目共享 | 根 AGENTS.md（+ 各工具适配文件） | 是 | 团队约定、架构约束、命令 |
-| 本地私人 | `CLAUDE.local.md` 等并加入 `.gitignore` | 否 | 实验性偏好、未收敛想法 |
+| 层       | 典型位置                                | 是否提交 | 放什么                   |
+| -------- | --------------------------------------- | -------- | ------------------------ |
+| 个人全局 | `~/.claude/CLAUDE.md`、各工具全局配置   | 否       | 个人语言、风格、习惯偏好 |
+| 项目共享 | 根 AGENTS.md（+ 各工具适配文件）        | 是       | 团队约定、架构约束、命令 |
+| 本地私人 | `CLAUDE.local.md` 等并加入 `.gitignore` | 否       | 实验性偏好、未收敛想法   |
 
 Claude Code 已弃用 `CLAUDE.local.md` 自动加载，改用 `@import` 引入；
 私人层文件务必自行加入 `.gitignore`。盘点时发现约定散落在错误层级
@@ -43,15 +43,15 @@ Claude Code 已弃用 `CLAUDE.local.md` 自动加载，改用 `@import` 引入�
 
 ## 工具读取路径地图
 
-| 工具 | 默认读取 | 接入 AGENTS.md 的方式 | 适配形态 |
-| --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md` | `@AGENTS.md` 单行引用 | 指针（第 5 步已做） |
-| Codex / Cursor / Windsurf / Jules / Devin / Amp / goose / opencode / Zed / Warp / VS Code / Junie | `AGENTS.md` | 原生支持 | 无需适配 |
-| Gemini CLI | `GEMINI.md` | `.gemini/settings.json` 设 `"context": {"fileName": "AGENTS.md"}` | 配置指针 |
-| Aider | `CONVENTIONS.md` | `.aider.conf.yml` 设 `read: AGENTS.md` | 配置指针 |
-| GitHub Copilot（IDE 内联） | `.github/copilot-instructions.md` | 不支持引用 | 快照 |
-| Cline / RooCode | `.clinerules/` 目录拼接 | 放一个引导文件 | 指针 |
-| Kiro | `.kiro/steering/*.md`（frontmatter 控制载入时机） | 放一个引导文件 | 指针 |
+| 工具                                                                                              | 默认读取                                          | 接入 AGENTS.md 的方式                                             | 适配形态            |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------- | ------------------- |
+| Claude Code                                                                                       | `CLAUDE.md`                                       | `@AGENTS.md` 单行引用                                             | 指针（第 5 步已做） |
+| Codex / Cursor / Windsurf / Jules / Devin / Amp / goose / opencode / Zed / Warp / VS Code / Junie | `AGENTS.md`                                       | 原生支持                                                          | 无需适配            |
+| Gemini CLI                                                                                        | `GEMINI.md`                                       | `.gemini/settings.json` 设 `"context": {"fileName": "AGENTS.md"}` | 配置指针            |
+| Aider                                                                                             | `CONVENTIONS.md`                                  | `.aider.conf.yml` 设 `read: AGENTS.md`                            | 配置指针            |
+| GitHub Copilot（IDE 内联）                                                                        | `.github/copilot-instructions.md`                 | 不支持引用                                                        | 快照                |
+| Cline / RooCode                                                                                   | `.clinerules/` 目录拼接                           | 放一个引导文件                                                    | 指针                |
+| Kiro                                                                                              | `.kiro/steering/*.md`（frontmatter 控制载入时机） | 放一个引导文件                                                    | 指针                |
 
 ## 同步策略：单一事实源
 

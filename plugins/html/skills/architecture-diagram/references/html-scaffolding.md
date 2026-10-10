@@ -34,16 +34,47 @@
 
 ```css
 @media (max-width: 768px) {
-  body { padding: 1.25rem .75rem; overflow-x: hidden; }
-  .container { width: 100%; min-width: 0; max-width: 100%; }
-  .hero-top-bar { flex-direction: column; align-items: stretch; }
-  .toolbar-flat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .btn { width: 100%; min-width: 0; justify-content: center; }
-  .btn-theme-toggle { grid-column: span 2; }
-  .hero-main h1 { overflow-wrap: anywhere; word-break: break-word; }
-  .legend-grid, .spec-cards { grid-template-columns: minmax(0, 1fr); }
-  .legend-deck, .spec-card { min-width: 0; }
-  .diagram-panel { height: 480px; min-height: 380px; }
+  body {
+    padding: 1.25rem 0.75rem;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hero-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbar-flat {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .btn {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+  .btn-theme-toggle {
+    grid-column: span 2;
+  }
+  .hero-main h1 {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .legend-grid,
+  .spec-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .legend-deck,
+  .spec-card {
+    min-width: 0;
+  }
+  .diagram-panel {
+    height: 480px;
+    min-height: 380px;
+  }
 }
 ```
 

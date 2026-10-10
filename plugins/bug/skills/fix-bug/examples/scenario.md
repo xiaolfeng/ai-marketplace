@@ -40,24 +40,29 @@ return (amountCents*percent + 50) / 100
 ## 第 4 步 · 修复记录
 
 > ## 复现
+>
 > - 失败信号：`TestApplyDiscount/ten_cents_85_percent` 期望 9 实际 8
 > - 最小复现：`applyDiscount(10, 85)`
 > - 对应发现：Q-01
 >
 > ## 根因
+>
 > - 假说：整数除法向零截断，规格要求四舍五入到分
 > - 证伪实验：只改断言口径，不改产品代码 → 仍失败，确认不是测试写错
 > - 机制：`amountCents * percent` 仍在整数域，`/ 100` 丢掉大于 0.5 分的余数
 >
 > ## 修复
+>
 > - 改动：`billing/discount.go` 的 `applyDiscount` 改为乘后 +50 再除（正数金额）
 > - 故意不改：`ledger.postWithRetry`（Q-02）
 >
 > ## 验证
+>
 > - 原复现：上述测试已通过；补充 `199,85 → 169`
 > - 相邻回归：`go test ./billing`（账本测试与本 diff 无关，保持原样）
 >
 > ## 未覆盖风险
+>
 > 负数金额未出现在本模块；若以后允许退款入同一函数，舍入方向要另定。
 
 ## 复盘要点

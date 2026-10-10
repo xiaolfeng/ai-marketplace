@@ -3,6 +3,7 @@
 ## 概述
 
 HTML 视觉与架构图表插件套件。包含两大核心技能：
+
 1. `architecture-diagram`：遵循 huashu-design 设计规范生成高保真工业级系统架构拓扑图（单文件 HTML+SVG），强调曼哈顿正交长线、45° 米字折线与边界隔离；
 2. `excalidraw-diagram`：生成手绘白板草图风格业务流程图与拓扑图（单文件 HTML+SVG 与原生 `.excalidraw`），具备粗糙度自然质感、手写字体与自适应视口。
 
@@ -63,16 +64,16 @@ html/
 
 ## 导航指南
 
-| 任务 | 位置 |
-| --- | --- |
-| 架构拓扑几何、走线与标签规范 | `skills/architecture-diagram/references/svg-design.md` |
-| 架构拓扑起手模板与页面规范 | `skills/architecture-diagram/references/template.html` / `html-scaffolding.md` |
-| 白板手绘设计美学与几何规范 | `skills/excalidraw-diagram/references/excalidraw-design.md` |
-| 白板起手模板与交互规范 | `skills/excalidraw-diagram/references/template.html` / `html-scaffolding.md` |
-| 白板原生 Schema 与图元规范 | `skills/excalidraw-diagram/references/excalidraw-schema.md` / `element-types.md` |
-| 白板典型起手模板库 | `skills/excalidraw-diagram/references/templates/` |
-| 白板 HTML 转换脚本与工具 | `skills/excalidraw-diagram/scripts/` |
-| 查看完整实战示例 | `skills/architecture-diagram/examples/example.html` / `skills/excalidraw-diagram/examples/example.html` |
+| 任务                         | 位置                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 架构拓扑几何、走线与标签规范 | `skills/architecture-diagram/references/svg-design.md`                                                  |
+| 架构拓扑起手模板与页面规范   | `skills/architecture-diagram/references/template.html` / `html-scaffolding.md`                          |
+| 白板手绘设计美学与几何规范   | `skills/excalidraw-diagram/references/excalidraw-design.md`                                             |
+| 白板起手模板与交互规范       | `skills/excalidraw-diagram/references/template.html` / `html-scaffolding.md`                            |
+| 白板原生 Schema 与图元规范   | `skills/excalidraw-diagram/references/excalidraw-schema.md` / `element-types.md`                        |
+| 白板典型起手模板库           | `skills/excalidraw-diagram/references/templates/`                                                       |
+| 白板 HTML 转换脚本与工具     | `skills/excalidraw-diagram/scripts/`                                                                    |
+| 查看完整实战示例             | `skills/architecture-diagram/examples/example.html` / `skills/excalidraw-diagram/examples/example.html` |
 
 ## 约定
 
