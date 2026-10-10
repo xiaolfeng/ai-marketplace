@@ -1,8 +1,8 @@
-<!-- deep-init:synced@76c9216 -->
+<!-- init-deep:synced@76c9216 -->
 
 # git-manage 知识库
 
-> 本文件是 deep-init 黄金样例（节选），展示子模块 AGENTS.md 应有的信息密度与口吻。
+> 本文件是 init-deep 黄金样例（节选），展示子模块 INITDEEP.md 应有的信息密度与口吻。
 
 ## 概述
 
@@ -52,4 +52,4 @@ git-manage/
 
 ## 引用
 
-- [engineering-design](../engineering-design/AGENTS.md) — 文档体系插件，共享 scope 词表约定
+- [engineering-design](../engineering-design/INITDEEP.md) — 文档体系插件，共享 scope 词表约定

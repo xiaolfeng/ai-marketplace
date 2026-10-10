@@ -29,8 +29,8 @@
     {
       "name": "discovery",
       "source": "./plugins/discovery",
-      "description": "项目探索与知识库构建：由内到外生成分层 AGENTS.md 知识库，让 AI Agent 快速看懂任何项目",
-      "version": "0.0.3",
+      "description": "项目知识库与架构约束：init-deep 生成分层 INITDEEP.md 索引，init-arch 编写架构总览与层级文件；根 AGENTS.md 保持简短按需导航",
+      "version": "0.0.4",
       "keywords": [
         "agents",
         "docs",
@@ -49,8 +49,8 @@
     {
       "name": "engineering-design",
       "source": "./plugins/engineering-design",
-      "description": "工程设计文档管理：draft/research/rfc/adr 四技能分管草案、调研、提案与定稿，docs-init 初始化目录，doc-clean 整理编号/引用/错位",
-      "version": "0.0.4",
+      "description": "工程设计文档管理：draft/research/rfc/design/adr 五技能分管草案、调研、提案、实施设计与定稿，docs-init 初始化目录，doc-clean 整理编号/引用/错位",
+      "version": "0.0.5",
       "keywords": [
         "docs",
         "adr",

@@ -1,0 +1,17 @@
+{
+  "skill_name": "init-arch",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我为这个多模块项目初始化架构层约束，说明跨层依赖和每层去哪改",
+      "expected_output": "核对代码依赖，写根 ARCHITECTURE.md 和确有独立约束的层级文件，根 AGENTS.md 只链接架构入口；每条约束给出证据及验证办法",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "这个项目只有一个模块，我想生成一份架构说明，原来的 AGENTS.md 里已有手工约定",
+      "expected_output": "使用单份 ARCHITECTURE.md 表达架构；保留人工 AGENTS.md，修改其入口前先给草案请求确认，不强制创建层级文件，也不改 CLAUDE.md",
+      "files": []
+    }
+  ]
+}

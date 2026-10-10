@@ -8,13 +8,13 @@
 
 工程文档统一落在 `docs/engineering/` 下，目录名表达生命周期阶段：
 
-| 目录                         | 阶段 | 回答                                           |
-| ---------------------------- | ---- | ---------------------------------------------- |
-| `docs/engineering/draft/`    | 草案 | 现在困惑什么、初步想法有哪些                   |
-| `docs/engineering/research/` | 调研 | 现状是什么                                     |
-| `docs/engineering/rfc/`      | 提案 | 建议采用什么                                   |
-| `docs/engineering/design/`   | 设计 | 方向已接受后具体怎样工作（技能待补，目录预留） |
-| `docs/engineering/adr/`      | 定稿 | 最终决定是什么                                 |
+| 目录 | 阶段 | 回答 |
+| --- | --- | --- |
+| `docs/engineering/draft/` | 草案 | 现在困惑什么、初步想法有哪些 |
+| `docs/engineering/research/` | 调研 | 现状是什么 |
+| `docs/engineering/rfc/` | 提案 | 建议采用什么 |
+| `docs/engineering/design/` | 设计 | 方向已确认后具体怎样工作 |
+| `docs/engineering/adr/` | 定稿 | 最终决定是什么 |
 
 注意：这五个目录名是**阶段**，不是 Scope——Scope 是文件名里的业务域段，
 两者正交，不要混用。

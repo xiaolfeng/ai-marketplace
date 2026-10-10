@@ -1,45 +1,26 @@
 # discovery
 
-项目探索与知识库构建插件。让 AI Agent 快速「看懂」一个陌生项目——为项目生成分层的结构化认知文档。
+项目目录索引与架构层约束插件。两个技能共用简短的 `AGENTS.md` 入口：它只说明项目用途、常用检查和任务所需的阅读路径；详细内容由任务按需打开。
 
-## 包含技能
+## 技能
 
-### deep-init
+| 技能 | 产出 | 用途 |
+| --- | --- | --- |
+| [`init-deep`](./skills/init-deep/) | 根及选定子目录的 `INITDEEP.md` | 目录职责、修改入口、局部约定与分层导航；脚本负责扫描和校验 |
+| [`init-arch`](./skills/init-arch/) | 根 `ARCHITECTURE.md`，必要时 `docs/architecture/<layer>.md` | 模块依赖、跨层不变量、层级约束与验证路径 |
 
-项目知识库分层初始化器，v0.0.2 起按 Agent Skills 官方最佳实践重构为
-「脚本保底 + AI 只做判断」的执行器形态：
+两技能各自维护根 `AGENTS.md` 中与自己相关的一条阅读入口；已有人工内容须确认后才缩减。它们不会自动扩充 `CLAUDE.md` 或将详细文档导入项目指令。规则与来源见 [`skills/_shared/agents-entry.md`](./skills/_shared/agents-entry.md)。
 
-- **确定性操作脚本化**：`scripts/scan.mjs` 采集 git 状态、存量盘点与增量 diff 摘要，
-  `scripts/validate.mjs` 校验标记、段落完整性、链接可达性与编码，形成生成→校验→修复的闭环；
-- **由内到外的分层策略**：最深层子目录先写、根目录最后收口，上层引用下层不回改；
-- **渐进披露**：SKILL.md 只留主流程（≤150 行），模板、边界手册下沉 `references/`，
-  黄金样例放 `examples/` 对齐产出质量；
-- **人工内容保护**：无同步标记的存量文件视为人工维护，改写前必须问询；CLAUDE.md 永不静默覆盖；
-- **幂等增量同步**：首行 `<!-- deep-init:synced@<hash> -->` 标记是增量范围的唯一依据；
-- **可选文件扩展**：根收口时按信号盘点两类可选文件，经用户勾选后才生成、缺省不打扰：
-  开源公约类（ARCHITECTURE.md 架构约束、CHANGELOG、SECURITY 等）与
-  面向 AI 的定制规则类（多工具适配层、约定三层模型、AI 忽略清单），
-  取舍表见 `references/optional-docs.md` 与 `references/ai-rules.md`；
-- 全中文编写（可跟随项目文档语言），并在根目录同步极简 `CLAUDE.md`（`@AGENTS.md` 单行引用）。
+`init-deep` 仍支持可选的社区公约及跨工具适配盘点：命中条件后经用户选择才生成。原有 `AGENTS.md` 作为输入保留；旧索引迁移时先审阅，再生成 `INITDEEP.md`。
 
-评测场景见 [evals/evals.json](skills/deep-init/evals/evals.json)，可用官方
-skill-creator 插件跑基线对比与触发率测试。
-
-## 安装
+## 安装与使用
 
 ```bash
-# Claude Code
 /plugin marketplace add xiaolfeng/ai-marketplace
 /plugin install discovery@ai-marketplace
 
-# 或任意支持 Agent Skills 的工具
-npx skills add xiaolfeng/ai-marketplace --skill deep-init
+# 支持 Agent Skills 的工具
+npx skills add xiaolfeng/ai-marketplace --skill init-deep --skill init-arch
 ```
 
-## 使用
-
-在目标项目里对 AI 说「初始化知识库」或「deep init」即可触发；也可显式调用：
-
-```bash
-/discovery:deep-init
-```
+在目标项目中说「初始化知识库」或调用 `/init-deep` 生成目录索引；说「初始化架构」或调用 `/init-arch` 梳理架构层约束。Claude Code 以插件形式安装时对应 `/discovery:init-deep` 和 `/discovery:init-arch`。评测场景分别见 [`init-deep`](./skills/init-deep/evals/evals.json) 和 [`init-arch`](./skills/init-arch/evals/evals.json)。

@@ -1,4 +1,4 @@
-<!-- deep-init:synced@b43b534 -->
+<!-- init-deep:synced@293803c -->
 
 # git-manage 知识库
 
@@ -62,5 +62,5 @@ git-manage/
 
 ## 引用
 
-- [docs](../../docs/AGENTS.md) — scope 词表总账的落点目录知识库
-- [engineering-design](../engineering-design/AGENTS.md) — 共享同一套业务域 scope 词表
+- [docs](../../docs/INITDEEP.md) — scope 词表总账的落点目录知识库
+- [engineering-design](../engineering-design/INITDEEP.md) — 共享同一套业务域 scope 词表

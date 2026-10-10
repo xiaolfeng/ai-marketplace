@@ -1,4 +1,4 @@
-<!-- deep-init:synced@94e32fb -->
+<!-- init-deep:synced@293803c -->
 
 # charm 知识库
 
@@ -70,4 +70,4 @@ charm/
 
 ## 引用
 
-- [research](../research/AGENTS.md) — 同批四件套规格的姊妹插件，评测集体例一致
+- [research](../research/INITDEEP.md) — 同批四件套规格的姊妹插件，评测集体例一致

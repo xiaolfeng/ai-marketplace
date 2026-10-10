@@ -1,8 +1,8 @@
-<!-- deep-init:synced@76c9216 -->
+<!-- init-deep:synced@76c9216 -->
 
 # 项目知识库
 
-> 本文件是 deep-init 黄金样例（节选），展示根 AGENTS.md 的基础段与扩展段的取舍。
+> 本文件是 init-deep 黄金样例（节选），展示根 INITDEEP.md 的基础段与扩展段的取舍。
 
 ## 概述
 
@@ -62,6 +62,6 @@ npm run build                 # 导出 Cursor 清单到 dist/cursor/
 
 ## 引用
 
-- [git-manage](./plugins/git-manage/AGENTS.md) — Git 工作流插件集
-- [engineering-design](./plugins/engineering-design/AGENTS.md) — 工程文档体系插件
-- [discovery](./plugins/discovery/AGENTS.md) — 项目知识库构建插件（本技能所在）
+- [git-manage](./plugins/git-manage/INITDEEP.md) — Git 工作流插件集
+- [engineering-design](./plugins/engineering-design/INITDEEP.md) — 工程文档体系插件
+- [discovery](./plugins/discovery/INITDEEP.md) — 项目知识库构建插件（本技能所在）

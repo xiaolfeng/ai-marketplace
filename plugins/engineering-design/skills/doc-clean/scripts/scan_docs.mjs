@@ -23,6 +23,7 @@ const GENRE_MARKERS = {
   draft: ["初步想法", "缺什么"],
   research: ["发现", "结论"],
   rfc: ["不做什么", "备选", "待定"],
+  design: ["工作方式", "数据与接口", "异常与兼容", "验证"],
   adr: ["决定", "否决项"],
 };
 const STATUS_CROSS_DEFAULT = {
@@ -72,7 +73,7 @@ function parseAllowedStatus(md) {
   const allowed = {};
   if (!md) return allowed;
   for (const line of md.split("\n")) {
-    const m = line.match(/^\|\s*(draft|research|rfc|adr)\s*\|([^|]+)\|/);
+    const m = line.match(/^\|\s*(draft|research|rfc|design|adr)\s*\|([^|]+)\|/);
     if (!m) continue;
     const stage = m[1];
     const cell = m[2];
@@ -496,7 +497,7 @@ function checkStatus(files, allowed, findings) {
 
 function checkGenre(files, findings) {
   for (const f of files) {
-    if (!f.md || f.stage === "design") continue;
+    if (!f.md) continue;
     const scores = scoreGenre(h2Exact(f.md));
     const own = scores[f.stage] ?? 0;
     let best = f.stage;

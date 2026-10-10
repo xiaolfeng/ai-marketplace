@@ -1,3 +1,5 @@
+<!-- init-deep:synced@293803c -->
+
 # html 知识库
 
 ## 概述
@@ -15,7 +17,7 @@ HTML 视觉与架构图表插件套件。包含两大核心技能：
 html/
 ├── .claude-plugin/plugin.json
 ├── README.md
-├── AGENTS.md
+├── INITDEEP.md
 └── skills/
     ├── architecture-diagram/
     │   ├── SKILL.md
@@ -84,3 +86,14 @@ html/
   - `excalidraw-diagram` 以内嵌 `<script type="application/json" id="excalidraw-data">` 为事实源，经 Rough.js 动态渲染进 SVG；
 - **多端与双向兼容**：支持深浅双主题切换（深浅模式下文字与描边清晰）、桌面与约 `390px` 移动视口自适应；
 - **完整导出矩阵**：SVG、PNG (2x)、PDF 与剪贴板复制；白板技能额外支持原生 `.excalidraw` 导出与在线打开。
+
+## 反模式
+
+- 把导出后的 SVG 当作白板技能的编辑源——原生图元数据位于 HTML 内嵌的 `excalidraw-data`，应从这里更新并重渲染；
+- 生成依赖本地构建服务才能打开的页面——两类技能交付物均应为可独立打开的单文件 HTML。
+
+## 调试路径
+
+1. 白板 HTML 无法生成 → 检查 `.excalidraw` 输入与 `skills/excalidraw-diagram/scripts/README.md` 中的 `render-to-html.mjs` 用法；
+2. 架构图走线、标签越界 → 查 `skills/architecture-diagram/references/svg-design.md` 与组件库；
+3. 白板导出结果不符 → 核对内嵌 `excalidraw-data`、模板与导出代码路径。

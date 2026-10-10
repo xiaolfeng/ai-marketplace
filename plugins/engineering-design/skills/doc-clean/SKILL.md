@@ -7,7 +7,7 @@ description: >
   双向链接、正文骨架是否对得上目录、外链是否 404。安全项直接修，
   重编号/改名/搬文件先列出对照表等确认。用户说「整理文档」「检查编号」
   「文档卫生」「doc-clean」「引用是不是空的」「工程文档乱了」
-  「扫一下 rfc/adr 有没有串号」时使用；写完一批 draft/research/rfc/adr
+  「扫一下 rfc/adr 有没有串号」时使用；写完一批 draft/research/rfc/design/adr
   之后也要跑，不要等出了问题再查。
 ---
 

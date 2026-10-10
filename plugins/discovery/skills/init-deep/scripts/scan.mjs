@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * deep-init · 结构扫描器（只读，不写入任何文件）。
+ * init-deep · 结构扫描器（只读，不写入任何文件）。
  *
  * 用法：
  *   node scan.mjs [目标目录]    # 缺省为当前目录
  *
- * 输出：stdout 上的 JSON——git 状态、存量 AGENTS.md 盘点（含同步标记与增量 diff 摘要）、
+ * 输出：stdout 上的 JSON——git 状态、存量 INITDEEP.md 盘点（含同步标记与增量 diff 摘要）、
  * 顶层结构摘要与语言分布。供 SKILL.md 第 1 步调用，是分层判定与增量更新的事实依据。
  */
 import { execFileSync } from "node:child_process";
@@ -13,7 +13,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 
 /** 存量文件头部的同步标记，解析增量范围的唯一依据；无标记 = 人工维护 */
-const MARKER_RE = /^<!--\s*deep-init:synced@([0-9a-f]+)\s*-->/;
+const MARKER_RE = /^<!--\s*init-deep:synced@([0-9a-f]+)\s*-->/;
 /** 遍历时跳过的噪音目录（构建产物、依赖、编辑器配置等） */
 const NOISE_DIRS = new Set([
   ".git", "node_modules", "vendor", "dist", "build", "out",
@@ -107,10 +107,10 @@ function treeSummary(root, files) {
     .sort((a, b) => (b.fileCount ?? 0) - (a.fileCount ?? 0));
 }
 
-/** 盘点存量 AGENTS.md：解析同步标记；有标记且 git 可用时给出增量 diff 摘要 */
+/** 盘点存量 INITDEEP.md：解析同步标记；有标记且 git 可用时给出增量 diff 摘要 */
 function inventory(files, root, isRepo) {
   return files
-    .filter((path) => path === "AGENTS.md" || path.endsWith("/AGENTS.md"))
+    .filter((path) => path === "INITDEEP.md" || path.endsWith("/INITDEEP.md"))
     .map((path) => {
       const head = readFileSync(join(root, path), "utf8")
         .split("\n")
@@ -119,7 +119,7 @@ function inventory(files, root, isRepo) {
       const match = head?.match(MARKER_RE);
       const entry = {
         path,
-        scope: path === "AGENTS.md" ? "." : path.replace(/\/AGENTS\.md$/, ""),
+        scope: path === "INITDEEP.md" ? "." : path.replace(/\/INITDEEP\.md$/, ""),
         marked: Boolean(match),
         markerCommit: match ? match[1] : null,
         diffSinceMarker: null,
