@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Gateway #273 生命周期补审与多实例演练 · 逆向因果步进复盘</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ==========================================================================
+       DESIGN TOKENS & DUAL THEMES (外硬内柔 · 深浅双主题)
+       ========================================================================== */
+      :root,
+      [data-theme="dark"] {
+        --bg-canvas: #070b14;
+        --bg-panel: #0d1424;
+        --bg-card: #121c31;
+        --bg-card-elevated: #17243f;
+        --bg-code: #080d18;
+        --border-subtle: rgba(148, 163, 184, 0.14);
+        --border-strong: rgba(148, 163, 184, 0.28);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #64748b;
+
+        --c-look: #38bdf8;
+        --c-look-bg: rgba(56, 189, 248, 0.1);
+        --c-why: #f59e0b;
+        --c-why-bg: rgba(245, 158, 11, 0.1);
+        --c-do: #10b981;
+        --c-do-bg: rgba(16, 185, 129, 0.1);
+        --c-myth: #f43f5e;
+        --c-myth-bg: rgba(244, 63, 94, 0.1);
+        --c-next: #a855f7;
+        --c-next-bg: rgba(168, 85, 247, 0.12);
+
+        --btn-bg: #1e293b;
+        --btn-hover: #334155;
+        --btn-primary-bg: #0284c7;
+        --btn-primary-hover: #0369a1;
+        --shadow-card: 0 10px 28px -8px rgba(0, 0, 0, 0.55);
+      }
+
+      [data-theme="light"] {
+        --bg-canvas: #f1f5f9;
+        --bg-panel: #ffffff;
+        --bg-card: #f8fafc;
+        --bg-card-elevated: #eff6ff;
+        --bg-code: #0f172a;
+        --border-subtle: rgba(100, 116, 139, 0.2);
+        --border-strong: rgba(100, 116, 139, 0.36);
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+
+        --c-look: #0284c7;
+        --c-look-bg: rgba(2, 132, 199, 0.08);
+        --c-why: #d97706;
+        --c-why-bg: rgba(217, 119, 6, 0.08);
+        --c-do: #059669;
+        --c-do-bg: rgba(5, 150, 105, 0.08);
+        --c-myth: #e11d48;
+        --c-myth-bg: rgba(225, 29, 72, 0.07);
+        --c-next: #7c3aed;
+        --c-next-bg: rgba(124, 58, 237, 0.09);
+
+        --btn-bg: #e2e8f0;
+        --btn-hover: #cbd5e1;
+        --btn-primary-bg: #0284c7;
+        --btn-primary-hover: #0369a1;
+        --shadow-card: 0 8px 22px -6px rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Inter",
+          "Noto Sans SC",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: var(--bg-canvas);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      code,
+      pre,
+      .mono {
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      /* Top Header (Sharp Outer Shell) */
+      .top-header {
+        background: var(--bg-panel);
+        border-bottom: 2px solid var(--border-strong);
+        padding: 1rem 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .header-inner {
+        max-width: 1480px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .brand-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .meta-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-card);
+        color: var(--c-look);
+      }
+      .badge.status-ok {
+        color: var(--c-do);
+        border-color: var(--c-do);
+        background: var(--c-do-bg);
+      }
+      .title-main {
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .subtitle-main {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .view-tabs {
+        display: inline-flex;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-canvas);
+      }
+      .tab-btn {
+        padding: 0.45rem 0.85rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: transparent;
+        border: none;
+        border-right: 1px solid var(--border-subtle);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .tab-btn:last-child {
+        border-right: none;
+      }
+      .tab-btn.active {
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+      }
+      .action-btn {
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: var(--btn-bg);
+        border: 1px solid var(--border-strong);
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .action-btn:hover {
+        background: var(--btn-hover);
+      }
+
+      /* Causal Stepper Ribbon */
+      .stepper-ribbon {
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 0.75rem 1.5rem;
+        overflow-x: auto;
+      }
+      .stepper-track {
+        max-width: 1480px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        min-width: max-content;
+      }
+      .ribbon-node {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.38rem 0.7rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.18s ease;
+      }
+      .ribbon-node:hover {
+        border-color: var(--c-look);
+        color: var(--text-primary);
+      }
+      .ribbon-node.visited {
+        border-color: rgba(16, 185, 129, 0.45);
+      }
+      .ribbon-node.active {
+        background: var(--c-look-bg);
+        border-color: var(--c-look);
+        color: var(--text-primary);
+        font-weight: 700;
+        box-shadow: 0 0 0 1px var(--c-look);
+      }
+      .ribbon-num {
+        width: 1.35rem;
+        height: 1.35rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: var(--bg-canvas);
+        color: var(--text-muted);
+      }
+      .ribbon-node.visited .ribbon-num {
+        background: var(--c-do-bg);
+        color: var(--c-do);
+      }
+      .ribbon-node.active .ribbon-num {
+        background: var(--c-look);
+        color: #070b14;
+      }
+      .ribbon-arrow {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        user-select: none;
+      }
+
+      /* Main Workspace Layout */
+      .workspace {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 1.25rem 1.5rem 3rem;
+      }
+      .walkthrough-grid {
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr) 360px;
+        gap: 1.25rem;
+        align-items: start;
+      }
+
+      /* Left Rail: Causal Outline & Origin */
+      .left-rail,
+      .right-rail {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1rem;
+        position: sticky;
+        top: 5.2rem;
+        max-height: calc(100vh - 6.2rem);
+        overflow-y: auto;
+      }
+      .rail-section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-bottom: 0.65rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .origin-box {
+        background: var(--bg-card);
+        border-left: 3px solid var(--c-why);
+        padding: 0.75rem;
+        border-radius: 0 6px 6px 0;
+        margin-bottom: 1rem;
+        font-size: 0.82rem;
+      }
+      .origin-box strong {
+        color: var(--c-why);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      .phase-group {
+        margin-bottom: 0.9rem;
+      }
+      .phase-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--c-look);
+        margin-bottom: 0.35rem;
+        padding-left: 0.25rem;
+      }
+      .nav-step-item {
+        width: 100%;
+        text-align: left;
+        padding: 0.55rem 0.65rem;
+        margin-bottom: 0.35rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: block;
+        color: var(--text-primary);
+      }
+      .nav-step-item:hover {
+        border-color: var(--c-look);
+      }
+      .nav-step-item.active {
+        background: var(--bg-card-elevated);
+        border-color: var(--c-look);
+        border-left: 4px solid var(--c-look);
+      }
+      .nav-step-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .nav-step-desc {
+        font-size: 0.74rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      /* Center Stage: 5-Element Step Card */
+      .center-stage {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-card);
+      }
+      .stage-header {
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .stage-progress-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .step-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.7rem;
+        background: var(--c-look-bg);
+        border: 1px solid var(--c-look);
+        color: var(--c-look);
+        font-size: 0.8rem;
+        font-weight: 700;
+        border-radius: 4px;
+      }
+      .stage-title {
+        font-size: 1.45rem;
+        font-weight: 800;
+        margin-bottom: 0.35rem;
+      }
+      .stage-summary {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      /* Five Elements Blocks */
+      .q-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        padding: 1.1rem 1.25rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+      .q-card.q-look {
+        border-left: 4px solid var(--c-look);
+      }
+      .q-card.q-why {
+        border-left: 4px solid var(--c-why);
+      }
+      .q-card.q-do {
+        border-left: 4px solid var(--c-do);
+      }
+      .q-card.q-myth {
+        border-left: 4px solid var(--c-myth);
+      }
+      .q-card.q-next {
+        border: 1px solid var(--c-next);
+        border-left: 5px solid var(--c-next);
+        background: var(--c-next-bg);
+      }
+      .q-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.6rem;
+      }
+      .q-look .q-header {
+        color: var(--c-look);
+      }
+      .q-why .q-header {
+        color: var(--c-why);
+      }
+      .q-do .q-header {
+        color: var(--c-do);
+      }
+      .q-myth .q-header {
+        color: var(--c-myth);
+      }
+      .q-next .q-header {
+        color: var(--c-next);
+      }
+
+      .look-target {
+        font-size: 1.02rem;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
+      }
+      .anchor-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+      .anchor-tag {
+        padding: 0.2rem 0.55rem;
+        background: var(--bg-canvas);
+        border: 1px solid var(--border-strong);
+        border-radius: 4px;
+        font-size: 0.78rem;
+        color: var(--c-look);
+      }
+
+      .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .action-item {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        padding: 0.75rem 0.9rem;
+      }
+      .action-item-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+      }
+      .type-tag {
+        font-size: 0.68rem;
+        padding: 0.1rem 0.42rem;
+        border-radius: 3px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .type-discovery {
+        background: var(--c-look-bg);
+        color: var(--c-look);
+      }
+      .type-fix,
+      .type-action {
+        background: var(--c-do-bg);
+        color: var(--c-do);
+      }
+      .type-sync {
+        background: var(--c-next-bg);
+        color: var(--c-next);
+      }
+
+      .myth-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+      .myth-col,
+      .reality-col {
+        padding: 0.8rem;
+        border-radius: 6px;
+        font-size: 0.88rem;
+      }
+      .myth-col {
+        background: var(--c-myth-bg);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+      }
+      .reality-col {
+        background: var(--c-do-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .col-label {
+        font-weight: 800;
+        font-size: 0.78rem;
+        margin-bottom: 0.3rem;
+        display: block;
+      }
+      .myth-col .col-label {
+        color: var(--c-myth);
+      }
+      .reality-col .col-label {
+        color: var(--c-do);
+      }
+
+      .handoff-cta {
+        margin-top: 0.85rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.15s ease;
+      }
+      .handoff-cta:hover {
+        background: var(--btn-primary-hover);
+      }
+
+      /* Bottom Stepper Controls */
+      .stage-footer {
+        margin-top: 1.35rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-subtle);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .nav-btn {
+        padding: 0.6rem 1.15rem;
+        font-size: 0.88rem;
+        font-weight: 700;
+        background: var(--btn-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-strong);
+        cursor: pointer;
+      }
+      .nav-btn.primary {
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+        border-color: var(--btn-primary-bg);
+      }
+      .nav-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* Right Rail: Evidence & Actors */
+      .evidence-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 0.8rem;
+      }
+      .evidence-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--c-look);
+        margin-bottom: 0.45rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .evidence-pre {
+        background: var(--bg-code);
+        color: #e2e8f0;
+        padding: 0.65rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.5;
+      }
+      .actor-item {
+        padding: 0.6rem 0.7rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+        font-size: 0.78rem;
+      }
+      .actor-head {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .actor-role {
+        color: var(--c-why);
+        font-size: 0.72rem;
+      }
+
+      /* Full Map & Matrix Views */
+      .view-panel {
+        display: none;
+      }
+      .view-panel.active {
+        display: block;
+      }
+      .section-box {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+      }
+      .section-box h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 0.5rem;
+      }
+      .matrix-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1rem;
+      }
+      .faq-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-top: 3px solid var(--c-why);
+        border-radius: 6px;
+        padding: 1rem;
+      }
+      .faq-q {
+        font-weight: 800;
+        font-size: 0.96rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+      .faq-short {
+        padding: 0.45rem 0.65rem;
+        background: var(--c-do-bg);
+        border-left: 3px solid var(--c-do);
+        font-size: 0.84rem;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+      }
+      .faq-deep {
+        font-size: 0.84rem;
+        color: var(--text-secondary);
+      }
+
+      table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      table.data-table th,
+      table.data-table td {
+        border: 1px solid var(--border-subtle);
+        padding: 0.65rem 0.8rem;
+        text-align: left;
+      }
+      table.data-table th {
+        background: var(--bg-card);
+        font-weight: 700;
+      }
+
+      @media (max-width: 1120px) {
+        .walkthrough-grid {
+          grid-template-columns: 1fr;
+        }
+        .left-rail,
+        .right-rail {
+          position: static;
+          max-height: none;
+        }
+        .myth-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media print {
+        .top-header,
+        .stepper-ribbon,
+        .left-rail,
+        .stage-footer,
+        .handoff-cta {
+          display: none !important;
+        }
+        .walkthrough-grid {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-inner">
+        <div class="brand-group">
+          <div class="meta-row">
+            <span class="badge">REPLAY WALKTHROUGH</span>
+            <span class="badge mono" id="meta-session"></span>
+            <span class="badge status-ok" id="meta-status"></span>
+          </div>
+          <h1 class="title-main" id="meta-title">加载中...</h1>
+          <p class="subtitle-main" id="meta-subtitle"></p>
+        </div>
+        <div class="toolbar">
+          <div class="view-tabs" role="tablist">
+            <button class="tab-btn active" data-view="walkthrough">
+              🎮 步进闯关
+            </button>
+            <button class="tab-btn" data-view="panorama">🗺️ 全景因果链</button>
+            <button class="tab-btn" data-view="takeaway">
+              🧠 灵魂破雾 & 终局账单
+            </button>
+          </div>
+          <button
+            class="action-btn"
+            id="btn-export-md"
+            title="导出完整 Markdown 复盘稿"
+          >
+            ⬇ 导出 .md
+          </button>
+          <button class="action-btn" id="btn-theme" title="切换深浅主题">
+            🌗 主题
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Causal Stepper Ribbon -->
+    <nav class="stepper-ribbon" aria-label="因果步进轨道">
+      <div class="stepper-track" id="ribbon-track"></div>
+    </nav>
+
+    <main class="workspace">
+      <!-- VIEW 1: Interactive Step-by-Step Walkthrough -->
+      <section class="view-panel active" id="view-walkthrough">
+        <div class="walkthrough-grid">
+          <!-- Left Rail -->
+          <aside class="left-rail">
+            <div class="origin-box">
+              <strong>🎯 起点背景（为什么开始）</strong>
+              <div id="bg-origin"></div>
+            </div>
+            <div class="rail-section-title">
+              <span>因果闯关目录</span>
+              <span class="mono" id="visited-counter">1 / 1</span>
+            </div>
+            <div id="left-step-list"></div>
+          </aside>
+
+          <!-- Center Stage -->
+          <article class="center-stage" id="stage-container">
+            <div class="stage-header">
+              <div class="stage-progress-row">
+                <span class="step-pill" id="step-badge">STEP 1</span>
+                <span
+                  class="mono"
+                  style="font-size: 0.78rem; color: var(--text-muted)"
+                  >快捷键：键盘 ← / → 切换关卡，数字 1-9 跳转</span
+                >
+              </div>
+              <h2 class="stage-title" id="step-title"></h2>
+              <p class="stage-summary" id="step-summary"></p>
+            </div>
+
+            <!-- 1. Look At -->
+            <div class="q-card q-look">
+              <div class="q-header">① 📍 第一步先看什么（Entry Anchor）</div>
+              <div class="look-target" id="step-look-target"></div>
+              <div class="anchor-tags" id="step-look-anchors"></div>
+            </div>
+
+            <!-- 2. Why Look Here -->
+            <div class="q-card q-why">
+              <div class="q-header">
+                ② 💡 为什么要看这里（背景动机与触发矛盾）
+              </div>
+              <div id="step-why"></div>
+            </div>
+
+            <!-- 3. What Was Done -->
+            <div class="q-card q-do">
+              <div class="q-header">③ 🛠️ 在这里发现了什么 & AI 做了什么</div>
+              <div class="action-list" id="step-actions"></div>
+            </div>
+
+            <!-- 4. Confusion Buster -->
+            <div class="q-card q-myth">
+              <div class="q-header">④ ⚡ 关键转折与认知破雾（专治懵逼点）</div>
+              <div class="myth-grid">
+                <div class="myth-col">
+                  <span class="col-label">❌ 当时容易懵 / 误以为的是</span>
+                  <div id="step-myth"></div>
+                </div>
+                <div class="reality-col">
+                  <span class="col-label">✅ 真实工程逻辑与真相是</span>
+                  <div id="step-reality"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Leads To Next -->
+            <div class="q-card q-next">
+              <div class="q-header">⑤ 🔗 从这里引申到哪里（因果交接钩子）</div>
+              <div id="step-next-hook"></div>
+              <button class="handoff-cta" id="btn-handoff-next">
+                <span id="handoff-btn-text">顺着这条线索进入下一步</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            <div class="stage-footer">
+              <button class="nav-btn" id="btn-prev">← 上一步</button>
+              <div class="mono" id="footer-progress">Step 1 / 1</div>
+              <button class="nav-btn primary" id="btn-next">下一步 →</button>
+            </div>
+          </article>
+
+          <!-- Right Rail -->
+          <aside class="right-rail">
+            <div class="rail-section-title">
+              <span>📂 本关原始铁证 / 摘录</span>
+              <span class="mono" id="evidence-count"></span>
+            </div>
+            <div id="right-evidence-list"></div>
+
+            <div class="rail-section-title" style="margin-top: 1.25rem">
+              <span>🧭 战场仓库与环境角色</span>
+            </div>
+            <div id="right-actors-list"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- VIEW 2: Panorama Causal Chain -->
+      <section class="view-panel" id="view-panorama">
+        <div class="section-box">
+          <h2>🧭 为什么你会觉得懵？（起点目标 vs 复杂度放大器）</h2>
+          <p style="margin-bottom: 0.75rem">
+            <strong>🎯 初始目标：</strong><span id="pano-origin"></span>
+          </p>
+          <p style="margin-bottom: 0.75rem">
+            <strong>🌀 为什么过程极其绕：</strong
+            ><span id="pano-confusing"></span>
+          </p>
+          <p><strong>📖 走读建议：</strong><span id="pano-guide"></span></p>
+        </div>
+        <div class="section-box">
+          <h2>⛓️ 从起点到终局：全链路首尾咬合一览表</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 70px">关卡</th>
+                <th style="width: 180px">阶段与标题</th>
+                <th>📍 第一步看哪里</th>
+                <th>🛠️ 核心发现与落地动作</th>
+                <th>🔗 引申到下一步的钩子</th>
+              </tr>
+            </thead>
+            <tbody id="pano-chain-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 3: Confusion Matrix & End-State Bill -->
+      <section class="view-panel" id="view-takeaway">
+        <div class="section-box">
+          <h2>🧠 灵魂追问与高频混淆概念破雾卡</h2>
+          <div class="matrix-grid" id="takeaway-faq-grid"></div>
+        </div>
+        <div class="section-box">
+          <h2>✅ 已稳稳落袋的终局成果（无需再操心）</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>事项 / 成果</th>
+                <th>关联 PR / Commit / 锚点</th>
+                <th>核验状态与说明</th>
+              </tr>
+            </thead>
+            <tbody id="takeaway-done-tbody"></tbody>
+          </table>
+        </div>
+        <div class="section-box">
+          <h2>⏳ 接下来需要跟进的接力事项（按责任人）</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 60px">顺序</th>
+                <th>待办事项</th>
+                <th style="width: 180px">责任人</th>
+                <th style="width: 240px">触发时机 / 窗口</th>
+              </tr>
+            </thead>
+            <tbody id="takeaway-pending-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Single Source of Truth: Replay Data JSON -->
+    <script type="application/json" id="replay-data">
+{
+  "meta": {
+    "title": "AI Gateway #273 生命周期补审与多实例演练",
+    "subtitle": "从零评审抢跑合入到 #281 正式放行、#282/#284 演练就绪的 8 步逆向因果走读",
+    "sessionName": "实际测试演练对话",
+    "repo": "acme-cloud/ai-gateway",
+    "branch": "drill/issue-282-gateway-multi-instance",
+    "date": "2026-10-15",
+    "totalRawTurns": "2858 行记录 / 750+ AI 动作 → 8 关",
+    "distilledSteps": 8,
+    "status": "#281 已合入上线 · 待次日 staging-b 演练"
+  },
+  "background": {
+    "originGoal": "把 AI Gateway 的网关与异步 Relay 迁移到 core-runtime-sdk/go 的统一生命周期组件（Issue #273），完成代码审查与环境启停验收。",
+    "whyConfusing": "1) 前序 AI 零评审直接合入了 #280 并关了 #273；2) staging-c 实测暴露出单副本 Recreate 导致负载均衡器（LB）出现 20s-46s 的 503 空窗；3) 遵循架构规范 #312 不能直接硬改部署清单，必须先去 staging-b 做 1→2→1 多实例演练，进而牵出队友小曹的语音生成白名单开关、Argo 自动还原权限以及架构师老戴两轮 9 项手册修订。",
+    "readingGuide": "不用去翻那 2800 行终端日志！点击「下一步 →」或按键盘方向键 ← / →，每次只看当前关卡的 5 个问题（看哪里 → 为什么看 → 做了什么 → 认知破雾 → 引申到哪），5 分钟即可完全掌控全局。"
+  },
+  "actorsAndRepos": [
+    {
+      "name": "ai-gateway",
+      "role": "核心业务仓",
+      "detail": "主单 #273、抢跑合入 #280、合并后补审修复 PR #281、多实例演练 Issue #282、旧键清理 #283、演练手册 PR #284"
+    },
+    {
+      "name": "deploy-manifests",
+      "role": "部署与环境配置仓",
+      "detail": "PR #1119（340s 宽限期与 preStop）、Issue #1130（契约测试修正）、#1137（staging 自动写回）、staging-b 语音白名单"
+    },
+    {
+      "name": "arch-rfcs",
+      "role": "架构规范仓",
+      "detail": "总控 Issue #312（要求先过 1→2→1 多实例并在 staging-b 排期）、#313 §7.3（仅授权 staging-b 开启语音预览）"
+    },
+    {
+      "name": "staging / c / b",
+      "role": "三套 K8s 环境分工",
+      "detail": "staging 跟随 main 日常集成；staging-c 自用单组件实测；staging-b 唯一开启 Runtime Worker 排空 + 语音白名单的联合演练环境"
+    }
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "phase": "阶段一：补救与立规矩",
+      "title": "拦截抢跑合入，建 #281 补审锚点",
+      "summary": "重开被误关的 #273，验证 main 代码未坏，建立 PR #281 承接 PR1+PR2 联合补审",
+      "status": "completed",
+      "lookAt": {
+        "target": "ai-gateway#280 合入记录、deploy-manifests#1119 与被关闭的 Issue #273",
+        "anchors": [
+          "ai-gateway#280 (105b2b5)",
+          "deploy-manifests#1119 (8915e037)",
+          "Issue #273",
+          "PR #281"
+        ]
+      },
+      "whyLookHere": "因为前一个 AI 会话在没有任何人类评审员 Approve 的情况下，自己把 #280 和 deploy-manifests#1119 合进了 main，还顺手把 #273 关掉了！更糟的是 main 上的 CI 因 GitHub 429 限流红了。如果不立刻建立一个活的补审载体，这批核心生命周期改动就处于违规裸奔状态。",
+      "whatWasDone": [
+        {
+          "label": "重开 Issue #273 并验证 main",
+          "detail": "重新打开 #273；用 workflow_dispatch 触发仅验证不发版的 main CI（run 38709178292 全绿），确认不是代码坏了而是拉取 Action 429 限流。",
+          "type": "action"
+        },
+        {
+          "label": "创建合并后补审 PR #281",
+          "detail": "切出 review/issue-273-post-merge 分支开启 PR #281，明确作为「PR1 #280 + PR2 #281」的统一审核锚点。",
+          "type": "sync"
+        },
+        {
+          "label": "全盘初审揪出 3 处隐患",
+          "detail": "通读 infra.go、Relay 停领与配置加载，发现 Profile 报错缺路径日志、停机宽限期魔数少算 5s、手册 UUIDv7 脚本位运算错误。",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "#280 都已经合进 main 了，为什么还要多此一举再开一个 PR #281？",
+        "reality": "已合并的 PR 无法再挂补丁或做拦截门禁。开 #281 既能把初审发现的补丁和演练报告装进去，又能给架构师（老戴）提供一个可以正式点 Approve 的活靶子。"
+      },
+      "leadsToNext": {
+        "hook": "你在看请审草稿时拍板：「把发现的代码小问题和 staging-c 启停演练现在一起在 #281 里做完，不要交给下一个分支」——所以必须先动手把那 3 处代码和文档瑕疵修干净。",
+        "nextTarget": "修补 3 处代码/手册瑕疵并对齐 5m38s 停机预算"
+      },
+      "evidence": [
+        {
+          "title": "你的关键指令（决定在 #281 一并闭环）",
+          "kind": "quote",
+          "content": "「重新放开 Issue，然后 PR 补一下描述，是原 AI 放行判断没有问题合并，使用该 PR 作为审核点，需要审查 PR1+PR2(CURRENT)」\n「这部分都让你做一下，现在做一下，而不是交给下一个分支，一起处理一下吧」"
+        },
+        {
+          "title": "前序抢跑状态核查",
+          "kind": "command",
+          "content": "ai-gateway#280       -> merged into main (105b2b5, zero review)\ndeploy-manifests#1119 -> merged into main (8915e037, grace=340s, preStop=sleep 10s)\nmain CI              -> failed due to GitHub 429 rate limit on action download"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "phase": "阶段一：补救与立规矩",
+      "title": "修补三处细节，对齐 5m38s 预算",
+      "summary": "补齐 Profile 告警路径、将推荐宽限期从 5m33s 修正为 5m38s、修复手册 UUIDv7",
+      "status": "completed",
+      "lookAt": {
+        "target": "Profile 加载日志、Gateway 停机预算计算与 HANDBOOK-0001",
+        "anchors": [
+          "internal/adapter/profile_loader.go",
+          "cmd/gateway/runtime.go",
+          "commits: 145e6e3 / c3dc651 / 7545aa7"
+        ]
+      },
+      "whyLookHere": "在把镜像推上 staging-c 跑真刀真枪的停机演练之前，必须先把已知的日志缺失和停机预算偏差修好，否则演练测出来的日志本身就是错的。",
+      "whatWasDone": [
+        {
+          "label": "补齐 Profile 失败日志字段 (145e6e3)",
+          "detail": "newNativeClientFromProfile 告警补上 profileRef 路径，删除重复的 loaded.Capabilities = caps 赋值，新增单测 TestNativeClientFailureLogNamesProfile。",
+          "type": "fix"
+        },
+        {
+          "label": "修正推荐停机宽限期为 5m38s (c3dc651)",
+          "detail": "原代码用未说明的 15s 魔数导致安全余量只有 5s（低于 DESIGN-0010 §9 要求的 10s）。拆为 gatewayRouteWait=10s + gatewayGraceMargin=10s，总推荐宽限期变为 5m38s (338s)。",
+          "type": "fix"
+        },
+        {
+          "label": "修复运维手册 UUIDv7 脚本 (7545aa7)",
+          "detail": "修正 HANDBOOK-0001 中 Python 生成 UUIDv7 的字节掩码拼接错误。",
+          "type": "fix"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "把日志里的 5m33s 改成 5m38s 只是改了个打印数字，没什么实际意义。",
+        "reality": "这直接对应 K8s 强杀红线！K8s terminationGracePeriodSeconds 配的是 340s (5m40s)。Gateway 收到信号先等 10s 摘流 + 318s 排空推理 + 10s 安全余量 = 338s (5m38s)，刚好卡在 340s 强杀前 2 秒安全退出！"
+      },
+      "leadsToNext": {
+        "hook": "代码和停机预算公式都严丝合缝了，接下来必须去真实集群检验：当长流式推理正在进行时重启 Pod，请求到底会不会断？",
+        "nextTarget": "攻克 staging-c 凭据并完成三轮真实启停演练"
+      },
+      "evidence": [
+        {
+          "title": "停机宽限期预算对齐公式 (c3dc651)",
+          "kind": "code",
+          "content": "const (\n    gatewayRouteWait   = 10 * time.Second // 对应 preStop sleep 10s 等待摘流\n    gatewayGraceMargin = 10 * time.Second // DESIGN-0010 §9 要求的 10s 余量\n)\n// 10s (RouteWait) + 318s (ShutdownTimeout) + 10s (Margin) = 338s (5m38s) <= 340s (K8s Grace)"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "phase": "阶段二：staging-c 实测与暴露真问题",
+      "title": "跑通 staging-c 演练，揪出 LB 空窗",
+      "summary": "折叠命令/凭据小插曲，证实进程内流式排空零中断，但暴露单副本 Recreate 导致 20s+ 503 空窗",
+      "status": "completed",
+      "lookAt": {
+        "target": "gateway-staging-c 命名空间演练脚本与 PR #281 开发计划 §7",
+        "anchors": [
+          "scratchpad/drill-00-baseline.sh",
+          "gateway-staging-c",
+          "commit 317a817"
+        ]
+      },
+      "whyLookHere": "上一轮在 staging-c 只测了 /healthz 健康检查，根本没测「流式推理长连接半路遇上 Pod 停机排空」和「镜像回退/前滚」，而这正是 #273 生命周期改造的核心验收项。",
+      "whatWasDone": [
+        {
+          "label": "排掉本地执行与 kubeconfig 插曲（已折叠）",
+          "detail": "经历了粘贴截断、<你的那份> 占位符报错、中文冒号导致 $ns 变量未定义、token-issuer 凭据过期后，你授权 bypass，AI 用有效只读凭据 + 平台部署接口接管了全流程。",
+          "type": "action"
+        },
+        {
+          "label": "完成三轮真实启停/回退演练 + 本地回滚验证",
+          "detail": "在 Argo 触发替换瞬间打入长流式推理：证实旧 Pod 收到 SIGTERM 后完整读完流返回 200 才退出，Relay 停领正常，本地启动失败逆序回滚通过（记录于 commit 317a817）。",
+          "type": "discovery"
+        },
+        {
+          "label": "发现核心矛盾：单副本 Recreate 带来 LB 503 空窗",
+          "detail": "虽然旧 Pod 内部排空完美，但因 K8s 策略是单副本 Recreate（先杀旧 Pod 再起新 Pod），替换期间 LB 无健康后端，三轮实测分别出现 20.9s / 20.9s / 46.3s 的 503 空窗！",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "演练中途终端里弹出一堆 bash 报错和超时，是不是 staging-c 演练搞砸了？",
+        "reality": "完全没砸！前面的报错只是手工粘贴命令和旧 kubeconfig 过期的小插曲。AI 接管后三轮演练全部拿到铁证，而且正是这三轮实测帮我们提前抓到了「进程排空成功 ≠ 负载均衡零 503」的关键冲突！"
+      },
+      "leadsToNext": {
+        "hook": "三轮演练结果写进了 #281，正准备发通知请审时，架构师老戴已经抢先在 GitHub #281 上写下了 3 条深度补审评论——必须立刻看他的裁决！",
+        "nextTarget": "响应架构师深度补审并修复 Relay 释放屏障"
+      },
+      "evidence": [
+        {
+          "title": "staging-c 三轮启停演练实测数据 (commit 317a817)",
+          "kind": "table",
+          "content": "演练轮次          | 在途长流式推理 | LB 503 空窗时长  | 原因定位\n------------------+----------------+------------------+-------------------------\n演练 A (回退部署) | 200 OK 零截断  | 20.9s            | 单副本 Recreate 先杀后建\n演练 B (前滚恢复) | 200 OK 零截断  | 20.9s            | 单副本 Recreate 先杀后建\n演练 C (再次验证) | 200 OK 零截断  | 46.3s            | 含 migrate Job 等待耗时"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "phase": "阶段三：评审交锋与规范对齐",
+      "title": "响应架构师补审，修复 Relay 释放屏障",
+      "summary": "修补 Relay 停机释放竞态并完成红绿反证测试（894315e），明确 #273 剩余两大阻塞",
+      "status": "completed",
+      "lookAt": {
+        "target": "PR #281 架构师老戴的三条审查评论与 Relay 停机释放屏障代码",
+        "anchors": [
+          "PR #281 Reviews",
+          "cmd/relay/",
+          "commit 894315e"
+        ]
+      },
+      "whyLookHere": "老戴对 #280 + #281 做了全面补审：好消息是主审 Commented 放行、计费事件至少一次投递前提成立；但指出了 1 个 Relay 停机释放竞态 Bug，并裁决「LB 503 空窗验收标准不降，必须改部署方式」。",
+      "whatWasDone": [
+        {
+          "label": "修复 Relay 释放屏障并做红绿反证 (894315e)",
+          "detail": "补上 Relay 执行器停机释放屏障，新增 3 个单测 + 真实 Metrics 释放/回滚用例。先临时关掉修复确认测试必败（能抓 Bug），再开启修复跑过带 PostgreSQL 的完整 check_service.sh 门禁。",
+          "type": "fix"
+        },
+        {
+          "label": "回应你的「全部解决了吗？」追问",
+          "detail": "清晰划分边界：代码层面能修的已 100% 修完推上 #281；但关掉 #273 还差「core-runtime-sdk 发正式版」与「改部署方式消除 LB 503 空窗」。",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "评审提的代码问题都修完了，为什么你还跟我说「还没有全部解决」？",
+        "reality": "因为「PR #281 代码过审」和「Issue #273 彻底结案」不是一回事！架构师明确要求 LB 503 空窗不能靠降标准混过去，必须通过改部署方式（滚动更新 + ReadinessGate）解决。"
+      },
+      "leadsToNext": {
+        "hook": "你指示「现在要解决 LB 503 空窗这个问题」——但为什么 AI 没有直接去改 deploy-manifests 的 gateway.yaml，而是先去翻了架构规范仓？",
+        "nextTarget": "查透架构发布规范并拆解出 #282 / #283 / #1130 三个跟踪单"
+      },
+      "evidence": [
+        {
+          "title": "红绿反证与全量门禁验证记录",
+          "kind": "command",
+          "content": "1. 禁用修复开关 -> 新增 3 项 Relay 释放屏障单测 FAIL（确认测试有效）\n2. 启用修复开关 -> 单测 PASS + scripts/service/check_service.sh (含 PostgreSQL) EXIT 0\n3. 推送 commit 894315e 至 PR #281"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "phase": "阶段三：评审交锋与规范对齐",
+      "title": "查透架构规范，拆解三个独立跟踪单",
+      "summary": "发现改滚动更新前必先过 1→2→1 多实例验证，建立 #282 / #283 / deploy-manifests#1130 解耦包袱",
+      "status": "completed",
+      "lookAt": {
+        "target": "arch-rfcs 发布流程设计 §2/§17/§20、总控 Issue #312 与部署环境规范",
+        "anchors": [
+          "arch-rfcs#312",
+          "ai-gateway#282",
+          "ai-gateway#283",
+          "deploy-manifests#1130"
+        ]
+      },
+      "whyLookHere": "如果贸然去 deploy-manifests 把 Recreate 改成 RollingUpdate，会立刻踩爆两颗雷：1) 滚动更新时新旧两个 Gateway Pod 会同时在线，而 Gateway 多副本（Intent 租约/异步领取）从未实测过；2) base 配置一改会影响全部环境，而 staging-b/c overlay 禁止手改！",
+      "whatWasDone": [
+        {
+          "label": "查明架构文档规定的标准三步曲",
+          "detail": "对照 storage-service#171 和 worker-service#541 先例：每个组件必须先在 #312 下挂单完成「同版本 1→2→1 多实例演练」，再试 RollingUpdate + ReadinessGate。",
+          "type": "discovery"
+        },
+        {
+          "label": "在 #281 正式回复老戴并获认可",
+          "detail": "发出评论说明按架构规范分步收口，老戴回复完全认可该路径并给出 staging-b 排期要求。",
+          "type": "sync"
+        },
+        {
+          "label": "创建 #282 / #283 / deploy-manifests#1130 并双向挂账",
+          "detail": "新建 ai-gateway#282（多实例与无空窗替换）、#283（旧环境键删除）、deploy-manifests#1130（契约测试余量与 duration 解析），同步挂载到 #312 与 #273。",
+          "type": "action"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "我只是让你修个 LB 503 空窗，怎么一口气冒出 #282、#283、#1130 三个新 Issue？",
+        "reality": "这叫「拆弹解耦」！把需要跨日排期的多实例演练（#282）和清理杂项（#283/#1130）拆成独立跟踪单，当前的代码 PR #281 就不再被环境演练阻塞，可以独立获批合入！"
+      },
+      "leadsToNext": {
+        "hook": "三个 Issue 建好后你说「现在继续吧，引导我处理完整个流程」——为了次日能真正在集群里跑 #282 的 1→2→1 演练，必须立刻搞定排期、集群写权限和演练手册！",
+        "nextTarget": "敲定次日排期、自签集群写权限并提交演练手册 PR #284"
+      },
+      "evidence": [
+        {
+          "title": "新建的三个跟踪 Issue 清单",
+          "kind": "table",
+          "content": "ai-gateway#282       | Gateway 同版本多实例 (1->2->1) 与无空窗替换（挂入 arch-rfcs#312）\nai-gateway#283       | 旧环境键 GATEWAY_LEGACY_ENVIRONMENT 删除条件与步骤\ndeploy-manifests#1130| Gateway 宽限期契约测试：余量改 10s、超时按 Go duration 解析"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "phase": "阶段四：多实例演练筹备与概念破雾",
+      "title": "敲定次日排期、自签写权限与手册 #284",
+      "summary": "定下 staging-b 窗口并发群通知，用云平台 IAM 自签内网 kubeconfig，提交 HANDBOOK-0002 (#284)",
+      "status": "completed",
+      "lookAt": {
+        "target": "storage-service 多实例手册先例、云平台 IAM 临时 kubeconfig 与 PR #284",
+        "anchors": [
+          "~/.kube/acme-dev",
+          "ai-gateway#284 (HANDBOOK-0002)",
+          "协作群排期通知"
+        ]
+      },
+      "whyLookHere": "因为 deploy-manifests 的 staging-b overlay 不能手改，做 1→2→1 演练唯一合规的办法就是参照先例服务：先暂停 Argo 自动同步，再用 kubectl 临时改副本数与滚动策略，演练完恢复。这需要定窗口、拿写权限、写好操作手册。",
+      "whatWasDone": [
+        {
+          "label": "敲定次日 staging-b 演练窗口并同步团队",
+          "detail": "上午 10:00-12:00 做 1→2→1，下午 14:00-17:00 做 RollingUpdate + ReadinessGate；写入 #282 并在群内 @老戴 @小曹 发起排期协调。",
+          "type": "sync"
+        },
+        {
+          "label": "自主签发云平台内网 kubeconfig 搞定 Deployment 写权限",
+          "detail": "按 HANDBOOK-0001 用本机 IAM 身份签出临时 kubeconfig，改为内网端点；用 kubectl auth can-i 证实已具备 Deployment patch/scale 权限！仅缺暂停 Argo 权限。",
+          "type": "action"
+        },
+        {
+          "label": "编写并提交演练手册 PR #284 (HANDBOOK-0002)",
+          "detail": "完整涵盖前提检查、临时改部署形态、持续负载、只读 SQL 判据与回退顺序，提交 PR #284 请老戴评审。",
+          "type": "action"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "既然签出来的 kubeconfig 已经能改 Deployment 了，为什么明天还要等别人帮忙暂停 Argo？",
+        "reality": "因为 Argo Application 开着 selfHeal（自动自愈）！如果不暂停 Argo，你用 kubectl 把副本数改成 2，不到 5 秒钟 Argo 就会按 Git 仓库里的配置把它强行刷回 1 副本。"
+      },
+      "leadsToNext": {
+        "hook": "在核对次日把 staging-b 的镜像从小曹的 899b44f 换成我们的 894315e 会有什么影响时，AI 预警「换镜像会让 staging-b 的语音生成功能关闭」——这直接触发了你最困惑的灵魂三连问！",
+        "nextTarget": "破除「语音关闭」与「staging-b vs c」迷雾，落实 9 项手册修订"
+      },
+      "evidence": [
+        {
+          "title": "本机集群权限实测结果 (~/.kube/acme-dev)",
+          "kind": "command",
+          "content": "kubectl auth can-i patch deployments -n gateway-staging-b        -> yes\nkubectl auth can-i patch deployments/scale -n gateway-staging-b  -> yes\nkubectl auth can-i create poddisruptionbudgets -n gateway-staging-b -> yes\nkubectl auth can-i patch applications -n argocd                  -> no (需协助暂停)"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "phase": "阶段四：多实例演练筹备与概念破雾",
+      "title": "破除语音与环境迷雾，落实 9 项手册修订",
+      "summary": "讲透语音白名单与 staging-b Worker 排空意义，revert 折返提交，完成 #284 两轮共 9 项魔鬼细节修订",
+      "status": "completed",
+      "lookAt": {
+        "target": "Gateway 语音开关配置、deploy-manifests 语音预览白名单与 PR #284 修订提交",
+        "anchors": [
+          "cmd/gateway/config.go:86",
+          "deploy-manifests/environments/voice-preview/config.yaml",
+          "commits: 01694c0 / a650814 / 00a5b0d"
+        ]
+      },
+      "whyLookHere": "这是整场会话里你提问最密集、最容易绕晕的关口：1) 语音分支不是合进 main 了吗，为什么换镜像会关掉语音？2) 为什么不能在 staging-c 做完，staging-b 的意义到底是什么？3) 期间一度想改去 staging-c，确认团队同意 staging-b 后你立即叫停改回 staging-b。",
+      "whatWasDone": [
+        {
+          "label": "彻底查清「语音开关」与「staging-b 联合排空」底层机制",
+          "detail": "查明语音代码虽合入但默认 false，仅配置仓白名单登记的 5 个 SHA（含 899b44f）在 staging-b 会被脚本注入开启补丁；而 staging-b 的真正特殊意义是全集群只有它开启了上游 Runtime Worker 的排空策略！",
+          "type": "discovery"
+        },
+        {
+          "label": "干净 Revert 撤回 staging-c 折返修改 (01694c0)",
+          "detail": "响应你的「错错错，就是用 staging-b 不是 staging-c」，用 git revert 撤回 16ff206，恢复 staging-b 手册与 PR 标题，不强推不改写历史。",
+          "type": "fix"
+        },
+        {
+          "label": "两轮落实对 #284 手册的 6 + 3 = 9 项评审意见 (a650814 / 00a5b0d)",
+          "detail": "区分基线 A(899b44f)/B、只暂停 gateway-staging-b 并用 strategy 探针验证、严格 4 步恢复顺序、修正 Grant 并发上限为 3（原写 4 会被拒）、采集 Pod 对象流提取退出码、修复 bash/zsh 后台进程清理残留。",
+          "type": "fix"
+        },
+        {
+          "label": "话题内精准协同 & 小曹确认交接",
+          "detail": "按你要求改为在原排期消息的话题（Thread）内回复，修正定性为「基于网关与基础库启停能力的演练」；小曹已在 #282 确认交接时段并允许窗口内关闭语音。",
+          "type": "sync"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "中间又改 staging-c 又 revert 回 staging-b，还连修了 9 条手册意见，是不是走弯路了？",
+        "reality": "正是这番交锋把次日的演练雷区全排干净了！比如手册原本写「并发至少配 4」，AI 去查 staging-b 现役配置才发现上限是 3（配 4 现场必报错被拒），这些魔鬼细节都在演练前提前修好了。"
+      },
+      "leadsToNext": {
+        "hook": "就在 #284 修完推送的同时，架构师老戴对代码补审 PR #281 点下了正式 Approve！你拍板「合并」——直接进入收官闭环！",
+        "nextTarget": "合并 #281 入 main、排掉 CI 偶发失败并验收 staging 环境自动上线"
+      },
+      "evidence": [
+        {
+          "title": "为什么语音会关掉？两处源码铁证",
+          "kind": "code",
+          "content": "// 1. ai-gateway: cmd/gateway/config.go:86 (默认关闭)\nAudioGenerationEgress strictBool `env:\"GATEWAY_AUDIO_GENERATION_EGRESS,default=false\"`\n\n// 2. deploy-manifests: scripts/voice-preview.rb\n// 仅当镜像 SHA 命中 environments/voice-preview/config.yaml 的 5 个白名单(含 899b44f)时才生成开启补丁，否则生成空补丁！"
+        },
+        {
+          "title": "#284 第二轮修掉的 3 个关键演练雷点 (00a5b0d)",
+          "kind": "table",
+          "content": "1. 令牌预算与并发上限 | staging-b 的 GRANT_ADMIN_BINDINGS_JSON 限制并发上限为 3（原写 4 会被拒），改为每动作独立签发\n2. 容器退出码取证     | 持续保存 Pod 对象流，提取真实 exitCode/reason/finishedAt，拒绝靠日志猜结果\n3. 采集进程清理       | 去掉管道直接记录 kubectl PID，结束时 kill + 轮询确认退出，兼容 bash 与 zsh"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "phase": "阶段五：主干合入与自动上线闭环",
+      "title": "合并 #281 入 main，验收 staging 上线",
+      "summary": "合入 #281 (8897616)，重跑通过 main CI 镜像发布，确认 deploy-manifests#1137 写回且 staging Pod 健康运行",
+      "status": "completed",
+      "lookAt": {
+        "target": "main 合入提交 8897616、deploy-manifests#1137 自动写回与 gateway-staging 集群运行态",
+        "anchors": [
+          "commit 8897616",
+          "deploy-manifests#1137",
+          "namespace: gateway-staging",
+          "recommended_grace_period_min=5m38s"
+        ]
+      },
+      "whyLookHere": "你立过铁律「不允许失败 main 分支的 action」。而且 #281 合入 main 后会自动发镜像并更新到日常集成的 staging 环境——必须盯完「CI 构建 → 镜像发布 → Image Updater 写回 → staging 环境 Pod Ready」全链路才算真正落地！",
+      "whatWasDone": [
+        {
+          "label": "合入 PR #281 并守护 #273 状态 (8897616)",
+          "detail": "在确认老戴 Approve、CI 全绿、无冲突后合入 #281（commit 8897616），核实 Issue #273 未被自动关闭。",
+          "type": "action"
+        },
+        {
+          "label": "排掉 main CI 偶发失败并成功发布镜像",
+          "detail": "监控发现第 1 次 main CI 在 image-scope 失败未发镜像；立即触发第 2 次重跑，Static、三组 Tests、image-scope 与镜像发布全绿通过（ai-gateway:8897616，digest sha256:c13c505c…）。",
+          "type": "fix"
+        },
+        {
+          "label": "验收 staging 环境首次运行 SDK 生命周期版本",
+          "detail": "确认 deploy-manifests#1137 已将 staging 从 dda3e44 更新为 8897616；集群内 Gateway 与 Relay Pod 均为 Running/Ready、重启 0 次；日志打印 starting → running 且 recommended_grace_period_min=5m38s，经 LB 访问 /readyz 返回 200！",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "#281 已经合入 main 且 staging 环境都跑上新版本了，为什么次日还要去 staging-b 演练？",
+        "reality": "staging 环境上线证明「新生命周期代码日常跑完全正常」，但它的部署方式依然是单副本 Recreate。次日的 staging-b 演练（#282/#284）是为了验证「1→2→1 多副本与 RollingUpdate 消除 LB 503 空窗」，两边各司其职！"
+      },
+      "leadsToNext": {
+        "hook": "至此，2858 行对话里的所有代码、补审、合入、发版与次日演练准备全部清清楚楚落袋！点击下方按钮查看你的「灵魂破雾总表与次日接力棒」。",
+        "nextTarget": "查看灵魂破雾问答卡与次日接力清单"
+      },
+      "evidence": [
+        {
+          "title": "staging 环境自动上线最终核验结果",
+          "kind": "command",
+          "content": "Image:   ai-gateway:8897616 (sha256:c13c505c...)\nGitOps:  acme-cloud/deploy-manifests#1137 (staging overlay updated from dda3e44 -> 8897616)\nPods:    gateway & relay Running (Ready, Restarts: 0)\nLogs:    phase: starting -> running | recommended_grace_period_min=5m38s\nLB:      GET /readyz -> HTTP 200 OK"
+        }
+      ]
+    }
+  ],
+  "confusionMatrix": [
+    {
+      "question": "为什么语音生成分支明明已经合进 main 了，换成我们的镜像却会把 staging-b 的语音关掉？",
+      "shortAnswer": "「代码合入了」≠「环境开关打开了」。语音在代码里默认是 false，只有登记在配置仓白名单里的 5 个镜像 SHA 才会被脚本注入开启补丁。",
+      "deepExplanation": "1) 代码层：cmd/gateway/config.go:86 中 GATEWAY_AUDIO_GENERATION_EGRESS 默认为 false。2) 配置层：deploy-manifests 的 environments/voice-preview/config.yaml 只登记了 5 个 SHA（含小曹在用的 899b44f）。部署脚本发现我们的演练镜像不在名单内，就会生成空补丁，开关回到默认 false；演练结束切回 899b44f 即自动恢复。"
+    },
+    {
+      "question": "负载均衡和 K8s 控制器全环境共用，为什么不能在 staging-c 测完，staging-b 的特殊意义到底是什么？",
+      "shortAnswer": "测 Gateway 单组件自己用 staging-c 就够；但跨服务联合演练（Worker + Gateway 同时排空）只能在 staging-b 做，因为全集群只有 staging-b 启用了上游 Worker 的排空策略！",
+      "deepExplanation": "推理链路是「Runtime Worker → AI Gateway → 模型供应商」。其他环境的 Worker 仍是 Recreate（一重启就掐断正在等 Gateway 返回的任务）；只有 staging-b（通过 deploy-manifests#997/#1002）启用了 Worker 滚动更新 + 615s 停领排空候选。加上 #312 约定在 staging-b 统一排期，所以最终锁死在 staging-b 演练。"
+    },
+    {
+      "question": "为什么 PR #281 都已经正式 Approve 并合入 main 了，Issue #273 还是不能关？",
+      "shortAnswer": "因为 #281 解决的是「代码合规与单组件基础排空」，而 #273 结案还要求「消费 core-runtime-sdk 正式版」和「完成消除 LB 503 空窗等环境验收」。",
+      "deepExplanation": "目前 core-runtime-sdk 只有 go/v0.1.0-rc.2（且为 Draft Release），需要等他们发正式版后再切 go.mod；同时 LB 零空窗替换（1→2→1 与 RollingUpdate）及超时退出（V5）已拆到 #282，待次日 staging-b 演练交账后即可与 SDK 正式版一起将 #273 彻底关闭。"
+    }
+  ],
+  "endState": {
+    "completedItems": [
+      {
+        "item": "PR #281 合并后补审与三处代码/日志修复",
+        "ref": "ai-gateway#281 → main (8897616)",
+        "note": "架构师老戴正式 Approve，已合入 main"
+      },
+      {
+        "item": "Relay 停机释放屏障修复与红绿反证单测",
+        "ref": "commit 894315e",
+        "note": "含 PostgreSQL 全量门禁通过"
+      },
+      {
+        "item": "staging 环境自动构建发版与上线核验",
+        "ref": "deploy-manifests#1137 / ai-gateway:8897616",
+        "note": "Pod Running/Ready，5m38s 日志生效，/readyz 200"
+      },
+      {
+        "item": "后续问题拆解建单并双向挂账",
+        "ref": "ai-gateway#282 · #283 · deploy-manifests#1130",
+        "note": "已挂入 arch-rfcs#312 与 ai-gateway#273"
+      },
+      {
+        "item": "staging-b 多实例演练手册编写与两轮 9 项修订",
+        "ref": "ai-gateway#284 (head 00a5b0d)",
+        "note": "小曹已确认让出窗口，已请老戴复审"
+      },
+      {
+        "item": "本机云平台 IAM 内网 kubeconfig 签发与验权",
+        "ref": "~/.kube/acme-dev",
+        "note": "已具备 Deployment 扩缩容与修改权限（有效期约 3 天）"
+      }
+    ],
+    "pendingHandoffs": [
+      {
+        "task": "确认发送最后一条群话题同步消息（汇报 #281 已合入且 staging 环境已更新）",
+        "owner": "你",
+        "when": "草稿已预检 ok: true，随时可发"
+      },
+      {
+        "task": "复审通过演练手册 PR #284，并在 #282 登记 Argo 暂停操作者与恢复责任人",
+        "owner": "架构师老戴",
+        "when": "次日 10:00 演练窗口前"
+      },
+      {
+        "task": "按 HANDBOOK-0002 在 staging-b 执行上午 1→2→1 与下午 RollingUpdate + ReadinessGate 演练",
+        "owner": "你 + AI 执行",
+        "when": "次日 10:00–12:00 & 14:00–17:00"
+      },
+      {
+        "task": "演练结束后按 4 步恢复顺序交还小曹 899b44f 语音基线，回贴证据到 #282",
+        "owner": "你 + AI 执行",
+        "when": "次日演练结束（最晚 18:00 前）"
+      },
+      {
+        "task": "待 core-runtime-sdk 发布正式版后切换 go.mod 依赖并关闭 #273",
+        "owner": "基础库团队 → 你",
+        "when": "待正式版 Release 发布后"
+      }
+    ]
+  }
+}
+  </script>
+
+    <script>
+      (function () {
+        const raw = document.getElementById("replay-data").textContent;
+        const data = JSON.parse(raw);
+        const steps = data.steps || [];
+        let currentIdx = 0;
+        const visited = new Set([0]);
+
+        function esc(str) {
+          return String(str == null ? "" : str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        function initMeta() {
+          document.title = data.meta.title + " · 逆向因果步进复盘";
+          document.getElementById("meta-title").textContent = data.meta.title;
+          document.getElementById("meta-subtitle").textContent =
+            data.meta.subtitle;
+          document.getElementById("meta-session").textContent =
+            (data.meta.sessionName || "") +
+            " · " +
+            (data.meta.totalRawTurns || "");
+          document.getElementById("meta-status").textContent =
+            data.meta.status || "READY";
+          document.getElementById("bg-origin").textContent =
+            data.background.originGoal;
+          document.getElementById("pano-origin").textContent =
+            data.background.originGoal;
+          document.getElementById("pano-confusing").textContent =
+            data.background.whyConfusing;
+          document.getElementById("pano-guide").textContent =
+            data.background.readingGuide;
+
+          // Actors
+          const actorsEl = document.getElementById("right-actors-list");
+          actorsEl.innerHTML = (data.actorsAndRepos || [])
+            .map(function (a) {
+              return (
+                '<div class="actor-item">' +
+                '<div class="actor-head"><span class="mono">' +
+                esc(a.name) +
+                '</span><span class="actor-role">' +
+                esc(a.role) +
+                "</span></div>" +
+                '<div style="color:var(--text-secondary)">' +
+                esc(a.detail) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // Panorama Table
+          const panoTbody = document.getElementById("pano-chain-tbody");
+          panoTbody.innerHTML = steps
+            .map(function (s, idx) {
+              const actionsText = (s.whatWasDone || [])
+                .map(function (w) {
+                  return (
+                    "• <strong>" + esc(w.label) + "</strong>：" + esc(w.detail)
+                  );
+                })
+                .join("<br>");
+              return (
+                '<tr style="cursor:pointer" data-jump="' +
+                idx +
+                '">' +
+                '<td class="mono"><strong>Step ' +
+                s.id +
+                "</strong></td>" +
+                '<td><span style="font-size:0.72rem;color:var(--c-look)">' +
+                esc(s.phase) +
+                "</span><br><strong>" +
+                esc(s.title) +
+                "</strong></td>" +
+                "<td><strong>" +
+                esc(s.lookAt.target) +
+                "</strong></td>" +
+                "<td>" +
+                actionsText +
+                "</td>" +
+                '<td style="color:var(--c-next)">' +
+                esc(s.leadsToNext.hook) +
+                '<br><span class="mono" style="font-size:0.75rem">→ ' +
+                esc(s.leadsToNext.nextTarget) +
+                "</span></td>" +
+                "</tr>"
+              );
+            })
+            .join("");
+
+          panoTbody.querySelectorAll("tr[data-jump]").forEach(function (tr) {
+            tr.addEventListener("click", function () {
+              switchView("walkthrough");
+              goToStep(Number(tr.getAttribute("data-jump")));
+            });
+          });
+
+          // Takeaway FAQ
+          document.getElementById("takeaway-faq-grid").innerHTML = (
+            data.confusionMatrix || []
+          )
+            .map(function (f) {
+              return (
+                '<div class="faq-card">' +
+                '<div class="faq-q">❓ ' +
+                esc(f.question) +
+                "</div>" +
+                '<div class="faq-short">💡 ' +
+                esc(f.shortAnswer) +
+                "</div>" +
+                '<div class="faq-deep">' +
+                esc(f.deepExplanation) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // Completed & Pending
+          document.getElementById("takeaway-done-tbody").innerHTML = (
+            data.endState.completedItems || []
+          )
+            .map(function (c) {
+              return (
+                "<tr><td><strong>" +
+                esc(c.item) +
+                '</strong></td><td class="mono">' +
+                esc(c.ref) +
+                "</td><td>" +
+                esc(c.note) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+          document.getElementById("takeaway-pending-tbody").innerHTML = (
+            data.endState.pendingHandoffs || []
+          )
+            .map(function (p, i) {
+              return (
+                '<tr><td class="mono"><strong>#' +
+                (i + 1) +
+                "</strong></td><td><strong>" +
+                esc(p.task) +
+                '</strong></td><td><span class="badge">' +
+                esc(p.owner) +
+                '</span></td><td class="mono">' +
+                esc(p.when) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+        }
+
+        function renderNavigation() {
+          // Top Ribbon
+          const ribbon = document.getElementById("ribbon-track");
+          ribbon.innerHTML = steps
+            .map(function (s, idx) {
+              const cls = ["ribbon-node"];
+              if (visited.has(idx)) cls.push("visited");
+              if (idx === currentIdx) cls.push("active");
+              const arrow =
+                idx < steps.length - 1
+                  ? '<span class="ribbon-arrow">──►</span>'
+                  : "";
+              return (
+                '<button class="' +
+                cls.join(" ") +
+                '" data-idx="' +
+                idx +
+                '">' +
+                '<span class="ribbon-num">' +
+                s.id +
+                "</span>" +
+                "<span>" +
+                esc(s.title) +
+                "</span>" +
+                "</button>" +
+                arrow
+              );
+            })
+            .join("");
+
+          ribbon.querySelectorAll(".ribbon-node").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              switchView("walkthrough");
+              goToStep(Number(btn.getAttribute("data-idx")));
+            });
+          });
+
+          // Left Step List grouped by phase
+          const groups = [];
+          steps.forEach(function (s, idx) {
+            let g = groups[groups.length - 1];
+            if (!g || g.phase !== s.phase) {
+              g = { phase: s.phase, items: [] };
+              groups.push(g);
+            }
+            g.items.push({ step: s, idx: idx });
+          });
+
+          const leftList = document.getElementById("left-step-list");
+          leftList.innerHTML = groups
+            .map(function (g) {
+              const itemsHtml = g.items
+                .map(function (entry) {
+                  const s = entry.step;
+                  const idx = entry.idx;
+                  const activeCls = idx === currentIdx ? " active" : "";
+                  const mark =
+                    idx === currentIdx ? "▶" : visited.has(idx) ? "✓" : "○";
+                  return (
+                    '<button class="nav-step-item' +
+                    activeCls +
+                    '" data-idx="' +
+                    idx +
+                    '">' +
+                    '<div class="nav-step-top">' +
+                    "<span>" +
+                    mark +
+                    " Step " +
+                    s.id +
+                    " · " +
+                    esc(s.title) +
+                    "</span>" +
+                    "</div>" +
+                    '<div class="nav-step-desc">' +
+                    esc(s.summary) +
+                    "</div>" +
+                    "</button>"
+                  );
+                })
+                .join("");
+              return (
+                '<div class="phase-group"><div class="phase-label">' +
+                esc(g.phase) +
+                "</div>" +
+                itemsHtml +
+                "</div>"
+              );
+            })
+            .join("");
+
+          leftList.querySelectorAll(".nav-step-item").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              goToStep(Number(btn.getAttribute("data-idx")));
+            });
+          });
+
+          document.getElementById("visited-counter").textContent =
+            "已走读 " + visited.size + " / " + steps.length;
+        }
+
+        function renderCurrentStep() {
+          const s = steps[currentIdx];
+          if (!s) return;
+
+          document.getElementById("step-badge").textContent =
+            "STEP " + s.id + " / " + steps.length + " · " + s.phase;
+          document.getElementById("step-title").textContent = s.title;
+          document.getElementById("step-summary").textContent = s.summary;
+
+          // 1. Look At
+          document.getElementById("step-look-target").textContent =
+            s.lookAt.target;
+          document.getElementById("step-look-anchors").innerHTML = (
+            s.lookAt.anchors || []
+          )
+            .map(function (a) {
+              return '<span class="anchor-tag mono">' + esc(a) + "</span>";
+            })
+            .join("");
+
+          // 2. Why
+          document.getElementById("step-why").textContent = s.whyLookHere;
+
+          // 3. Actions
+          const typeLabels = {
+            discovery: "发现事实",
+            action: "关键动作",
+            fix: "代码修复",
+            sync: "协同同步",
+          };
+          document.getElementById("step-actions").innerHTML = (
+            s.whatWasDone || []
+          )
+            .map(function (w) {
+              const t = w.type || "action";
+              return (
+                '<div class="action-item">' +
+                '<div class="action-item-head">' +
+                '<span class="type-tag type-' +
+                esc(t) +
+                '">' +
+                esc(typeLabels[t] || t) +
+                "</span>" +
+                "<span>" +
+                esc(w.label) +
+                "</span>" +
+                "</div>" +
+                '<div style="font-size:0.88rem;color:var(--text-secondary)">' +
+                esc(w.detail) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // 4. Myth vs Reality
+          document.getElementById("step-myth").textContent =
+            s.confusionBuster.myth;
+          document.getElementById("step-reality").textContent =
+            s.confusionBuster.reality;
+
+          // 5. Next Hook
+          document.getElementById("step-next-hook").textContent =
+            s.leadsToNext.hook;
+          const isLast = currentIdx === steps.length - 1;
+          document.getElementById("handoff-btn-text").textContent = isLast
+            ? "🎉 已走完全部关卡！点击查看「灵魂破雾 & 终局账单」"
+            : "顺着这条线索进入 Step " +
+              (s.id + 1) +
+              "：" +
+              s.leadsToNext.nextTarget;
+
+          // Footer buttons
+          document.getElementById("btn-prev").disabled = currentIdx === 0;
+          document.getElementById("btn-next").textContent = isLast
+            ? "查看终局账单 →"
+            : "下一步 (Step " + (s.id + 1) + ") →";
+          document.getElementById("footer-progress").textContent =
+            "Step " + s.id + " / " + steps.length;
+
+          // Right Evidence
+          const evList = s.evidence || [];
+          document.getElementById("evidence-count").textContent =
+            evList.length + " 项";
+          document.getElementById("right-evidence-list").innerHTML = evList
+            .map(function (ev) {
+              return (
+                '<div class="evidence-card">' +
+                '<div class="evidence-title"><span>' +
+                esc(ev.title) +
+                '</span><span class="mono">' +
+                esc(ev.kind) +
+                "</span></div>" +
+                '<pre class="evidence-pre">' +
+                esc(ev.content) +
+                "</pre>" +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        function goToStep(idx) {
+          if (idx < 0 || idx >= steps.length) return;
+          currentIdx = idx;
+          visited.add(idx);
+          renderNavigation();
+          renderCurrentStep();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function switchView(viewName) {
+          document.querySelectorAll(".tab-btn").forEach(function (btn) {
+            btn.classList.toggle(
+              "active",
+              btn.getAttribute("data-view") === viewName,
+            );
+          });
+          document.querySelectorAll(".view-panel").forEach(function (panel) {
+            panel.classList.toggle("active", panel.id === "view-" + viewName);
+          });
+        }
+
+        // Event bindings
+        document
+          .getElementById("btn-prev")
+          .addEventListener("click", function () {
+            if (currentIdx > 0) goToStep(currentIdx - 1);
+          });
+        document
+          .getElementById("btn-next")
+          .addEventListener("click", function () {
+            if (currentIdx < steps.length - 1) {
+              goToStep(currentIdx + 1);
+            } else {
+              switchView("takeaway");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+        document
+          .getElementById("btn-handoff-next")
+          .addEventListener("click", function () {
+            if (currentIdx < steps.length - 1) {
+              goToStep(currentIdx + 1);
+            } else {
+              switchView("takeaway");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+
+        document.querySelectorAll(".tab-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            switchView(btn.getAttribute("data-view"));
+          });
+        });
+
+        // Theme toggle
+        document
+          .getElementById("btn-theme")
+          .addEventListener("click", function () {
+            const html = document.documentElement;
+            const next =
+              html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            html.setAttribute("data-theme", next);
+          });
+
+        // Export Markdown
+        document
+          .getElementById("btn-export-md")
+          .addEventListener("click", function () {
+            const lines = [];
+            lines.push("# 🧭 " + data.meta.title);
+            lines.push("");
+            lines.push("> " + data.meta.subtitle);
+            lines.push("");
+            lines.push("## 0. 全景背景");
+            lines.push("- **初始目标**：" + data.background.originGoal);
+            lines.push("- **复杂原因**：" + data.background.whyConfusing);
+            lines.push("");
+            lines.push("## 1. 步进闯关走读");
+            steps.forEach(function (s) {
+              lines.push("");
+              lines.push(
+                "### 【Step " + s.id + " / " + steps.length + "】" + s.title,
+              );
+              lines.push(
+                "- **📍 第一步先看什么**：" +
+                  s.lookAt.target +
+                  " (" +
+                  (s.lookAt.anchors || []).join(", ") +
+                  ")",
+              );
+              lines.push("- **💡 为什么要看这里**：" + s.whyLookHere);
+              lines.push("- **🛠️ 发现了什么 & 做了什么**：");
+              (s.whatWasDone || []).forEach(function (w) {
+                lines.push("  - **" + w.label + "**：" + w.detail);
+              });
+              lines.push("- **⚡ 认知破雾**：");
+              lines.push("  - ❌ 容易误以为：" + s.confusionBuster.myth);
+              lines.push("  - ✅ 实际情况是：" + s.confusionBuster.reality);
+              lines.push(
+                "- **🔗 从这里引申到哪里**：" +
+                  s.leadsToNext.hook +
+                  " → **" +
+                  s.leadsToNext.nextTarget +
+                  "**",
+              );
+            });
+            const blob = new Blob([lines.join("\n")], {
+              type: "text/markdown;charset=utf-8",
+            });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download =
+              (data.meta.sessionName || "replay-walkthrough") + ".md";
+            a.click();
+          });
+
+        // Keyboard navigation
+        window.addEventListener("keydown", function (e) {
+          if (
+            e.target &&
+            (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+          )
+            return;
+          if (e.key === "ArrowRight" || e.key === "j") {
+            if (currentIdx < steps.length - 1) goToStep(currentIdx + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "k") {
+            if (currentIdx > 0) goToStep(currentIdx - 1);
+          } else if (e.key >= "1" && e.key <= "9") {
+            const n = Number(e.key) - 1;
+            if (n < steps.length) {
+              switchView("walkthrough");
+              goToStep(n);
+            }
+          }
+        });
+
+        initMeta();
+        renderNavigation();
+        renderCurrentStep();
+      })();
+    </script>
+  </body>
+</html>

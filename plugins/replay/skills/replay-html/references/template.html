@@ -1,0 +1,1565 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[REPLAY TITLE] · 逆向因果步进复盘</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ==========================================================================
+       DESIGN TOKENS & DUAL THEMES (外硬内柔 · 深浅双主题)
+       ========================================================================== */
+      :root,
+      [data-theme="dark"] {
+        --bg-canvas: #070b14;
+        --bg-panel: #0d1424;
+        --bg-card: #121c31;
+        --bg-card-elevated: #17243f;
+        --bg-code: #080d18;
+        --border-subtle: rgba(148, 163, 184, 0.14);
+        --border-strong: rgba(148, 163, 184, 0.28);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #64748b;
+
+        --c-look: #38bdf8;
+        --c-look-bg: rgba(56, 189, 248, 0.1);
+        --c-why: #f59e0b;
+        --c-why-bg: rgba(245, 158, 11, 0.1);
+        --c-do: #10b981;
+        --c-do-bg: rgba(16, 185, 129, 0.1);
+        --c-myth: #f43f5e;
+        --c-myth-bg: rgba(244, 63, 94, 0.1);
+        --c-next: #a855f7;
+        --c-next-bg: rgba(168, 85, 247, 0.12);
+
+        --btn-bg: #1e293b;
+        --btn-hover: #334155;
+        --btn-primary-bg: #0284c7;
+        --btn-primary-hover: #0369a1;
+        --shadow-card: 0 10px 28px -8px rgba(0, 0, 0, 0.55);
+      }
+
+      [data-theme="light"] {
+        --bg-canvas: #f1f5f9;
+        --bg-panel: #ffffff;
+        --bg-card: #f8fafc;
+        --bg-card-elevated: #eff6ff;
+        --bg-code: #0f172a;
+        --border-subtle: rgba(100, 116, 139, 0.2);
+        --border-strong: rgba(100, 116, 139, 0.36);
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+
+        --c-look: #0284c7;
+        --c-look-bg: rgba(2, 132, 199, 0.08);
+        --c-why: #d97706;
+        --c-why-bg: rgba(217, 119, 6, 0.08);
+        --c-do: #059669;
+        --c-do-bg: rgba(5, 150, 105, 0.08);
+        --c-myth: #e11d48;
+        --c-myth-bg: rgba(225, 29, 72, 0.07);
+        --c-next: #7c3aed;
+        --c-next-bg: rgba(124, 58, 237, 0.09);
+
+        --btn-bg: #e2e8f0;
+        --btn-hover: #cbd5e1;
+        --btn-primary-bg: #0284c7;
+        --btn-primary-hover: #0369a1;
+        --shadow-card: 0 8px 22px -6px rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Inter",
+          "Noto Sans SC",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: var(--bg-canvas);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      code,
+      pre,
+      .mono {
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      /* Top Header (Sharp Outer Shell) */
+      .top-header {
+        background: var(--bg-panel);
+        border-bottom: 2px solid var(--border-strong);
+        padding: 1rem 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .header-inner {
+        max-width: 1480px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .brand-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .meta-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.15rem 0.55rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-card);
+        color: var(--c-look);
+      }
+      .badge.status-ok {
+        color: var(--c-do);
+        border-color: var(--c-do);
+        background: var(--c-do-bg);
+      }
+      .title-main {
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .subtitle-main {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .view-tabs {
+        display: inline-flex;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-canvas);
+      }
+      .tab-btn {
+        padding: 0.45rem 0.85rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: transparent;
+        border: none;
+        border-right: 1px solid var(--border-subtle);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .tab-btn:last-child {
+        border-right: none;
+      }
+      .tab-btn.active {
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+      }
+      .action-btn {
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: var(--btn-bg);
+        border: 1px solid var(--border-strong);
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .action-btn:hover {
+        background: var(--btn-hover);
+      }
+
+      /* Causal Stepper Ribbon */
+      .stepper-ribbon {
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 0.75rem 1.5rem;
+        overflow-x: auto;
+      }
+      .stepper-track {
+        max-width: 1480px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        min-width: max-content;
+      }
+      .ribbon-node {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.38rem 0.7rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.18s ease;
+      }
+      .ribbon-node:hover {
+        border-color: var(--c-look);
+        color: var(--text-primary);
+      }
+      .ribbon-node.visited {
+        border-color: rgba(16, 185, 129, 0.45);
+      }
+      .ribbon-node.active {
+        background: var(--c-look-bg);
+        border-color: var(--c-look);
+        color: var(--text-primary);
+        font-weight: 700;
+        box-shadow: 0 0 0 1px var(--c-look);
+      }
+      .ribbon-num {
+        width: 1.35rem;
+        height: 1.35rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: var(--bg-canvas);
+        color: var(--text-muted);
+      }
+      .ribbon-node.visited .ribbon-num {
+        background: var(--c-do-bg);
+        color: var(--c-do);
+      }
+      .ribbon-node.active .ribbon-num {
+        background: var(--c-look);
+        color: #070b14;
+      }
+      .ribbon-arrow {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        user-select: none;
+      }
+
+      /* Main Workspace Layout */
+      .workspace {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 1.25rem 1.5rem 3rem;
+      }
+      .walkthrough-grid {
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr) 360px;
+        gap: 1.25rem;
+        align-items: start;
+      }
+
+      /* Left Rail: Causal Outline & Origin */
+      .left-rail,
+      .right-rail {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1rem;
+        position: sticky;
+        top: 5.2rem;
+        max-height: calc(100vh - 6.2rem);
+        overflow-y: auto;
+      }
+      .rail-section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-bottom: 0.65rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .origin-box {
+        background: var(--bg-card);
+        border-left: 3px solid var(--c-why);
+        padding: 0.75rem;
+        border-radius: 0 6px 6px 0;
+        margin-bottom: 1rem;
+        font-size: 0.82rem;
+      }
+      .origin-box strong {
+        color: var(--c-why);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+      .phase-group {
+        margin-bottom: 0.9rem;
+      }
+      .phase-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--c-look);
+        margin-bottom: 0.35rem;
+        padding-left: 0.25rem;
+      }
+      .nav-step-item {
+        width: 100%;
+        text-align: left;
+        padding: 0.55rem 0.65rem;
+        margin-bottom: 0.35rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: block;
+        color: var(--text-primary);
+      }
+      .nav-step-item:hover {
+        border-color: var(--c-look);
+      }
+      .nav-step-item.active {
+        background: var(--bg-card-elevated);
+        border-color: var(--c-look);
+        border-left: 4px solid var(--c-look);
+      }
+      .nav-step-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .nav-step-desc {
+        font-size: 0.74rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      /* Center Stage: 5-Element Step Card */
+      .center-stage {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-card);
+      }
+      .stage-header {
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .stage-progress-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .step-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.7rem;
+        background: var(--c-look-bg);
+        border: 1px solid var(--c-look);
+        color: var(--c-look);
+        font-size: 0.8rem;
+        font-weight: 700;
+        border-radius: 4px;
+      }
+      .stage-title {
+        font-size: 1.45rem;
+        font-weight: 800;
+        margin-bottom: 0.35rem;
+      }
+      .stage-summary {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      /* Five Elements Blocks */
+      .q-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        padding: 1.1rem 1.25rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+      .q-card.q-look {
+        border-left: 4px solid var(--c-look);
+      }
+      .q-card.q-why {
+        border-left: 4px solid var(--c-why);
+      }
+      .q-card.q-do {
+        border-left: 4px solid var(--c-do);
+      }
+      .q-card.q-myth {
+        border-left: 4px solid var(--c-myth);
+      }
+      .q-card.q-next {
+        border: 1px solid var(--c-next);
+        border-left: 5px solid var(--c-next);
+        background: var(--c-next-bg);
+      }
+      .q-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.6rem;
+      }
+      .q-look .q-header {
+        color: var(--c-look);
+      }
+      .q-why .q-header {
+        color: var(--c-why);
+      }
+      .q-do .q-header {
+        color: var(--c-do);
+      }
+      .q-myth .q-header {
+        color: var(--c-myth);
+      }
+      .q-next .q-header {
+        color: var(--c-next);
+      }
+
+      .look-target {
+        font-size: 1.02rem;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
+      }
+      .anchor-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+      .anchor-tag {
+        padding: 0.2rem 0.55rem;
+        background: var(--bg-canvas);
+        border: 1px solid var(--border-strong);
+        border-radius: 4px;
+        font-size: 0.78rem;
+        color: var(--c-look);
+      }
+
+      .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .action-item {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        padding: 0.75rem 0.9rem;
+      }
+      .action-item-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+      }
+      .type-tag {
+        font-size: 0.68rem;
+        padding: 0.1rem 0.42rem;
+        border-radius: 3px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .type-discovery {
+        background: var(--c-look-bg);
+        color: var(--c-look);
+      }
+      .type-fix,
+      .type-action {
+        background: var(--c-do-bg);
+        color: var(--c-do);
+      }
+      .type-sync {
+        background: var(--c-next-bg);
+        color: var(--c-next);
+      }
+
+      .myth-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+      .myth-col,
+      .reality-col {
+        padding: 0.8rem;
+        border-radius: 6px;
+        font-size: 0.88rem;
+      }
+      .myth-col {
+        background: var(--c-myth-bg);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+      }
+      .reality-col {
+        background: var(--c-do-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .col-label {
+        font-weight: 800;
+        font-size: 0.78rem;
+        margin-bottom: 0.3rem;
+        display: block;
+      }
+      .myth-col .col-label {
+        color: var(--c-myth);
+      }
+      .reality-col .col-label {
+        color: var(--c-do);
+      }
+
+      .handoff-cta {
+        margin-top: 0.85rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.15s ease;
+      }
+      .handoff-cta:hover {
+        background: var(--btn-primary-hover);
+      }
+
+      /* Bottom Stepper Controls */
+      .stage-footer {
+        margin-top: 1.35rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-subtle);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .nav-btn {
+        padding: 0.6rem 1.15rem;
+        font-size: 0.88rem;
+        font-weight: 700;
+        background: var(--btn-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-strong);
+        cursor: pointer;
+      }
+      .nav-btn.primary {
+        background: var(--btn-primary-bg);
+        color: #ffffff;
+        border-color: var(--btn-primary-bg);
+      }
+      .nav-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* Right Rail: Evidence & Actors */
+      .evidence-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 0.8rem;
+      }
+      .evidence-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--c-look);
+        margin-bottom: 0.45rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .evidence-pre {
+        background: var(--bg-code);
+        color: #e2e8f0;
+        padding: 0.65rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.5;
+      }
+      .actor-item {
+        padding: 0.6rem 0.7rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+        font-size: 0.78rem;
+      }
+      .actor-head {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .actor-role {
+        color: var(--c-why);
+        font-size: 0.72rem;
+      }
+
+      /* Full Map & Matrix Views */
+      .view-panel {
+        display: none;
+      }
+      .view-panel.active {
+        display: block;
+      }
+      .section-box {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-strong);
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+      }
+      .section-box h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 0.5rem;
+      }
+      .matrix-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1rem;
+      }
+      .faq-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-top: 3px solid var(--c-why);
+        border-radius: 6px;
+        padding: 1rem;
+      }
+      .faq-q {
+        font-weight: 800;
+        font-size: 0.96rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+      .faq-short {
+        padding: 0.45rem 0.65rem;
+        background: var(--c-do-bg);
+        border-left: 3px solid var(--c-do);
+        font-size: 0.84rem;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+      }
+      .faq-deep {
+        font-size: 0.84rem;
+        color: var(--text-secondary);
+      }
+
+      table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      table.data-table th,
+      table.data-table td {
+        border: 1px solid var(--border-subtle);
+        padding: 0.65rem 0.8rem;
+        text-align: left;
+      }
+      table.data-table th {
+        background: var(--bg-card);
+        font-weight: 700;
+      }
+
+      @media (max-width: 1120px) {
+        .walkthrough-grid {
+          grid-template-columns: 1fr;
+        }
+        .left-rail,
+        .right-rail {
+          position: static;
+          max-height: none;
+        }
+        .myth-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media print {
+        .top-header,
+        .stepper-ribbon,
+        .left-rail,
+        .stage-footer,
+        .handoff-cta {
+          display: none !important;
+        }
+        .walkthrough-grid {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-inner">
+        <div class="brand-group">
+          <div class="meta-row">
+            <span class="badge">REPLAY WALKTHROUGH</span>
+            <span class="badge mono" id="meta-session"></span>
+            <span class="badge status-ok" id="meta-status"></span>
+          </div>
+          <h1 class="title-main" id="meta-title">加载中...</h1>
+          <p class="subtitle-main" id="meta-subtitle"></p>
+        </div>
+        <div class="toolbar">
+          <div class="view-tabs" role="tablist">
+            <button class="tab-btn active" data-view="walkthrough">
+              🎮 步进闯关
+            </button>
+            <button class="tab-btn" data-view="panorama">🗺️ 全景因果链</button>
+            <button class="tab-btn" data-view="takeaway">
+              🧠 灵魂破雾 & 终局账单
+            </button>
+          </div>
+          <button
+            class="action-btn"
+            id="btn-export-md"
+            title="导出完整 Markdown 复盘稿"
+          >
+            ⬇ 导出 .md
+          </button>
+          <button class="action-btn" id="btn-theme" title="切换深浅主题">
+            🌗 主题
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Causal Stepper Ribbon -->
+    <nav class="stepper-ribbon" aria-label="因果步进轨道">
+      <div class="stepper-track" id="ribbon-track"></div>
+    </nav>
+
+    <main class="workspace">
+      <!-- VIEW 1: Interactive Step-by-Step Walkthrough -->
+      <section class="view-panel active" id="view-walkthrough">
+        <div class="walkthrough-grid">
+          <!-- Left Rail -->
+          <aside class="left-rail">
+            <div class="origin-box">
+              <strong>🎯 起点背景（为什么开始）</strong>
+              <div id="bg-origin"></div>
+            </div>
+            <div class="rail-section-title">
+              <span>因果闯关目录</span>
+              <span class="mono" id="visited-counter">1 / 1</span>
+            </div>
+            <div id="left-step-list"></div>
+          </aside>
+
+          <!-- Center Stage -->
+          <article class="center-stage" id="stage-container">
+            <div class="stage-header">
+              <div class="stage-progress-row">
+                <span class="step-pill" id="step-badge">STEP 1</span>
+                <span
+                  class="mono"
+                  style="font-size: 0.78rem; color: var(--text-muted)"
+                  >快捷键：键盘 ← / → 切换关卡，数字 1-9 跳转</span
+                >
+              </div>
+              <h2 class="stage-title" id="step-title"></h2>
+              <p class="stage-summary" id="step-summary"></p>
+            </div>
+
+            <!-- 1. Look At -->
+            <div class="q-card q-look">
+              <div class="q-header">① 📍 第一步先看什么（Entry Anchor）</div>
+              <div class="look-target" id="step-look-target"></div>
+              <div class="anchor-tags" id="step-look-anchors"></div>
+            </div>
+
+            <!-- 2. Why Look Here -->
+            <div class="q-card q-why">
+              <div class="q-header">
+                ② 💡 为什么要看这里（背景动机与触发矛盾）
+              </div>
+              <div id="step-why"></div>
+            </div>
+
+            <!-- 3. What Was Done -->
+            <div class="q-card q-do">
+              <div class="q-header">③ 🛠️ 在这里发现了什么 & AI 做了什么</div>
+              <div class="action-list" id="step-actions"></div>
+            </div>
+
+            <!-- 4. Confusion Buster -->
+            <div class="q-card q-myth">
+              <div class="q-header">④ ⚡ 关键转折与认知破雾（专治懵逼点）</div>
+              <div class="myth-grid">
+                <div class="myth-col">
+                  <span class="col-label">❌ 当时容易懵 / 误以为的是</span>
+                  <div id="step-myth"></div>
+                </div>
+                <div class="reality-col">
+                  <span class="col-label">✅ 真实工程逻辑与真相是</span>
+                  <div id="step-reality"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Leads To Next -->
+            <div class="q-card q-next">
+              <div class="q-header">⑤ 🔗 从这里引申到哪里（因果交接钩子）</div>
+              <div id="step-next-hook"></div>
+              <button class="handoff-cta" id="btn-handoff-next">
+                <span id="handoff-btn-text">顺着这条线索进入下一步</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            <div class="stage-footer">
+              <button class="nav-btn" id="btn-prev">← 上一步</button>
+              <div class="mono" id="footer-progress">Step 1 / 1</div>
+              <button class="nav-btn primary" id="btn-next">下一步 →</button>
+            </div>
+          </article>
+
+          <!-- Right Rail -->
+          <aside class="right-rail">
+            <div class="rail-section-title">
+              <span>📂 本关原始铁证 / 摘录</span>
+              <span class="mono" id="evidence-count"></span>
+            </div>
+            <div id="right-evidence-list"></div>
+
+            <div class="rail-section-title" style="margin-top: 1.25rem">
+              <span>🧭 战场仓库与环境角色</span>
+            </div>
+            <div id="right-actors-list"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- VIEW 2: Panorama Causal Chain -->
+      <section class="view-panel" id="view-panorama">
+        <div class="section-box">
+          <h2>🧭 为什么你会觉得懵？（起点目标 vs 复杂度放大器）</h2>
+          <p style="margin-bottom: 0.75rem">
+            <strong>🎯 初始目标：</strong><span id="pano-origin"></span>
+          </p>
+          <p style="margin-bottom: 0.75rem">
+            <strong>🌀 为什么过程极其绕：</strong
+            ><span id="pano-confusing"></span>
+          </p>
+          <p><strong>📖 走读建议：</strong><span id="pano-guide"></span></p>
+        </div>
+        <div class="section-box">
+          <h2>⛓️ 从起点到终局：全链路首尾咬合一览表</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 70px">关卡</th>
+                <th style="width: 180px">阶段与标题</th>
+                <th>📍 第一步看哪里</th>
+                <th>🛠️ 核心发现与落地动作</th>
+                <th>🔗 引申到下一步的钩子</th>
+              </tr>
+            </thead>
+            <tbody id="pano-chain-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 3: Confusion Matrix & End-State Bill -->
+      <section class="view-panel" id="view-takeaway">
+        <div class="section-box">
+          <h2>🧠 灵魂追问与高频混淆概念破雾卡</h2>
+          <div class="matrix-grid" id="takeaway-faq-grid"></div>
+        </div>
+        <div class="section-box">
+          <h2>✅ 已稳稳落袋的终局成果（无需再操心）</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>事项 / 成果</th>
+                <th>关联 PR / Commit / 锚点</th>
+                <th>核验状态与说明</th>
+              </tr>
+            </thead>
+            <tbody id="takeaway-done-tbody"></tbody>
+          </table>
+        </div>
+        <div class="section-box">
+          <h2>⏳ 接下来需要跟进的接力事项（按责任人）</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 60px">顺序</th>
+                <th>待办事项</th>
+                <th style="width: 180px">责任人</th>
+                <th style="width: 240px">触发时机 / 窗口</th>
+              </tr>
+            </thead>
+            <tbody id="takeaway-pending-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Single Source of Truth: Replay Data JSON -->
+    <script type="application/json" id="replay-data">
+      {
+        "meta": {
+          "title": "[REPLAY TITLE]",
+          "subtitle": "[一句话副标题]",
+          "sessionName": "示例会话",
+          "repo": "owner/repo",
+          "branch": "main",
+          "date": "2026-10-15",
+          "totalRawTurns": "100+ 轮交互",
+          "distilledSteps": 2,
+          "status": "已闭环"
+        },
+        "background": {
+          "originGoal": "在这里填写最初想要完成的目标。",
+          "whyConfusing": "在这里解释为什么中间过程分支众多、容易把人绕晕。",
+          "readingGuide": "每次只看当前关卡的五要素，点击「下一步」顺着线索走到底。"
+        },
+        "actorsAndRepos": [
+          {
+            "name": "core-repo",
+            "role": "主业务仓",
+            "detail": "核心代码变更所在仓库"
+          }
+        ],
+        "steps": [
+          {
+            "id": 1,
+            "phase": "阶段一：定位起点",
+            "title": "第一步示例标题",
+            "summary": "一句话总结第一步做了什么",
+            "status": "completed",
+            "lookAt": {
+              "target": "第一步要看的具体文件或 PR",
+              "anchors": ["src/main.go:42", "PR #101"]
+            },
+            "whyLookHere": "解释为什么要先看这里。",
+            "whatWasDone": [
+              {
+                "label": "关键发现",
+                "detail": "发现了某个具体配置或问题",
+                "type": "discovery"
+              }
+            ],
+            "confusionBuster": {
+              "myth": "容易误解的地方",
+              "reality": "真实的底层机制"
+            },
+            "leadsToNext": {
+              "hook": "因为发现了这个问题，接下来必须去验证下游表现。",
+              "nextTarget": "Step 2：验证下游表现"
+            },
+            "evidence": [
+              {
+                "title": "关键证据",
+                "kind": "code",
+                "content": "// 示例代码或命令输出"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "phase": "阶段二：验证收口",
+            "title": "第二步示例标题",
+            "summary": "一句话总结第二步如何闭环",
+            "status": "completed",
+            "lookAt": {
+              "target": "第二步要看的具体对象",
+              "anchors": ["test-env", "Issue #102"]
+            },
+            "whyLookHere": "承接第一步的引申，解释为什么要看这里。",
+            "whatWasDone": [
+              {
+                "label": "落地修复",
+                "detail": "完成了修复并验证通过",
+                "type": "fix"
+              }
+            ],
+            "confusionBuster": {
+              "myth": "容易混淆的概念",
+              "reality": "实际跑通的逻辑"
+            },
+            "leadsToNext": {
+              "hook": "全部验证完成，可以进入终局账单验收。",
+              "nextTarget": "终局账单与破雾表"
+            },
+            "evidence": [
+              {
+                "title": "验证输出",
+                "kind": "command",
+                "content": "$ make check\nPASS"
+              }
+            ]
+          }
+        ],
+        "confusionMatrix": [
+          {
+            "question": "为什么 A 变了但 B 没生效？",
+            "shortAnswer": "因为 B 受独立开关控制。",
+            "deepExplanation": "详细解释底层原因。"
+          }
+        ],
+        "endState": {
+          "completedItems": [
+            {
+              "item": "完成核心修复",
+              "ref": "PR #101",
+              "note": "CI 全绿已合入"
+            }
+          ],
+          "pendingHandoffs": [
+            { "task": "明日窗口观察监控", "owner": "你", "when": "明日 10:00" }
+          ]
+        }
+      }
+    </script>
+
+    <script>
+      (function () {
+        const raw = document.getElementById("replay-data").textContent;
+        const data = JSON.parse(raw);
+        const steps = data.steps || [];
+        let currentIdx = 0;
+        const visited = new Set([0]);
+
+        function esc(str) {
+          return String(str == null ? "" : str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        function initMeta() {
+          document.title = data.meta.title + " · 逆向因果步进复盘";
+          document.getElementById("meta-title").textContent = data.meta.title;
+          document.getElementById("meta-subtitle").textContent =
+            data.meta.subtitle;
+          document.getElementById("meta-session").textContent =
+            (data.meta.sessionName || "") +
+            " · " +
+            (data.meta.totalRawTurns || "");
+          document.getElementById("meta-status").textContent =
+            data.meta.status || "READY";
+          document.getElementById("bg-origin").textContent =
+            data.background.originGoal;
+          document.getElementById("pano-origin").textContent =
+            data.background.originGoal;
+          document.getElementById("pano-confusing").textContent =
+            data.background.whyConfusing;
+          document.getElementById("pano-guide").textContent =
+            data.background.readingGuide;
+
+          // Actors
+          const actorsEl = document.getElementById("right-actors-list");
+          actorsEl.innerHTML = (data.actorsAndRepos || [])
+            .map(function (a) {
+              return (
+                '<div class="actor-item">' +
+                '<div class="actor-head"><span class="mono">' +
+                esc(a.name) +
+                '</span><span class="actor-role">' +
+                esc(a.role) +
+                "</span></div>" +
+                '<div style="color:var(--text-secondary)">' +
+                esc(a.detail) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // Panorama Table
+          const panoTbody = document.getElementById("pano-chain-tbody");
+          panoTbody.innerHTML = steps
+            .map(function (s, idx) {
+              const actionsText = (s.whatWasDone || [])
+                .map(function (w) {
+                  return (
+                    "• <strong>" + esc(w.label) + "</strong>：" + esc(w.detail)
+                  );
+                })
+                .join("<br>");
+              return (
+                '<tr style="cursor:pointer" data-jump="' +
+                idx +
+                '">' +
+                '<td class="mono"><strong>Step ' +
+                s.id +
+                "</strong></td>" +
+                '<td><span style="font-size:0.72rem;color:var(--c-look)">' +
+                esc(s.phase) +
+                "</span><br><strong>" +
+                esc(s.title) +
+                "</strong></td>" +
+                "<td><strong>" +
+                esc(s.lookAt.target) +
+                "</strong></td>" +
+                "<td>" +
+                actionsText +
+                "</td>" +
+                '<td style="color:var(--c-next)">' +
+                esc(s.leadsToNext.hook) +
+                '<br><span class="mono" style="font-size:0.75rem">→ ' +
+                esc(s.leadsToNext.nextTarget) +
+                "</span></td>" +
+                "</tr>"
+              );
+            })
+            .join("");
+
+          panoTbody.querySelectorAll("tr[data-jump]").forEach(function (tr) {
+            tr.addEventListener("click", function () {
+              switchView("walkthrough");
+              goToStep(Number(tr.getAttribute("data-jump")));
+            });
+          });
+
+          // Takeaway FAQ
+          document.getElementById("takeaway-faq-grid").innerHTML = (
+            data.confusionMatrix || []
+          )
+            .map(function (f) {
+              return (
+                '<div class="faq-card">' +
+                '<div class="faq-q">❓ ' +
+                esc(f.question) +
+                "</div>" +
+                '<div class="faq-short">💡 ' +
+                esc(f.shortAnswer) +
+                "</div>" +
+                '<div class="faq-deep">' +
+                esc(f.deepExplanation) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // Completed & Pending
+          document.getElementById("takeaway-done-tbody").innerHTML = (
+            data.endState.completedItems || []
+          )
+            .map(function (c) {
+              return (
+                "<tr><td><strong>" +
+                esc(c.item) +
+                '</strong></td><td class="mono">' +
+                esc(c.ref) +
+                "</td><td>" +
+                esc(c.note) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+          document.getElementById("takeaway-pending-tbody").innerHTML = (
+            data.endState.pendingHandoffs || []
+          )
+            .map(function (p, i) {
+              return (
+                '<tr><td class="mono"><strong>#' +
+                (i + 1) +
+                "</strong></td><td><strong>" +
+                esc(p.task) +
+                '</strong></td><td><span class="badge">' +
+                esc(p.owner) +
+                '</span></td><td class="mono">' +
+                esc(p.when) +
+                "</td></tr>"
+              );
+            })
+            .join("");
+        }
+
+        function renderNavigation() {
+          // Top Ribbon
+          const ribbon = document.getElementById("ribbon-track");
+          ribbon.innerHTML = steps
+            .map(function (s, idx) {
+              const cls = ["ribbon-node"];
+              if (visited.has(idx)) cls.push("visited");
+              if (idx === currentIdx) cls.push("active");
+              const arrow =
+                idx < steps.length - 1
+                  ? '<span class="ribbon-arrow">──►</span>'
+                  : "";
+              return (
+                '<button class="' +
+                cls.join(" ") +
+                '" data-idx="' +
+                idx +
+                '">' +
+                '<span class="ribbon-num">' +
+                s.id +
+                "</span>" +
+                "<span>" +
+                esc(s.title) +
+                "</span>" +
+                "</button>" +
+                arrow
+              );
+            })
+            .join("");
+
+          ribbon.querySelectorAll(".ribbon-node").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              switchView("walkthrough");
+              goToStep(Number(btn.getAttribute("data-idx")));
+            });
+          });
+
+          // Left Step List grouped by phase
+          const groups = [];
+          steps.forEach(function (s, idx) {
+            let g = groups[groups.length - 1];
+            if (!g || g.phase !== s.phase) {
+              g = { phase: s.phase, items: [] };
+              groups.push(g);
+            }
+            g.items.push({ step: s, idx: idx });
+          });
+
+          const leftList = document.getElementById("left-step-list");
+          leftList.innerHTML = groups
+            .map(function (g) {
+              const itemsHtml = g.items
+                .map(function (entry) {
+                  const s = entry.step;
+                  const idx = entry.idx;
+                  const activeCls = idx === currentIdx ? " active" : "";
+                  const mark =
+                    idx === currentIdx ? "▶" : visited.has(idx) ? "✓" : "○";
+                  return (
+                    '<button class="nav-step-item' +
+                    activeCls +
+                    '" data-idx="' +
+                    idx +
+                    '">' +
+                    '<div class="nav-step-top">' +
+                    "<span>" +
+                    mark +
+                    " Step " +
+                    s.id +
+                    " · " +
+                    esc(s.title) +
+                    "</span>" +
+                    "</div>" +
+                    '<div class="nav-step-desc">' +
+                    esc(s.summary) +
+                    "</div>" +
+                    "</button>"
+                  );
+                })
+                .join("");
+              return (
+                '<div class="phase-group"><div class="phase-label">' +
+                esc(g.phase) +
+                "</div>" +
+                itemsHtml +
+                "</div>"
+              );
+            })
+            .join("");
+
+          leftList.querySelectorAll(".nav-step-item").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              goToStep(Number(btn.getAttribute("data-idx")));
+            });
+          });
+
+          document.getElementById("visited-counter").textContent =
+            "已走读 " + visited.size + " / " + steps.length;
+        }
+
+        function renderCurrentStep() {
+          const s = steps[currentIdx];
+          if (!s) return;
+
+          document.getElementById("step-badge").textContent =
+            "STEP " + s.id + " / " + steps.length + " · " + s.phase;
+          document.getElementById("step-title").textContent = s.title;
+          document.getElementById("step-summary").textContent = s.summary;
+
+          // 1. Look At
+          document.getElementById("step-look-target").textContent =
+            s.lookAt.target;
+          document.getElementById("step-look-anchors").innerHTML = (
+            s.lookAt.anchors || []
+          )
+            .map(function (a) {
+              return '<span class="anchor-tag mono">' + esc(a) + "</span>";
+            })
+            .join("");
+
+          // 2. Why
+          document.getElementById("step-why").textContent = s.whyLookHere;
+
+          // 3. Actions
+          const typeLabels = {
+            discovery: "发现事实",
+            action: "关键动作",
+            fix: "代码修复",
+            sync: "协同同步",
+          };
+          document.getElementById("step-actions").innerHTML = (
+            s.whatWasDone || []
+          )
+            .map(function (w) {
+              const t = w.type || "action";
+              return (
+                '<div class="action-item">' +
+                '<div class="action-item-head">' +
+                '<span class="type-tag type-' +
+                esc(t) +
+                '">' +
+                esc(typeLabels[t] || t) +
+                "</span>" +
+                "<span>" +
+                esc(w.label) +
+                "</span>" +
+                "</div>" +
+                '<div style="font-size:0.88rem;color:var(--text-secondary)">' +
+                esc(w.detail) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+
+          // 4. Myth vs Reality
+          document.getElementById("step-myth").textContent =
+            s.confusionBuster.myth;
+          document.getElementById("step-reality").textContent =
+            s.confusionBuster.reality;
+
+          // 5. Next Hook
+          document.getElementById("step-next-hook").textContent =
+            s.leadsToNext.hook;
+          const isLast = currentIdx === steps.length - 1;
+          document.getElementById("handoff-btn-text").textContent = isLast
+            ? "🎉 已走完全部关卡！点击查看「灵魂破雾 & 终局账单」"
+            : "顺着这条线索进入 Step " +
+              (s.id + 1) +
+              "：" +
+              s.leadsToNext.nextTarget;
+
+          // Footer buttons
+          document.getElementById("btn-prev").disabled = currentIdx === 0;
+          document.getElementById("btn-next").textContent = isLast
+            ? "查看终局账单 →"
+            : "下一步 (Step " + (s.id + 1) + ") →";
+          document.getElementById("footer-progress").textContent =
+            "Step " + s.id + " / " + steps.length;
+
+          // Right Evidence
+          const evList = s.evidence || [];
+          document.getElementById("evidence-count").textContent =
+            evList.length + " 项";
+          document.getElementById("right-evidence-list").innerHTML = evList
+            .map(function (ev) {
+              return (
+                '<div class="evidence-card">' +
+                '<div class="evidence-title"><span>' +
+                esc(ev.title) +
+                '</span><span class="mono">' +
+                esc(ev.kind) +
+                "</span></div>" +
+                '<pre class="evidence-pre">' +
+                esc(ev.content) +
+                "</pre>" +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        function goToStep(idx) {
+          if (idx < 0 || idx >= steps.length) return;
+          currentIdx = idx;
+          visited.add(idx);
+          renderNavigation();
+          renderCurrentStep();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function switchView(viewName) {
+          document.querySelectorAll(".tab-btn").forEach(function (btn) {
+            btn.classList.toggle(
+              "active",
+              btn.getAttribute("data-view") === viewName,
+            );
+          });
+          document.querySelectorAll(".view-panel").forEach(function (panel) {
+            panel.classList.toggle("active", panel.id === "view-" + viewName);
+          });
+        }
+
+        // Event bindings
+        document
+          .getElementById("btn-prev")
+          .addEventListener("click", function () {
+            if (currentIdx > 0) goToStep(currentIdx - 1);
+          });
+        document
+          .getElementById("btn-next")
+          .addEventListener("click", function () {
+            if (currentIdx < steps.length - 1) {
+              goToStep(currentIdx + 1);
+            } else {
+              switchView("takeaway");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+        document
+          .getElementById("btn-handoff-next")
+          .addEventListener("click", function () {
+            if (currentIdx < steps.length - 1) {
+              goToStep(currentIdx + 1);
+            } else {
+              switchView("takeaway");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+
+        document.querySelectorAll(".tab-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            switchView(btn.getAttribute("data-view"));
+          });
+        });
+
+        // Theme toggle
+        document
+          .getElementById("btn-theme")
+          .addEventListener("click", function () {
+            const html = document.documentElement;
+            const next =
+              html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            html.setAttribute("data-theme", next);
+          });
+
+        // Export Markdown
+        document
+          .getElementById("btn-export-md")
+          .addEventListener("click", function () {
+            const lines = [];
+            lines.push("# 🧭 " + data.meta.title);
+            lines.push("");
+            lines.push("> " + data.meta.subtitle);
+            lines.push("");
+            lines.push("## 0. 全景背景");
+            lines.push("- **初始目标**：" + data.background.originGoal);
+            lines.push("- **复杂原因**：" + data.background.whyConfusing);
+            lines.push("");
+            lines.push("## 1. 步进闯关走读");
+            steps.forEach(function (s) {
+              lines.push("");
+              lines.push(
+                "### 【Step " + s.id + " / " + steps.length + "】" + s.title,
+              );
+              lines.push(
+                "- **📍 第一步先看什么**：" +
+                  s.lookAt.target +
+                  " (" +
+                  (s.lookAt.anchors || []).join(", ") +
+                  ")",
+              );
+              lines.push("- **💡 为什么要看这里**：" + s.whyLookHere);
+              lines.push("- **🛠️ 发现了什么 & 做了什么**：");
+              (s.whatWasDone || []).forEach(function (w) {
+                lines.push("  - **" + w.label + "**：" + w.detail);
+              });
+              lines.push("- **⚡ 认知破雾**：");
+              lines.push("  - ❌ 容易误以为：" + s.confusionBuster.myth);
+              lines.push("  - ✅ 实际情况是：" + s.confusionBuster.reality);
+              lines.push(
+                "- **🔗 从这里引申到哪里**：" +
+                  s.leadsToNext.hook +
+                  " → **" +
+                  s.leadsToNext.nextTarget +
+                  "**",
+              );
+            });
+            const blob = new Blob([lines.join("\n")], {
+              type: "text/markdown;charset=utf-8",
+            });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download =
+              (data.meta.sessionName || "replay-walkthrough") + ".md";
+            a.click();
+          });
+
+        // Keyboard navigation
+        window.addEventListener("keydown", function (e) {
+          if (
+            e.target &&
+            (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+          )
+            return;
+          if (e.key === "ArrowRight" || e.key === "j") {
+            if (currentIdx < steps.length - 1) goToStep(currentIdx + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "k") {
+            if (currentIdx > 0) goToStep(currentIdx - 1);
+          } else if (e.key >= "1" && e.key <= "9") {
+            const n = Number(e.key) - 1;
+            if (n < steps.length) {
+              switchView("walkthrough");
+              goToStep(n);
+            }
+          }
+        });
+
+        initMeta();
+        renderNavigation();
+        renderCurrentStep();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "skill_name": "replay-html",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "这段 Claude 会话里 AI 一直在猛猛干活，我全程点同意但其实已经懵了。帮我生成一个 HTML 版的可视化复盘页面，要有背景，告诉我第一步看什么、为什么要看这里、怎么引申到下一步，最好可以点「下一步」一步一步这样走。",
+      "expected_output": "触发 replay-html：从终局倒推因果链并折叠报错噪音，构建 5-9 个 Step 的 #replay-data JSON 并注入单文件 HTML 模板；页面支持顶部因果轨道、左侧关卡目录、中央五要素（看哪里→为什么看→做了什么→认知破雾→引申到哪）及「顺着线索进入下一步」按钮、键盘方向键推进与深浅双主题。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "把开发机上的「实际测试演练对话」做成交互式步进 HTML 网页，特别是把里面为什么语音功能会关闭、为什么非要在 staging-b 做演练做成破雾卡片。",
+      "expected_output": "触发 replay-html：提取远程/指定会话主线，将 2858 行记录浓缩为 8 个首尾咬合的关卡，在 Step 7 与「灵魂破雾 & 终局账单」Tab 中展示语音白名单与 staging-b Worker 联合排空的机制解析，产出可双击离线运行的单文件 HTML。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "帮我把这次跨 4 个仓库的线上排障和发版过程做成一个能发给队友在浏览器里一步步点着看的闯关复盘页。",
+      "expected_output": "触发 replay-html：构建包含 actorsAndRepos 四仓角色栏、五要素步进舞台与右侧原始证据栏的单文件 HTML 复盘页，并支持一键导出 Markdown。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "不用做网页，直接给我写一篇纯 Markdown 的复盘文档就行，我要贴到 GitHub Issue 评论里。",
+      "expected_output": "判定为纯 Markdown 复盘诉求（姊妹技能分流负向样本）：路由到 replay-md 产出 Markdown 走读稿，而非生成 HTML 文件。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "帮我画一张 AI 网关、异步 Relay 和 PostgreSQL 之间的 SVG 系统架构拓扑图，要曼哈顿正交连线并支持导出 PNG。",
+      "expected_output": "判定为静态系统架构拓扑图诉求（近似干扰负向样本）：路由到 html 插件的 architecture-diagram 技能，而非会话因果步进复盘技能 replay-html。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "帮我把这个业务审批流程画成手绘白板风格的 Excalidraw 流程图。",
+      "expected_output": "判定为手绘白板流程图诉求（近似干扰负向样本）：路由到 html 插件的 excalidraw-diagram 技能，而非 replay-html。",
+      "files": []
+    }
+  ]
+}

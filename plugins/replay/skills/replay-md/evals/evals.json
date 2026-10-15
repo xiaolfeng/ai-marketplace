@@ -1,0 +1,42 @@
+{
+  "skill_name": "replay-md",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "刚才那场 Claude 对话里 AI 一直在猛猛改代码、跑 kubectl、建 Issue、发群通知，我全程只会点同意，现在完全懵了。帮我写一份 Markdown 复盘文档，告诉我第一步看什么、为什么要看这里、怎么一步步引申下去的。",
+      "expected_output": "触发 replay-md：先盘点终局产物，逆向推导因果链并折叠报错重试噪音，收敛为 5-9 个 Step；每个 Step 严格包含五要素（第一步看什么→为什么要看这里→发现了什么与做了什么→认知破雾→引申到哪里），步与步首尾咬合，文末附混淆概念破雾表与终局待办账单。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "去开发机上找一下名字叫「实际测试演练对话」的 claude session，帮我逆向拆解成一篇能存进仓库的 .md 走读报告，特别是把里面为什么语音功能会关掉、为什么非要在 staging-b 演练讲清楚。",
+      "expected_output": "命中 E1 远程/指定会话定位 + replay-md：通过会话记录提取主线，合并上下文压缩段（E2）与四仓三环境角色表（E3），在对应关卡及文末破雾表中详细拆解代码默认开关 vs 部署白名单、staging-c 单组件 vs staging-b Worker 联合排空的底层原因。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这个 PR 分支一共叠了 12 个 commit，中间还有一次 revert，我接手的时候看晕了。帮我用 Markdown 梳理一条从头到尾的走读链路，让我知道先看哪个文件、为什么这么改。",
+      "expected_output": "触发 replay-md：从分支最终 diff 与提交历史倒推每个关键修改的触发原因，将中间的 revert（N3 方向折返）折叠为认知辨析节点，输出带进度坐标与五要素的线性 Markdown 走读手册。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "帮我把这段复杂的复盘过程做成一个网页版，最好可以点「下一步、下一步」那样一步步交互着看，更有代入感。",
+      "expected_output": "判定为交互式 HTML 步进诉求（姊妹技能分流负向样本）：路由到 replay-html 生成单文件步进闯关网页，而非仅输出静态 Markdown。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "我们接下来要把网关的部署策略从 Recreate 改成 Argo Rollouts 蓝绿发布，帮我写一份正式的工程详细设计文档（Design Doc）。",
+      "expected_output": "判定为事前工程设计文档撰写（近似干扰负向样本）：路由到 engineering-design 插件的 design-er（或 rfc-er），而非事后逆向复盘技能 replay-md。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "帮我审查一下当前分支的代码有没有空指针或者并发竞态 bug，列个缺陷清单出来。",
+      "expected_output": "判定为代码缺陷审查（近似干扰负向样本）：路由到 bug 插件的 find-bug 技能，而非会话/链路复盘技能 replay-md。",
+      "files": []
+    }
+  ]
+}
