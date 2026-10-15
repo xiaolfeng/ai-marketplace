@@ -7,6 +7,7 @@
   "scripts": {
     "build": "node scripts/build-cursor-manifest.mjs",
     "check": "node scripts/build-cursor-manifest.mjs --check",
+    "test": "node --test plugins/agent-studio/tests/*.test.mjs",
     "validate": "claude plugin validate ."
   },
   "engines": {

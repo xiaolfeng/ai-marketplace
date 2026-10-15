@@ -19,20 +19,20 @@ docs/
     ├── draft/             # 草案（空，待写入）
     ├── research/          # 调研笔记（0001~0005 已有）
     ├── rfc/               # 提案（空，待写入）
-    ├── design/            # 设计（目录已就绪，design-er 写作）
+    ├── design/            # 设计（0001：Agent Studio 宿主、模型与工作流契约）
     └── adr/               # 架构决策记录（空，待写入）
 ```
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 写调研笔记 | `engineering/research/` | 只记现状与证据 |
-| 写提案 | `engineering/rfc/` | 方向已收敛、需评审时 |
-| 写设计稿 | `engineering/design/` | 方向已确认、需明确实施方式与验证时 |
-| 定稿长期决策 | `engineering/adr/` | 从被接受的 RFC 冻结 |
-| 登记新业务域 Scope | `scope-manage.md` | 三列一次填齐 |
-| 修改插件上架标准 | `plugin-guidelines.md` | 全平台实测结论，改动需附依据 |
+| 任务               | 位置                    | 说明                               |
+| ------------------ | ----------------------- | ---------------------------------- |
+| 写调研笔记         | `engineering/research/` | 只记现状与证据                     |
+| 写提案             | `engineering/rfc/`      | 方向已收敛、需评审时               |
+| 写设计稿           | `engineering/design/`   | 方向已确认、需明确实施方式与验证时 |
+| 定稿长期决策       | `engineering/adr/`      | 从被接受的 RFC 冻结                |
+| 登记新业务域 Scope | `scope-manage.md`       | 三列一次填齐                       |
+| 修改插件上架标准   | `plugin-guidelines.md`  | 全平台实测结论，改动需附依据       |
 
 ## 约定
 
@@ -63,3 +63,4 @@ docs/
 ## 引用
 
 - [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录写作技能的宿主插件
+- [Agent Studio 设计](engineering/design/0001-plugin-agent-studio.md) — 通用工作组构建的首版边界与验收（draft）

@@ -44,3 +44,4 @@ Thumbs.db
 
 # ---------- Agent local state ----------
 .claude/settings.local.json
+.pi/

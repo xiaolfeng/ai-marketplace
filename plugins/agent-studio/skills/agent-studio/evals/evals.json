@@ -1,0 +1,23 @@
+{
+  "skill_name": "agent-studio",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "项目同时有 .claude 和 .pi。我正在 Claude Code，请用我指定的 sonnet 模型建立一个只读资料审查员，先生成配置，不执行任务。",
+      "expected_output": "确认当前宿主为 Claude，显式传 host；登记用户指定模型；生成 .claude/agents 中只含 Read/Grep/Glob 的代理；不将目录并存误判为 Pi；不启动任务。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "当前是支持 .pi/agents 的 Pi，我的 provider 是 example-router，model 是 vendor/family/model:rev。登记 research profile 并创建两步资料核对流程，第二步需要我确认。",
+      "expected_output": "先确认真实子代理工具契约；provider/model 分字段保存且保留 model 中所有斜杠；生成用户定义的顺序流程；不把示例 provider 误称为已验证可用；不自动确认审批。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "继续现有 Agent Studio 运行。我手动改过上一阶段的 notes.md，如果它报错，直接忽略继续第二步就行。",
+      "expected_output": "run-next 报工件摘要漂移；解释旧运行不能按该契约忽略前序变更；保留旧状态，通过修订定义并创建新运行采用新材料，不手改摘要或伪造完成。",
+      "files": []
+    }
+  ]
+}

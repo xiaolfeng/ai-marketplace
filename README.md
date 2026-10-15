@@ -49,6 +49,7 @@ ai-marketplace/
 | [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                          | 0.0.1 |
 | [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
 | [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                       | 0.0.1 |
+| [agent-studio](./plugins/agent-studio/)             | 自定义 Agent 工作组与顺序工作流：宿主识别、模型专题登记、代理生成、工件验收与恢复；首版支持 Claude Code/Pi               | 0.0.1 |
 
 ## ➕ 如何添加插件
 
@@ -72,9 +73,9 @@ ai-marketplace/
 
 ## 🔒 安全
 
-- 插件仅包含 Markdown 指令与声明式配置，不收集任何数据；
-- 若插件需要 API Token 等敏感信息，仅在 manifest 中声明变量名，值由使用者本地配置；
-- 安装前建议审查插件内容——Skills 本质是指令文本，请在信任来源后安装。
+- 插件包含 Markdown 指令、声明式配置与可审查的脚本，不主动收集或上传使用数据；
+- 若插件需要 API Token 等敏感信息，仅在 manifest 中声明变量名，值由使用者配置；
+- 安装前建议审查技能与脚本内容；具体宿主支持、读写范围及运行依赖见各插件 README。
 
 ## 📄 License
 

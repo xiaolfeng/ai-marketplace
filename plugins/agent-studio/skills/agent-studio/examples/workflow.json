@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "compare",
+  "description": "示例：按用户指定主题整理材料，再核对证据。步骤可替换为任意业务流程。",
+  "steps": [
+    {
+      "id": "collect",
+      "agent": "researcher",
+      "task": "读取 brief.md 中的主题和材料，列出证据与来源。返回内容给主代理保存为 notes.md。",
+      "inputs": ["project:brief.md"],
+      "outputs": ["notes.md"],
+      "approval": false
+    },
+    {
+      "id": "compare",
+      "agent": "researcher",
+      "task": "核对已有证据，整理差异、证据不足之处及下一步候选动作。返回内容给主代理保存为 result.md。",
+      "inputs": ["artifact:notes.md"],
+      "outputs": ["result.md"],
+      "approval": true
+    }
+  ]
+}

@@ -28,3 +28,6 @@ jobs:
 
       - name: Ensure Cursor manifest is up to date
         run: node scripts/build-cursor-manifest.mjs --check
+
+      - name: Test Agent Studio scripts
+        run: npm test

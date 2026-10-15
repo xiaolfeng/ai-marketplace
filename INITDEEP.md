@@ -29,33 +29,33 @@ ai-marketplace/
 
 ## 导航指南
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| 新增或修改插件 | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步 |
-| 发布前校验 | 三连命令见「常用命令」 | 本地全绿再提 PR |
-| 写工程文档 | `docs/engineering/` 五阶段目录 | 各阶段独立四位编号，技能代写；整理走 doc-clean |
-| 查或登记 Scope | `docs/scope-manage.md` | Git 提交与工程文档共用词表 |
-| 找某层的目录导航与约定 | 见「引用」段的各级 `INITDEEP.md` | 按任务读取对应层索引；项目通用约束见根 `AGENTS.md` |
+| 任务                   | 位置                                        | 说明                                               |
+| ---------------------- | ------------------------------------------- | -------------------------------------------------- |
+| 新增或修改插件         | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步                           |
+| 发布前校验             | 三连命令见「常用命令」                      | 本地全绿再提 PR                                    |
+| 写工程文档             | `docs/engineering/` 五阶段目录              | 各阶段独立四位编号，技能代写；整理走 doc-clean     |
+| 查或登记 Scope         | `docs/scope-manage.md`                      | Git 提交与工程文档共用词表                         |
+| 找某层的目录导航与约定 | 见「引用」段的各级 `INITDEEP.md`            | 按任务读取对应层索引；项目通用约束见根 `AGENTS.md` |
 
 ## 模块架构
 
-| 子系统 | 位置 | 职责 |
-| --- | --- | --- |
-| 清单源 | `.claude-plugin/marketplace.json` | 唯一手写的市场索引 |
-| 插件层 | `plugins/<name>/` | 七个独立插件，互不依赖代码 |
-| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式 |
-| 文档层 | `docs/` | 上架标准、scope 总账、五阶段工程文档 |
+| 子系统 | 位置                                                 | 职责                                 |
+| ------ | ---------------------------------------------------- | ------------------------------------ |
+| 清单源 | `.claude-plugin/marketplace.json`                    | 唯一手写的市场索引                   |
+| 插件层 | `plugins/<name>/`                                    | 八个独立插件，互不依赖代码           |
+| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式         |
+| 文档层 | `docs/`                                              | 上架标准、scope 总账、五阶段工程文档 |
 
 ## 代码地图
 
-| 符号 | 类型 | 位置 | 作用 |
-| --- | --- | --- | --- |
+| 符号               | 类型 | 位置                                | 作用                                      |
+| ------------------ | ---- | ----------------------------------- | ----------------------------------------- |
 | `toCursorManifest` | 函数 | `scripts/build-cursor-manifest.mjs` | Claude 条目按白名单字段透传为 Cursor 清单 |
 
 ## 独特风格
 
-- **多端兼容靠清单而非适配代码**：需要支持新平台时优先扩展导出脚本的透传逻辑，
-  不新增第二份手写清单；
+- **分发兼容统一清单**：支持新安装平台时优先扩展导出脚本，不新增第二份手写清单；
+  Agent Studio 的原生代理生成另有宿主适配契约，见插件目录。
 - **`dist/cursor/` 是唯一入库的生成物**：让无 Node 环境的消费方也能读到最新清单，
   因此改动清单后必须重新构建并随同提交，否则仓库分发的就是过期数据。
 
@@ -64,7 +64,7 @@ ai-marketplace/
 1. 添加插件或更新版本号后，除同步 marketplace.json 条目（含 version）外，
    必须同步更新根 `README.md` 的插件列表（版本取值以 manifest 为准，缺一即门面
    数据脱钩），并运行：`claude plugin validate . && npx skills add . --list &&
-   npm run build`；
+npm run build`；
 2. 插件命名 kebab-case；SKILL.md 的 `name` 与目录名一致，`description` 写清触发场景且 ≤1024 字符；
 3. `skills/` 目录保持单层结构，不使用嵌套分组；
 4. 不引入任何运行时依赖；构建脚本保持零依赖 Node（>=18）可执行；
@@ -106,4 +106,5 @@ npm run check               # 门 3：CI 用 --check 核对导出物是否漂移
 - [charm](./plugins/charm/INITDEEP.md) — 魅力文学插件：书面去 AI 腔 + 对话口语感人味化
 - [html](./plugins/html/INITDEEP.md) — HTML 视觉与架构图表套件插件：遵循 huashu-design 的系统架构全景拓扑图与 Excalidraw 手绘白板图表
 - [bug](./plugins/bug/INITDEEP.md) — 缺陷工作流插件：质量缺陷发现、授权范围内的安全审查、按根因修复
+- [agent-studio](./plugins/agent-studio/INITDEEP.md) — 宿主感知的模型专题、Agent 工作组与顺序工作流构建
 - [docs](./docs/INITDEEP.md) — 文档中心：编号、Scope 词表与流转规则

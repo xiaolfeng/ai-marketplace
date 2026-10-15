@@ -1,0 +1,13 @@
+{
+  "name": "agent-studio",
+  "description": "宿主感知的 Agent 工作组与顺序工作流构建：模型专题登记、原生代理配置生成、工件验收和进度恢复，首版适配 Claude Code 与兼容子代理加载器的 Pi",
+  "version": "0.0.1",
+  "author": {
+    "name": "xiao_lfeng",
+    "url": "https://www.x-lf.com"
+  },
+  "homepage": "https://github.com/xiaolfeng/ai-marketplace",
+  "repository": "https://github.com/xiaolfeng/ai-marketplace",
+  "license": "MIT",
+  "keywords": ["agents", "workflow", "models", "claude", "pi"]
+}
