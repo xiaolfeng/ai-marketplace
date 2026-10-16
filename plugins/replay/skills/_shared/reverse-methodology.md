@@ -1,6 +1,6 @@
 # 逆向解构与因果复盘方法论（Reverse Deconstruction Methodology）
 
-本文件是 `replay-md` 与 `replay-html` 共用的核心分析引擎。
+本文件是 `replay-md`、`replay-html`、`replay-post-md`、`replay-post-html` 四个技能共用的核心分析引擎；拆解阶段不区分读者，口吻与脱敏在落笔阶段按 [audience-voice.md](audience-voice.md) 处理。
 当用户面对长篇 AI 会话记录（`.jsonl`、导出文本、终端日志）、多轮代码变更（PR / Commit 序列）或复杂排障演练，感到「AI 猛猛做了一大堆、我一直在点同意、虽然做成了但我已经完全懵了」时，必须严格按本方法论完成**逆向解构**，再输出为目标格式。
 
 ---

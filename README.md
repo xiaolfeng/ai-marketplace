@@ -50,7 +50,7 @@ ai-marketplace/
 | [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
 | [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                       | 0.0.1 |
 | [agent-studio](./plugins/agent-studio/)             | 个人全局 Agent 体系构建：分支问答、真实模型选择与用途记录，生成可独立使用的 Agent/Workflow                               | 0.0.2 |
-| [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，提供 Markdown 走读稿与 HTML 交互步进闯关双模式    | 0.0.1 |
+| [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，自己看的大白话版与对外发布的正式版各提供 Markdown 与 HTML 两种格式 | 0.1.0 |
 
 ## ➕ 如何添加插件
 

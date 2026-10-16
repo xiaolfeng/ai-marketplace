@@ -1,0 +1,42 @@
+{
+  "skill_name": "replay-post-md",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发、读者分流与近似干扰负向样本。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "刚才这场 AI 会话的成果要写成事后复盘发到公司 Wiki，给没参与的同事看。正式一点，要有摘要、影响、时间线和关键决策，人名换成角色。",
+      "expected_output": "触发 replay-post-md：先逆向拆解为 5-9 个阶段，再按元信息表→摘要→影响→背景→时间线→过程详述→关键决策（含备选方案）→常见问题→现状与后续→经验与改进的骨架输出 Markdown，团队视角书写并执行脱敏清单，文末写明脱敏说明。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我已经有一份自己看的 replay-md 复盘稿了，帮我改成能贴进周报的正式版 Postmortem。",
+      "expected_output": "触发 replay-post-md（P1）：复用自用稿的步骤与证据，删除对话细节与 Self 口吻，补齐 headline、tldr、impact、decisions、lessons 等发布字段，输出正式 Markdown 报告。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这次线上排障要写复盘给管理层看，他们只会看前面几段，帮我把结论和影响放在最前面。",
+      "expected_output": "触发 replay-post-md（P2）：摘要与影响前置，过程详述每阶段以结论句开头、证据折叠，决策写出备选方案与理由。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "我自己完全看懵了，帮我用大白话把这段对话一步步捋一遍，写个 Markdown 就行，不用发给别人。",
+      "expected_output": "判定为自己看的复盘（读者分流负向样本）：路由到 replay-md 输出带 30 秒看懂与小词典的大白话走读稿，而非正式报告。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "把这份对外复盘做成可以翻页的网页，方便直接发链接。",
+      "expected_output": "判定为对外发布的 HTML 诉求（格式分流负向样本）：路由到 replay-post-html，而非仅输出 Markdown。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "帮我写一份把网关部署从 Recreate 改成 RollingUpdate 的 RFC 提案。",
+      "expected_output": "判定为事前方案提案（近似干扰负向样本）：路由到 engineering-design 的 rfc-er，而非事后复盘技能。",
+      "files": []
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # 复盘步进链条数据契约（Step-Chain Schema）
 
-本文件定义 `replay-md`（Markdown 章节结构）与 `replay-html`（内嵌 `#replay-data` JSON 数据）共用的**唯一数据模型**。
+本文件定义四个复盘技能共用的**唯一数据模型**：`replay-md` / `replay-post-md` 按它组织 Markdown 章节，`replay-html` / `replay-post-html` 把它写进内嵌的 `#replay-data` JSON。第一至四节是所有版本的必填核心；第五节是按读者追加的扩展字段，口吻差异见 [audience-voice.md](audience-voice.md)。
 无论是生成文档还是生成交互网页，都必须先在思维中（或草稿中）凑齐这套字段，严禁缺斤少两。
 
 ---
@@ -145,3 +145,77 @@
 1. **禁止丢掉具体锚点**：复盘不是写心灵鸡汤。所有的 PR 号（如 `#280`、`#281`、`#284`）、Issue 号（`#273`、`#282`）、关键 Commit（`894315e`、`8897616`）、关键配置键（`GATEWAY_AUDIO_GENERATION_EGRESS`）和实测数据（如 `20.9s / 46.3s 503 空窗`）必须原样保留。
 2. **人话优先，先讲人话再贴证据**：正文（`whyLookHere`、`confusionBuster`、`leadsToNext`）必须用直白、有呼吸感的中文向人类解释因果；长代码、长命令和原始输出放进 `evidence`（在 MD 中为折叠块或次级引用块，在 HTML 中为右侧可展开证据面板）。
 3. **诚实标注未完成项**：AI 做得再猛，也不能把「还在等别人审批 / 等正式版发布 / 等明天演练窗口」吹成「全部搞定」。`endState.pendingHandoffs` 必须按责任人切分清楚。
+
+---
+
+## 五、 读者扩展字段
+
+核心字段不变，按读者在顶层追加一个扩展块。HTML 模板读不到扩展块时会优雅降级（不渲染对应区域），不会报错。
+
+### 5.1 自己看（Self）：`glossary` 小词典
+
+`replay-md` 在文末输出「小词典」表格；`replay-html` 会把正文里出现的词条自动加上虚线下划线，点一下就弹出解释。
+
+```json
+{
+  "glossary": [
+    {
+      "term": "Recreate",
+      "plain": "K8s 换版本的一种方式：先把旧的全关掉，再开新的。中间会有一段「店门关着」的空窗。"
+    },
+    {
+      "term": "selfHeal",
+      "plain": "Argo 的自动纠正：发现集群和 Git 里写的不一样，就自动改回去，像有人一直盯着把你挪过的家具摆回原位。"
+    }
+  ]
+}
+```
+
+- 词条按「读者第一次会卡住的词」挑选，通常 6–12 个；`term` 必须与正文写法一字不差，才能被自动识别；
+- `plain` 一到两句，优先用比喻，禁止用另一个术语解释术语。
+
+### 5.2 对外发布（Post）：`publication` 发布块
+
+`replay-post-md` 按它排出报告骨架；`replay-post-html` 用它渲染标题区、TL;DR、影响数字、时间线、决策记录与经验总结。步骤 `steps` 在对外版里作为「过程详述」章节呈现，字段含义不变，只是改用第三人称书写。
+
+```json
+{
+  "publication": {
+    "kicker": "工程复盘",
+    "headline": "对外标题：结果 + 关键转折，20 字左右",
+    "dek": "导语：两三句话交代背景、影响与结论",
+    "authors": ["平台工程组"],
+    "readingTime": "约 8 分钟",
+    "tldr": ["要点 1", "要点 2", "要点 3"],
+    "impact": [
+      {
+        "label": "停机空窗",
+        "value": "20.9s–46.3s",
+        "note": "单副本 Recreate 替换期间的 503 时长"
+      }
+    ],
+    "timeline": [
+      {
+        "time": "D1 上午",
+        "event": "发现未评审合入并建立补审 PR",
+        "stepRef": 1
+      }
+    ],
+    "decisions": [
+      {
+        "title": "不直接修改部署策略",
+        "context": "为什么需要做这个决定",
+        "options": ["直接改为 RollingUpdate", "先做 1→2→1 多实例演练"],
+        "choice": "先做 1→2→1 多实例演练",
+        "rationale": "多副本行为从未验证；规范要求先演练后切换"
+      }
+    ],
+    "lessons": ["经验 1", "经验 2"],
+    "redactionNote": "本文已将人员替换为角色，并省略内部域名与凭据信息。"
+  }
+}
+```
+
+- `timeline[].stepRef` 指向对应 `steps[].id`，HTML 中点击时间线会滚动到该章节；
+- `decisions` 至少 1 条、通常 2–4 条，必须写 `options`，单选项的「决策」说明不是真正的决策，应合并进步骤叙述；
+- `impact` 只放有真实数字的指标，没有就不写，禁止为了排版好看编造数字。

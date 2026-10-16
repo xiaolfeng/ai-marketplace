@@ -1,1074 +1,1124 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[REPLAY TITLE] · 逆向因果步进复盘</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <title>[REPLAY TITLE] · 复盘笔记</title>
     <style>
       /* ==========================================================================
-       DESIGN TOKENS & DUAL THEMES (外硬内柔 · 深浅双主题)
-       ========================================================================== */
-      :root,
-      [data-theme="dark"] {
-        --bg-canvas: #070b14;
-        --bg-panel: #0d1424;
-        --bg-card: #121c31;
-        --bg-card-elevated: #17243f;
-        --bg-code: #080d18;
-        --border-subtle: rgba(148, 163, 184, 0.14);
-        --border-strong: rgba(148, 163, 184, 0.28);
-        --text-primary: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --text-muted: #64748b;
-
-        --c-look: #38bdf8;
-        --c-look-bg: rgba(56, 189, 248, 0.1);
-        --c-why: #f59e0b;
-        --c-why-bg: rgba(245, 158, 11, 0.1);
-        --c-do: #10b981;
-        --c-do-bg: rgba(16, 185, 129, 0.1);
-        --c-myth: #f43f5e;
-        --c-myth-bg: rgba(244, 63, 94, 0.1);
-        --c-next: #a855f7;
-        --c-next-bg: rgba(168, 85, 247, 0.12);
-
-        --btn-bg: #1e293b;
-        --btn-hover: #334155;
-        --btn-primary-bg: #0284c7;
-        --btn-primary-hover: #0369a1;
-        --shadow-card: 0 10px 28px -8px rgba(0, 0, 0, 0.55);
+         DESIGN TOKENS · 暖纸笔记本（浅色纸张 / 深色夜读，跟随系统并可手动切换）
+         ========================================================================== */
+      :root {
+        --paper: #f7f2e8;
+        --paper-sunk: #efe7d7;
+        --card: #fffdf8;
+        --ink: #2b2620;
+        --ink-2: #5a5146;
+        --ink-3: #8c8273;
+        --line: #e4dac7;
+        --line-strong: #d3c6ad;
+        --accent: #c0551b;
+        --accent-ink: #ffffff;
+        --accent-soft: rgba(192, 85, 27, 0.1);
+        --highlight: rgba(250, 204, 21, 0.38);
+        --look: #2c6a87;
+        --why: #a8701a;
+        --do: #3b7550;
+        --myth: #b0433a;
+        --myth-soft: rgba(176, 67, 58, 0.07);
+        --truth: #3b7550;
+        --truth-soft: rgba(59, 117, 80, 0.08);
+        --code-bg: #f1eadb;
+        --shadow: 0 1px 0 rgba(43, 38, 32, 0.04), 0 12px 32px -18px rgba(43, 38, 32, 0.28);
+        --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
+        --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+          "Microsoft YaHei", sans-serif;
+        --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        color-scheme: light;
       }
-
-      [data-theme="light"] {
-        --bg-canvas: #f1f5f9;
-        --bg-panel: #ffffff;
-        --bg-card: #f8fafc;
-        --bg-card-elevated: #eff6ff;
-        --bg-code: #0f172a;
-        --border-subtle: rgba(100, 116, 139, 0.2);
-        --border-strong: rgba(100, 116, 139, 0.36);
-        --text-primary: #0f172a;
-        --text-secondary: #334155;
-        --text-muted: #64748b;
-
-        --c-look: #0284c7;
-        --c-look-bg: rgba(2, 132, 199, 0.08);
-        --c-why: #d97706;
-        --c-why-bg: rgba(217, 119, 6, 0.08);
-        --c-do: #059669;
-        --c-do-bg: rgba(5, 150, 105, 0.08);
-        --c-myth: #e11d48;
-        --c-myth-bg: rgba(225, 29, 72, 0.07);
-        --c-next: #7c3aed;
-        --c-next-bg: rgba(124, 58, 237, 0.09);
-
-        --btn-bg: #e2e8f0;
-        --btn-hover: #cbd5e1;
-        --btn-primary-bg: #0284c7;
-        --btn-primary-hover: #0369a1;
-        --shadow-card: 0 8px 22px -6px rgba(15, 23, 42, 0.08);
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --paper: #1b1915;
+          --paper-sunk: #23201b;
+          --card: #262219;
+          --ink: #ece4d4;
+          --ink-2: #c1b6a2;
+          --ink-3: #8b8170;
+          --line: #3a342a;
+          --line-strong: #4a4336;
+          --accent: #e48a52;
+          --accent-ink: #1b1915;
+          --accent-soft: rgba(228, 138, 82, 0.14);
+          --highlight: rgba(250, 204, 21, 0.2);
+          --look: #7fb6cf;
+          --why: #e0b25e;
+          --do: #8cc49d;
+          --myth: #e38a80;
+          --myth-soft: rgba(227, 138, 128, 0.09);
+          --truth: #8cc49d;
+          --truth-soft: rgba(140, 196, 157, 0.09);
+          --code-bg: #201d18;
+          --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --paper: #1b1915;
+        --paper-sunk: #23201b;
+        --card: #262219;
+        --ink: #ece4d4;
+        --ink-2: #c1b6a2;
+        --ink-3: #8b8170;
+        --line: #3a342a;
+        --line-strong: #4a4336;
+        --accent: #e48a52;
+        --accent-ink: #1b1915;
+        --accent-soft: rgba(228, 138, 82, 0.14);
+        --highlight: rgba(250, 204, 21, 0.2);
+        --look: #7fb6cf;
+        --why: #e0b25e;
+        --do: #8cc49d;
+        --myth: #e38a80;
+        --myth-soft: rgba(227, 138, 128, 0.09);
+        --truth: #8cc49d;
+        --truth-soft: rgba(140, 196, 157, 0.09);
+        --code-bg: #201d18;
+        --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+        color-scheme: dark;
       }
 
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
       }
       body {
-        font-family:
-          "Inter",
-          "Noto Sans SC",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background: var(--bg-canvas);
-        color: var(--text-primary);
-        min-height: 100vh;
-        line-height: 1.65;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 17px;
+        line-height: 1.8;
         -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      summary:focus-visible,
+      .term:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
       }
       code,
-      pre,
-      .mono {
-        font-family:
-          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      pre {
+        font-family: var(--mono);
+      }
+      code {
+        font-size: 0.86em;
+        background: var(--code-bg);
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        padding: 0.05em 0.35em;
+        word-break: break-word;
       }
 
-      /* Top Header (Sharp Outer Shell) */
-      .top-header {
-        background: var(--bg-panel);
-        border-bottom: 2px solid var(--border-strong);
-        padding: 1rem 1.5rem;
+      /* ------------------------------ Top bar ------------------------------ */
+      .topbar {
         position: sticky;
         top: 0;
-        z-index: 50;
+        z-index: 30;
+        background: color-mix(in srgb, var(--paper) 88%, transparent);
+        backdrop-filter: saturate(1.4) blur(10px);
+        -webkit-backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--line);
       }
-      .header-inner {
-        max-width: 1480px;
+      .topbar-inner {
+        max-width: 760px;
         margin: 0 auto;
+        padding: 0.6rem 16px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
+        gap: 0.5rem;
       }
-      .brand-group {
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        flex: none;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 9px;
+        color: var(--ink-2);
+      }
+      .icon-btn:hover {
+        background: var(--paper-sunk);
+        color: var(--ink);
+      }
+      .icon-btn svg {
+        width: 19px;
+        height: 19px;
+      }
+      .bar-title {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.86rem;
+        color: var(--ink-2);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bar-title b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .bar-count {
+        font-size: 0.8rem;
+        color: var(--ink-3);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .progress {
+        height: 3px;
+        background: transparent;
+      }
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--accent);
+        border-radius: 0 3px 3px 0;
+        transition: width 0.35s ease;
+      }
+
+      /* ------------------------------ Menu ------------------------------ */
+      .menu-wrap {
+        position: relative;
+      }
+      .menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        min-width: 180px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 0.35rem;
+        display: none;
+      }
+      .menu.open {
+        display: block;
+      }
+      .menu button {
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem 0.7rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+      .menu button:hover {
+        background: var(--paper-sunk);
+      }
+
+      /* ------------------------------ Stage ------------------------------ */
+      .stage {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 2.4rem 16px 8.5rem;
+      }
+      .screen {
+        animation: rise 0.38s ease both;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .screen {
+          animation: none;
+        }
+        .progress > span {
+          transition: none;
+        }
+      }
+      .kicker {
         display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        color: var(--ink-3);
+        letter-spacing: 0.02em;
       }
-      .meta-row {
+      .kicker .num {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.74rem;
+        font-weight: 600;
+        padding: 0.08rem 0.55rem;
+        border-radius: 999px;
+        background: var(--paper-sunk);
+        color: var(--ink-2);
+        border: 1px solid var(--line);
+      }
+      .tag.decision {
+        color: var(--why);
+        border-color: color-mix(in srgb, var(--why) 35%, transparent);
+        background: color-mix(in srgb, var(--why) 10%, transparent);
+      }
+      .tag.blocked {
+        color: var(--myth);
+        border-color: color-mix(in srgb, var(--myth) 35%, transparent);
+        background: var(--myth-soft);
+      }
+      h1.title,
+      h2.title {
+        font-family: var(--serif);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.32;
+        margin: 0.5rem 0 0.9rem;
+        text-wrap: balance;
+      }
+      h1.title {
+        font-size: clamp(1.9rem, 5.4vw, 2.6rem);
+      }
+      h2.title {
+        font-size: clamp(1.6rem, 4.6vw, 2.15rem);
+      }
+      h1.title .mark,
+      h2.title .mark {
+        background: linear-gradient(transparent 62%, var(--highlight) 62%);
+      }
+      .lead {
+        font-size: 1.12rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+      }
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1.1rem;
+        margin-top: 1.1rem;
+        font-size: 0.84rem;
+        color: var(--ink-3);
+      }
+      .meta-strip span::before {
+        content: "· ";
+        color: var(--line-strong);
+      }
+      .meta-strip span:first-child::before {
+        content: "";
+      }
+
+      /* ------------------------------ Blocks ------------------------------ */
+      .block {
+        margin-top: 2.1rem;
+      }
+      .label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.55rem;
+      }
+      .label .em {
+        font-size: 1.05rem;
+      }
+      .label.look {
+        color: var(--look);
+      }
+      .label.why {
+        color: var(--why);
+      }
+      .label.do {
+        color: var(--do);
+      }
+      .label.next {
+        color: var(--accent);
+      }
+      .label.plain {
+        color: var(--ink-2);
+      }
+      .prose > * + * {
+        margin-top: 0.7rem;
+      }
+      .look-target {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.55;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.7rem;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 7px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        color: var(--ink-2);
+        word-break: break-all;
+      }
+      .do-list {
+        list-style: none;
+        display: grid;
+        gap: 0.9rem;
+      }
+      .do-list li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.2rem 0.75rem;
+      }
+      .do-list .n {
+        grid-row: span 2;
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        background: var(--card);
+        border: 1px solid var(--line-strong);
+        color: var(--ink-2);
+        margin-top: 0.15rem;
+      }
+      .do-list .head {
+        font-weight: 650;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.45rem;
+      }
+      .do-list .kind {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.02rem 0.45rem;
+        border-radius: 5px;
+        color: var(--ink-3);
+        border: 1px solid var(--line);
+      }
+      .do-list .kind.discovery {
+        color: var(--look);
+      }
+      .do-list .kind.action {
+        color: var(--accent);
+      }
+      .do-list .kind.fix {
+        color: var(--do);
+      }
+      .do-list .kind.sync {
+        color: var(--why);
+      }
+      .do-list .detail {
+        color: var(--ink-2);
+        font-size: 0.98rem;
+      }
+
+      .myth-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: var(--card);
+        box-shadow: var(--shadow);
+      }
+      .myth-card > div {
+        padding: 1.05rem 1.15rem 1.15rem;
+      }
+      .myth-card .myth {
+        background: var(--myth-soft);
+        border-right: 1px dashed var(--line-strong);
+      }
+      .myth-card .truth {
+        background: var(--truth-soft);
+      }
+      .myth-card h4 {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.35rem;
+      }
+      .myth-card .myth h4 {
+        color: var(--myth);
+      }
+      .myth-card .truth h4 {
+        color: var(--truth);
+      }
+      .myth-card .myth p {
+        color: var(--ink-2);
+      }
+
+      .evidence {
+        display: grid;
+        gap: 0.5rem;
+      }
+      details.ev {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--card);
+      }
+      details.ev > summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 0.7rem 1rem;
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        flex-wrap: wrap;
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.15rem 0.55rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        border: 1px solid var(--border-strong);
-        background: var(--bg-card);
-        color: var(--c-look);
-      }
-      .badge.status-ok {
-        color: var(--c-do);
-        border-color: var(--c-do);
-        background: var(--c-do-bg);
-      }
-      .title-main {
-        font-size: 1.25rem;
-        font-weight: 800;
-        letter-spacing: -0.01em;
-      }
-      .subtitle-main {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-      }
-
-      .toolbar {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .view-tabs {
-        display: inline-flex;
-        border: 1px solid var(--border-strong);
-        background: var(--bg-canvas);
-      }
-      .tab-btn {
-        padding: 0.45rem 0.85rem;
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: var(--text-secondary);
-        background: transparent;
-        border: none;
-        border-right: 1px solid var(--border-subtle);
-        cursor: pointer;
-        transition: all 0.15s ease;
-      }
-      .tab-btn:last-child {
-        border-right: none;
-      }
-      .tab-btn.active {
-        background: var(--btn-primary-bg);
-        color: #ffffff;
-      }
-      .action-btn {
-        padding: 0.45rem 0.75rem;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        background: var(--btn-bg);
-        border: 1px solid var(--border-strong);
-        cursor: pointer;
-        transition: background 0.15s ease;
-      }
-      .action-btn:hover {
-        background: var(--btn-hover);
-      }
-
-      /* Causal Stepper Ribbon */
-      .stepper-ribbon {
-        background: var(--bg-panel);
-        border-bottom: 1px solid var(--border-subtle);
-        padding: 0.75rem 1.5rem;
-        overflow-x: auto;
-      }
-      .stepper-track {
-        max-width: 1480px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-        min-width: max-content;
-      }
-      .ribbon-node {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.38rem 0.7rem;
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        font-size: 0.78rem;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.18s ease;
-      }
-      .ribbon-node:hover {
-        border-color: var(--c-look);
-        color: var(--text-primary);
-      }
-      .ribbon-node.visited {
-        border-color: rgba(16, 185, 129, 0.45);
-      }
-      .ribbon-node.active {
-        background: var(--c-look-bg);
-        border-color: var(--c-look);
-        color: var(--text-primary);
-        font-weight: 700;
-        box-shadow: 0 0 0 1px var(--c-look);
-      }
-      .ribbon-num {
-        width: 1.35rem;
-        height: 1.35rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        background: var(--bg-canvas);
-        color: var(--text-muted);
-      }
-      .ribbon-node.visited .ribbon-num {
-        background: var(--c-do-bg);
-        color: var(--c-do);
-      }
-      .ribbon-node.active .ribbon-num {
-        background: var(--c-look);
-        color: #070b14;
-      }
-      .ribbon-arrow {
-        color: var(--text-muted);
-        font-size: 0.8rem;
-        user-select: none;
-      }
-
-      /* Main Workspace Layout */
-      .workspace {
-        max-width: 1480px;
-        margin: 0 auto;
-        padding: 1.25rem 1.5rem 3rem;
-      }
-      .walkthrough-grid {
-        display: grid;
-        grid-template-columns: 290px minmax(0, 1fr) 360px;
-        gap: 1.25rem;
-        align-items: start;
-      }
-
-      /* Left Rail: Causal Outline & Origin */
-      .left-rail,
-      .right-rail {
-        background: var(--bg-panel);
-        border: 1px solid var(--border-strong);
-        padding: 1rem;
-        position: sticky;
-        top: 5.2rem;
-        max-height: calc(100vh - 6.2rem);
-        overflow-y: auto;
-      }
-      .rail-section-title {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--text-muted);
-        margin-bottom: 0.65rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .origin-box {
-        background: var(--bg-card);
-        border-left: 3px solid var(--c-why);
-        padding: 0.75rem;
-        border-radius: 0 6px 6px 0;
-        margin-bottom: 1rem;
-        font-size: 0.82rem;
-      }
-      .origin-box strong {
-        color: var(--c-why);
-        display: block;
-        margin-bottom: 0.25rem;
-      }
-      .phase-group {
-        margin-bottom: 0.9rem;
-      }
-      .phase-label {
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: var(--c-look);
-        margin-bottom: 0.35rem;
-        padding-left: 0.25rem;
-      }
-      .nav-step-item {
-        width: 100%;
-        text-align: left;
-        padding: 0.55rem 0.65rem;
-        margin-bottom: 0.35rem;
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        display: block;
-        color: var(--text-primary);
-      }
-      .nav-step-item:hover {
-        border-color: var(--c-look);
-      }
-      .nav-step-item.active {
-        background: var(--bg-card-elevated);
-        border-color: var(--c-look);
-        border-left: 4px solid var(--c-look);
-      }
-      .nav-step-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.8rem;
-        font-weight: 700;
-        margin-bottom: 0.2rem;
-      }
-      .nav-step-desc {
-        font-size: 0.74rem;
-        color: var(--text-secondary);
-        line-height: 1.4;
-      }
-
-      /* Center Stage: 5-Element Step Card */
-      .center-stage {
-        background: var(--bg-panel);
-        border: 1px solid var(--border-strong);
-        padding: 1.5rem;
-        box-shadow: var(--shadow-card);
-      }
-      .stage-header {
-        border-bottom: 1px solid var(--border-subtle);
-        padding-bottom: 1rem;
-        margin-bottom: 1.25rem;
-      }
-      .stage-progress-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .step-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.25rem 0.7rem;
-        background: var(--c-look-bg);
-        border: 1px solid var(--c-look);
-        color: var(--c-look);
-        font-size: 0.8rem;
-        font-weight: 700;
-        border-radius: 4px;
-      }
-      .stage-title {
-        font-size: 1.45rem;
-        font-weight: 800;
-        margin-bottom: 0.35rem;
-      }
-      .stage-summary {
-        font-size: 0.95rem;
-        color: var(--text-secondary);
-      }
-
-      /* Five Elements Blocks */
-      .q-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-radius: 8px;
-        padding: 1.1rem 1.25rem;
-        margin-bottom: 1rem;
-        position: relative;
-      }
-      .q-card.q-look {
-        border-left: 4px solid var(--c-look);
-      }
-      .q-card.q-why {
-        border-left: 4px solid var(--c-why);
-      }
-      .q-card.q-do {
-        border-left: 4px solid var(--c-do);
-      }
-      .q-card.q-myth {
-        border-left: 4px solid var(--c-myth);
-      }
-      .q-card.q-next {
-        border: 1px solid var(--c-next);
-        border-left: 5px solid var(--c-next);
-        background: var(--c-next-bg);
-      }
-      .q-header {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.85rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        margin-bottom: 0.6rem;
-      }
-      .q-look .q-header {
-        color: var(--c-look);
-      }
-      .q-why .q-header {
-        color: var(--c-why);
-      }
-      .q-do .q-header {
-        color: var(--c-do);
-      }
-      .q-myth .q-header {
-        color: var(--c-myth);
-      }
-      .q-next .q-header {
-        color: var(--c-next);
-      }
-
-      .look-target {
-        font-size: 1.02rem;
-        font-weight: 700;
-        margin-bottom: 0.55rem;
-      }
-      .anchor-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-      }
-      .anchor-tag {
-        padding: 0.2rem 0.55rem;
-        background: var(--bg-canvas);
-        border: 1px solid var(--border-strong);
-        border-radius: 4px;
-        font-size: 0.78rem;
-        color: var(--c-look);
-      }
-
-      .action-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.65rem;
-      }
-      .action-item {
-        background: var(--bg-panel);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        padding: 0.75rem 0.9rem;
-      }
-      .action-item-head {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-weight: 700;
-        font-size: 0.9rem;
-        margin-bottom: 0.25rem;
-      }
-      .type-tag {
-        font-size: 0.68rem;
-        padding: 0.1rem 0.42rem;
-        border-radius: 3px;
-        font-weight: 700;
-        text-transform: uppercase;
-      }
-      .type-discovery {
-        background: var(--c-look-bg);
-        color: var(--c-look);
-      }
-      .type-fix,
-      .type-action {
-        background: var(--c-do-bg);
-        color: var(--c-do);
-      }
-      .type-sync {
-        background: var(--c-next-bg);
-        color: var(--c-next);
-      }
-
-      .myth-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.85rem;
-      }
-      .myth-col,
-      .reality-col {
-        padding: 0.8rem;
-        border-radius: 6px;
-        font-size: 0.88rem;
-      }
-      .myth-col {
-        background: var(--c-myth-bg);
-        border: 1px solid rgba(244, 63, 94, 0.3);
-      }
-      .reality-col {
-        background: var(--c-do-bg);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-      }
-      .col-label {
-        font-weight: 800;
-        font-size: 0.78rem;
-        margin-bottom: 0.3rem;
-        display: block;
-      }
-      .myth-col .col-label {
-        color: var(--c-myth);
-      }
-      .reality-col .col-label {
-        color: var(--c-do);
-      }
-
-      .handoff-cta {
-        margin-top: 0.85rem;
-        width: 100%;
-        padding: 0.75rem 1rem;
-        background: var(--btn-primary-bg);
-        color: #ffffff;
-        border: none;
-        border-radius: 6px;
         font-size: 0.92rem;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background 0.15s ease;
+        color: var(--ink-2);
       }
-      .handoff-cta:hover {
-        background: var(--btn-primary-hover);
-      }
-
-      /* Bottom Stepper Controls */
-      .stage-footer {
-        margin-top: 1.35rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-subtle);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-      }
-      .nav-btn {
-        padding: 0.6rem 1.15rem;
-        font-size: 0.88rem;
-        font-weight: 700;
-        background: var(--btn-bg);
-        color: var(--text-primary);
-        border: 1px solid var(--border-strong);
-        cursor: pointer;
-      }
-      .nav-btn.primary {
-        background: var(--btn-primary-bg);
-        color: #ffffff;
-        border-color: var(--btn-primary-bg);
-      }
-      .nav-btn:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
-
-      /* Right Rail: Evidence & Actors */
-      .evidence-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        padding: 0.75rem;
-        margin-bottom: 0.8rem;
-      }
-      .evidence-title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--c-look);
-        margin-bottom: 0.45rem;
-        display: flex;
-        justify-content: space-between;
-      }
-      .evidence-pre {
-        background: var(--bg-code);
-        color: #e2e8f0;
-        padding: 0.65rem;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        word-break: break-word;
-        line-height: 1.5;
-      }
-      .actor-item {
-        padding: 0.6rem 0.7rem;
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-radius: 6px;
-        margin-bottom: 0.5rem;
-        font-size: 0.78rem;
-      }
-      .actor-head {
-        display: flex;
-        justify-content: space-between;
-        font-weight: 700;
-        margin-bottom: 0.2rem;
-      }
-      .actor-role {
-        color: var(--c-why);
-        font-size: 0.72rem;
-      }
-
-      /* Full Map & Matrix Views */
-      .view-panel {
+      details.ev > summary::-webkit-details-marker {
         display: none;
       }
-      .view-panel.active {
-        display: block;
+      details.ev > summary::after {
+        content: "展开";
+        margin-left: auto;
+        font-size: 0.76rem;
+        color: var(--ink-3);
       }
-      .section-box {
-        background: var(--bg-panel);
-        border: 1px solid var(--border-strong);
-        padding: 1.5rem;
-        margin-bottom: 1.25rem;
+      details.ev[open] > summary::after {
+        content: "收起";
       }
-      .section-box h2 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid var(--border-subtle);
-        padding-bottom: 0.5rem;
+      details.ev > summary .kind {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink-3);
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        padding: 0 0.35rem;
       }
-      .matrix-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1rem;
+      details.ev pre {
+        margin: 0 0.6rem 0.6rem;
+        padding: 0.85rem 1rem;
+        background: var(--code-bg);
+        border-radius: 9px;
+        font-size: 0.8rem;
+        line-height: 1.65;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--ink-2);
       }
-      .faq-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
-        border-top: 3px solid var(--c-why);
-        border-radius: 6px;
-        padding: 1rem;
-      }
-      .faq-q {
-        font-weight: 800;
-        font-size: 0.96rem;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
-      }
-      .faq-short {
-        padding: 0.45rem 0.65rem;
-        background: var(--c-do-bg);
-        border-left: 3px solid var(--c-do);
-        font-size: 0.84rem;
-        font-weight: 600;
-        margin-bottom: 0.6rem;
-      }
-      .faq-deep {
-        font-size: 0.84rem;
-        color: var(--text-secondary);
+      details.ev blockquote {
+        margin: 0 1rem 0.9rem;
+        padding-left: 0.9rem;
+        border-left: 3px solid var(--line-strong);
+        color: var(--ink-2);
+        white-space: pre-wrap;
+        font-family: var(--serif);
       }
 
-      table.data-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.85rem;
+      .next-card {
+        margin-top: 2.4rem;
+        padding: 1.3rem 1.3rem 1.4rem;
+        border-radius: 16px;
+        background: var(--accent-soft);
+        border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
       }
-      table.data-table th,
-      table.data-table td {
-        border: 1px solid var(--border-subtle);
-        padding: 0.65rem 0.8rem;
+      .next-card p {
+        font-size: 1.02rem;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.72rem 1.15rem;
+        border-radius: 12px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-weight: 650;
+        font-size: 0.98rem;
         text-align: left;
+        line-height: 1.45;
+        box-shadow: 0 8px 18px -10px var(--accent);
+        transition: transform 0.15s ease;
       }
-      table.data-table th {
-        background: var(--bg-card);
+      .cta:hover {
+        transform: translateY(-1px);
+      }
+      .cta.ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line-strong);
+        box-shadow: none;
+      }
+
+      /* ------------------------------ Intro / Finale ------------------------------ */
+      .cast {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 0.7rem;
+      }
+      .cast-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+      }
+      .cast-card .name {
+        font-family: var(--mono);
+        font-size: 0.86rem;
+        font-weight: 600;
+      }
+      .cast-card .role {
+        font-size: 0.78rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .cast-card .detail {
+        font-size: 0.86rem;
+        color: var(--ink-2);
+        margin-top: 0.3rem;
+        line-height: 1.65;
+      }
+      .note {
+        padding: 1rem 1.15rem;
+        border-radius: 12px;
+        background: var(--paper-sunk);
+        color: var(--ink-2);
+        font-size: 0.96rem;
+      }
+      ol.plain-list,
+      ul.plain-list {
+        padding-left: 1.3rem;
+        display: grid;
+        gap: 0.45rem;
+      }
+      ol.plain-list li::marker {
+        color: var(--accent);
         font-weight: 700;
       }
+      .done-list {
+        list-style: none;
+        display: grid;
+        gap: 0.65rem;
+      }
+      .done-list li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0 0.7rem;
+      }
+      .done-list .tick {
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 50%;
+        background: var(--truth-soft);
+        color: var(--truth);
+        display: grid;
+        place-items: center;
+        font-size: 0.78rem;
+        font-weight: 800;
+        margin-top: 0.25rem;
+      }
+      .done-list .sub {
+        font-size: 0.86rem;
+        color: var(--ink-3);
+      }
+      .owners {
+        display: grid;
+        gap: 0.7rem;
+      }
+      .owner {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 0.9rem 1.1rem;
+      }
+      .owner h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+      }
+      .owner h4 .who {
+        color: var(--accent);
+      }
+      .owner li {
+        margin-left: 1.1rem;
+        margin-top: 0.3rem;
+      }
+      .owner .when {
+        display: block;
+        font-size: 0.82rem;
+        color: var(--ink-3);
+      }
+      .qa {
+        display: grid;
+        gap: 0.8rem;
+      }
+      .qa-item {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1rem 1.15rem;
+      }
+      .qa-item .q {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+      .qa-item .a {
+        margin-top: 0.45rem;
+        color: var(--ink);
+      }
+      .qa-item details {
+        margin-top: 0.5rem;
+      }
+      .qa-item summary {
+        cursor: pointer;
+        font-size: 0.86rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .qa-item details p {
+        margin-top: 0.4rem;
+        color: var(--ink-2);
+        font-size: 0.95rem;
+      }
+      dl.gloss {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.55rem 1rem;
+      }
+      dl.gloss dt {
+        font-family: var(--mono);
+        font-size: 0.86rem;
+        font-weight: 600;
+        padding-top: 0.15rem;
+      }
+      dl.gloss dd {
+        color: var(--ink-2);
+        font-size: 0.95rem;
+      }
+      .row-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 2rem;
+      }
 
-      @media (max-width: 1120px) {
-        .walkthrough-grid {
+      /* ------------------------------ Glossary terms ------------------------------ */
+      .term {
+        border-bottom: 1.5px dotted var(--accent);
+        cursor: help;
+      }
+      .pop {
+        position: fixed;
+        z-index: 60;
+        max-width: min(320px, calc(100vw - 32px));
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.7rem 0.9rem;
+        border-radius: 11px;
+        font-size: 0.88rem;
+        line-height: 1.65;
+        box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+        display: none;
+      }
+      .pop.show {
+        display: block;
+      }
+      .pop b {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        margin-bottom: 0.15rem;
+        opacity: 0.85;
+      }
+
+      /* ------------------------------ Dock ------------------------------ */
+      .dock {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 30;
+        padding: 0.7rem 16px calc(0.7rem + env(safe-area-inset-bottom));
+        background: linear-gradient(transparent, var(--paper) 38%);
+      }
+      .dock-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 0.45rem;
+        box-shadow: var(--shadow);
+      }
+      .dock .step-btn {
+        padding: 0.55rem 0.9rem;
+        border-radius: 11px;
+        font-size: 0.92rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .dock .step-btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+      }
+      .dock .prev:hover:not(:disabled) {
+        background: var(--paper-sunk);
+      }
+      .dock .next {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .dots {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        min-width: 0;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      .dot.visited {
+        background: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
+      }
+      .dot.current {
+        background: var(--accent);
+        transform: scale(1.35);
+      }
+      .dot.edge {
+        width: 6px;
+        height: 6px;
+      }
+
+      /* ------------------------------ Drawer ------------------------------ */
+      .scrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 16, 10, 0.32);
+        z-index: 40;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .drawer {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(360px, 88vw);
+        z-index: 50;
+        background: var(--paper);
+        border-right: 1px solid var(--line);
+        transform: translateX(-102%);
+        transition: transform 0.25s ease;
+        overflow-y: auto;
+        padding: 1.2rem 1rem 2rem;
+      }
+      body.drawer-open .scrim {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      body.drawer-open .drawer {
+        transform: none;
+      }
+      .drawer h3 {
+        font-family: var(--serif);
+        font-size: 1.15rem;
+        margin: 0.2rem 0.4rem 1rem;
+      }
+      .drawer .phase {
+        font-size: 0.76rem;
+        color: var(--ink-3);
+        font-weight: 600;
+        margin: 1rem 0.5rem 0.35rem;
+      }
+      .toc-item {
+        width: 100%;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 1.6rem 1fr;
+        gap: 0.5rem;
+        padding: 0.55rem 0.5rem;
+        border-radius: 10px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+      .toc-item:hover {
+        background: var(--paper-sunk);
+      }
+      .toc-item .mk {
+        width: 1.45rem;
+        height: 1.45rem;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.72rem;
+        font-weight: 700;
+        border: 1px solid var(--line-strong);
+        color: var(--ink-3);
+      }
+      .toc-item.visited .mk {
+        background: var(--truth-soft);
+        color: var(--truth);
+        border-color: transparent;
+      }
+      .toc-item.current {
+        background: var(--accent-soft);
+      }
+      .toc-item.current .mk {
+        background: var(--accent);
+        color: var(--accent-ink);
+        border-color: transparent;
+      }
+      .toc-item small {
+        display: block;
+        color: var(--ink-3);
+        font-size: 0.8rem;
+      }
+
+      #print-all {
+        display: none;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          font-size: 16px;
+        }
+        .stage {
+          padding-top: 1.6rem;
+        }
+        .myth-card {
           grid-template-columns: 1fr;
         }
-        .left-rail,
-        .right-rail {
-          position: static;
-          max-height: none;
+        .myth-card .myth {
+          border-right: 0;
+          border-bottom: 1px dashed var(--line-strong);
         }
-        .myth-grid {
+        .dock .step-btn .long {
+          display: none;
+        }
+        dl.gloss {
           grid-template-columns: 1fr;
+          gap: 0.1rem;
+        }
+        dl.gloss dd {
+          margin-bottom: 0.6rem;
         }
       }
+
       @media print {
-        .top-header,
-        .stepper-ribbon,
-        .left-rail,
-        .stage-footer,
-        .handoff-cta {
+        :root {
+          --paper: #ffffff;
+          --card: #ffffff;
+          --ink: #111111;
+          --ink-2: #333333;
+          --shadow: none;
+        }
+        body {
+          background: #fff;
+          font-size: 11.5pt;
+        }
+        .topbar,
+        .dock,
+        .drawer,
+        .scrim,
+        .pop,
+        .stage,
+        .cta,
+        .no-print {
           display: none !important;
         }
-        .walkthrough-grid {
+        #print-all {
           display: block;
+          max-width: none;
+          padding: 0;
+        }
+        #print-all .screen {
+          animation: none;
+          page-break-after: always;
+          padding: 0 0 1rem;
+        }
+        details.ev > summary::after {
+          content: "";
         }
       }
     </style>
   </head>
   <body>
-    <!-- Top Header -->
-    <header class="top-header">
-      <div class="header-inner">
-        <div class="brand-group">
-          <div class="meta-row">
-            <span class="badge">REPLAY WALKTHROUGH</span>
-            <span class="badge mono" id="meta-session"></span>
-            <span class="badge status-ok" id="meta-status"></span>
-          </div>
-          <h1 class="title-main" id="meta-title">加载中...</h1>
-          <p class="subtitle-main" id="meta-subtitle"></p>
-        </div>
-        <div class="toolbar">
-          <div class="view-tabs" role="tablist">
-            <button class="tab-btn active" data-view="walkthrough">
-              🎮 步进闯关
-            </button>
-            <button class="tab-btn" data-view="panorama">🗺️ 全景因果链</button>
-            <button class="tab-btn" data-view="takeaway">
-              🧠 灵魂破雾 & 终局账单
-            </button>
-          </div>
-          <button
-            class="action-btn"
-            id="btn-export-md"
-            title="导出完整 Markdown 复盘稿"
-          >
-            ⬇ 导出 .md
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="icon-btn" id="btn-toc" type="button" aria-label="打开目录" title="目录（T）">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 6h16M4 12h16M4 18h10" />
+          </svg>
+        </button>
+        <div class="bar-title" id="bar-title"></div>
+        <span class="bar-count" id="bar-count"></span>
+        <button class="icon-btn" id="btn-theme" type="button" aria-label="切换深浅色" title="切换深浅色">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+          </svg>
+        </button>
+        <div class="menu-wrap">
+          <button class="icon-btn" id="btn-menu" type="button" aria-label="更多" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>
           </button>
-          <button class="action-btn" id="btn-theme" title="切换深浅主题">
-            🌗 主题
-          </button>
+          <div class="menu" id="menu" role="menu">
+            <button type="button" role="menuitem" data-act="md">导出 Markdown</button>
+            <button type="button" role="menuitem" data-act="print">打印 / 存为 PDF</button>
+            <button type="button" role="menuitem" data-act="restart">回到开头</button>
+          </div>
         </div>
       </div>
+      <div class="progress"><span id="progress-bar"></span></div>
     </header>
 
-    <!-- Causal Stepper Ribbon -->
-    <nav class="stepper-ribbon" aria-label="因果步进轨道">
-      <div class="stepper-track" id="ribbon-track"></div>
+    <main class="stage" id="stage" aria-live="polite"></main>
+    <div id="print-all"></div>
+
+    <nav class="dock" aria-label="步进控制">
+      <div class="dock-inner">
+        <button class="step-btn prev" id="btn-prev" type="button">← <span class="long">上一步</span></button>
+        <div class="dots" id="dots"></div>
+        <button class="step-btn next" id="btn-next" type="button"><span class="long">下一步</span> →</button>
+      </div>
     </nav>
 
-    <main class="workspace">
-      <!-- VIEW 1: Interactive Step-by-Step Walkthrough -->
-      <section class="view-panel active" id="view-walkthrough">
-        <div class="walkthrough-grid">
-          <!-- Left Rail -->
-          <aside class="left-rail">
-            <div class="origin-box">
-              <strong>🎯 起点背景（为什么开始）</strong>
-              <div id="bg-origin"></div>
-            </div>
-            <div class="rail-section-title">
-              <span>因果闯关目录</span>
-              <span class="mono" id="visited-counter">1 / 1</span>
-            </div>
-            <div id="left-step-list"></div>
-          </aside>
+    <div class="scrim" id="scrim"></div>
+    <aside class="drawer" id="drawer" aria-label="目录">
+      <h3>走读目录</h3>
+      <div id="toc"></div>
+    </aside>
+    <div class="pop" id="pop" role="tooltip"></div>
 
-          <!-- Center Stage -->
-          <article class="center-stage" id="stage-container">
-            <div class="stage-header">
-              <div class="stage-progress-row">
-                <span class="step-pill" id="step-badge">STEP 1</span>
-                <span
-                  class="mono"
-                  style="font-size: 0.78rem; color: var(--text-muted)"
-                  >快捷键：键盘 ← / → 切换关卡，数字 1-9 跳转</span
-                >
-              </div>
-              <h2 class="stage-title" id="step-title"></h2>
-              <p class="stage-summary" id="step-summary"></p>
-            </div>
-
-            <!-- 1. Look At -->
-            <div class="q-card q-look">
-              <div class="q-header">① 📍 第一步先看什么（Entry Anchor）</div>
-              <div class="look-target" id="step-look-target"></div>
-              <div class="anchor-tags" id="step-look-anchors"></div>
-            </div>
-
-            <!-- 2. Why Look Here -->
-            <div class="q-card q-why">
-              <div class="q-header">
-                ② 💡 为什么要看这里（背景动机与触发矛盾）
-              </div>
-              <div id="step-why"></div>
-            </div>
-
-            <!-- 3. What Was Done -->
-            <div class="q-card q-do">
-              <div class="q-header">③ 🛠️ 在这里发现了什么 & AI 做了什么</div>
-              <div class="action-list" id="step-actions"></div>
-            </div>
-
-            <!-- 4. Confusion Buster -->
-            <div class="q-card q-myth">
-              <div class="q-header">④ ⚡ 关键转折与认知破雾（专治懵逼点）</div>
-              <div class="myth-grid">
-                <div class="myth-col">
-                  <span class="col-label">❌ 当时容易懵 / 误以为的是</span>
-                  <div id="step-myth"></div>
-                </div>
-                <div class="reality-col">
-                  <span class="col-label">✅ 真实工程逻辑与真相是</span>
-                  <div id="step-reality"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 5. Leads To Next -->
-            <div class="q-card q-next">
-              <div class="q-header">⑤ 🔗 从这里引申到哪里（因果交接钩子）</div>
-              <div id="step-next-hook"></div>
-              <button class="handoff-cta" id="btn-handoff-next">
-                <span id="handoff-btn-text">顺着这条线索进入下一步</span>
-                <span>→</span>
-              </button>
-            </div>
-
-            <div class="stage-footer">
-              <button class="nav-btn" id="btn-prev">← 上一步</button>
-              <div class="mono" id="footer-progress">Step 1 / 1</div>
-              <button class="nav-btn primary" id="btn-next">下一步 →</button>
-            </div>
-          </article>
-
-          <!-- Right Rail -->
-          <aside class="right-rail">
-            <div class="rail-section-title">
-              <span>📂 本关原始铁证 / 摘录</span>
-              <span class="mono" id="evidence-count"></span>
-            </div>
-            <div id="right-evidence-list"></div>
-
-            <div class="rail-section-title" style="margin-top: 1.25rem">
-              <span>🧭 战场仓库与环境角色</span>
-            </div>
-            <div id="right-actors-list"></div>
-          </aside>
-        </div>
-      </section>
-
-      <!-- VIEW 2: Panorama Causal Chain -->
-      <section class="view-panel" id="view-panorama">
-        <div class="section-box">
-          <h2>🧭 为什么你会觉得懵？（起点目标 vs 复杂度放大器）</h2>
-          <p style="margin-bottom: 0.75rem">
-            <strong>🎯 初始目标：</strong><span id="pano-origin"></span>
-          </p>
-          <p style="margin-bottom: 0.75rem">
-            <strong>🌀 为什么过程极其绕：</strong
-            ><span id="pano-confusing"></span>
-          </p>
-          <p><strong>📖 走读建议：</strong><span id="pano-guide"></span></p>
-        </div>
-        <div class="section-box">
-          <h2>⛓️ 从起点到终局：全链路首尾咬合一览表</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th style="width: 70px">关卡</th>
-                <th style="width: 180px">阶段与标题</th>
-                <th>📍 第一步看哪里</th>
-                <th>🛠️ 核心发现与落地动作</th>
-                <th>🔗 引申到下一步的钩子</th>
-              </tr>
-            </thead>
-            <tbody id="pano-chain-tbody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- VIEW 3: Confusion Matrix & End-State Bill -->
-      <section class="view-panel" id="view-takeaway">
-        <div class="section-box">
-          <h2>🧠 灵魂追问与高频混淆概念破雾卡</h2>
-          <div class="matrix-grid" id="takeaway-faq-grid"></div>
-        </div>
-        <div class="section-box">
-          <h2>✅ 已稳稳落袋的终局成果（无需再操心）</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>事项 / 成果</th>
-                <th>关联 PR / Commit / 锚点</th>
-                <th>核验状态与说明</th>
-              </tr>
-            </thead>
-            <tbody id="takeaway-done-tbody"></tbody>
-          </table>
-        </div>
-        <div class="section-box">
-          <h2>⏳ 接下来需要跟进的接力事项（按责任人）</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th style="width: 60px">顺序</th>
-                <th>待办事项</th>
-                <th style="width: 180px">责任人</th>
-                <th style="width: 240px">触发时机 / 窗口</th>
-              </tr>
-            </thead>
-            <tbody id="takeaway-pending-tbody"></tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-
-    <!-- Single Source of Truth: Replay Data JSON -->
+    <!-- ===================== 唯一事实源：只替换这里的 JSON ===================== -->
     <script type="application/json" id="replay-data">
       {
         "meta": {
           "title": "[REPLAY TITLE]",
-          "subtitle": "[一句话副标题]",
+          "subtitle": "[一句话副标题：从哪里出发，最后停在哪里]",
           "sessionName": "示例会话",
           "repo": "owner/repo",
           "branch": "main",
           "date": "2026-10-15",
-          "totalRawTurns": "100+ 轮交互",
+          "totalRawTurns": "100+ 轮交互 → 2 步",
           "distilledSteps": 2,
           "status": "已闭环"
         },
         "background": {
-          "originGoal": "在这里填写最初想要完成的目标。",
-          "whyConfusing": "在这里解释为什么中间过程分支众多、容易把人绕晕。",
-          "readingGuide": "每次只看当前关卡的五要素，点击「下一步」顺着线索走到底。"
+          "originGoal": "在这里写：一开始其实只想做哪件小事。",
+          "whyConfusing": "1) 第一个让人懵的原因；2) 第二个让人懵的原因。",
+          "readingGuide": "不用翻原始记录。每次只看一步，按「下一步」或键盘 → 往下走就行。"
         },
         "actorsAndRepos": [
-          {
-            "name": "core-repo",
-            "role": "主业务仓",
-            "detail": "核心代码变更所在仓库"
-          }
+          { "name": "core-repo", "role": "主业务仓", "detail": "这次主要改动发生在这里" }
         ],
         "steps": [
           {
             "id": 1,
-            "phase": "阶段一：定位起点",
+            "phase": "阶段一：找到起点",
             "title": "第一步示例标题",
-            "summary": "一句话总结第一步做了什么",
+            "summary": "一句话说清这一步让你明白了什么",
             "status": "completed",
-            "lookAt": {
-              "target": "第一步要看的具体文件或 PR",
-              "anchors": ["src/main.go:42", "PR #101"]
-            },
-            "whyLookHere": "解释为什么要先看这里。",
-            "whatWasDone": [
-              {
-                "label": "关键发现",
-                "detail": "发现了某个具体配置或问题",
-                "type": "discovery"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "容易误解的地方",
-              "reality": "真实的底层机制"
-            },
-            "leadsToNext": {
-              "hook": "因为发现了这个问题，接下来必须去验证下游表现。",
-              "nextTarget": "Step 2：验证下游表现"
-            },
-            "evidence": [
-              {
-                "title": "关键证据",
-                "kind": "code",
-                "content": "// 示例代码或命令输出"
-              }
-            ]
+            "lookAt": { "target": "第一步要看的具体文件或 PR", "anchors": ["src/main.go:42", "PR #101"] },
+            "whyLookHere": "用大白话解释为什么要先看这里，比如这里用了 Recreate。",
+            "whatWasDone": [{ "label": "关键发现", "detail": "发现了某个具体问题", "type": "discovery" }],
+            "confusionBuster": { "myth": "你可能以为……", "reality": "其实是……" },
+            "leadsToNext": { "hook": "因为发现了这个问题，接下来得去验证它会不会影响下游。", "nextTarget": "验证下游表现" },
+            "evidence": [{ "title": "关键证据", "kind": "code", "content": "// 示例代码或命令输出" }]
           },
           {
             "id": 2,
             "phase": "阶段二：验证收口",
             "title": "第二步示例标题",
-            "summary": "一句话总结第二步如何闭环",
-            "status": "completed",
-            "lookAt": {
-              "target": "第二步要看的具体对象",
-              "anchors": ["test-env", "Issue #102"]
-            },
-            "whyLookHere": "承接第一步的引申，解释为什么要看这里。",
-            "whatWasDone": [
-              {
-                "label": "落地修复",
-                "detail": "完成了修复并验证通过",
-                "type": "fix"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "容易混淆的概念",
-              "reality": "实际跑通的逻辑"
-            },
-            "leadsToNext": {
-              "hook": "全部验证完成，可以进入终局账单验收。",
-              "nextTarget": "终局账单与破雾表"
-            },
-            "evidence": [
-              {
-                "title": "验证输出",
-                "kind": "command",
-                "content": "$ make check\nPASS"
-              }
-            ]
+            "summary": "一句话说清这一步怎么收尾",
+            "status": "decision",
+            "lookAt": { "target": "第二步要看的具体对象", "anchors": ["test-env", "Issue #102"] },
+            "whyLookHere": "承接上一步的引申，解释为什么要看这里。",
+            "whatWasDone": [{ "label": "落地修复", "detail": "完成修复并验证通过", "type": "fix" }],
+            "confusionBuster": { "myth": "容易混淆的说法", "reality": "实际是这样运作的" },
+            "leadsToNext": { "hook": "都验证完了，去终点看看现在的状态吧。", "nextTarget": "终点" },
+            "evidence": [{ "title": "验证输出", "kind": "command", "content": "$ make check\nPASS" }]
           }
         ],
         "confusionMatrix": [
-          {
-            "question": "为什么 A 变了但 B 没生效？",
-            "shortAnswer": "因为 B 受独立开关控制。",
-            "deepExplanation": "详细解释底层原因。"
-          }
+          { "question": "为什么 A 变了但 B 没生效？", "shortAnswer": "因为 B 有自己独立的开关。", "deepExplanation": "这里详细讲底层原因。" }
         ],
         "endState": {
-          "completedItems": [
-            {
-              "item": "完成核心修复",
-              "ref": "PR #101",
-              "note": "CI 全绿已合入"
-            }
-          ],
-          "pendingHandoffs": [
-            { "task": "明日窗口观察监控", "owner": "你", "when": "明日 10:00" }
-          ]
-        }
+          "completedItems": [{ "item": "完成核心修复", "ref": "PR #101", "note": "CI 全绿，已合入" }],
+          "pendingHandoffs": [{ "task": "明天观察监控", "owner": "你", "when": "明日 10:00" }]
+        },
+        "glossary": [
+          { "term": "Recreate", "plain": "换版本时先把旧的全关掉，再开新的，中间会有一小段「店门关着」的空窗。" }
+        ]
       }
     </script>
 
     <script>
       (function () {
-        const raw = document.getElementById("replay-data").textContent;
-        const data = JSON.parse(raw);
-        const steps = data.steps || [];
-        let currentIdx = 0;
-        const visited = new Set([0]);
+        "use strict";
 
+        var raw = document.getElementById("replay-data").textContent;
+        var data;
+        try {
+          data = JSON.parse(raw);
+        } catch (err) {
+          document.getElementById("stage").innerHTML =
+            '<div class="note">复盘数据解析失败：' + String(err.message).replace(/</g, "&lt;") + "</div>";
+          return;
+        }
+
+        var meta = data.meta || {};
+        var bg = data.background || {};
+        var steps = data.steps || [];
+        var end = data.endState || {};
+        var glossary = (data.glossary || []).filter(function (g) {
+          return g && g.term && g.plain;
+        });
+        var LAST = steps.length + 1; // 0 = 开场，1..N = 步骤，N+1 = 终点
+        var storeKey = "replay-self:" + (meta.title || "untitled");
+        var current = 0;
+        var visited = {};
+
+        var KIND_LABEL = { discovery: "发现", action: "动作", fix: "修复", sync: "同步" };
+        var STATUS_LABEL = { decision: "关键拍板", blocked: "卡住了" };
+        var EV_LABEL = { code: "代码", command: "命令", quote: "原话", table: "表格" };
+
+        /* ---------------------------- 文本工具 ---------------------------- */
         function esc(str) {
           return String(str == null ? "" : str)
             .replace(/&/g, "&amp;")
@@ -1076,489 +1126,536 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");
         }
+        function reEsc(str) {
+          return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        }
 
-        function initMeta() {
-          document.title = data.meta.title + " · 逆向因果步进复盘";
-          document.getElementById("meta-title").textContent = data.meta.title;
-          document.getElementById("meta-subtitle").textContent =
-            data.meta.subtitle;
-          document.getElementById("meta-session").textContent =
-            (data.meta.sessionName || "") +
-            " · " +
-            (data.meta.totalRawTurns || "");
-          document.getElementById("meta-status").textContent =
-            data.meta.status || "READY";
-          document.getElementById("bg-origin").textContent =
-            data.background.originGoal;
-          document.getElementById("pano-origin").textContent =
-            data.background.originGoal;
-          document.getElementById("pano-confusing").textContent =
-            data.background.whyConfusing;
-          document.getElementById("pano-guide").textContent =
-            data.background.readingGuide;
+        var termIndex = {};
+        var termRe = null;
+        if (glossary.length) {
+          var parts = glossary
+            .map(function (g) {
+              termIndex[esc(g.term)] = g;
+              return esc(g.term);
+            })
+            .sort(function (a, b) {
+              return b.length - a.length;
+            })
+            .map(reEsc);
+          termRe = new RegExp("(" + parts.join("|") + ")", "g");
+        }
 
-          // Actors
-          const actorsEl = document.getElementById("right-actors-list");
-          actorsEl.innerHTML = (data.actorsAndRepos || [])
+        // 纯文本 → 安全 HTML：转义、`代码`、小词典词条（只在标签外替换）
+        function rich(str) {
+          var html = esc(str).replace(/`([^`]+)`/g, "<code>$1</code>");
+          if (!termRe) return html;
+          return html
+            .split(/(<[^>]+>)/)
+            .map(function (seg) {
+              if (seg.charAt(0) === "<") return seg;
+              return seg.replace(termRe, function (m) {
+                return '<span class="term" tabindex="0" data-term="' + m + '">' + m + "</span>";
+              });
+            })
+            .join("");
+        }
+
+        // 「1) xxx；2) yyy」这类串写拆成列表，否则原样作为段落
+        function listOrPara(str) {
+          var s = String(str || "");
+          var re = /(^|[\s；;。：:，,])\d+[)）]\s*/g;
+          var marks = [];
+          var m;
+          while ((m = re.exec(s))) marks.push({ start: m.index + m[1].length, end: re.lastIndex });
+          if (marks.length < 2) return "<p>" + rich(s) + "</p>";
+          var lead = s.slice(0, marks[0].start).trim();
+          var items = marks.map(function (mk, i) {
+            var stop = i + 1 < marks.length ? marks[i + 1].start : s.length;
+            return s.slice(mk.end, stop).replace(/[；;。，,\s]+$/, "");
+          });
+          return (
+            (lead ? "<p>" + rich(lead) + "</p>" : "") +
+            '<ol class="plain-list">' +
+            items
+              .map(function (it) {
+                return "<li>" + rich(it) + "</li>";
+              })
+              .join("") +
+            "</ol>"
+          );
+        }
+
+        function block(cls, emoji, label, inner) {
+          return (
+            '<section class="block">' +
+            '<div class="label ' + cls + '"><span class="em" aria-hidden="true">' + emoji + "</span>" + label + "</div>" +
+            inner +
+            "</section>"
+          );
+        }
+
+        /* ---------------------------- 三类画面 ---------------------------- */
+        function renderIntro() {
+          var cast = (data.actorsAndRepos || [])
             .map(function (a) {
               return (
-                '<div class="actor-item">' +
-                '<div class="actor-head"><span class="mono">' +
-                esc(a.name) +
-                '</span><span class="actor-role">' +
-                esc(a.role) +
-                "</span></div>" +
-                '<div style="color:var(--text-secondary)">' +
-                esc(a.detail) +
-                "</div>" +
-                "</div>"
+                '<div class="cast-card"><div class="name">' + esc(a.name) + '</div><div class="role">' + esc(a.role) +
+                '</div><div class="detail">' + rich(a.detail) + "</div></div>"
               );
             })
             .join("");
+          var strip = [meta.date, meta.sessionName, meta.totalRawTurns, meta.status]
+            .filter(Boolean)
+            .map(function (x) {
+              return "<span>" + esc(x) + "</span>";
+            })
+            .join("");
+          return (
+            '<article class="screen">' +
+            '<div class="kicker"><span class="num">复盘笔记</span><span>写给当时一路点「同意」的你</span></div>' +
+            '<h1 class="title"><span class="mark">' + esc(meta.title) + "</span></h1>" +
+            '<p class="lead">' + rich(meta.subtitle) + "</p>" +
+            '<div class="meta-strip">' + strip + "</div>" +
+            block("plain", "🌱", "一开始，其实只想做这件事", '<div class="prose"><p>' + rich(bg.originGoal) + "</p></div>") +
+            block("why", "🌀", "为什么后来会看懵", '<div class="prose">' + listOrPara(bg.whyConfusing) + "</div>") +
+            (cast ? block("look", "🧩", "出场角色（先混个脸熟）", '<div class="cast">' + cast + "</div>") : "") +
+            block("plain", "🧭", "怎么看这份复盘", '<div class="note">' + rich(bg.readingGuide) + "</div>") +
+            '<button class="cta" type="button" data-go="1">从第 1 步开始 →</button>' +
+            "</article>"
+          );
+        }
 
-          // Panorama Table
-          const panoTbody = document.getElementById("pano-chain-tbody");
-          panoTbody.innerHTML = steps
-            .map(function (s, idx) {
-              const actionsText = (s.whatWasDone || [])
-                .map(function (w) {
-                  return (
-                    "• <strong>" + esc(w.label) + "</strong>：" + esc(w.detail)
-                  );
-                })
-                .join("<br>");
+        function renderStep(idx, forPrint) {
+          var s = steps[idx - 1];
+          var look = s.lookAt || {};
+          var cb = s.confusionBuster || {};
+          var nx = s.leadsToNext || {};
+          var chips = (look.anchors || [])
+            .map(function (a) {
+              return '<span class="chip">' + esc(a) + "</span>";
+            })
+            .join("");
+          var dos = (s.whatWasDone || [])
+            .map(function (w, i) {
+              var k = KIND_LABEL[w.type] ? '<span class="kind ' + esc(w.type) + '">' + KIND_LABEL[w.type] + "</span>" : "";
               return (
-                '<tr style="cursor:pointer" data-jump="' +
-                idx +
-                '">' +
-                '<td class="mono"><strong>Step ' +
-                s.id +
-                "</strong></td>" +
-                '<td><span style="font-size:0.72rem;color:var(--c-look)">' +
-                esc(s.phase) +
-                "</span><br><strong>" +
-                esc(s.title) +
-                "</strong></td>" +
-                "<td><strong>" +
-                esc(s.lookAt.target) +
-                "</strong></td>" +
-                "<td>" +
-                actionsText +
-                "</td>" +
-                '<td style="color:var(--c-next)">' +
-                esc(s.leadsToNext.hook) +
-                '<br><span class="mono" style="font-size:0.75rem">→ ' +
-                esc(s.leadsToNext.nextTarget) +
-                "</span></td>" +
-                "</tr>"
+                '<li><span class="n">' + (i + 1) + '</span><div class="head">' + k + "<span>" + rich(w.label) +
+                '</span></div><div class="detail">' + rich(w.detail) + "</div></li>"
               );
             })
             .join("");
-
-          panoTbody.querySelectorAll("tr[data-jump]").forEach(function (tr) {
-            tr.addEventListener("click", function () {
-              switchView("walkthrough");
-              goToStep(Number(tr.getAttribute("data-jump")));
-            });
-          });
-
-          // Takeaway FAQ
-          document.getElementById("takeaway-faq-grid").innerHTML = (
-            data.confusionMatrix || []
-          )
-            .map(function (f) {
+          var evs = (s.evidence || [])
+            .map(function (ev) {
+              var body =
+                ev.kind === "quote"
+                  ? "<blockquote>" + esc(ev.content) + "</blockquote>"
+                  : "<pre>" + esc(ev.content) + "</pre>";
               return (
-                '<div class="faq-card">' +
-                '<div class="faq-q">❓ ' +
-                esc(f.question) +
-                "</div>" +
-                '<div class="faq-short">💡 ' +
-                esc(f.shortAnswer) +
-                "</div>" +
-                '<div class="faq-deep">' +
-                esc(f.deepExplanation) +
-                "</div>" +
-                "</div>"
+                '<details class="ev"' + (forPrint ? " open" : "") + "><summary>" +
+                '<span class="kind">' + (EV_LABEL[ev.kind] || esc(ev.kind || "证据")) + "</span>" + esc(ev.title) +
+                "</summary>" + body + "</details>"
               );
             })
             .join("");
+          var isLast = idx === steps.length;
+          var nextLabel = isLast ? "走完啦，看看现在的状态 →" : "懂了，下一步：" + esc(steps[idx].title) + " →";
+          var status = STATUS_LABEL[s.status] ? '<span class="tag ' + esc(s.status) + '">' + STATUS_LABEL[s.status] + "</span>" : "";
 
-          // Completed & Pending
-          document.getElementById("takeaway-done-tbody").innerHTML = (
-            data.endState.completedItems || []
-          )
+          return (
+            '<article class="screen" id="print-step-' + idx + '">' +
+            '<div class="kicker"><span class="num">第 ' + idx + " 步 / 共 " + steps.length + " 步</span><span>" +
+            esc(s.phase) + "</span>" + status + "</div>" +
+            '<h2 class="title">' + esc(s.title) + "</h2>" +
+            '<p class="lead">' + rich(s.summary) + "</p>" +
+            block(
+              "look", "👀", "先看这里",
+              '<div class="look-target">' + rich(look.target) + "</div>" + (chips ? '<div class="chips">' + chips + "</div>" : "")
+            ) +
+            block("why", "🤔", "为什么要看这里", '<div class="prose">' + listOrPara(s.whyLookHere) + "</div>") +
+            (dos ? block("do", "🔍", "在这里发现了什么、做了什么", '<ol class="do-list">' + dos + "</ol>") : "") +
+            (cb.myth || cb.reality
+              ? block(
+                  "plain", "💡", "最容易想岔的地方",
+                  '<div class="myth-card"><div class="myth"><h4>你可能以为</h4><p>' + rich(cb.myth) +
+                    '</p></div><div class="truth"><h4>其实是</h4><p>' + rich(cb.reality) + "</p></div></div>"
+                )
+              : "") +
+            (evs ? block("plain", "📎", "想核对原始证据？点开看", '<div class="evidence">' + evs + "</div>") : "") +
+            '<section class="next-card"><div class="label next"><span class="em" aria-hidden="true">➡️</span>所以接下来</div>' +
+            "<p>" + rich(nx.hook) + "</p>" +
+            '<button class="cta" type="button" data-go="' + (idx + 1) + '">' + nextLabel + "</button></section>" +
+            "</article>"
+          );
+        }
+
+        function renderFinale() {
+          var done = (end.completedItems || [])
             .map(function (c) {
               return (
-                "<tr><td><strong>" +
-                esc(c.item) +
-                '</strong></td><td class="mono">' +
-                esc(c.ref) +
-                "</td><td>" +
-                esc(c.note) +
-                "</td></tr>"
+                '<li><span class="tick" aria-hidden="true">✓</span><div><div>' + rich(c.item) + "</div>" +
+                '<div class="sub">' + (c.ref ? '<code>' + esc(c.ref) + "</code> " : "") + rich(c.note) + "</div></div></li>"
               );
             })
             .join("");
-          document.getElementById("takeaway-pending-tbody").innerHTML = (
-            data.endState.pendingHandoffs || []
-          )
-            .map(function (p, i) {
-              return (
-                '<tr><td class="mono"><strong>#' +
-                (i + 1) +
-                "</strong></td><td><strong>" +
-                esc(p.task) +
-                '</strong></td><td><span class="badge">' +
-                esc(p.owner) +
-                '</span></td><td class="mono">' +
-                esc(p.when) +
-                "</td></tr>"
-              );
-            })
-            .join("");
-        }
-
-        function renderNavigation() {
-          // Top Ribbon
-          const ribbon = document.getElementById("ribbon-track");
-          ribbon.innerHTML = steps
-            .map(function (s, idx) {
-              const cls = ["ribbon-node"];
-              if (visited.has(idx)) cls.push("visited");
-              if (idx === currentIdx) cls.push("active");
-              const arrow =
-                idx < steps.length - 1
-                  ? '<span class="ribbon-arrow">──►</span>'
-                  : "";
-              return (
-                '<button class="' +
-                cls.join(" ") +
-                '" data-idx="' +
-                idx +
-                '">' +
-                '<span class="ribbon-num">' +
-                s.id +
-                "</span>" +
-                "<span>" +
-                esc(s.title) +
-                "</span>" +
-                "</button>" +
-                arrow
-              );
-            })
-            .join("");
-
-          ribbon.querySelectorAll(".ribbon-node").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-              switchView("walkthrough");
-              goToStep(Number(btn.getAttribute("data-idx")));
-            });
-          });
-
-          // Left Step List grouped by phase
-          const groups = [];
-          steps.forEach(function (s, idx) {
-            let g = groups[groups.length - 1];
-            if (!g || g.phase !== s.phase) {
-              g = { phase: s.phase, items: [] };
-              groups.push(g);
+          var groups = {};
+          var order = [];
+          (end.pendingHandoffs || []).forEach(function (p) {
+            var who = p.owner || "待定";
+            if (!groups[who]) {
+              groups[who] = [];
+              order.push(who);
             }
-            g.items.push({ step: s, idx: idx });
+            groups[who].push(p);
           });
-
-          const leftList = document.getElementById("left-step-list");
-          leftList.innerHTML = groups
+          var owners = order
+            .map(function (who) {
+              return (
+                '<div class="owner"><h4>轮到 <span class="who">' + esc(who) + "</span></h4><ul>" +
+                groups[who]
+                  .map(function (p) {
+                    return "<li>" + rich(p.task) + (p.when ? '<span class="when">⏰ ' + esc(p.when) + "</span>" : "") + "</li>";
+                  })
+                  .join("") +
+                "</ul></div>"
+              );
+            })
+            .join("");
+          var qa = (data.confusionMatrix || [])
+            .map(function (q) {
+              return (
+                '<div class="qa-item"><div class="q">' + esc(q.question) + '</div><div class="a">' + rich(q.shortAnswer) + "</div>" +
+                (q.deepExplanation ? "<details><summary>再讲细一点</summary><p>" + rich(q.deepExplanation) + "</p></details>" : "") +
+                "</div>"
+              );
+            })
+            .join("");
+          var gl = glossary
             .map(function (g) {
-              const itemsHtml = g.items
-                .map(function (entry) {
-                  const s = entry.step;
-                  const idx = entry.idx;
-                  const activeCls = idx === currentIdx ? " active" : "";
-                  const mark =
-                    idx === currentIdx ? "▶" : visited.has(idx) ? "✓" : "○";
-                  return (
-                    '<button class="nav-step-item' +
-                    activeCls +
-                    '" data-idx="' +
-                    idx +
-                    '">' +
-                    '<div class="nav-step-top">' +
-                    "<span>" +
-                    mark +
-                    " Step " +
-                    s.id +
-                    " · " +
-                    esc(s.title) +
-                    "</span>" +
-                    "</div>" +
-                    '<div class="nav-step-desc">' +
-                    esc(s.summary) +
-                    "</div>" +
-                    "</button>"
-                  );
-                })
-                .join("");
-              return (
-                '<div class="phase-group"><div class="phase-label">' +
-                esc(g.phase) +
-                "</div>" +
-                itemsHtml +
-                "</div>"
-              );
+              return "<dt>" + esc(g.term) + "</dt><dd>" + esc(g.plain) + "</dd>";
             })
             .join("");
 
-          leftList.querySelectorAll(".nav-step-item").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-              goToStep(Number(btn.getAttribute("data-idx")));
-            });
-          });
-
-          document.getElementById("visited-counter").textContent =
-            "已走读 " + visited.size + " / " + steps.length;
+          return (
+            '<article class="screen">' +
+            '<div class="kicker"><span class="num">终点</span><span>' + esc(meta.status) + "</span></div>" +
+            '<h2 class="title">走完啦，现在是这样的 🎉</h2>' +
+            '<p class="lead">' + rich(meta.subtitle) + "</p>" +
+            (done ? block("do", "✅", "已经办妥的（不用再操心）", '<ul class="done-list">' + done + "</ul>") : "") +
+            (owners ? block("next", "🏃", "接下来轮到谁", '<div class="owners">' + owners + "</div>") : "") +
+            (qa ? block("why", "❓", "你可能还会问", '<div class="qa">' + qa + "</div>") : "") +
+            (gl ? block("look", "📖", "小词典", '<dl class="gloss">' + gl + "</dl>") : "") +
+            '<div class="row-actions no-print">' +
+            '<button class="cta ghost" type="button" data-go="0">回到开头</button>' +
+            '<button class="cta ghost" type="button" data-act="md">导出 Markdown</button>' +
+            '<button class="cta ghost" type="button" data-act="print">打印 / 存为 PDF</button>' +
+            "</div></article>"
+          );
         }
 
-        function renderCurrentStep() {
-          const s = steps[currentIdx];
-          if (!s) return;
-
-          document.getElementById("step-badge").textContent =
-            "STEP " + s.id + " / " + steps.length + " · " + s.phase;
-          document.getElementById("step-title").textContent = s.title;
-          document.getElementById("step-summary").textContent = s.summary;
-
-          // 1. Look At
-          document.getElementById("step-look-target").textContent =
-            s.lookAt.target;
-          document.getElementById("step-look-anchors").innerHTML = (
-            s.lookAt.anchors || []
-          )
-            .map(function (a) {
-              return '<span class="anchor-tag mono">' + esc(a) + "</span>";
-            })
-            .join("");
-
-          // 2. Why
-          document.getElementById("step-why").textContent = s.whyLookHere;
-
-          // 3. Actions
-          const typeLabels = {
-            discovery: "发现事实",
-            action: "关键动作",
-            fix: "代码修复",
-            sync: "协同同步",
-          };
-          document.getElementById("step-actions").innerHTML = (
-            s.whatWasDone || []
-          )
-            .map(function (w) {
-              const t = w.type || "action";
-              return (
-                '<div class="action-item">' +
-                '<div class="action-item-head">' +
-                '<span class="type-tag type-' +
-                esc(t) +
-                '">' +
-                esc(typeLabels[t] || t) +
-                "</span>" +
-                "<span>" +
-                esc(w.label) +
-                "</span>" +
-                "</div>" +
-                '<div style="font-size:0.88rem;color:var(--text-secondary)">' +
-                esc(w.detail) +
-                "</div>" +
-                "</div>"
-              );
-            })
-            .join("");
-
-          // 4. Myth vs Reality
-          document.getElementById("step-myth").textContent =
-            s.confusionBuster.myth;
-          document.getElementById("step-reality").textContent =
-            s.confusionBuster.reality;
-
-          // 5. Next Hook
-          document.getElementById("step-next-hook").textContent =
-            s.leadsToNext.hook;
-          const isLast = currentIdx === steps.length - 1;
-          document.getElementById("handoff-btn-text").textContent = isLast
-            ? "🎉 已走完全部关卡！点击查看「灵魂破雾 & 终局账单」"
-            : "顺着这条线索进入 Step " +
-              (s.id + 1) +
-              "：" +
-              s.leadsToNext.nextTarget;
-
-          // Footer buttons
-          document.getElementById("btn-prev").disabled = currentIdx === 0;
-          document.getElementById("btn-next").textContent = isLast
-            ? "查看终局账单 →"
-            : "下一步 (Step " + (s.id + 1) + ") →";
-          document.getElementById("footer-progress").textContent =
-            "Step " + s.id + " / " + steps.length;
-
-          // Right Evidence
-          const evList = s.evidence || [];
-          document.getElementById("evidence-count").textContent =
-            evList.length + " 项";
-          document.getElementById("right-evidence-list").innerHTML = evList
-            .map(function (ev) {
-              return (
-                '<div class="evidence-card">' +
-                '<div class="evidence-title"><span>' +
-                esc(ev.title) +
-                '</span><span class="mono">' +
-                esc(ev.kind) +
-                "</span></div>" +
-                '<pre class="evidence-pre">' +
-                esc(ev.content) +
-                "</pre>" +
-                "</div>"
-              );
-            })
-            .join("");
+        function screenHtml(i, forPrint) {
+          if (i === 0) return renderIntro();
+          if (i === LAST) return renderFinale();
+          return renderStep(i, forPrint);
         }
 
-        function goToStep(idx) {
-          if (idx < 0 || idx >= steps.length) return;
-          currentIdx = idx;
-          visited.add(idx);
-          renderNavigation();
-          renderCurrentStep();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        /* ---------------------------- 导航与状态 ---------------------------- */
+        var stage = document.getElementById("stage");
+        var dotsEl = document.getElementById("dots");
+        var tocEl = document.getElementById("toc");
 
-        function switchView(viewName) {
-          document.querySelectorAll(".tab-btn").forEach(function (btn) {
-            btn.classList.toggle(
-              "active",
-              btn.getAttribute("data-view") === viewName,
-            );
-          });
-          document.querySelectorAll(".view-panel").forEach(function (panel) {
-            panel.classList.toggle("active", panel.id === "view-" + viewName);
-          });
-        }
-
-        // Event bindings
-        document
-          .getElementById("btn-prev")
-          .addEventListener("click", function () {
-            if (currentIdx > 0) goToStep(currentIdx - 1);
-          });
-        document
-          .getElementById("btn-next")
-          .addEventListener("click", function () {
-            if (currentIdx < steps.length - 1) {
-              goToStep(currentIdx + 1);
-            } else {
-              switchView("takeaway");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-          });
-        document
-          .getElementById("btn-handoff-next")
-          .addEventListener("click", function () {
-            if (currentIdx < steps.length - 1) {
-              goToStep(currentIdx + 1);
-            } else {
-              switchView("takeaway");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-          });
-
-        document.querySelectorAll(".tab-btn").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            switchView(btn.getAttribute("data-view"));
-          });
-        });
-
-        // Theme toggle
-        document
-          .getElementById("btn-theme")
-          .addEventListener("click", function () {
-            const html = document.documentElement;
-            const next =
-              html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-            html.setAttribute("data-theme", next);
-          });
-
-        // Export Markdown
-        document
-          .getElementById("btn-export-md")
-          .addEventListener("click", function () {
-            const lines = [];
-            lines.push("# 🧭 " + data.meta.title);
-            lines.push("");
-            lines.push("> " + data.meta.subtitle);
-            lines.push("");
-            lines.push("## 0. 全景背景");
-            lines.push("- **初始目标**：" + data.background.originGoal);
-            lines.push("- **复杂原因**：" + data.background.whyConfusing);
-            lines.push("");
-            lines.push("## 1. 步进闯关走读");
-            steps.forEach(function (s) {
-              lines.push("");
-              lines.push(
-                "### 【Step " + s.id + " / " + steps.length + "】" + s.title,
-              );
-              lines.push(
-                "- **📍 第一步先看什么**：" +
-                  s.lookAt.target +
-                  " (" +
-                  (s.lookAt.anchors || []).join(", ") +
-                  ")",
-              );
-              lines.push("- **💡 为什么要看这里**：" + s.whyLookHere);
-              lines.push("- **🛠️ 发现了什么 & 做了什么**：");
-              (s.whatWasDone || []).forEach(function (w) {
-                lines.push("  - **" + w.label + "**：" + w.detail);
-              });
-              lines.push("- **⚡ 认知破雾**：");
-              lines.push("  - ❌ 容易误以为：" + s.confusionBuster.myth);
-              lines.push("  - ✅ 实际情况是：" + s.confusionBuster.reality);
-              lines.push(
-                "- **🔗 从这里引申到哪里**：" +
-                  s.leadsToNext.hook +
-                  " → **" +
-                  s.leadsToNext.nextTarget +
-                  "**",
-              );
-            });
-            const blob = new Blob([lines.join("\n")], {
-              type: "text/markdown;charset=utf-8",
-            });
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download =
-              (data.meta.sessionName || "replay-walkthrough") + ".md";
-            a.click();
-          });
-
-        // Keyboard navigation
-        window.addEventListener("keydown", function (e) {
-          if (
-            e.target &&
-            (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
-          )
-            return;
-          if (e.key === "ArrowRight" || e.key === "j") {
-            if (currentIdx < steps.length - 1) goToStep(currentIdx + 1);
-          } else if (e.key === "ArrowLeft" || e.key === "k") {
-            if (currentIdx > 0) goToStep(currentIdx - 1);
-          } else if (e.key >= "1" && e.key <= "9") {
-            const n = Number(e.key) - 1;
-            if (n < steps.length) {
-              switchView("walkthrough");
-              goToStep(n);
-            }
+        function loadState() {
+          try {
+            var saved = JSON.parse(localStorage.getItem(storeKey) || "{}");
+            visited = saved.visited || {};
+            return typeof saved.current === "number" ? saved.current : 0;
+          } catch (e) {
+            return 0;
           }
+        }
+        function saveState() {
+          try {
+            localStorage.setItem(storeKey, JSON.stringify({ current: current, visited: visited }));
+          } catch (e) {
+            /* 隐私模式等场景下静默忽略 */
+          }
+        }
+
+        function hashFor(i) {
+          return i === 0 ? "#start" : i === LAST ? "#end" : "#step-" + i;
+        }
+        function parseHash() {
+          var h = location.hash;
+          if (h === "#start") return 0;
+          if (h === "#end") return LAST;
+          var m = /^#step-(\d+)$/.exec(h);
+          return m ? Math.min(Math.max(parseInt(m[1], 10), 1), steps.length) : null;
+        }
+
+        function renderDots() {
+          var html = "";
+          for (var i = 0; i <= LAST; i++) {
+            var cls = "dot" + (i === 0 || i === LAST ? " edge" : "") + (visited[i] ? " visited" : "") + (i === current ? " current" : "");
+            var name = i === 0 ? "开场" : i === LAST ? "终点" : "第 " + i + " 步：" + steps[i - 1].title;
+            html += '<button class="' + cls + '" type="button" data-go="' + i + '" aria-label="' + esc(name) + '" title="' + esc(name) + '"></button>';
+          }
+          dotsEl.innerHTML = html;
+        }
+
+        function renderToc() {
+          var html =
+            '<button class="toc-item' + (current === 0 ? " current" : visited[0] ? " visited" : "") +
+            '" type="button" data-go="0"><span class="mk">◎</span><span>开场：发生了什么</span></button>';
+          var lastPhase = null;
+          steps.forEach(function (s, i) {
+            var idx = i + 1;
+            if (s.phase && s.phase !== lastPhase) {
+              html += '<div class="phase">' + esc(s.phase) + "</div>";
+              lastPhase = s.phase;
+            }
+            var cls = idx === current ? " current" : visited[idx] ? " visited" : "";
+            html +=
+              '<button class="toc-item' + cls + '" type="button" data-go="' + idx + '"><span class="mk">' +
+              (cls === " visited" ? "✓" : idx) + "</span><span>" + esc(s.title) + "<small>" + esc(s.summary) + "</small></span></button>";
+          });
+          html +=
+            '<div class="phase">收尾</div><button class="toc-item' + (current === LAST ? " current" : visited[LAST] ? " visited" : "") +
+            '" type="button" data-go="' + LAST + '"><span class="mk">★</span><span>终点：现在的状态</span></button>';
+          tocEl.innerHTML = html;
+        }
+
+        function go(i, fromHash) {
+          i = Math.min(Math.max(i, 0), LAST);
+          current = i;
+          visited[i] = true;
+          hidePop();
+          stage.innerHTML = screenHtml(i, false);
+          document.getElementById("btn-prev").disabled = i === 0;
+          var nextBtn = document.getElementById("btn-next");
+          nextBtn.disabled = i === LAST;
+          nextBtn.querySelector(".long").textContent = i === 0 ? "开始" : i === steps.length ? "看终点" : "下一步";
+          document.getElementById("bar-count").textContent =
+            i === 0 ? "开场" : i === LAST ? "终点" : i + " / " + steps.length;
+          document.getElementById("progress-bar").style.width = (i / LAST) * 100 + "%";
+          renderDots();
+          renderToc();
+          saveState();
+          if (!fromHash && location.hash !== hashFor(i)) {
+            history.replaceState(null, "", hashFor(i));
+          }
+          window.scrollTo({ top: 0, behavior: "auto" });
+          closeDrawer();
+        }
+
+        /* ---------------------------- 小词典气泡 ---------------------------- */
+        var pop = document.getElementById("pop");
+        var popFor = null;
+        function showPop(el) {
+          var g = termIndex[el.getAttribute("data-term")];
+          if (!g) return;
+          popFor = el;
+          pop.innerHTML = "<b>" + esc(g.term) + "</b>" + esc(g.plain);
+          pop.classList.add("show");
+          var r = el.getBoundingClientRect();
+          var pw = pop.offsetWidth;
+          var ph = pop.offsetHeight;
+          var left = Math.min(Math.max(16, r.left + r.width / 2 - pw / 2), window.innerWidth - pw - 16);
+          var top = r.bottom + 8;
+          if (top + ph > window.innerHeight - 90) top = r.top - ph - 8;
+          pop.style.left = left + "px";
+          pop.style.top = Math.max(8, top) + "px";
+        }
+        function hidePop() {
+          popFor = null;
+          pop.classList.remove("show");
+        }
+
+        /* ---------------------------- 抽屉、菜单、主题 ---------------------------- */
+        function openDrawer() {
+          document.body.classList.add("drawer-open");
+        }
+        function closeDrawer() {
+          document.body.classList.remove("drawer-open");
+        }
+        var menu = document.getElementById("menu");
+        var menuBtn = document.getElementById("btn-menu");
+        function toggleMenu(force) {
+          var open = typeof force === "boolean" ? force : !menu.classList.contains("open");
+          menu.classList.toggle("open", open);
+          menuBtn.setAttribute("aria-expanded", String(open));
+        }
+        function currentTheme() {
+          var set = document.documentElement.getAttribute("data-theme");
+          if (set) return set;
+          return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        function toggleTheme() {
+          var next = currentTheme() === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("replay-self:theme", next);
+          } catch (e) {
+            /* ignore */
+          }
+        }
+        try {
+          var savedTheme = localStorage.getItem("replay-self:theme");
+          if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+        } catch (e) {
+          /* ignore */
+        }
+
+        /* ---------------------------- 导出与打印 ---------------------------- */
+        function toMarkdown() {
+          var L = [];
+          L.push("# 🧭 " + meta.title + " · 复盘笔记", "");
+          L.push("> " + (meta.subtitle || ""), "");
+          L.push("## 0. 先说发生了什么", "");
+          L.push("- **一开始只想做**：" + (bg.originGoal || ""));
+          L.push("- **为什么会看懵**：" + (bg.whyConfusing || ""), "");
+          if ((data.actorsAndRepos || []).length) {
+            L.push("| 出场角色 | 是谁 | 记住这些就够了 |", "| :--- | :--- | :--- |");
+            data.actorsAndRepos.forEach(function (a) {
+              L.push("| `" + a.name + "` | " + a.role + " | " + a.detail + " |");
+            });
+            L.push("");
+          }
+          steps.forEach(function (s, i) {
+            var look = s.lookAt || {};
+            L.push("## 第 " + (i + 1) + " 步 / 共 " + steps.length + " 步 · " + s.title, "");
+            L.push("> " + (s.summary || ""), "");
+            L.push("**👀 先看这里**：" + (look.target || "") + ((look.anchors || []).length ? "（`" + look.anchors.join("` · `") + "`）" : ""), "");
+            L.push("**🤔 为什么要看这里**：" + (s.whyLookHere || ""), "");
+            L.push("**🔍 发现了什么、做了什么**：", "");
+            (s.whatWasDone || []).forEach(function (w, j) {
+              L.push(j + 1 + ". **" + w.label + "**：" + w.detail);
+            });
+            L.push("");
+            if (s.confusionBuster) {
+              L.push("**💡 最容易想岔的地方**", "");
+              L.push("- ❌ 你可能以为：" + s.confusionBuster.myth);
+              L.push("- ✅ 其实是：" + s.confusionBuster.reality, "");
+            }
+            L.push("**➡️ 所以接下来**：" + ((s.leadsToNext || {}).hook || ""), "");
+            (s.evidence || []).forEach(function (ev) {
+              L.push("<details>", "<summary>📎 " + ev.title + "</summary>", "", "```text", ev.content, "```", "", "</details>", "");
+            });
+          });
+          L.push("## 终点：现在是这样的", "");
+          (end.completedItems || []).forEach(function (c) {
+            L.push("- ✅ " + c.item + "（`" + c.ref + "`）—— " + c.note);
+          });
+          L.push("");
+          (end.pendingHandoffs || []).forEach(function (p) {
+            L.push("- ⏳ **" + p.owner + "**：" + p.task + "（" + p.when + "）");
+          });
+          L.push("");
+          if ((data.confusionMatrix || []).length) {
+            L.push("## 你可能还会问", "");
+            data.confusionMatrix.forEach(function (q) {
+              L.push("**" + q.question + "**", "", q.shortAnswer, "", "> " + (q.deepExplanation || ""), "");
+            });
+          }
+          if (glossary.length) {
+            L.push("## 小词典", "", "| 词 | 大白话 |", "| :--- | :--- |");
+            glossary.forEach(function (g) {
+              L.push("| `" + g.term + "` | " + g.plain + " |");
+            });
+          }
+          return L.join("\n") + "\n";
+        }
+        function download(name, text) {
+          var blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function () {
+            URL.revokeObjectURL(a.href);
+            a.remove();
+          }, 0);
+        }
+        function act(name) {
+          toggleMenu(false);
+          if (name === "md") download((meta.title || "replay") + ".md", toMarkdown());
+          if (name === "print") {
+            var all = "";
+            for (var i = 0; i <= LAST; i++) all += screenHtml(i, true);
+            document.getElementById("print-all").innerHTML = all;
+            window.print();
+          }
+          if (name === "restart") go(0);
+        }
+
+        /* ---------------------------- 事件绑定 ---------------------------- */
+        document.addEventListener("click", function (e) {
+          var t = e.target.closest("[data-go],[data-act],.term");
+          if (!t) {
+            if (!e.target.closest(".menu-wrap")) toggleMenu(false);
+            if (popFor && !e.target.closest(".pop")) hidePop();
+            return;
+          }
+          if (t.classList.contains("term")) {
+            popFor === t ? hidePop() : showPop(t);
+            return;
+          }
+          if (t.hasAttribute("data-go")) go(parseInt(t.getAttribute("data-go"), 10));
+          if (t.hasAttribute("data-act")) act(t.getAttribute("data-act"));
+        });
+        document.addEventListener("mouseover", function (e) {
+          var t = e.target.closest && e.target.closest(".term");
+          if (t && window.matchMedia("(hover: hover)").matches) showPop(t);
+        });
+        document.addEventListener("mouseout", function (e) {
+          var t = e.target.closest && e.target.closest(".term");
+          if (t && window.matchMedia("(hover: hover)").matches) hidePop();
+        });
+        document.addEventListener("focusin", function (e) {
+          if (e.target.classList && e.target.classList.contains("term")) showPop(e.target);
+        });
+        window.addEventListener("scroll", hidePop, { passive: true });
+        window.addEventListener("resize", hidePop);
+
+        document.getElementById("btn-prev").addEventListener("click", function () {
+          go(current - 1);
+        });
+        document.getElementById("btn-next").addEventListener("click", function () {
+          go(current + 1);
+        });
+        document.getElementById("btn-toc").addEventListener("click", openDrawer);
+        document.getElementById("scrim").addEventListener("click", closeDrawer);
+        document.getElementById("btn-theme").addEventListener("click", toggleTheme);
+        menuBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+        window.addEventListener("hashchange", function () {
+          var h = parseHash();
+          if (h !== null && h !== current) go(h, true);
+        });
+        window.addEventListener("keydown", function (e) {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var tag = (e.target.tagName || "").toLowerCase();
+          if (tag === "input" || tag === "textarea") return;
+          if (e.key === "ArrowRight" || e.key === "l") go(current + 1);
+          else if (e.key === "ArrowLeft" || e.key === "h") go(current - 1);
+          else if (e.key === "Home") go(0);
+          else if (e.key === "End") go(LAST);
+          else if (e.key === "t") document.body.classList.contains("drawer-open") ? closeDrawer() : openDrawer();
+          else if (e.key === "Escape") {
+            closeDrawer();
+            hidePop();
+            toggleMenu(false);
+          } else if (/^[1-9]$/.test(e.key) && parseInt(e.key, 10) <= steps.length) go(parseInt(e.key, 10));
         });
 
-        initMeta();
-        renderNavigation();
-        renderCurrentStep();
+        /* ---------------------------- 启动 ---------------------------- */
+        document.title = (meta.title || "复盘") + " · 复盘笔记";
+        document.getElementById("bar-title").innerHTML =
+          "<b>复盘</b> · " + esc(meta.title);
+        var fromHash = parseHash();
+        var saved = loadState();
+        go(fromHash !== null ? fromHash : Math.min(saved, LAST), fromHash !== null);
       })();
     </script>
   </body>

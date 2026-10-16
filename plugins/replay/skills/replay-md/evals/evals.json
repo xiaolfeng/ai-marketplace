@@ -1,6 +1,6 @@
 {
   "skill_name": "replay-md",
-  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发与近似干扰负向样本。",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发、读者分流与近似干扰负向样本。",
   "evals": [
     {
       "id": 1,
@@ -28,12 +28,18 @@
     },
     {
       "id": 5,
+      "prompt": "这次复盘要发到公司 Wiki 给其他组看，帮我写成正式一点的 Markdown 事后复盘报告，人名都别出现。",
+      "expected_output": "判定为对外发布的 Markdown 复盘（读者分流负向样本）：路由到 replay-post-md，按团队视角、结论先行与脱敏清单输出，而非自己看的大白话 replay-md。",
+      "files": []
+    },
+    {
+      "id": 6,
       "prompt": "我们接下来要把网关的部署策略从 Recreate 改成 Argo Rollouts 蓝绿发布，帮我写一份正式的工程详细设计文档（Design Doc）。",
       "expected_output": "判定为事前工程设计文档撰写（近似干扰负向样本）：路由到 engineering-design 插件的 design-er（或 rfc-er），而非事后逆向复盘技能 replay-md。",
       "files": []
     },
     {
-      "id": 6,
+      "id": 7,
       "prompt": "帮我审查一下当前分支的代码有没有空指针或者并发竞态 bug，列个缺陷清单出来。",
       "expected_output": "判定为代码缺陷审查（近似干扰负向样本）：路由到 bug 插件的 find-bug 技能，而非会话/链路复盘技能 replay-md。",
       "files": []

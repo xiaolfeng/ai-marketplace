@@ -107,5 +107,5 @@ npm run check               # 门 3：CI 用 --check 核对导出物是否漂移
 - [html](./plugins/html/INITDEEP.md) — HTML 视觉与架构图表套件插件：遵循 huashu-design 的系统架构全景拓扑图与 Excalidraw 手绘白板图表
 - [bug](./plugins/bug/INITDEEP.md) — 缺陷工作流插件：质量缺陷发现、授权范围内的安全审查、按根因修复
 - [agent-studio](./plugins/agent-studio/INITDEEP.md) — 个人全局 Agent/Workflow 构建、分支问答与模型用途记录
-- [replay](./plugins/replay/INITDEEP.md) — 逆向复盘与因果走读插件：Markdown 走读手册（`replay-md`）与 HTML 交互步进闯关（`replay-html`）
+- [replay](./plugins/replay/INITDEEP.md) — 逆向复盘与因果走读插件：自己看的 `replay-md` / `replay-html` 与对外发布的 `replay-post-md` / `replay-post-html`
 - [docs](./docs/INITDEEP.md) — 文档中心：编号、Scope 词表与流转规则

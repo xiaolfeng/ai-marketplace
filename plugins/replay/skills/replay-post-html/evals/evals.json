@@ -1,0 +1,42 @@
+{
+  "skill_name": "replay-post-html",
+  "_note": "评测场景遵循官方 skill-creator 的 evals 约定：prompt 模拟真实用户口吻，expected_output 描述可核验的预期行为，覆盖正向触发、读者分流与近似干扰负向样本。",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "这次迁移的复盘要发给其他团队和老板看，帮我做成正式的网页报告，可以一页一页翻，封面就能看到结论和影响数字。",
+      "expected_output": "触发 replay-post-html：逆向拆解后组织核心字段与 publication 发布块并注入单文件翻页模板；页面依次为封面（标题、导语、TL;DR、影响）、背景、时间线、每阶段一页的过程详述、关键决策、常见问题、现状后续与经验，团队视角书写并完成脱敏。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我把这段会话整理成 Postmortem 网页，要能复制某一页的链接单独发给别人，也能打印成 PDF。",
+      "expected_output": "触发 replay-post-html：产出带页级 hash（#cover、#step-3、#decisions 等）、复制本页链接、Markdown 导出与每页一张打印样式的单文件 HTML。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "对外版复盘里有我们内部集群域名和同事名字，帮我做网页的时候处理掉，然后在最后说明一下处理了什么。",
+      "expected_output": "触发 replay-post-html：按 audience-voice 脱敏清单把人名替换为角色、域名替换为占位、删除凭据，并写入 publication.redactionNote 在末页展示。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "我自己懵了，做个网页带我一步步看，讲人话就行。",
+      "expected_output": "判定为自己看的 HTML 复盘（读者分流负向样本）：路由到 replay-html 的暖纸笔记本步进页，而非正式报告。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "不用网页，直接给我一份正式的 Markdown 复盘报告贴到 Wiki。",
+      "expected_output": "判定为对外 Markdown 诉求（格式分流负向样本）：路由到 replay-post-md。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "帮我把这套微服务的部署拓扑画成可导出的 SVG 架构图。",
+      "expected_output": "判定为架构拓扑图诉求（近似干扰负向样本）：路由到 html 插件的 architecture-diagram，而非复盘技能。",
+      "files": []
+    }
+  ]
+}

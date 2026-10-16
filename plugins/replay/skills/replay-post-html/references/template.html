@@ -1,0 +1,1691 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[POST HEADLINE] · 工程复盘</title>
+    <style>
+      /* ==========================================================================
+         DESIGN TOKENS · 正式翻页报告（纸白墨蓝 / 夜读深色，跟随系统并可手动切换）
+         ========================================================================== */
+      :root {
+        --bg: #f7f7f3;
+        --page: #ffffff;
+        --sunk: #f1f1ec;
+        --ink: #16181d;
+        --ink-2: #464b55;
+        --ink-3: #7a7f89;
+        --rule: #e3e3dc;
+        --rule-strong: #cdcdc4;
+        --accent: #2445c9;
+        --accent-ink: #ffffff;
+        --accent-soft: rgba(36, 69, 201, 0.07);
+        --ok: #1d7a43;
+        --warn: #a85b0b;
+        --code-bg: #f4f4ef;
+        --shadow: 0 1px 0 rgba(22, 24, 29, 0.03), 0 18px 40px -26px rgba(22, 24, 29, 0.3);
+        --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
+        --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+          "Microsoft YaHei", "Segoe UI", sans-serif;
+        --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1114;
+          --page: #16191e;
+          --sunk: #1c1f25;
+          --ink: #e7e8eb;
+          --ink-2: #b1b5bd;
+          --ink-3: #7d828c;
+          --rule: #2a2e35;
+          --rule-strong: #3a3f48;
+          --accent: #8fa5ff;
+          --accent-ink: #0f1114;
+          --accent-soft: rgba(143, 165, 255, 0.1);
+          --ok: #6fcf97;
+          --warn: #f0b264;
+          --code-bg: #1a1d23;
+          --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 44px -26px rgba(0, 0, 0, 0.8);
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1114;
+        --page: #16191e;
+        --sunk: #1c1f25;
+        --ink: #e7e8eb;
+        --ink-2: #b1b5bd;
+        --ink-3: #7d828c;
+        --rule: #2a2e35;
+        --rule-strong: #3a3f48;
+        --accent: #8fa5ff;
+        --accent-ink: #0f1114;
+        --accent-soft: rgba(143, 165, 255, 0.1);
+        --ok: #6fcf97;
+        --warn: #f0b264;
+        --code-bg: #1a1d23;
+        --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 44px -26px rgba(0, 0, 0, 0.8);
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16.5px;
+        line-height: 1.85;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.84em;
+        background: var(--code-bg);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 0.04em 0.32em;
+        word-break: break-word;
+      }
+
+      /* ------------------------------ Top bar ------------------------------ */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: color-mix(in srgb, var(--bg) 90%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .topbar-inner {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0.55rem 16px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        flex: none;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 7px;
+        color: var(--ink-2);
+      }
+      .icon-btn:hover {
+        background: var(--sunk);
+        color: var(--ink);
+      }
+      .icon-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .bar-title {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.82rem;
+        color: var(--ink-3);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bar-title b {
+        color: var(--ink);
+        font-weight: 650;
+        letter-spacing: 0.06em;
+      }
+      .bar-count {
+        font-size: 0.78rem;
+        color: var(--ink-3);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .progress > span {
+        display: block;
+        height: 2px;
+        width: 0;
+        background: var(--accent);
+        transition: width 0.35s ease;
+      }
+      .menu-wrap {
+        position: relative;
+      }
+      .menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        min-width: 172px;
+        background: var(--page);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 0.3rem;
+        display: none;
+      }
+      .menu.open {
+        display: block;
+      }
+      .menu button {
+        width: 100%;
+        text-align: left;
+        padding: 0.45rem 0.7rem;
+        border-radius: 6px;
+        font-size: 0.88rem;
+      }
+      .menu button:hover {
+        background: var(--sunk);
+      }
+
+      /* ------------------------------ Page ------------------------------ */
+      .stage {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 1.8rem 16px 8rem;
+      }
+      .sheet {
+        background: var(--page);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 3rem clamp(1.2rem, 6vw, 4rem) 3.2rem;
+        animation: rise 0.36s ease both;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sheet {
+          animation: none;
+        }
+        .progress > span {
+          transition: none;
+        }
+      }
+      .folio {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem 0.9rem;
+        font-size: 0.74rem;
+        font-weight: 650;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 1.8rem;
+      }
+      .folio .sec {
+        color: var(--accent);
+      }
+      .folio .badge {
+        letter-spacing: 0.04em;
+        text-transform: none;
+        font-weight: 600;
+        color: var(--warn);
+        border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+        border-radius: 999px;
+        padding: 0 0.55rem;
+      }
+      .folio .pg {
+        margin-left: auto;
+        font-variant-numeric: tabular-nums;
+      }
+      h1.headline {
+        font-family: var(--serif);
+        font-size: clamp(1.9rem, 5vw, 2.75rem);
+        line-height: 1.28;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+      }
+      h2.title {
+        font-family: var(--serif);
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        line-height: 1.35;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+      }
+      h2.title .no {
+        color: var(--accent);
+        margin-right: 0.45rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .dek,
+      .lead {
+        font-size: 1.08rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin-top: 0.9rem;
+      }
+      .byline {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem 1.1rem;
+        margin-top: 1.4rem;
+        font-size: 0.84rem;
+        color: var(--ink-3);
+      }
+      .byline b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 0.08rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--rule-strong);
+        color: var(--ink-2);
+      }
+      .pill::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--warn);
+      }
+
+      .blk {
+        margin-top: 2rem;
+      }
+      .h {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin-bottom: 0.6rem;
+      }
+      .h.accent {
+        color: var(--accent);
+      }
+      .prose p + p,
+      .prose p + ol,
+      .prose ol + p {
+        margin-top: 0.75rem;
+      }
+      .prose ol,
+      .prose ul {
+        padding-left: 1.3rem;
+      }
+      .prose li + li {
+        margin-top: 0.35rem;
+      }
+
+      .tldr {
+        border-left: 3px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 0 10px 10px 0;
+        padding: 1.1rem 1.3rem 1.1rem 1.4rem;
+      }
+      .tldr ol {
+        padding-left: 1.2rem;
+      }
+      .tldr li + li {
+        margin-top: 0.45rem;
+      }
+      .tldr li::marker {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .stat {
+        background: var(--page);
+        padding: 1rem 1.1rem 1.1rem;
+      }
+      .stat .v {
+        font-family: var(--serif);
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.2;
+        font-variant-numeric: tabular-nums;
+      }
+      .stat .l {
+        font-size: 0.82rem;
+        font-weight: 600;
+        margin-top: 0.35rem;
+      }
+      .stat .n {
+        font-size: 0.78rem;
+        color: var(--ink-3);
+        line-height: 1.6;
+        margin-top: 0.15rem;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 520px;
+        font-size: 0.88rem;
+        line-height: 1.65;
+      }
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.6rem 0.85rem;
+        border-bottom: 1px solid var(--rule);
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      th {
+        font-size: 0.72rem;
+        font-weight: 650;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        background: var(--sunk);
+        white-space: nowrap;
+      }
+      td.mono {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        white-space: nowrap;
+      }
+      td.nw {
+        white-space: nowrap;
+      }
+      td .muted {
+        color: var(--ink-3);
+      }
+
+      .timeline {
+        list-style: none;
+        position: relative;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 6.1rem;
+        top: 0.7rem;
+        bottom: 0.7rem;
+        width: 1px;
+        background: var(--rule-strong);
+      }
+      .timeline li {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr;
+        gap: 1.3rem;
+        padding: 0.35rem 0;
+        position: relative;
+      }
+      .timeline li::after {
+        content: "";
+        position: absolute;
+        left: calc(6.1rem - 4px);
+        top: 0.95rem;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--page);
+        border: 2px solid var(--accent);
+      }
+      .timeline li.plan::after {
+        border-color: var(--rule-strong);
+        border-style: dashed;
+      }
+      .timeline .t {
+        font-size: 0.8rem;
+        color: var(--ink-3);
+        text-align: right;
+        padding-top: 0.1rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .timeline .e {
+        padding-left: 0.3rem;
+        text-align: left;
+      }
+      .timeline button.e:hover {
+        color: var(--accent);
+      }
+      .timeline .ref {
+        font-size: 0.74rem;
+        color: var(--ink-3);
+        margin-left: 0.4rem;
+      }
+
+      .entry {
+        font-size: 0.92rem;
+        color: var(--ink-2);
+        padding: 0.75rem 1rem;
+        background: var(--sunk);
+        border-radius: 8px;
+        line-height: 1.75;
+      }
+      .entry b {
+        color: var(--ink);
+        font-weight: 650;
+      }
+      .entry .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.45rem;
+      }
+      .entry code {
+        background: var(--page);
+        word-break: break-all;
+      }
+      .actions {
+        list-style: none;
+        display: grid;
+        gap: 0.8rem;
+      }
+      .actions li {
+        display: grid;
+        grid-template-columns: 3.4rem 1fr;
+        gap: 0.7rem;
+      }
+      .actions .k {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        border-top: 2px solid var(--rule-strong);
+        padding-top: 0.2rem;
+        height: fit-content;
+      }
+      .actions .k.fix {
+        color: var(--ok);
+        border-color: var(--ok);
+      }
+      .actions .k.discovery {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      .actions .k.action,
+      .actions .k.sync {
+        color: var(--ink-2);
+        border-color: var(--ink-2);
+      }
+      .actions b {
+        font-weight: 650;
+        display: block;
+      }
+      .actions .d {
+        color: var(--ink-2);
+        font-size: 0.94rem;
+      }
+      .callout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .callout > div {
+        padding: 0.95rem 1.1rem 1.05rem;
+      }
+      .callout .myth {
+        background: var(--sunk);
+        color: var(--ink-2);
+        border-right: 1px solid var(--rule);
+      }
+      .callout .truth {
+        background: var(--accent-soft);
+      }
+      .callout .h {
+        margin-bottom: 0.3rem;
+      }
+      .callout .truth .h {
+        color: var(--accent);
+      }
+      figure + figure {
+        margin-top: 1rem;
+      }
+      figure pre {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        line-height: 1.7;
+        background: var(--code-bg);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 0.9rem 1rem;
+        overflow: auto;
+        max-height: 320px;
+        white-space: pre;
+        color: var(--ink-2);
+      }
+      figure blockquote {
+        font-family: var(--serif);
+        color: var(--ink-2);
+        padding-left: 1rem;
+        border-left: 3px solid var(--rule-strong);
+        white-space: pre-wrap;
+      }
+      figcaption {
+        font-size: 0.78rem;
+        color: var(--ink-3);
+        margin-top: 0.45rem;
+      }
+      figcaption b {
+        color: var(--ink-2);
+        margin-right: 0.35rem;
+      }
+
+      .turn {
+        margin-top: 2.4rem;
+        padding-top: 1.4rem;
+        border-top: 1px solid var(--rule);
+      }
+      .turn p {
+        font-family: var(--serif);
+        font-style: italic;
+        color: var(--ink-2);
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.62rem 1.05rem;
+        border-radius: 8px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-weight: 600;
+        font-size: 0.92rem;
+        text-align: left;
+        line-height: 1.45;
+      }
+      .cta.ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--rule-strong);
+      }
+
+      .decision + .decision {
+        margin-top: 1.6rem;
+        padding-top: 1.6rem;
+        border-top: 1px solid var(--rule);
+      }
+      .decision h3 {
+        font-family: var(--serif);
+        font-size: 1.15rem;
+        line-height: 1.5;
+      }
+      .decision h3 .no {
+        color: var(--accent);
+        margin-right: 0.4rem;
+      }
+      .decision .ctx {
+        color: var(--ink-2);
+        font-size: 0.94rem;
+        margin-top: 0.35rem;
+      }
+      .options {
+        list-style: none;
+        display: grid;
+        gap: 0.4rem;
+        margin: 0.75rem 0;
+      }
+      .options li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.7rem;
+        font-size: 0.92rem;
+        padding: 0.5rem 0.8rem;
+        border-radius: 7px;
+        background: var(--sunk);
+        color: var(--ink-2);
+      }
+      .options li.chosen {
+        background: var(--accent-soft);
+        color: var(--ink);
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+      .options .mk {
+        flex: none;
+        min-width: 3.2em;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--ink-3);
+      }
+      .options li.chosen .mk {
+        color: var(--accent);
+      }
+      .decision .why {
+        font-size: 0.93rem;
+      }
+      .decision .why b {
+        font-weight: 650;
+      }
+
+      .faq dt {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+      .faq dt:not(:first-child) {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--rule);
+      }
+      .faq .short {
+        font-weight: 600;
+        margin-top: 0.35rem;
+      }
+      .faq .deep {
+        color: var(--ink-2);
+        font-size: 0.94rem;
+        margin-top: 0.3rem;
+      }
+      .lessons {
+        counter-reset: l;
+        list-style: none;
+        display: grid;
+        gap: 1rem;
+      }
+      .lessons li {
+        counter-increment: l;
+        display: grid;
+        grid-template-columns: 2.2rem 1fr;
+        gap: 0.6rem;
+      }
+      .lessons li::before {
+        content: counter(l, decimal-leading-zero);
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--accent);
+        line-height: 1.6;
+      }
+      .foot {
+        margin-top: 2.4rem;
+        padding-top: 1.1rem;
+        border-top: 1px solid var(--rule);
+        font-size: 0.8rem;
+        color: var(--ink-3);
+        line-height: 1.75;
+      }
+      .foot p + p {
+        margin-top: 0.3rem;
+      }
+      .row-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.6rem;
+      }
+
+      /* ------------------------------ Dock ------------------------------ */
+      .dock {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 30;
+        padding: 0.7rem 16px calc(0.7rem + env(safe-area-inset-bottom));
+        background: linear-gradient(transparent, var(--bg) 40%);
+      }
+      .dock-inner {
+        max-width: 860px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--page);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 0.4rem;
+        box-shadow: var(--shadow);
+      }
+      .dock .step-btn {
+        padding: 0.5rem 0.85rem;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .dock .step-btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+      }
+      .dock .prev:hover:not(:disabled) {
+        background: var(--sunk);
+      }
+      .dock .next {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .dots {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        flex-wrap: wrap;
+        min-width: 0;
+      }
+      .dot {
+        width: 16px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--rule-strong);
+        transition: background 0.2s ease, width 0.2s ease;
+      }
+      .dot.visited {
+        background: color-mix(in srgb, var(--accent) 40%, var(--rule-strong));
+      }
+      .dot.current {
+        background: var(--accent);
+        width: 26px;
+      }
+
+      /* ------------------------------ Drawer ------------------------------ */
+      .scrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 12, 16, 0.32);
+        z-index: 40;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .drawer {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(340px, 88vw);
+        z-index: 50;
+        background: var(--page);
+        border-right: 1px solid var(--rule);
+        transform: translateX(-102%);
+        transition: transform 0.25s ease;
+        overflow-y: auto;
+        padding: 1.3rem 0.9rem 2rem;
+      }
+      body.drawer-open .scrim {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      body.drawer-open .drawer {
+        transform: none;
+      }
+      .drawer .grp {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: var(--ink-3);
+        margin: 1.1rem 0.6rem 0.35rem;
+      }
+      .drawer .grp:first-child {
+        margin-top: 0;
+      }
+      .toc-item {
+        width: 100%;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 2rem 1fr;
+        gap: 0.4rem;
+        padding: 0.45rem 0.6rem;
+        border-radius: 7px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--ink-2);
+      }
+      .toc-item:hover {
+        background: var(--sunk);
+      }
+      .toc-item .mk {
+        font-size: 0.74rem;
+        font-weight: 650;
+        color: var(--ink-3);
+        font-variant-numeric: tabular-nums;
+        padding-top: 0.1rem;
+      }
+      .toc-item.visited .mk {
+        color: var(--ok);
+      }
+      .toc-item.current {
+        background: var(--accent-soft);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .toc-item.current .mk {
+        color: var(--accent);
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 88px;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        font-size: 0.84rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 7px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 60;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      #print-all {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          font-size: 16px;
+        }
+        .stage {
+          padding: 1rem 10px 7.5rem;
+        }
+        .sheet {
+          padding: 1.8rem 1.1rem 2.2rem;
+          border-radius: 12px;
+        }
+        .callout {
+          grid-template-columns: 1fr;
+        }
+        .callout .myth {
+          border-right: 0;
+          border-bottom: 1px solid var(--rule);
+        }
+        .actions li {
+          grid-template-columns: 1fr;
+          gap: 0.2rem;
+        }
+        .actions .k {
+          border-top: 0;
+          padding-top: 0;
+        }
+        .timeline::before {
+          left: 0.3rem;
+        }
+        .timeline li {
+          grid-template-columns: 1fr;
+          gap: 0;
+          padding-left: 1.4rem;
+        }
+        .timeline li::after {
+          left: calc(0.3rem - 4px);
+          top: 0.7rem;
+        }
+        .timeline .t {
+          text-align: left;
+        }
+        .timeline .e {
+          padding-left: 0;
+        }
+        .dock .step-btn .long {
+          display: none;
+        }
+        .dot {
+          width: 10px;
+        }
+        .dot.current {
+          width: 18px;
+        }
+      }
+
+      @media print {
+        :root {
+          --bg: #fff;
+          --page: #fff;
+          --ink: #111;
+          --shadow: none;
+        }
+        body {
+          font-size: 10.5pt;
+        }
+        .topbar,
+        .dock,
+        .drawer,
+        .scrim,
+        .stage,
+        .toast,
+        .cta,
+        .row-actions {
+          display: none !important;
+        }
+        #print-all {
+          display: block;
+        }
+        #print-all .sheet {
+          border: 0;
+          box-shadow: none;
+          padding: 0 0 1rem;
+          animation: none;
+          break-after: page;
+        }
+        figure pre {
+          max-height: none;
+          white-space: pre-wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="icon-btn" id="btn-toc" type="button" aria-label="打开目录" title="目录（T）">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 6h16M4 12h16M4 18h10" />
+          </svg>
+        </button>
+        <div class="bar-title" id="bar-title"></div>
+        <span class="bar-count" id="bar-count"></span>
+        <button class="icon-btn" id="btn-theme" type="button" aria-label="切换深浅色" title="切换深浅色">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+          </svg>
+        </button>
+        <div class="menu-wrap">
+          <button class="icon-btn" id="btn-menu" type="button" aria-label="更多" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>
+          </button>
+          <div class="menu" id="menu" role="menu">
+            <button type="button" role="menuitem" data-act="link">复制本页链接</button>
+            <button type="button" role="menuitem" data-act="md">导出 Markdown</button>
+            <button type="button" role="menuitem" data-act="print">打印 / 存为 PDF</button>
+          </div>
+        </div>
+      </div>
+      <div class="progress"><span id="progress-bar"></span></div>
+    </header>
+
+    <main class="stage" id="stage" aria-live="polite"></main>
+    <div id="print-all"></div>
+
+    <nav class="dock" aria-label="翻页控制">
+      <div class="dock-inner">
+        <button class="step-btn prev" id="btn-prev" type="button">← <span class="long">上一页</span></button>
+        <div class="dots" id="dots"></div>
+        <button class="step-btn next" id="btn-next" type="button"><span class="long">下一页</span> →</button>
+      </div>
+    </nav>
+
+    <div class="scrim" id="scrim"></div>
+    <aside class="drawer" id="drawer" aria-label="目录"><div id="toc"></div></aside>
+    <div class="toast" id="toast" role="status"></div>
+
+    <!-- ===================== 唯一事实源：只替换这里的 JSON ===================== -->
+    <script type="application/json" id="replay-data">
+      {
+        "meta": {
+          "title": "[REPLAY TITLE]",
+          "subtitle": "[一句话副标题]",
+          "sessionName": "示例变更",
+          "repo": "owner/repo",
+          "branch": "main",
+          "date": "2026-10-15",
+          "totalRawTurns": "100+ 轮交互",
+          "distilledSteps": 2,
+          "status": "已闭环"
+        },
+        "background": {
+          "originGoal": "这次工作最初要解决的问题。",
+          "whyConfusing": "1) 复杂度来源一；2) 复杂度来源二。",
+          "readingGuide": ""
+        },
+        "actorsAndRepos": [{ "name": "core-repo", "role": "主业务仓", "detail": "主要改动所在仓库" }],
+        "steps": [
+          {
+            "id": 1,
+            "phase": "阶段一 · 定位",
+            "title": "定位问题起点",
+            "summary": "一句话说明这一阶段的结论",
+            "status": "completed",
+            "lookAt": { "target": "切入点对象", "anchors": ["src/main.go:42", "PR #101"] },
+            "whyLookHere": "以第三人称说明为什么从这里切入。",
+            "whatWasDone": [{ "label": "关键发现", "detail": "发现了什么、证据是什么", "type": "discovery" }],
+            "confusionBuster": { "myth": "常见误解", "reality": "实际机制" },
+            "leadsToNext": { "hook": "由此需要进一步验证下游行为。", "nextTarget": "验证下游" },
+            "evidence": [{ "title": "关键代码", "kind": "code", "content": "// 示例" }]
+          },
+          {
+            "id": 2,
+            "phase": "阶段二 · 收口",
+            "title": "验证并收口",
+            "summary": "一句话说明如何收尾",
+            "status": "completed",
+            "lookAt": { "target": "验证对象", "anchors": ["test-env"] },
+            "whyLookHere": "说明验证的必要性。",
+            "whatWasDone": [{ "label": "完成修复", "detail": "修复并通过验证", "type": "fix" }],
+            "confusionBuster": { "myth": "", "reality": "" },
+            "leadsToNext": { "hook": "", "nextTarget": "" },
+            "evidence": []
+          }
+        ],
+        "confusionMatrix": [{ "question": "为什么 A 变了但 B 没生效？", "shortAnswer": "B 由独立开关控制。", "deepExplanation": "补充底层原因。" }],
+        "endState": {
+          "completedItems": [{ "item": "完成核心修复", "ref": "PR #101", "note": "已合入" }],
+          "pendingHandoffs": [{ "task": "观察线上指标", "owner": "值班同学", "when": "上线后 24 小时" }]
+        },
+        "publication": {
+          "kicker": "工程复盘",
+          "headline": "[对外标题：结果 + 关键转折]",
+          "dek": "[导语：两三句话交代背景、影响与结论]",
+          "authors": ["[团队或作者]"],
+          "readingTime": "约 5 分钟",
+          "tldr": ["要点一", "要点二", "要点三"],
+          "impact": [{ "label": "指标名", "value": "数值", "note": "口径说明" }],
+          "timeline": [{ "time": "D1 上午", "event": "事件描述", "stepRef": 1 }],
+          "decisions": [
+            {
+              "title": "决策标题",
+              "context": "为什么需要做这个决定",
+              "options": ["方案 A", "方案 B"],
+              "choice": "方案 B",
+              "rationale": "选择理由"
+            }
+          ],
+          "lessons": ["经验一", "经验二"],
+          "redactionNote": "本文已将人员替换为角色，并省略内部域名与凭据信息。"
+        }
+      }
+    </script>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var data;
+        try {
+          data = JSON.parse(document.getElementById("replay-data").textContent);
+        } catch (err) {
+          document.getElementById("stage").textContent = "复盘数据解析失败：" + err.message;
+          return;
+        }
+        var meta = data.meta || {};
+        var bg = data.background || {};
+        var steps = data.steps || [];
+        var end = data.endState || {};
+        var pub = data.publication || {};
+        var headline = pub.headline || meta.title || "工程复盘";
+        var kicker = pub.kicker || "工程复盘";
+
+        var KIND = { discovery: "发现", action: "行动", fix: "修复", sync: "协同" };
+        var EV = { code: "代码", command: "命令输出", quote: "原文摘录", table: "数据" };
+        var STATUS = { decision: "关键决策", blocked: "受阻" };
+
+        /* ---------------------------- 文本工具 ---------------------------- */
+        function esc(str) {
+          return String(str == null ? "" : str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+        function rich(str) {
+          return esc(str).replace(/`([^`]+)`/g, "<code>$1</code>");
+        }
+        function nonEmpty(list) {
+          return (list || []).filter(function (x) {
+            return x && (typeof x !== "string" || x.trim());
+          });
+        }
+        // 「1) xxx；2) yyy」串写拆成前导句 + 列表项
+        function splitList(str) {
+          var s = String(str || "");
+          var re = /(^|[\s；;。：:，,])\d+[)）]\s*/g;
+          var marks = [];
+          var m;
+          while ((m = re.exec(s))) marks.push({ start: m.index + m[1].length, end: re.lastIndex });
+          if (marks.length < 2) return { lead: s, items: [] };
+          return {
+            lead: s.slice(0, marks[0].start).trim(),
+            items: marks.map(function (mk, i) {
+              var stop = i + 1 < marks.length ? marks[i + 1].start : s.length;
+              return s.slice(mk.end, stop).replace(/[；;。，,\s]+$/, "");
+            })
+          };
+        }
+        function olist(items) {
+          return "<ol>" + items.map(function (x) { return "<li>" + rich(x) + "</li>"; }).join("") + "</ol>";
+        }
+        function blk(label, inner, accent) {
+          return (
+            '<section class="blk">' + (label ? '<div class="h' + (accent ? " accent" : "") + '">' + label + "</div>" : "") +
+            inner + "</section>"
+          );
+        }
+
+        var authors = nonEmpty(pub.authors);
+        var tldr = nonEmpty(pub.tldr);
+        var impact = nonEmpty(pub.impact);
+        var tl = nonEmpty(pub.timeline);
+        var decs = nonEmpty(pub.decisions);
+        var faq = nonEmpty(data.confusionMatrix);
+        var done = nonEmpty(end.completedItems);
+        var todo = nonEmpty(end.pendingHandoffs);
+        var lessons = nonEmpty(pub.lessons);
+        var why = splitList(bg.whyConfusing);
+        var actors = data.actorsAndRepos || [];
+
+        /* ---------------------------- 页面清单 ---------------------------- */
+        // 每一页：{ key, group, label, render(i) }；步骤页 key 为 step-<id>
+        var pages = [];
+        pages.push({ key: "cover", group: "概览", label: "封面与摘要", render: renderCover });
+        pages.push({ key: "background", group: "概览", label: "背景", render: renderBackground });
+        if (tl.length) pages.push({ key: "timeline", group: "概览", label: "时间线", render: renderTimeline });
+        steps.forEach(function (s, si) {
+          pages.push({
+            key: "step-" + s.id,
+            group: "过程详述",
+            label: s.title,
+            step: si,
+            render: function (i) {
+              return renderStep(si, i);
+            }
+          });
+        });
+        if (decs.length) pages.push({ key: "decisions", group: "结论", label: "关键决策", render: renderDecisions });
+        if (faq.length) pages.push({ key: "faq", group: "结论", label: "常见问题", render: renderFaq });
+        pages.push({ key: "status", group: "结论", label: "现状、后续与经验", render: renderStatus });
+        var LAST = pages.length - 1;
+
+        function indexOfKey(key) {
+          for (var i = 0; i < pages.length; i++) if (pages[i].key === key) return i;
+          return -1;
+        }
+        function pad(n) {
+          return (n < 10 ? "0" : "") + n;
+        }
+        function folio(i, sec, badge) {
+          return (
+            '<div class="folio"><span class="sec">' + esc(sec) + "</span>" + (badge ? '<span class="badge">' + esc(badge) + "</span>" : "") +
+            '<span class="pg">' + pad(i + 1) + " / " + pad(LAST + 1) + "</span></div>"
+          );
+        }
+        function turn(i, text) {
+          if (i >= LAST) return "";
+          return (
+            '<div class="turn">' + (text ? "<p>" + rich(text) + "</p>" : "") +
+            '<button class="cta" type="button" data-go="' + (i + 1) + '">继续：' + esc(pages[i + 1].label) + " →</button></div>"
+          );
+        }
+
+        /* ---------------------------- 各页渲染 ---------------------------- */
+        function renderCover(i) {
+          var stats = impact.length
+            ? '<div class="stats">' + impact.map(function (s) {
+                return '<div class="stat"><div class="v">' + esc(s.value) + '</div><div class="l">' + esc(s.label) + "</div>" +
+                  (s.note ? '<div class="n">' + rich(s.note) + "</div>" : "") + "</div>";
+              }).join("") + "</div>"
+            : "";
+          return (
+            folio(i, kicker + (meta.date ? " · " + meta.date : "")) +
+            '<h1 class="headline">' + esc(headline) + "</h1>" +
+            '<p class="dek">' + rich(pub.dek || meta.subtitle) + "</p>" +
+            '<div class="byline">' +
+            (authors.length ? "<span>作者 <b>" + authors.map(esc).join("、") + "</b></span>" : "") +
+            (pub.readingTime ? "<span>" + esc(pub.readingTime) + "</span>" : "") +
+            (meta.repo ? "<span><code>" + esc(meta.repo) + "</code></span>" : "") +
+            (meta.status ? '<span class="pill">' + esc(meta.status) + "</span>" : "") +
+            "</div>" +
+            (tldr.length ? blk("TL;DR", '<div class="tldr">' + olist(tldr) + "</div>", true) : "") +
+            (stats ? blk("影响", stats) : "") +
+            turn(i, "")
+          );
+        }
+
+        function renderBackground(i) {
+          var table = actors.length
+            ? '<div class="table-wrap"><table><thead><tr><th>系统 / 环境</th><th>职责</th><th>相关事项</th></tr></thead><tbody>' +
+              actors.map(function (a) {
+                return '<tr><td class="mono">' + esc(a.name) + '</td><td class="nw">' + esc(a.role) + "</td><td>" + rich(a.detail) + "</td></tr>";
+              }).join("") + "</tbody></table></div>"
+            : "";
+          var whyHtml = why.items.length
+            ? (why.lead ? "<p>" + rich(why.lead) + "</p>" : "") + olist(why.items)
+            : why.lead ? "<p>" + rich(why.lead) + "</p>" : "";
+          return (
+            folio(i, "概览") +
+            '<h2 class="title">背景</h2>' +
+            (bg.originGoal ? blk("最初目标", '<div class="prose"><p>' + rich(bg.originGoal) + "</p></div>") : "") +
+            (whyHtml ? blk("复杂度来源", '<div class="prose">' + whyHtml + "</div>") : "") +
+            (table ? blk("涉及的系统与环境", table) : "") +
+            turn(i, "")
+          );
+        }
+
+        function renderTimeline(i) {
+          return (
+            folio(i, "概览") +
+            '<h2 class="title">时间线</h2>' +
+            '<p class="lead">点击条目可直接翻到对应章节。</p>' +
+            blk("", '<ol class="timeline">' + tl.map(function (t) {
+              var idx = t.stepRef ? indexOfKey("step-" + t.stepRef) : -1;
+              var ev = idx >= 0
+                ? '<button class="e" type="button" data-go="' + idx + '">' + rich(t.event) + '<span class="ref">§' + esc(t.stepRef) + "</span></button>"
+                : '<span class="e">' + rich(t.event) + "</span>";
+              return '<li class="' + (idx >= 0 ? "" : "plan") + '"><span class="t">' + esc(t.time) + "</span>" + ev + "</li>";
+            }).join("") + "</ol>") +
+            turn(i, "")
+          );
+        }
+
+        function renderStep(si, i) {
+          var s = steps[si];
+          var look = s.lookAt || {};
+          var cb = s.confusionBuster || {};
+          var nx = s.leadsToNext || {};
+          var anchors = (look.anchors || []).map(function (a) { return "<code>" + esc(a) + "</code>"; }).join("");
+          var acts = nonEmpty(s.whatWasDone).map(function (w) {
+            return '<li><span class="k ' + esc(w.type) + '">' + (KIND[w.type] || "记录") + "</span><div><b>" + rich(w.label) +
+              '</b><div class="d">' + rich(w.detail) + "</div></div></li>";
+          }).join("");
+          var figs = nonEmpty(s.evidence).map(function (ev, k) {
+            var body = ev.kind === "quote" ? "<blockquote>" + esc(ev.content) + "</blockquote>" : "<pre>" + esc(ev.content) + "</pre>";
+            return "<figure>" + body + "<figcaption><b>图 " + esc(s.id) + "-" + (k + 1) + "</b>" + esc(ev.title) +
+              (EV[ev.kind] ? " · " + EV[ev.kind] : "") + "</figcaption></figure>";
+          }).join("");
+          return (
+            folio(i, "过程详述 · " + (s.phase || "第 " + (si + 1) + " 节"), STATUS[s.status]) +
+            '<h2 class="title"><span class="no">' + esc(s.id) + ".</span>" + esc(s.title) + "</h2>" +
+            (s.summary ? '<p class="lead">' + rich(s.summary) + "</p>" : "") +
+            (look.target
+              ? blk("切入点", '<div class="entry"><b>' + rich(look.target) + "</b>" + (anchors ? '<div class="chips">' + anchors + "</div>" : "") + "</div>")
+              : "") +
+            (s.whyLookHere ? blk("背景", '<div class="prose"><p>' + rich(s.whyLookHere) + "</p></div>") : "") +
+            (acts ? blk("发现与行动", '<ol class="actions">' + acts + "</ol>") : "") +
+            (cb.reality
+              ? blk("常见误解", '<div class="callout">' +
+                  (cb.myth ? '<div class="myth"><div class="h">误解</div>' + rich(cb.myth) + "</div>" : "") +
+                  '<div class="truth"><div class="h">实际情况</div>' + rich(cb.reality) + "</div></div>")
+              : "") +
+            (figs ? blk("证据", figs) : "") +
+            turn(i, nx.hook)
+          );
+        }
+
+        function renderDecisions(i) {
+          return (
+            folio(i, "结论") +
+            '<h2 class="title">关键决策</h2>' +
+            '<p class="lead">过程中影响走向的 ' + decs.length + " 个判断，以及当时的备选方案。</p>" +
+            blk("", decs.map(function (d, k) {
+              var opts = nonEmpty(d.options).map(function (o) {
+                var chosen = o === d.choice;
+                return '<li class="' + (chosen ? "chosen" : "") + '"><span class="mk">' + (chosen ? "采纳" : "未采纳") + "</span><span>" + rich(o) + "</span></li>";
+              }).join("");
+              return (
+                '<div class="decision"><h3><span class="no">D' + (k + 1) + "</span>" + esc(d.title) + "</h3>" +
+                (d.context ? '<p class="ctx">' + rich(d.context) + "</p>" : "") +
+                (opts ? '<ul class="options">' + opts + "</ul>" : "") +
+                (d.rationale ? '<p class="why"><b>理由：</b>' + rich(d.rationale) + "</p>" : "") + "</div>"
+              );
+            }).join("")) +
+            turn(i, "")
+          );
+        }
+
+        function renderFaq(i) {
+          return (
+            folio(i, "结论") +
+            '<h2 class="title">常见问题</h2>' +
+            blk("", '<dl class="faq">' + faq.map(function (q) {
+              return "<dt>" + esc(q.question) + '</dt><dd><div class="short">' + rich(q.shortAnswer) + "</div>" +
+                (q.deepExplanation ? '<div class="deep">' + rich(q.deepExplanation) + "</div>" : "") + "</dd>";
+            }).join("") + "</dl>") +
+            turn(i, "")
+          );
+        }
+
+        function renderStatus(i) {
+          var doneHtml = done.length
+            ? '<div class="table-wrap"><table><thead><tr><th>事项</th><th>关联</th><th>结果</th></tr></thead><tbody>' +
+              done.map(function (c) {
+                return "<tr><td>" + rich(c.item) + '</td><td class="mono">' + esc(c.ref) + "</td><td>" + rich(c.note) + "</td></tr>";
+              }).join("") + "</tbody></table></div>"
+            : "";
+          var todoHtml = todo.length
+            ? '<div class="table-wrap"><table><thead><tr><th>事项</th><th>负责方</th><th>时间 / 触发条件</th></tr></thead><tbody>' +
+              todo.map(function (p) {
+                return "<tr><td>" + rich(p.task) + '</td><td class="nw">' + esc(p.owner) + '</td><td><span class="muted">' + esc(p.when) + "</span></td></tr>";
+              }).join("") + "</tbody></table></div>"
+            : "";
+          var lessonHtml = lessons.length
+            ? '<ol class="lessons">' + lessons.map(function (l) { return "<li><span>" + rich(l) + "</span></li>"; }).join("") + "</ol>"
+            : "";
+          return (
+            folio(i, "结论") +
+            '<h2 class="title">现状、后续与经验</h2>' +
+            (doneHtml ? blk("已完成", doneHtml) : "") +
+            (todoHtml ? blk("后续事项", todoHtml) : "") +
+            (lessonHtml ? blk("经验与改进", lessonHtml, true) : "") +
+            '<footer class="foot">' +
+            (pub.redactionNote ? "<p>" + rich(pub.redactionNote) + "</p>" : "") +
+            "<p>本文基于 " + esc(meta.sessionName || "会话记录") + (meta.totalRawTurns ? "（" + esc(meta.totalRawTurns) + "）" : "") +
+            " 逆向整理，按因果顺序归纳为 " + steps.length + " 个阶段。" + (meta.branch ? "分支：<code>" + esc(meta.branch) + "</code>。" : "") + "</p>" +
+            "</footer>" +
+            '<div class="row-actions"><button class="cta ghost" type="button" data-go="0">回到封面</button>' +
+            '<button class="cta ghost" type="button" data-act="md">导出 Markdown</button>' +
+            '<button class="cta ghost" type="button" data-act="print">打印 / 存为 PDF</button></div>'
+          );
+        }
+
+        function sheet(i) {
+          return '<article class="sheet">' + pages[i].render(i) + "</article>";
+        }
+
+        /* ---------------------------- 导航与状态 ---------------------------- */
+        var stage = document.getElementById("stage");
+        var dotsEl = document.getElementById("dots");
+        var tocEl = document.getElementById("toc");
+        var storeKey = "replay-post:" + headline;
+        var current = 0;
+        var visited = {};
+
+        function loadState() {
+          try {
+            var saved = JSON.parse(localStorage.getItem(storeKey) || "{}");
+            visited = saved.visited || {};
+            return typeof saved.current === "number" ? saved.current : 0;
+          } catch (e) {
+            return 0;
+          }
+        }
+        function saveState() {
+          try {
+            localStorage.setItem(storeKey, JSON.stringify({ current: current, visited: visited }));
+          } catch (e) {
+            /* 隐私模式等场景下静默忽略 */
+          }
+        }
+        function parseHash() {
+          var idx = indexOfKey(location.hash.replace(/^#/, ""));
+          return idx >= 0 ? idx : null;
+        }
+
+        function renderDots() {
+          dotsEl.innerHTML = pages.map(function (p, i) {
+            var cls = "dot" + (visited[i] ? " visited" : "") + (i === current ? " current" : "");
+            return '<button class="' + cls + '" type="button" data-go="' + i + '" aria-label="' + esc(p.label) + '" title="' + esc(p.label) + '"></button>';
+          }).join("");
+        }
+        function renderToc() {
+          var html = "";
+          var lastGroup = null;
+          pages.forEach(function (p, i) {
+            if (p.group !== lastGroup) {
+              html += '<div class="grp">' + esc(p.group) + "</div>";
+              lastGroup = p.group;
+            }
+            var cls = i === current ? " current" : visited[i] ? " visited" : "";
+            var mk = typeof p.step === "number" ? "§" + steps[p.step].id : pad(i + 1);
+            html += '<button class="toc-item' + cls + '" type="button" data-go="' + i + '"><span class="mk">' + esc(mk) + "</span><span>" + esc(p.label) + "</span></button>";
+          });
+          tocEl.innerHTML = html;
+        }
+
+        function go(i, fromHash) {
+          i = Math.min(Math.max(i, 0), LAST);
+          current = i;
+          visited[i] = true;
+          stage.innerHTML = sheet(i);
+          document.getElementById("btn-prev").disabled = i === 0;
+          document.getElementById("btn-next").disabled = i === LAST;
+          document.getElementById("bar-count").textContent = i + 1 + " / " + (LAST + 1);
+          document.getElementById("progress-bar").style.width = (LAST ? (i / LAST) * 100 : 100) + "%";
+          renderDots();
+          renderToc();
+          saveState();
+          if (!fromHash && location.hash !== "#" + pages[i].key) history.replaceState(null, "", "#" + pages[i].key);
+          window.scrollTo({ top: 0, behavior: "auto" });
+          closeDrawer();
+        }
+
+        /* ---------------------------- 抽屉、菜单、主题 ---------------------------- */
+        function openDrawer() {
+          document.body.classList.add("drawer-open");
+        }
+        function closeDrawer() {
+          document.body.classList.remove("drawer-open");
+        }
+        var menu = document.getElementById("menu");
+        var menuBtn = document.getElementById("btn-menu");
+        function toggleMenu(force) {
+          var open = typeof force === "boolean" ? force : !menu.classList.contains("open");
+          menu.classList.toggle("open", open);
+          menuBtn.setAttribute("aria-expanded", String(open));
+        }
+        function currentTheme() {
+          var set = document.documentElement.getAttribute("data-theme");
+          if (set) return set;
+          return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        function toggleTheme() {
+          var next = currentTheme() === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("replay-post:theme", next);
+          } catch (e) {
+            /* ignore */
+          }
+        }
+        try {
+          var savedTheme = localStorage.getItem("replay-post:theme");
+          if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+        } catch (e) {
+          /* ignore */
+        }
+        var toast = document.getElementById("toast");
+        var toastTimer = null;
+        function say(msg) {
+          toast.textContent = msg;
+          toast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1600);
+        }
+
+        /* ---------------------------- 导出与打印 ---------------------------- */
+        function toMarkdown() {
+          var L = [];
+          L.push("# " + headline, "", "> " + (pub.dek || meta.subtitle || ""), "");
+          L.push("| 项目 | 内容 |", "| :--- | :--- |", "| 日期 | " + (meta.date || "") + " |");
+          if (authors.length) L.push("| 作者 | " + authors.join("、") + " |");
+          if (meta.repo) L.push("| 仓库 | `" + meta.repo + "` |");
+          if (meta.status) L.push("| 状态 | " + meta.status + " |");
+          L.push("");
+          if (tldr.length) {
+            L.push("## 摘要", "");
+            tldr.forEach(function (t, k) { L.push(k + 1 + ". " + t); });
+            L.push("");
+          }
+          if (impact.length) {
+            L.push("## 影响", "", "| 指标 | 数值 | 说明 |", "| :--- | :--- | :--- |");
+            impact.forEach(function (s) { L.push("| " + s.label + " | " + s.value + " | " + (s.note || "") + " |"); });
+            L.push("");
+          }
+          L.push("## 背景", "", bg.originGoal || "", "");
+          if (why.items.length) {
+            if (why.lead) L.push(why.lead, "");
+            why.items.forEach(function (x, k) { L.push(k + 1 + ". " + x); });
+          } else if (why.lead) L.push(why.lead);
+          L.push("");
+          if (actors.length) {
+            L.push("| 系统 / 环境 | 职责 | 相关事项 |", "| :--- | :--- | :--- |");
+            actors.forEach(function (a) { L.push("| `" + a.name + "` | " + a.role + " | " + a.detail + " |"); });
+            L.push("");
+          }
+          if (tl.length) {
+            L.push("## 时间线", "", "| 时间 | 事件 |", "| :--- | :--- |");
+            tl.forEach(function (t) { L.push("| " + t.time + " | " + t.event + " |"); });
+            L.push("");
+          }
+          L.push("## 过程详述", "");
+          steps.forEach(function (s) {
+            var look = s.lookAt || {};
+            L.push("### " + s.id + ". " + s.title, "");
+            if (s.summary) L.push("> " + s.summary, "");
+            if (look.target) L.push("**切入点**：" + look.target + ((look.anchors || []).length ? "（`" + look.anchors.join("` · `") + "`）" : ""), "");
+            if (s.whyLookHere) L.push(s.whyLookHere, "");
+            nonEmpty(s.whatWasDone).forEach(function (w) { L.push("- **" + w.label + "**：" + w.detail); });
+            L.push("");
+            if (s.confusionBuster && s.confusionBuster.reality) {
+              L.push("> **常见误解**：" + (s.confusionBuster.myth || "") + "  ", "> **实际情况**：" + s.confusionBuster.reality, "");
+            }
+            nonEmpty(s.evidence).forEach(function (ev, k) {
+              L.push("```text", ev.content, "```", "", "*图 " + s.id + "-" + (k + 1) + "：" + ev.title + "*", "");
+            });
+            if (s.leadsToNext && s.leadsToNext.hook) L.push("*" + s.leadsToNext.hook + "*", "");
+          });
+          if (decs.length) {
+            L.push("## 关键决策", "");
+            decs.forEach(function (d, k) {
+              L.push("### D" + (k + 1) + " " + d.title, "", d.context || "", "");
+              nonEmpty(d.options).forEach(function (o) { L.push("- " + (o === d.choice ? "**[采纳]** " : "[未采纳] ") + o); });
+              L.push("", "**理由**：" + (d.rationale || ""), "");
+            });
+          }
+          if (faq.length) {
+            L.push("## 常见问题", "");
+            faq.forEach(function (q) { L.push("**" + q.question + "**", "", q.shortAnswer, "", q.deepExplanation || "", ""); });
+          }
+          L.push("## 现状与后续", "");
+          if (done.length) {
+            L.push("| 已完成事项 | 关联 | 结果 |", "| :--- | :--- | :--- |");
+            done.forEach(function (c) { L.push("| " + c.item + " | `" + c.ref + "` | " + c.note + " |"); });
+            L.push("");
+          }
+          if (todo.length) {
+            L.push("| 后续事项 | 负责方 | 时间 / 触发条件 |", "| :--- | :--- | :--- |");
+            todo.forEach(function (p) { L.push("| " + p.task + " | " + p.owner + " | " + p.when + " |"); });
+            L.push("");
+          }
+          if (lessons.length) {
+            L.push("## 经验与改进", "");
+            lessons.forEach(function (l, k) { L.push(k + 1 + ". " + l); });
+            L.push("");
+          }
+          if (pub.redactionNote) L.push("---", "", "*" + pub.redactionNote + "*");
+          return L.join("\n") + "\n";
+        }
+        function download(name, text) {
+          var blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function () {
+            URL.revokeObjectURL(a.href);
+            a.remove();
+          }, 0);
+        }
+        function act(name) {
+          toggleMenu(false);
+          if (name === "md") download(headline + ".md", toMarkdown());
+          if (name === "print") {
+            var all = "";
+            for (var i = 0; i <= LAST; i++) all += sheet(i);
+            document.getElementById("print-all").innerHTML = all;
+            window.print();
+          }
+          if (name === "link") {
+            var url = location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url).then(function () { say("本页链接已复制"); }, function () { say(url); });
+            } else {
+              say(url);
+            }
+          }
+        }
+
+        /* ---------------------------- 事件绑定 ---------------------------- */
+        document.addEventListener("click", function (e) {
+          var t = e.target.closest("[data-go],[data-act]");
+          if (!t) {
+            if (!e.target.closest(".menu-wrap")) toggleMenu(false);
+            return;
+          }
+          if (t.hasAttribute("data-go")) go(parseInt(t.getAttribute("data-go"), 10));
+          if (t.hasAttribute("data-act")) act(t.getAttribute("data-act"));
+        });
+        document.getElementById("btn-prev").addEventListener("click", function () { go(current - 1); });
+        document.getElementById("btn-next").addEventListener("click", function () { go(current + 1); });
+        document.getElementById("btn-toc").addEventListener("click", openDrawer);
+        document.getElementById("scrim").addEventListener("click", closeDrawer);
+        document.getElementById("btn-theme").addEventListener("click", toggleTheme);
+        menuBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+        window.addEventListener("hashchange", function () {
+          var h = parseHash();
+          if (h !== null && h !== current) go(h, true);
+        });
+        window.addEventListener("keydown", function (e) {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var tag = (e.target.tagName || "").toLowerCase();
+          if (tag === "input" || tag === "textarea") return;
+          if (e.key === "ArrowRight" || e.key === "l" || e.key === "PageDown") go(current + 1);
+          else if (e.key === "ArrowLeft" || e.key === "h" || e.key === "PageUp") go(current - 1);
+          else if (e.key === "Home") go(0);
+          else if (e.key === "End") go(LAST);
+          else if (e.key === "t") document.body.classList.contains("drawer-open") ? closeDrawer() : openDrawer();
+          else if (e.key === "Escape") {
+            closeDrawer();
+            toggleMenu(false);
+          }
+        });
+
+        /* ---------------------------- 启动 ---------------------------- */
+        document.title = headline + " · " + kicker;
+        document.getElementById("bar-title").innerHTML = "<b>" + esc(kicker) + "</b> · " + esc(headline);
+        var fromHash = parseHash();
+        var saved = loadState();
+        go(fromHash !== null ? fromHash : Math.min(saved, LAST), fromHash !== null);
+      })();
+    </script>
+  </body>
+</html>
