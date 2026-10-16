@@ -18,21 +18,21 @@ description: >
 
 四个复盘技能的分工：
 
-| 读者 \ 格式 | Markdown                                      | HTML                                 |
-| ----------- | --------------------------------------------- | ------------------------------------ |
-| 自己看      | [replay-md](../replay-md/SKILL.md)            | [replay-html](../replay-html/SKILL.md) |
-| 对外发布    | [replay-post-md](../replay-post-md/SKILL.md)  | **replay-post-html（本技能）**       |
+| 读者 \ 格式 | Markdown                                     | HTML                                   |
+| ----------- | -------------------------------------------- | -------------------------------------- |
+| 自己看      | [replay-md](../replay-md/SKILL.md)           | [replay-html](../replay-html/SKILL.md) |
+| 对外发布    | [replay-post-md](../replay-post-md/SKILL.md) | **replay-post-html（本技能）**         |
 
 ## 资源地图
 
-| 资源                                 | 位置                                                                   |
-| ------------------------------------ | ---------------------------------------------------------------------- |
-| 逆向拆解与噪音折叠方法论             | [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md) |
-| 步进数据契约与 `publication` 发布块  | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)     |
-| 对外口吻与发布前脱敏清单             | [../_shared/audience-voice.md](../_shared/audience-voice.md)           |
-| 翻页版式、交互与视觉规范             | [references/post-html-spec.md](references/post-html-spec.md)           |
-| 单文件 HTML 起手模板（数据驱动）     | [references/template.html](references/template.html)                   |
-| 完整示例（已脱敏的网关复盘报告）     | [examples/example.html](examples/example.html)                         |
+| 资源                                | 位置                                                                   |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| 逆向拆解与噪音折叠方法论            | [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md) |
+| 步进数据契约与 `publication` 发布块 | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)     |
+| 对外口吻与发布前脱敏清单            | [../_shared/audience-voice.md](../_shared/audience-voice.md)           |
+| 翻页版式、交互与视觉规范            | [references/post-html-spec.md](references/post-html-spec.md)           |
+| 单文件 HTML 起手模板（数据驱动）    | [references/template.html](references/template.html)                   |
+| 完整示例（订单服务对外复盘报告）    | [examples/example.html](examples/example.html)                         |
 
 ## 铁律
 

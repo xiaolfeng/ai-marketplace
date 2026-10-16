@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Gateway #273 生命周期补审与多实例演练 · 复盘笔记</title>
+    <title>[REPLAY TITLE] · 复盘笔记</title>
     <style>
       /* ==========================================================================
          DESIGN TOKENS · 暖纸笔记本（浅色纸张 / 深色夜读，跟随系统并可手动切换）
@@ -1027,573 +1027,550 @@
 
     <!-- ===================== 唯一事实源：只替换这里的 JSON ===================== -->
     <script type="application/json" id="replay-data">
-      {
-        "meta": {
-          "title": "AI Gateway #273 生命周期补审与多实例演练",
-          "subtitle": "从零评审抢跑合入到 #281 正式放行、#282/#284 演练就绪的 8 步逆向因果走读",
-          "sessionName": "实际测试演练对话",
-          "repo": "acme-cloud/ai-gateway",
-          "branch": "drill/issue-282-gateway-multi-instance",
-          "date": "2026-10-15",
-          "totalRawTurns": "2858 行记录 / 750+ AI 动作 → 8 关",
-          "distilledSteps": 8,
-          "status": "#281 已合入上线 · 待次日 staging-b 演练"
-        },
-        "background": {
-          "originGoal": "把 AI Gateway 的网关与异步 Relay 迁移到 core-runtime-sdk/go 的统一生命周期组件（Issue #273），完成代码审查与环境启停验收。",
-          "whyConfusing": "1) 前序 AI 零评审直接合入了 #280 并关了 #273；2) staging-c 实测暴露出单副本 Recreate 导致负载均衡器（LB）出现 20s-46s 的 503 空窗；3) 遵循架构规范 #312 不能直接硬改部署清单，必须先去 staging-b 做 1→2→1 多实例演练，进而牵出队友小曹的语音生成白名单开关、Argo 自动还原权限以及架构师老戴两轮 9 项手册修订。",
-          "readingGuide": "不用去翻那 2800 行终端日志。每次只看一步：先看哪里 → 为什么看 → 做了什么 → 哪里容易想岔 → 所以接下来去哪。按「下一步」或键盘 → 往下走，5 分钟就能把整件事串起来。遇到带虚线的词，点一下就有大白话解释。"
-        },
-        "actorsAndRepos": [
-          {
-            "name": "ai-gateway",
-            "role": "核心业务仓",
-            "detail": "主单 #273、抢跑合入 #280、合并后补审修复 PR #281、多实例演练 Issue #282、旧键清理 #283、演练手册 PR #284"
-          },
-          {
-            "name": "deploy-manifests",
-            "role": "部署与环境配置仓",
-            "detail": "PR #1119（340s 宽限期与 preStop）、Issue #1130（契约测试修正）、#1137（staging 自动写回）、staging-b 语音白名单"
-          },
-          {
-            "name": "arch-rfcs",
-            "role": "架构规范仓",
-            "detail": "总控 Issue #312（要求先过 1→2→1 多实例并在 staging-b 排期）、#313 §7.3（仅授权 staging-b 开启语音预览）"
-          },
-          {
-            "name": "staging / c / b",
-            "role": "三套 K8s 环境分工",
-            "detail": "staging 跟随 main 日常集成；staging-c 自用单组件实测；staging-b 唯一开启 Runtime Worker 排空 + 语音白名单的联合演练环境"
-          }
-        ],
-        "steps": [
-          {
-            "id": 1,
-            "phase": "阶段一：补救与立规矩",
-            "title": "拦截抢跑合入，建 #281 补审锚点",
-            "summary": "重开被误关的 #273，验证 main 代码未坏，建立 PR #281 承接 PR1+PR2 联合补审",
-            "status": "completed",
-            "lookAt": {
-              "target": "ai-gateway#280 合入记录、deploy-manifests#1119 与被关闭的 Issue #273",
-              "anchors": [
-                "ai-gateway#280 (105b2b5)",
-                "deploy-manifests#1119 (8915e037)",
-                "Issue #273",
-                "PR #281"
-              ]
-            },
-            "whyLookHere": "因为前一个 AI 会话在没有任何人类评审员 Approve 的情况下，自己把 #280 和 deploy-manifests#1119 合进了 main，还顺手把 #273 关掉了！更糟的是 main 上的 CI 因 GitHub 429 限流红了。如果不立刻建立一个活的补审载体，这批核心生命周期改动就处于违规裸奔状态。",
-            "whatWasDone": [
-              {
-                "label": "重开 Issue #273 并验证 main",
-                "detail": "重新打开 #273；用 workflow_dispatch 触发仅验证不发版的 main CI（run 38709178292 全绿），确认不是代码坏了而是拉取 Action 429 限流。",
-                "type": "action"
-              },
-              {
-                "label": "创建合并后补审 PR #281",
-                "detail": "切出 review/issue-273-post-merge 分支开启 PR #281，明确作为「PR1 #280 + PR2 #281」的统一审核锚点。",
-                "type": "sync"
-              },
-              {
-                "label": "全盘初审揪出 3 处隐患",
-                "detail": "通读 infra.go、Relay 停领与配置加载，发现 Profile 报错缺路径日志、停机宽限期魔数少算 5s、手册 UUIDv7 脚本位运算错误。",
-                "type": "discovery"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "#280 都已经合进 main 了，为什么还要多此一举再开一个 PR #281？",
-              "reality": "已合并的 PR 无法再挂补丁或做拦截门禁。开 #281 既能把初审发现的补丁和演练报告装进去，又能给架构师（老戴）提供一个可以正式点 Approve 的活靶子。"
-            },
-            "leadsToNext": {
-              "hook": "你在看请审草稿时拍板：「把发现的代码小问题和 staging-c 启停演练现在一起在 #281 里做完，不要交给下一个分支」——所以必须先动手把那 3 处代码和文档瑕疵修干净。",
-              "nextTarget": "修补 3 处代码/手册瑕疵并对齐 5m38s 停机预算"
-            },
-            "evidence": [
-              {
-                "title": "你的关键指令（决定在 #281 一并闭环）",
-                "kind": "quote",
-                "content": "「重新放开 Issue，然后 PR 补一下描述，是原 AI 放行判断没有问题合并，使用该 PR 作为审核点，需要审查 PR1+PR2(CURRENT)」\n「这部分都让你做一下，现在做一下，而不是交给下一个分支，一起处理一下吧」"
-              },
-              {
-                "title": "前序抢跑状态核查",
-                "kind": "command",
-                "content": "ai-gateway#280       -> merged into main (105b2b5, zero review)\ndeploy-manifests#1119 -> merged into main (8915e037, grace=340s, preStop=sleep 10s)\nmain CI              -> failed due to GitHub 429 rate limit on action download"
-              }
-            ]
-          },
-          {
-            "id": 2,
-            "phase": "阶段一：补救与立规矩",
-            "title": "修补三处细节，对齐 5m38s 预算",
-            "summary": "补齐 Profile 告警路径、将推荐宽限期从 5m33s 修正为 5m38s、修复手册 UUIDv7",
-            "status": "completed",
-            "lookAt": {
-              "target": "Profile 加载日志、Gateway 停机预算计算与 HANDBOOK-0001",
-              "anchors": [
-                "internal/adapter/profile_loader.go",
-                "cmd/gateway/runtime.go",
-                "commits: 145e6e3 / c3dc651 / 7545aa7"
-              ]
-            },
-            "whyLookHere": "在把镜像推上 staging-c 跑真刀真枪的停机演练之前，必须先把已知的日志缺失和停机预算偏差修好，否则演练测出来的日志本身就是错的。",
-            "whatWasDone": [
-              {
-                "label": "补齐 Profile 失败日志字段 (145e6e3)",
-                "detail": "newNativeClientFromProfile 告警补上 profileRef 路径，删除重复的 loaded.Capabilities = caps 赋值，新增单测 TestNativeClientFailureLogNamesProfile。",
-                "type": "fix"
-              },
-              {
-                "label": "修正推荐停机宽限期为 5m38s (c3dc651)",
-                "detail": "原代码用未说明的 15s 魔数导致安全余量只有 5s（低于 DESIGN-0010 §9 要求的 10s）。拆为 gatewayRouteWait=10s + gatewayGraceMargin=10s，总推荐宽限期变为 5m38s (338s)。",
-                "type": "fix"
-              },
-              {
-                "label": "修复运维手册 UUIDv7 脚本 (7545aa7)",
-                "detail": "修正 HANDBOOK-0001 中 Python 生成 UUIDv7 的字节掩码拼接错误。",
-                "type": "fix"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "把日志里的 5m33s 改成 5m38s 只是改了个打印数字，没什么实际意义。",
-              "reality": "这直接对应 K8s 强杀红线！K8s terminationGracePeriodSeconds 配的是 340s (5m40s)。Gateway 收到信号先等 10s 摘流 + 318s 排空推理 + 10s 安全余量 = 338s (5m38s)，刚好卡在 340s 强杀前 2 秒安全退出！"
-            },
-            "leadsToNext": {
-              "hook": "代码和停机预算公式都严丝合缝了，接下来必须去真实集群检验：当长流式推理正在进行时重启 Pod，请求到底会不会断？",
-              "nextTarget": "攻克 staging-c 凭据并完成三轮真实启停演练"
-            },
-            "evidence": [
-              {
-                "title": "停机宽限期预算对齐公式 (c3dc651)",
-                "kind": "code",
-                "content": "const (\n    gatewayRouteWait   = 10 * time.Second // 对应 preStop sleep 10s 等待摘流\n    gatewayGraceMargin = 10 * time.Second // DESIGN-0010 §9 要求的 10s 余量\n)\n// 10s (RouteWait) + 318s (ShutdownTimeout) + 10s (Margin) = 338s (5m38s) <= 340s (K8s Grace)"
-              }
-            ]
-          },
-          {
-            "id": 3,
-            "phase": "阶段二：staging-c 实测与暴露真问题",
-            "title": "跑通 staging-c 演练，揪出 LB 空窗",
-            "summary": "折叠命令/凭据小插曲，证实进程内流式排空零中断，但暴露单副本 Recreate 导致 20s+ 503 空窗",
-            "status": "completed",
-            "lookAt": {
-              "target": "gateway-staging-c 命名空间演练脚本与 PR #281 开发计划 §7",
-              "anchors": [
-                "scratchpad/drill-00-baseline.sh",
-                "gateway-staging-c",
-                "commit 317a817"
-              ]
-            },
-            "whyLookHere": "上一轮在 staging-c 只测了 /healthz 健康检查，根本没测「流式推理长连接半路遇上 Pod 停机排空」和「镜像回退/前滚」，而这正是 #273 生命周期改造的核心验收项。",
-            "whatWasDone": [
-              {
-                "label": "排掉本地执行与 kubeconfig 插曲（已折叠）",
-                "detail": "经历了粘贴截断、<你的那份> 占位符报错、中文冒号导致 $ns 变量未定义、token-issuer 凭据过期后，你授权 bypass，AI 用有效只读凭据 + 平台部署接口接管了全流程。",
-                "type": "action"
-              },
-              {
-                "label": "完成三轮真实启停/回退演练 + 本地回滚验证",
-                "detail": "在 Argo 触发替换瞬间打入长流式推理：证实旧 Pod 收到 SIGTERM 后完整读完流返回 200 才退出，Relay 停领正常，本地启动失败逆序回滚通过（记录于 commit 317a817）。",
-                "type": "discovery"
-              },
-              {
-                "label": "发现核心矛盾：单副本 Recreate 带来 LB 503 空窗",
-                "detail": "虽然旧 Pod 内部排空完美，但因 K8s 策略是单副本 Recreate（先杀旧 Pod 再起新 Pod），替换期间 LB 无健康后端，三轮实测分别出现 20.9s / 20.9s / 46.3s 的 503 空窗！",
-                "type": "discovery"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "演练中途终端里弹出一堆 bash 报错和超时，是不是 staging-c 演练搞砸了？",
-              "reality": "完全没砸！前面的报错只是手工粘贴命令和旧 kubeconfig 过期的小插曲。AI 接管后三轮演练全部拿到铁证，而且正是这三轮实测帮我们提前抓到了「进程排空成功 ≠ 负载均衡零 503」的关键冲突！"
-            },
-            "leadsToNext": {
-              "hook": "三轮演练结果写进了 #281，正准备发通知请审时，架构师老戴已经抢先在 GitHub #281 上写下了 3 条深度补审评论——必须立刻看他的裁决！",
-              "nextTarget": "响应架构师深度补审并修复 Relay 释放屏障"
-            },
-            "evidence": [
-              {
-                "title": "staging-c 三轮启停演练实测数据 (commit 317a817)",
-                "kind": "table",
-                "content": "演练轮次          | 在途长流式推理 | LB 503 空窗时长  | 原因定位\n------------------+----------------+------------------+-------------------------\n演练 A (回退部署) | 200 OK 零截断  | 20.9s            | 单副本 Recreate 先杀后建\n演练 B (前滚恢复) | 200 OK 零截断  | 20.9s            | 单副本 Recreate 先杀后建\n演练 C (再次验证) | 200 OK 零截断  | 46.3s            | 含 migrate Job 等待耗时"
-              }
-            ]
-          },
-          {
-            "id": 4,
-            "phase": "阶段三：评审交锋与规范对齐",
-            "title": "响应架构师补审，修复 Relay 释放屏障",
-            "summary": "修补 Relay 停机释放竞态并完成红绿反证测试（894315e），明确 #273 剩余两大阻塞",
-            "status": "completed",
-            "lookAt": {
-              "target": "PR #281 架构师老戴的三条审查评论与 Relay 停机释放屏障代码",
-              "anchors": [
-                "PR #281 Reviews",
-                "cmd/relay/",
-                "commit 894315e"
-              ]
-            },
-            "whyLookHere": "老戴对 #280 + #281 做了全面补审：好消息是主审 Commented 放行、计费事件至少一次投递前提成立；但指出了 1 个 Relay 停机释放竞态 Bug，并裁决「LB 503 空窗验收标准不降，必须改部署方式」。",
-            "whatWasDone": [
-              {
-                "label": "修复 Relay 释放屏障并做红绿反证 (894315e)",
-                "detail": "补上 Relay 执行器停机释放屏障，新增 3 个单测 + 真实 Metrics 释放/回滚用例。先临时关掉修复确认测试必败（能抓 Bug），再开启修复跑过带 PostgreSQL 的完整 check_service.sh 门禁。",
-                "type": "fix"
-              },
-              {
-                "label": "回应你的「全部解决了吗？」追问",
-                "detail": "清晰划分边界：代码层面能修的已 100% 修完推上 #281；但关掉 #273 还差「core-runtime-sdk 发正式版」与「改部署方式消除 LB 503 空窗」。",
-                "type": "discovery"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "评审提的代码问题都修完了，为什么你还跟我说「还没有全部解决」？",
-              "reality": "因为「PR #281 代码过审」和「Issue #273 彻底结案」不是一回事！架构师明确要求 LB 503 空窗不能靠降标准混过去，必须通过改部署方式（滚动更新 + ReadinessGate）解决。"
-            },
-            "leadsToNext": {
-              "hook": "你指示「现在要解决 LB 503 空窗这个问题」——但为什么 AI 没有直接去改 deploy-manifests 的 gateway.yaml，而是先去翻了架构规范仓？",
-              "nextTarget": "查透架构发布规范并拆解出 #282 / #283 / #1130 三个跟踪单"
-            },
-            "evidence": [
-              {
-                "title": "红绿反证与全量门禁验证记录",
-                "kind": "command",
-                "content": "1. 禁用修复开关 -> 新增 3 项 Relay 释放屏障单测 FAIL（确认测试有效）\n2. 启用修复开关 -> 单测 PASS + scripts/service/check_service.sh (含 PostgreSQL) EXIT 0\n3. 推送 commit 894315e 至 PR #281"
-              }
-            ]
-          },
-          {
-            "id": 5,
-            "phase": "阶段三：评审交锋与规范对齐",
-            "title": "查透架构规范，拆解三个独立跟踪单",
-            "summary": "发现改滚动更新前必先过 1→2→1 多实例验证，建立 #282 / #283 / deploy-manifests#1130 解耦包袱",
-            "status": "completed",
-            "lookAt": {
-              "target": "arch-rfcs 发布流程设计 §2/§17/§20、总控 Issue #312 与部署环境规范",
-              "anchors": [
-                "arch-rfcs#312",
-                "ai-gateway#282",
-                "ai-gateway#283",
-                "deploy-manifests#1130"
-              ]
-            },
-            "whyLookHere": "如果贸然去 deploy-manifests 把 Recreate 改成 RollingUpdate，会立刻踩爆两颗雷：1) 滚动更新时新旧两个 Gateway Pod 会同时在线，而 Gateway 多副本（Intent 租约/异步领取）从未实测过；2) base 配置一改会影响全部环境，而 staging-b/c overlay 禁止手改！",
-            "whatWasDone": [
-              {
-                "label": "查明架构文档规定的标准三步曲",
-                "detail": "对照 storage-service#171 和 worker-service#541 先例：每个组件必须先在 #312 下挂单完成「同版本 1→2→1 多实例演练」，再试 RollingUpdate + ReadinessGate。",
-                "type": "discovery"
-              },
-              {
-                "label": "在 #281 正式回复老戴并获认可",
-                "detail": "发出评论说明按架构规范分步收口，老戴回复完全认可该路径并给出 staging-b 排期要求。",
-                "type": "sync"
-              },
-              {
-                "label": "创建 #282 / #283 / deploy-manifests#1130 并双向挂账",
-                "detail": "新建 ai-gateway#282（多实例与无空窗替换）、#283（旧环境键删除）、deploy-manifests#1130（契约测试余量与 duration 解析），同步挂载到 #312 与 #273。",
-                "type": "action"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "我只是让你修个 LB 503 空窗，怎么一口气冒出 #282、#283、#1130 三个新 Issue？",
-              "reality": "这叫「拆弹解耦」！把需要跨日排期的多实例演练（#282）和清理杂项（#283/#1130）拆成独立跟踪单，当前的代码 PR #281 就不再被环境演练阻塞，可以独立获批合入！"
-            },
-            "leadsToNext": {
-              "hook": "三个 Issue 建好后你说「现在继续吧，引导我处理完整个流程」——为了次日能真正在集群里跑 #282 的 1→2→1 演练，必须立刻搞定排期、集群写权限和演练手册！",
-              "nextTarget": "敲定次日排期、自签集群写权限并提交演练手册 PR #284"
-            },
-            "evidence": [
-              {
-                "title": "新建的三个跟踪 Issue 清单",
-                "kind": "table",
-                "content": "ai-gateway#282       | Gateway 同版本多实例 (1->2->1) 与无空窗替换（挂入 arch-rfcs#312）\nai-gateway#283       | 旧环境键 GATEWAY_LEGACY_ENVIRONMENT 删除条件与步骤\ndeploy-manifests#1130| Gateway 宽限期契约测试：余量改 10s、超时按 Go duration 解析"
-              }
-            ]
-          },
-          {
-            "id": 6,
-            "phase": "阶段四：多实例演练筹备与概念破雾",
-            "title": "敲定次日排期、自签写权限与手册 #284",
-            "summary": "定下 staging-b 窗口并发群通知，用云平台 IAM 自签内网 kubeconfig，提交 HANDBOOK-0002 (#284)",
-            "status": "completed",
-            "lookAt": {
-              "target": "storage-service 多实例手册先例、云平台 IAM 临时 kubeconfig 与 PR #284",
-              "anchors": [
-                "~/.kube/acme-dev",
-                "ai-gateway#284 (HANDBOOK-0002)",
-                "协作群排期通知"
-              ]
-            },
-            "whyLookHere": "因为 deploy-manifests 的 staging-b overlay 不能手改，做 1→2→1 演练唯一合规的办法就是参照先例服务：先暂停 Argo 自动同步，再用 kubectl 临时改副本数与滚动策略，演练完恢复。这需要定窗口、拿写权限、写好操作手册。",
-            "whatWasDone": [
-              {
-                "label": "敲定次日 staging-b 演练窗口并同步团队",
-                "detail": "上午 10:00-12:00 做 1→2→1，下午 14:00-17:00 做 RollingUpdate + ReadinessGate；写入 #282 并在群内 @老戴 @小曹 发起排期协调。",
-                "type": "sync"
-              },
-              {
-                "label": "自主签发云平台内网 kubeconfig 搞定 Deployment 写权限",
-                "detail": "按 HANDBOOK-0001 用本机 IAM 身份签出临时 kubeconfig，改为内网端点；用 kubectl auth can-i 证实已具备 Deployment patch/scale 权限！仅缺暂停 Argo 权限。",
-                "type": "action"
-              },
-              {
-                "label": "编写并提交演练手册 PR #284 (HANDBOOK-0002)",
-                "detail": "完整涵盖前提检查、临时改部署形态、持续负载、只读 SQL 判据与回退顺序，提交 PR #284 请老戴评审。",
-                "type": "action"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "既然签出来的 kubeconfig 已经能改 Deployment 了，为什么明天还要等别人帮忙暂停 Argo？",
-              "reality": "因为 Argo Application 开着 selfHeal（自动自愈）！如果不暂停 Argo，你用 kubectl 把副本数改成 2，不到 5 秒钟 Argo 就会按 Git 仓库里的配置把它强行刷回 1 副本。"
-            },
-            "leadsToNext": {
-              "hook": "在核对次日把 staging-b 的镜像从小曹的 899b44f 换成我们的 894315e 会有什么影响时，AI 预警「换镜像会让 staging-b 的语音生成功能关闭」——这直接触发了你最困惑的灵魂三连问！",
-              "nextTarget": "破除「语音关闭」与「staging-b vs c」迷雾，落实 9 项手册修订"
-            },
-            "evidence": [
-              {
-                "title": "本机集群权限实测结果 (~/.kube/acme-dev)",
-                "kind": "command",
-                "content": "kubectl auth can-i patch deployments -n gateway-staging-b        -> yes\nkubectl auth can-i patch deployments/scale -n gateway-staging-b  -> yes\nkubectl auth can-i create poddisruptionbudgets -n gateway-staging-b -> yes\nkubectl auth can-i patch applications -n argocd                  -> no (需协助暂停)"
-              }
-            ]
-          },
-          {
-            "id": 7,
-            "phase": "阶段四：多实例演练筹备与概念破雾",
-            "title": "破除语音与环境迷雾，落实 9 项手册修订",
-            "summary": "讲透语音白名单与 staging-b Worker 排空意义，revert 折返提交，完成 #284 两轮共 9 项魔鬼细节修订",
-            "status": "completed",
-            "lookAt": {
-              "target": "Gateway 语音开关配置、deploy-manifests 语音预览白名单与 PR #284 修订提交",
-              "anchors": [
-                "cmd/gateway/config.go:86",
-                "deploy-manifests/environments/voice-preview/config.yaml",
-                "commits: 01694c0 / a650814 / 00a5b0d"
-              ]
-            },
-            "whyLookHere": "这是整场会话里你提问最密集、最容易绕晕的关口：1) 语音分支不是合进 main 了吗，为什么换镜像会关掉语音？2) 为什么不能在 staging-c 做完，staging-b 的意义到底是什么？3) 期间一度想改去 staging-c，确认团队同意 staging-b 后你立即叫停改回 staging-b。",
-            "whatWasDone": [
-              {
-                "label": "彻底查清「语音开关」与「staging-b 联合排空」底层机制",
-                "detail": "查明语音代码虽合入但默认 false，仅配置仓白名单登记的 5 个 SHA（含 899b44f）在 staging-b 会被脚本注入开启补丁；而 staging-b 的真正特殊意义是全集群只有它开启了上游 Runtime Worker 的排空策略！",
-                "type": "discovery"
-              },
-              {
-                "label": "干净 Revert 撤回 staging-c 折返修改 (01694c0)",
-                "detail": "响应你的「错错错，就是用 staging-b 不是 staging-c」，用 git revert 撤回 16ff206，恢复 staging-b 手册与 PR 标题，不强推不改写历史。",
-                "type": "fix"
-              },
-              {
-                "label": "两轮落实对 #284 手册的 6 + 3 = 9 项评审意见 (a650814 / 00a5b0d)",
-                "detail": "区分基线 A(899b44f)/B、只暂停 gateway-staging-b 并用 strategy 探针验证、严格 4 步恢复顺序、修正 Grant 并发上限为 3（原写 4 会被拒）、采集 Pod 对象流提取退出码、修复 bash/zsh 后台进程清理残留。",
-                "type": "fix"
-              },
-              {
-                "label": "话题内精准协同 & 小曹确认交接",
-                "detail": "按你要求改为在原排期消息的话题（Thread）内回复，修正定性为「基于网关与基础库启停能力的演练」；小曹已在 #282 确认交接时段并允许窗口内关闭语音。",
-                "type": "sync"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "中间又改 staging-c 又 revert 回 staging-b，还连修了 9 条手册意见，是不是走弯路了？",
-              "reality": "正是这番交锋把次日的演练雷区全排干净了！比如手册原本写「并发至少配 4」，AI 去查 staging-b 现役配置才发现上限是 3（配 4 现场必报错被拒），这些魔鬼细节都在演练前提前修好了。"
-            },
-            "leadsToNext": {
-              "hook": "就在 #284 修完推送的同时，架构师老戴对代码补审 PR #281 点下了正式 Approve！你拍板「合并」——直接进入收官闭环！",
-              "nextTarget": "合并 #281 入 main、排掉 CI 偶发失败并验收 staging 环境自动上线"
-            },
-            "evidence": [
-              {
-                "title": "为什么语音会关掉？两处源码铁证",
-                "kind": "code",
-                "content": "// 1. ai-gateway: cmd/gateway/config.go:86 (默认关闭)\nAudioGenerationEgress strictBool `env:\"GATEWAY_AUDIO_GENERATION_EGRESS,default=false\"`\n\n// 2. deploy-manifests: scripts/voice-preview.rb\n// 仅当镜像 SHA 命中 environments/voice-preview/config.yaml 的 5 个白名单(含 899b44f)时才生成开启补丁，否则生成空补丁！"
-              },
-              {
-                "title": "#284 第二轮修掉的 3 个关键演练雷点 (00a5b0d)",
-                "kind": "table",
-                "content": "1. 令牌预算与并发上限 | staging-b 的 GRANT_ADMIN_BINDINGS_JSON 限制并发上限为 3（原写 4 会被拒），改为每动作独立签发\n2. 容器退出码取证     | 持续保存 Pod 对象流，提取真实 exitCode/reason/finishedAt，拒绝靠日志猜结果\n3. 采集进程清理       | 去掉管道直接记录 kubectl PID，结束时 kill + 轮询确认退出，兼容 bash 与 zsh"
-              }
-            ]
-          },
-          {
-            "id": 8,
-            "phase": "阶段五：主干合入与自动上线闭环",
-            "title": "合并 #281 入 main，验收 staging 上线",
-            "summary": "合入 #281 (8897616)，重跑通过 main CI 镜像发布，确认 deploy-manifests#1137 写回且 staging Pod 健康运行",
-            "status": "completed",
-            "lookAt": {
-              "target": "main 合入提交 8897616、deploy-manifests#1137 自动写回与 gateway-staging 集群运行态",
-              "anchors": [
-                "commit 8897616",
-                "deploy-manifests#1137",
-                "namespace: gateway-staging",
-                "recommended_grace_period_min=5m38s"
-              ]
-            },
-            "whyLookHere": "你立过铁律「不允许失败 main 分支的 action」。而且 #281 合入 main 后会自动发镜像并更新到日常集成的 staging 环境——必须盯完「CI 构建 → 镜像发布 → Image Updater 写回 → staging 环境 Pod Ready」全链路才算真正落地！",
-            "whatWasDone": [
-              {
-                "label": "合入 PR #281 并守护 #273 状态 (8897616)",
-                "detail": "在确认老戴 Approve、CI 全绿、无冲突后合入 #281（commit 8897616），核实 Issue #273 未被自动关闭。",
-                "type": "action"
-              },
-              {
-                "label": "排掉 main CI 偶发失败并成功发布镜像",
-                "detail": "监控发现第 1 次 main CI 在 image-scope 失败未发镜像；立即触发第 2 次重跑，Static、三组 Tests、image-scope 与镜像发布全绿通过（ai-gateway:8897616，digest sha256:c13c505c…）。",
-                "type": "fix"
-              },
-              {
-                "label": "验收 staging 环境首次运行 SDK 生命周期版本",
-                "detail": "确认 deploy-manifests#1137 已将 staging 从 dda3e44 更新为 8897616；集群内 Gateway 与 Relay Pod 均为 Running/Ready、重启 0 次；日志打印 starting → running 且 recommended_grace_period_min=5m38s，经 LB 访问 /readyz 返回 200！",
-                "type": "discovery"
-              }
-            ],
-            "confusionBuster": {
-              "myth": "#281 已经合入 main 且 staging 环境都跑上新版本了，为什么次日还要去 staging-b 演练？",
-              "reality": "staging 环境上线证明「新生命周期代码日常跑完全正常」，但它的部署方式依然是单副本 Recreate。次日的 staging-b 演练（#282/#284）是为了验证「1→2→1 多副本与 RollingUpdate 消除 LB 503 空窗」，两边各司其职！"
-            },
-            "leadsToNext": {
-              "hook": "至此，2858 行对话里的所有代码、补审、合入、发版与次日演练准备全部清清楚楚落袋！点击下方按钮查看你的「灵魂破雾总表与次日接力棒」。",
-              "nextTarget": "查看灵魂破雾问答卡与次日接力清单"
-            },
-            "evidence": [
-              {
-                "title": "staging 环境自动上线最终核验结果",
-                "kind": "command",
-                "content": "Image:   ai-gateway:8897616 (sha256:c13c505c...)\nGitOps:  acme-cloud/deploy-manifests#1137 (staging overlay updated from dda3e44 -> 8897616)\nPods:    gateway & relay Running (Ready, Restarts: 0)\nLogs:    phase: starting -> running | recommended_grace_period_min=5m38s\nLB:      GET /readyz -> HTTP 200 OK"
-              }
-            ]
-          }
-        ],
-        "confusionMatrix": [
-          {
-            "question": "为什么语音生成分支明明已经合进 main 了，换成我们的镜像却会把 staging-b 的语音关掉？",
-            "shortAnswer": "「代码合入了」≠「环境开关打开了」。语音在代码里默认是 false，只有登记在配置仓白名单里的 5 个镜像 SHA 才会被脚本注入开启补丁。",
-            "deepExplanation": "1) 代码层：cmd/gateway/config.go:86 中 GATEWAY_AUDIO_GENERATION_EGRESS 默认为 false。2) 配置层：deploy-manifests 的 environments/voice-preview/config.yaml 只登记了 5 个 SHA（含小曹在用的 899b44f）。部署脚本发现我们的演练镜像不在名单内，就会生成空补丁，开关回到默认 false；演练结束切回 899b44f 即自动恢复。"
-          },
-          {
-            "question": "负载均衡和 K8s 控制器全环境共用，为什么不能在 staging-c 测完，staging-b 的特殊意义到底是什么？",
-            "shortAnswer": "测 Gateway 单组件自己用 staging-c 就够；但跨服务联合演练（Worker + Gateway 同时排空）只能在 staging-b 做，因为全集群只有 staging-b 启用了上游 Worker 的排空策略！",
-            "deepExplanation": "推理链路是「Runtime Worker → AI Gateway → 模型供应商」。其他环境的 Worker 仍是 Recreate（一重启就掐断正在等 Gateway 返回的任务）；只有 staging-b（通过 deploy-manifests#997/#1002）启用了 Worker 滚动更新 + 615s 停领排空候选。加上 #312 约定在 staging-b 统一排期，所以最终锁死在 staging-b 演练。"
-          },
-          {
-            "question": "为什么 PR #281 都已经正式 Approve 并合入 main 了，Issue #273 还是不能关？",
-            "shortAnswer": "因为 #281 解决的是「代码合规与单组件基础排空」，而 #273 结案还要求「消费 core-runtime-sdk 正式版」和「完成消除 LB 503 空窗等环境验收」。",
-            "deepExplanation": "目前 core-runtime-sdk 只有 go/v0.1.0-rc.2（且为 Draft Release），需要等他们发正式版后再切 go.mod；同时 LB 零空窗替换（1→2→1 与 RollingUpdate）及超时退出（V5）已拆到 #282，待次日 staging-b 演练交账后即可与 SDK 正式版一起将 #273 彻底关闭。"
-          }
-        ],
-        "endState": {
-          "completedItems": [
-            {
-              "item": "PR #281 合并后补审与三处代码/日志修复",
-              "ref": "ai-gateway#281 → main (8897616)",
-              "note": "架构师老戴正式 Approve，已合入 main"
-            },
-            {
-              "item": "Relay 停机释放屏障修复与红绿反证单测",
-              "ref": "commit 894315e",
-              "note": "含 PostgreSQL 全量门禁通过"
-            },
-            {
-              "item": "staging 环境自动构建发版与上线核验",
-              "ref": "deploy-manifests#1137 / ai-gateway:8897616",
-              "note": "Pod Running/Ready，5m38s 日志生效，/readyz 200"
-            },
-            {
-              "item": "后续问题拆解建单并双向挂账",
-              "ref": "ai-gateway#282 · #283 · deploy-manifests#1130",
-              "note": "已挂入 arch-rfcs#312 与 ai-gateway#273"
-            },
-            {
-              "item": "staging-b 多实例演练手册编写与两轮 9 项修订",
-              "ref": "ai-gateway#284 (head 00a5b0d)",
-              "note": "小曹已确认让出窗口，已请老戴复审"
-            },
-            {
-              "item": "本机云平台 IAM 内网 kubeconfig 签发与验权",
-              "ref": "~/.kube/acme-dev",
-              "note": "已具备 Deployment 扩缩容与修改权限（有效期约 3 天）"
-            }
-          ],
-          "pendingHandoffs": [
-            {
-              "task": "确认发送最后一条群话题同步消息（汇报 #281 已合入且 staging 环境已更新）",
-              "owner": "你",
-              "when": "草稿已预检 ok: true，随时可发"
-            },
-            {
-              "task": "复审通过演练手册 PR #284，并在 #282 登记 Argo 暂停操作者与恢复责任人",
-              "owner": "架构师老戴",
-              "when": "次日 10:00 演练窗口前"
-            },
-            {
-              "task": "按 HANDBOOK-0002 在 staging-b 执行上午 1→2→1 与下午 RollingUpdate + ReadinessGate 演练",
-              "owner": "你 + AI 执行",
-              "when": "次日 10:00–12:00 & 14:00–17:00"
-            },
-            {
-              "task": "演练结束后按 4 步恢复顺序交还小曹 899b44f 语音基线，回贴证据到 #282",
-              "owner": "你 + AI 执行",
-              "when": "次日演练结束（最晚 18:00 前）"
-            },
-            {
-              "task": "待 core-runtime-sdk 发布正式版后切换 go.mod 依赖并关闭 #273",
-              "owner": "基础库团队 → 你",
-              "when": "待正式版 Release 发布后"
-            }
-          ]
-        },
-        "glossary": [
-          {
-            "term": "Recreate",
-            "plain": "K8s 换版本的一种方式：先把旧的全部关掉，再启动新的。只有一个副本时，中间就会有一段「店门关着」的空窗。"
-          },
-          {
-            "term": "RollingUpdate",
-            "plain": "K8s 换版本的另一种方式：先开新的，等新的准备好再关旧的，像接力赛交棒，中间不断人。"
-          },
-          {
-            "term": "ReadinessGate",
-            "plain": "给 Pod 加的一道「真的准备好了吗」检查，负载均衡确认它能接客之后才把流量放进来。"
-          },
-          {
-            "term": "preStop",
-            "plain": "Pod 被关掉之前先执行的一小段动作，这里是先睡 10 秒，让负载均衡有时间把它从名单里摘掉。"
-          },
-          {
-            "term": "SIGTERM",
-            "plain": "系统发给程序的「请收拾一下准备下班」信号，程序收到后应该把手上的活干完再退出。"
-          },
-          {
-            "term": "selfHeal",
-            "plain": "Argo 的自动纠正：发现集群和 Git 里写的不一样，就自动改回去，像有人一直把你挪过的家具摆回原位。"
-          },
-          {
-            "term": "Argo",
-            "plain": "一个按 Git 仓库内容自动部署的工具：Git 里写什么，集群就长什么样。"
-          },
-          {
-            "term": "kubeconfig",
-            "plain": "连 K8s 集群用的「钥匙文件」，里面写着连哪个集群、用什么身份。"
-          },
-          {
-            "term": "workflow_dispatch",
-            "plain": "GitHub Actions 的「手动点一下运行」按钮，可以只跑检查不发版本。"
-          },
-          {
-            "term": "terminationGracePeriodSeconds",
-            "plain": "K8s 给 Pod 的最后期限：发出下班信号后最多等这么久，超时就强行关掉。"
-          },
-          {
-            "term": "503 空窗",
-            "plain": "一段时间里所有请求都拿到「服务暂时不可用」，用户就会看到报错。"
-          },
-          {
-            "term": "1→2→1",
-            "plain": "一种演练：先 1 个副本，扩到 2 个同时在线，再缩回 1 个，用来确认多个副本一起跑不会打架。"
-          }
+{
+  "meta": {
+    "title": "Order Service #140 库存预扣幂等改造与多实例演练",
+    "subtitle": "从零评审抢跑合入到 #146 正式放行、#147/#149 演练就绪的 8 步逆向因果走读",
+    "sessionName": "库存预扣演练会话",
+    "repo": "nova-shop/order-service",
+    "branch": "drill/issue-147-order-multi-instance",
+    "date": "2026-10-15",
+    "totalRawTurns": "2400 行原始记录 / 600+ AI 动作",
+    "distilledSteps": 8,
+    "status": "#146 已合入上线 · 待次日 canary 演练"
+  },
+  "background": {
+    "originGoal": "把 Order Service 的下单结算进程（Checkout）与异步事务消息投递器（OutboxDispatcher）迁移到 idempotency-kit 的统一幂等与生命周期组件（Issue #140），完成代码审查与环境启停验收。",
+    "whyConfusing": "1) 前序流程零评审直接合入了 #145 并关了 #140；2) qa-bench 实测暴露出单副本 Recreate 导致负载均衡器（LB）出现 15s-32s 的 502 空窗；3) 遵循平台规范 #105 不能直接硬改部署清单，必须先去 canary 做 1→2→1 多实例演练，进而牵出模块负责人阿杰的秒杀灰度白名单开关、Argo 自动还原权限以及架构师林工两轮 9 项手册修订。",
+    "readingGuide": "不用去翻那 2400 行终端日志。每次只看一步：先看哪里 → 为什么看 → 做了什么 → 哪里容易想岔 → 所以接下来去哪。按「下一步」或键盘 → 往下走，5 分钟就能把整件事串起来。遇到带虚线的词，点一下就有大白话解释。"
+  },
+  "actorsAndRepos": [
+    {
+      "name": "order-service",
+      "role": "核心业务仓",
+      "detail": "主单 #140、抢跑合入 #145、合并后补审修复 PR #146、多实例演练 Issue #147、旧键清理 #148、演练手册 PR #149"
+    },
+    {
+      "name": "k8s-gitops",
+      "role": "集群配置仓",
+      "detail": "PR #410（185s 宽限期与 preStop）、Issue #418（契约测试修正）、#422（dev-shared 自动写回）、canary 秒杀白名单"
+    },
+    {
+      "name": "platform-rfcs",
+      "role": "平台规范仓",
+      "detail": "总控 Issue #105（要求先过 1→2→1 多实例并在 canary 排期）、#108（仅授权 canary 开启秒杀预售灰度）"
+    },
+    {
+      "name": "dev-shared / qa-bench / canary",
+      "role": "三套验证环境",
+      "detail": "dev-shared 跟随 main 日常联调；qa-bench 单组件独立压测；canary 唯一开启上游工作流排空 + 秒杀白名单的联合演练环境"
+    }
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "phase": "阶段一：补救与立规矩",
+      "title": "拦截抢跑合入，建 #146 补审锚点",
+      "summary": "重开被误关的 #140，验证 main 代码未坏，建立 PR #146 承接 PR1+PR2 联合补审",
+      "status": "completed",
+      "lookAt": {
+        "target": "order-service#145 合入记录、k8s-gitops#410 与被关闭的 Issue #140",
+        "anchors": [
+          "order-service#145 (a104f2c)",
+          "k8s-gitops#410 (b208e1d)",
+          "Issue #140",
+          "PR #146"
         ]
+      },
+      "whyLookHere": "因为前一个自动化流程在没有任何人类评审员 Approve 的情况下，自己把 #145 和 k8s-gitops#410 合进了 main，还顺手把 #140 关掉了！更糟的是 main 上的 CI 因缓存拉取 429 限流红了。如果不立刻建立一个活的补审载体，这批核心库存预扣改动就处于违规裸奔状态。",
+      "whatWasDone": [
+        {
+          "label": "重开 Issue #140 并验证 main",
+          "detail": "重新打开 #140；用 workflow_dispatch 触发仅验证不发版的 main CI（run 29401820 全绿），确认不是代码坏了而是拉取缓存 429 限流。",
+          "type": "action"
+        },
+        {
+          "label": "创建合并后补审 PR #146",
+          "detail": "切出 review/issue-140-post-merge 分支开启 PR #146，明确作为「PR1 #145 + PR2 #146」的统一审核锚点。",
+          "type": "sync"
+        },
+        {
+          "label": "初审揪出 3 处遗留瑕疵",
+          "detail": "通读 checkout/server.go、OutboxDispatcher 停领与优惠券加载，发现规则报错缺路径日志、停机宽限期魔数少算 5s、压测手册 Snowflake 脚本位运算错误。",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "#145 都已经合进 main 了，为什么还要多此一举再开一个 PR #146？",
+        "reality": "已合并的 PR 无法再挂补丁或做拦截门禁。开 #146 既能把初审发现的补丁和压测报告装进去，又能给架构师（林工）提供一个可以正式点 Approve 的活靶子。"
+      },
+      "leadsToNext": {
+        "hook": "你在看请审草稿时拍板：「把发现的代码小问题和 qa-bench 启停压测现在一起在 #146 里做完，不要交给下一个分支」——所以必须先动手把那 3 处代码和文档瑕疵修干净。",
+        "nextTarget": "修平三处代码/手册瑕疵并校准 3m00s 停机预算"
+      },
+      "evidence": [
+        {
+          "title": "你的关键指令（决定在 #146 一并闭环）",
+          "kind": "quote",
+          "content": "用户拍板：在当前 PR #146 内直接一并修复初审发现的代码与文档小问题，并完成 qa-bench 启停演练证据采集。"
+        },
+        {
+          "title": "抢跑合入与补审基线核查",
+          "kind": "command",
+          "content": "order-service#145 -> merged into main (a104f2c, zero review)\nk8s-gitops#410    -> merged into main (b208e1d, grace=185s, preStop=sleep 10s)\nmain CI           -> failed due to 429 rate limit on cache download"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "phase": "阶段一：补救与立规矩",
+      "title": "修平 3 处瑕疵，校准 3m00s 预算",
+      "summary": "补齐优惠券加载失败日志，把停机推荐宽限期从 2m55s 校准为 3m00s，修复手册 Snowflake 脚本",
+      "status": "completed",
+      "lookAt": {
+        "target": "优惠券规则加载日志、Checkout 停机预算计算与 RUNBOOK-0001",
+        "anchors": [
+          "internal/coupon/loader.go (c301a8b)",
+          "cmd/checkout/server.go (d402b9c)",
+          "RUNBOOK-0001 (e503c1d)"
+        ]
+      },
+      "whyLookHere": "在把镜像推上 qa-bench 跑真刀真枪的停机压测之前，必须先把已知的日志缺失和停机预算偏差修好，否则压测测出来的日志本身就是错的。",
+      "whatWasDone": [
+        {
+          "label": "补齐优惠券规则失败日志 (c301a8b)",
+          "detail": "loadCouponRule 失败时补打规则文件路径，删掉重复的 rule.Quota 赋值，新增单测 TestCouponLoaderFailureLogsPath。",
+          "type": "fix"
+        },
+        {
+          "label": "校准停机预算公式 (d402b9c)",
+          "detail": "原代码用未说明的 15s 魔数导致安全余量只有 5s（低于 RFC-0018 §6 要求的 10s）。拆为 checkoutRouteWait=10s + checkoutGraceMargin=10s，总推荐宽限期变为 3m00s (180s)。",
+          "type": "fix"
+        },
+        {
+          "label": "修复手册 Snowflake 位运算 (e503c1d)",
+          "detail": "修正 RUNBOOK-0001 中 Python 生成压测订单号的时间戳位移拼接错误。",
+          "type": "fix"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "把日志里的 2m55s 改成 3m00s 只是改个展示数字，没什么实际影响。",
+        "reality": "K8s 给 Pod 的强杀线是 185s（3m05s）。Checkout 停机要走「10s 摘流 + 160s 在途锁库存排空 + 10s 安全余量 = 180s（3m00s）」，刚好在 K8s 强杀前 5 秒安全退出！"
+      },
+      "leadsToNext": {
+        "hook": "代码和停机预算公式都严丝合缝了，但纸上谈兵不算数——#140 要求必须拿到真实集群里的启停、排空与回退证据，所以下一步直接去连 qa-bench 集群。",
+        "nextTarget": "攻克 qa-bench 凭据并完成三轮真实启停演练"
+      },
+      "evidence": [
+        {
+          "title": "停机预算常量拆分代码 (d402b9c)",
+          "kind": "code",
+          "content": "const (\n    checkoutRouteWait   = 10 * time.Second // 对应 preStop sleep 10s 等待摘流\n    checkoutGraceMargin = 10 * time.Second // RFC-0018 §6 要求的 10s 余量\n)\n// 10s (RouteWait) + 160s (ShutdownTimeout) + 10s (Margin) = 180s (3m00s) <= 185s (K8s Grace)"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "phase": "阶段二：qa-bench 实测与暴露真问题",
+      "title": "跑通 qa-bench 压测，揪出 LB 空窗",
+      "summary": "折叠命令/凭据小插曲，证实进程内在途事务排空零中断，但暴露单副本 Recreate 导致 15s+ 502 空窗",
+      "status": "decision",
+      "lookAt": {
+        "target": "qa-bench 命名空间（order-qa-bench）与三轮启停演练脚本",
+        "anchors": [
+          "order-qa-bench",
+          "drill-00-baseline.sh",
+          "PR #146 §7 演练报告"
+        ]
+      },
+      "whyLookHere": "上一轮只测了 /healthz 健康检查，根本没验证核心问题：当一笔下单请求正在锁库存写账本时，如果 Pod 收到停机信号重启，这笔订单会不会被硬生生掐断？",
+      "whatWasDone": [
+        {
+          "label": "折叠排障插曲，连上 qa-bench",
+          "detail": "快速修复了脚本粘贴截断与测试集群 kubeconfig 权限问题，打通 order-qa-bench 集群操作。",
+          "type": "action"
+        },
+        {
+          "label": "跑通 A/B/C 三轮启停与逆序回滚演练",
+          "detail": "在部署替换瞬间打入持续下单流量，证实旧 Pod 收到 SIGTERM 后先等 10s 摘流、拒绝新请求，同时把在途下单事务 100% 跑完返回 200 后才退出；OutboxDispatcher 停领与本地失败逆序回滚全部通过！",
+          "type": "discovery"
+        },
+        {
+          "label": "揪出单副本 Recreate 的 502 空窗",
+          "detail": "虽然旧 Pod 里的在途请求没断，但因为 Deployment 策略是单副本 Recreate（先杀旧 Pod 再起新 Pod），替换期间 LB 后端无健康 Pod，三轮分别出现 15.4s / 16.1s / 32.8s 的 HTTP 502 空窗！",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "测出了 15s～32s 的 502 报错，是不是说明我们写的优雅停机代码没起作用？",
+        "reality": "进程内优雅停机 100% 成功了（已经进店的老顾客全都结完账才走）！502 是因为「店只有一家，且装修策略是先拆旧店再盖新店（单副本 Recreate）」，新顾客在盖新店那 20 秒里吃闭门羹。这必须靠改 K8s 部署策略解决。"
+      },
+      "leadsToNext": {
+        "hook": "把三轮实测数据和「Recreate 导致 LB 502 空窗」诚实写进 #146 后，架构师林工在 GitHub #146 上留下了 3 条深度补审评论——下一步立刻看林工怎么判！",
+        "nextTarget": "响应林工补审：修复 Outbox 释放屏障并明确 502 空窗裁决"
+      },
+      "evidence": [
+        {
+          "title": "qa-bench 三轮演练实测数据汇总",
+          "kind": "table",
+          "content": "轮次       | 在途下单事务       | LB 502 空窗 | 根因诊断\n-----------+--------------------+-------------+----------------------------\n演练 A 回退 | HTTP 200 (0 截断)  | 15.4s       | 单副本 Recreate 先杀后建\n演练 B 前滚 | HTTP 200 (0 截断)  | 16.1s       | 单副本 Recreate 先杀后建\n演练 C 复测 | HTTP 200 (0 截断)  | 32.8s       | 叠加数据库迁移检查等待耗时"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "phase": "阶段三：补审修复与规范对齐",
+      "title": "响应林工补审，修 Outbox 释放屏障",
+      "summary": "用红绿反证法修平 OutboxDispatcher 停机释放竞态（f604d2e），明确 #140 结案还差 SDK 正式版与消除 LB 空窗",
+      "status": "completed",
+      "lookAt": {
+        "target": "PR #146 上的 3 条架构师审查意见与 internal/outbox/ 释放顺序代码",
+        "anchors": [
+          "PR #146 Reviews",
+          "internal/outbox/dispatcher.go",
+          "commit f604d2e"
+        ]
+      },
+      "whyLookHere": "林工审完 #145+#146 后给出了「Commented 主审放行、确认事务消息至少一次投递前提成立」的结论，但精准点出了 1 个 OutboxDispatcher 停机释放竞态，并拍板「LB 502 空窗验收标准不降」。",
+      "whatWasDone": [
+        {
+          "label": "修复 Outbox 停机释放屏障 (f604d2e)",
+          "detail": "补上等待屏障，确保后台投递任务完全停稳前绝不提前关闭底层数据库连接池；新增 3 项执行器单测与真实连接池释放/回滚测试。",
+          "type": "fix"
+        },
+        {
+          "label": "红绿反证法验真",
+          "detail": "先故意关掉修复开关跑测试确认必红（能抓出竞态），再打开修复跑通全套带 PostgreSQL 的集成门禁，推送 f604d2e 到 #146。",
+          "type": "action"
+        },
+        {
+          "label": "划清「代码完结」与「#140 结案」边界",
+          "detail": "回答你的追问：代码层面问题已 100% 清零；但关闭 #140 还差「idempotency-kit 发正式版」和「改部署方式消除 LB 502 空窗」。",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "既然林工提的 Outbox 代码问题已经修完推上去了，为什么 #140 还是不能直接关掉？",
+        "reality": "工程纪律里「代码写对（#146）」和「线上/环境彻底达到零停机退出标准（#140）」是两件事。林工明确要求 LB 502 空窗不降标，必须靠部署改造解决。"
+      },
+      "leadsToNext": {
+        "hook": "你下令立刻着手解决 LB 502 空窗——但为什么不能直接去 k8s-gitops 把 Recreate 改成 RollingUpdate？这逼着我们下一步先去查平台发布规范。",
+        "nextTarget": "查透平台发布规范并拆出 #147 / #148 / #418 三个跟踪单"
+      },
+      "evidence": [
+        {
+          "title": "红绿反证法验证记录 (f604d2e)",
+          "kind": "command",
+          "content": "1. 注释屏障修复 -> go test ./internal/outbox/... -> FAIL (成功捕获提前释放竞态)\n2. 恢复屏障修复 -> go test ./internal/outbox/... -> PASS\n3. 全量门禁     -> ./scripts/check_all.sh (with Postgres) -> EXIT 0"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "phase": "阶段三：补审修复与规范对齐",
+      "title": "查透发布规范，拆出 3 个跟踪单",
+      "summary": "查明改 RollingUpdate 前必须先过 1→2→1 多实例演练，新建 #147/#148/#418 将演练与代码 PR 解耦",
+      "status": "decision",
+      "lookAt": {
+        "target": "platform-rfcs《零停机发布规范》与总控 Issue #105",
+        "anchors": [
+          "platform-rfcs#105",
+          "order-service#147",
+          "order-service#148",
+          "k8s-gitops#418"
+        ]
+      },
+      "whyLookHere": "如果贸然在 k8s-gitops 把 Recreate 改成 RollingUpdate，第一：新旧两个 Pod 会同时在线抢消费，而订单服务从未验证过多实例并发；第二：改 base 会污染所有环境，而 canary/qa-bench 的 overlay 是禁止手改的！",
+      "whatWasDone": [
+        {
+          "label": "查明兄弟组件标准先例",
+          "detail": "对标 payment-service#88 和 inventory-worker#210：必须先在 platform-rfcs#105 下完成「同版本 1→2→1 多实例演练」，通过后才能改 RollingUpdate + ReadinessGate。",
+          "type": "discovery"
+        },
+        {
+          "label": "在 #146 回复林工并获认可",
+          "detail": "提交完整整改汇报与分步收口路径，林工回复认可并在群内给出 canary 联合演练排期要求。",
+          "type": "sync"
+        },
+        {
+          "label": "拆解并创建 3 个后续跟踪 Issue",
+          "detail": "新建 order-service#147（1→2→1 多实例与无空窗替换）、order-service#148（旧环境键清理）、k8s-gitops#418（宽限期契约测试修正），全部挂入 #105 与 #140。",
+          "type": "action"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "我只是想消掉 502 空窗，怎么突然冒出 #147、#148、#418 三个新 Issue，还扯上了 #105？",
+        "reality": "这是把一团乱麻解耦的关键一步！把需要跨天排期的环境演练装进 #147、删旧键装进 #148、修配置仓测试装进 #418，代码 PR #146 就彻底卸下包袱，可以独立 Approve 合入了！"
+      },
+      "leadsToNext": {
+        "hook": "你在 #147 建好后说「现在继续吧，引导我处理完整个流程」——要在环境里真正跑 #147 的多实例演练，下一步就得搞定窗口排期、K8s 写权限和标准演练手册（PR #149）。",
+        "nextTarget": "敲定次日排期、自签集群写权限并提交演练手册 PR #149"
+      },
+      "evidence": [
+        {
+          "title": "拆分出的三个跟踪单职责对照",
+          "kind": "table",
+          "content": "Issue 编号          | 承接职责                                         | 关联主线\n--------------------+--------------------------------------------------+------------------------\norder-service#147   | Checkout 同版本多实例(1→2→1)与无空窗替换演练     | platform-rfcs#105, #140\norder-service#148   | ORDER_LEGACY_REDIS_DSN 旧环境键清理步骤          | order-service#140\nk8s-gitops#418      | 宽限期契约测试余量(5s→10s)与 duration 解析       | order-service#146"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "phase": "阶段四：次日演练筹备与环境破雾",
+      "title": "敲定排期、自签写权限、提手册 #149",
+      "summary": "排定次日 canary 窗口，用本机 IAM 身份签出 Deployment 写权限，提交 RUNBOOK-0002 演练手册 PR #149",
+      "status": "completed",
+      "lookAt": {
+        "target": "先例演练手册、本机云平台 IAM 身份与新建的 PR #149",
+        "anchors": [
+          "order-service#149 (RUNBOOK-0002)",
+          "kubectl auth can-i"
+        ]
+      },
+      "whyLookHere": "因为 GitOps 的 canary overlay 不能手改，做 1→2→1 扩缩容唯一合规的做法是「先暂停 Argo 自动同步，再用 kubectl 临时改集群 Deployment，演练完恢复」。这必须提前备好时间窗口、K8s 写权限和操作手册。",
+      "whatWasDone": [
+        {
+          "label": "锁定次日演练窗口并群内排期",
+          "detail": "定于次日在 canary 执行（上午 10:00-12:00 做 1→2→1，下午 14:00-17:00 做 RollingUpdate + ReadinessGate），更新 #147 并通知 @林工 @阿杰。",
+          "type": "sync"
+        },
+        {
+          "label": "自力更生签发 K8s 写权限",
+          "detail": "不用等别人发凭据，直接按 RUNBOOK-0001 用本机 IAM 身份签出临时 kubeconfig，实测已拥有 order-canary Deployment 的 patch 与 scale 权限！",
+          "type": "action"
+        },
+        {
+          "label": "编写并提交演练手册 PR #149",
+          "detail": "新增 RUNBOOK-0002，涵盖前置检查、临时扩缩容、持续负载注入、只读 SQL 判据与回退顺序，请林工评审。",
+          "type": "action"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "既然用 kubectl auth can-i 测出来我已经能改 Deployment 和扩缩容了，为什么明天还要林工配合暂停 Argo？",
+        "reality": "因为 Argo Application 开着 selfHeal（自动自愈）！如果不先暂停 Argo，你刚用 kubectl 把副本改成 2，不到 5 秒 Argo 就会按 Git 里的 1 副本强行刷回去。"
+      },
+      "leadsToNext": {
+        "hook": "在核对明天把 canary 的镜像从阿杰的 7c8d9e0 换成我们的演练镜像会有什么影响时，AI 发现换镜像会导致「秒杀灰度功能被关闭」——这直接引出了你最困惑的灵魂三连问！",
+        "nextTarget": "破除「秒杀关闭」与「canary vs qa-bench」迷雾并完成 9 项手册修订"
+      },
+      "evidence": [
+        {
+          "title": "集群权限实测结果",
+          "kind": "command",
+          "content": "$ kubectl auth can-i patch deployments/order-checkout -n order-canary\nyes\n$ kubectl auth can-i patch deployments/order-checkout --subresource=scale -n order-canary\nyes\n# 仅 argocd app patch (暂停 selfHeal) 需要林工或运维责任人执行"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "phase": "阶段四：次日演练筹备与环境破雾",
+      "title": "破除秒杀与环境迷雾，修完 9 项手册",
+      "summary": "讲透「代码默认 false + 部署白名单」机制，revert 撤回 qa-bench 折返，两轮落实林工 9 项严苛评审要求",
+      "status": "decision",
+      "lookAt": {
+        "target": "Checkout 秒杀开关代码、k8s-gitops 秒杀白名单与 PR #149 的两轮修订",
+        "anchors": [
+          "cmd/checkout/config.go:64",
+          "environments/canary-flash/whitelist.yaml",
+          "commits 5d6e7f8 / b701a2c / e702c9b"
+        ]
+      },
+      "whyLookHere": "这里集中了整场对话最大的三个迷雾：1) 秒杀分支明明合并了，为什么换镜像会关掉秒杀？2) 为什么非要在 canary 做，不能在 qa-bench 一锅端？3) 中途一度想改去 qa-bench（1a2b3c4），确认团队排期后你紧急叫停「错错错，就是用 canary」！",
+      "whatWasDone": [
+        {
+          "label": "彻查秒杀开关与 canary 不可替代性",
+          "detail": "查明代码里 CHECKOUT_FLASH_SALE_ENABLED 默认是 false，只有 k8s-gitops 白名单里的 SHA（含阿杰的 7c8d9e0）才会被注入开启补丁；而全集群只有 canary 开启了上游购物车工作流排空策略，跨服务联合演练非它不可！",
+          "type": "discovery"
+        },
+        {
+          "label": "用 git revert 干净撤回 qa-bench 折返 (5d6e7f8)",
+          "detail": "立即响应你的叫停，用 git revert 撤回改向 qa-bench 的 1a2b3c4，恢复 canary 手册且不污染分支历史。",
+          "type": "fix"
+        },
+        {
+          "label": "两轮落实林工对 #149 的 6+3=9 项手册修订",
+          "detail": "第一轮(b701a2c)：区分秒杀基线 A 与演练基线 B、收窄权限、锁死 4 步恢复顺序；第二轮(e702c9b)：查明 canary 临时凭据并发上限为 3（修正原写的 4）、增加 Pod 事件流采集退出码、去掉管道改用后台 PID 轮询防残留。",
+          "type": "fix"
+        },
+        {
+          "label": "群话题内协同与阿杰确认",
+          "detail": "在原排期消息话题内回复，阿杰在 #147 正式确认让出窗口并允许演练期间临时关闭秒杀灰度。",
+          "type": "sync"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "林工对 #149 手册提了足足两轮 9 条意见，是不是我们的演练方案写砸了？",
+        "reality": "恰恰相反！评审人把 #149 当成准生产破坏性操作手册在打磨，连「canary 临时凭据并发上限是 3 而不是 4」「shell 下 wait 管道残留」都在演练前提前排雷了。"
+      },
+      "leadsToNext": {
+        "hook": "就在 #149 手册修完的同时，林工对补审 PR #146 点下了正式的 Approve！你拍板「合并」——直接进入收官步：合入 main 并盯着 dev-shared 环境自动上线。",
+        "nextTarget": "合并 #146 入 main、排掉构建限流并验收 dev-shared 环境上线"
+      },
+      "evidence": [
+        {
+          "title": "为什么换镜像会关秒杀？（代码 + GitOps 白名单双证据）",
+          "kind": "code",
+          "content": "// 1. order-service: cmd/checkout/config.go:64 (代码默认关闭)\nFlashSaleEnabled bool `env:\"CHECKOUT_FLASH_SALE_ENABLED,default=false\"`\n\n// 2. k8s-gitops: environments/canary-flash/whitelist.yaml\n// 仅当镜像 SHA 命中白名单列表(含 7c8d9e0)时才渲染开启补丁，否则输出空补丁"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "phase": "阶段五：主干合入与日常环境上线",
+      "title": "合并 #146 入 main，验收联调上线",
+      "summary": "合入 #146 (f809d4a)，重跑解决 main CI 偶发网络抖动，确认 k8s-gitops#422 自动将 dev-shared 更新上线且健康",
+      "status": "completed",
+      "lookAt": {
+        "target": "main 合入提交 f809d4a、k8s-gitops#422 自动写回与 order-dev-shared 运行态",
+        "anchors": [
+          "commit f809d4a",
+          "k8s-gitops#422",
+          "namespace: order-dev-shared"
+        ]
+      },
+      "whyLookHere": "你立过铁律「不允许失败 main 分支的 action」。而且 #146 合入后会触发自动编译镜像与 dev-shared 环境自动部署，必须亲眼盯着它从 CI 到集群 Pod 全部跑通变绿！",
+      "whatWasDone": [
+        {
+          "label": "正式合入 PR #146 (commit f809d4a)",
+          "detail": "确认审批、门禁与冲突全绿后合入 main，并核实主 Issue #140 保持 Open。",
+          "type": "action"
+        },
+        {
+          "label": "重跑恢复 main 分支 CI 偶发抖动",
+          "detail": "首次 main CI 因镜像推送网络抖动失败；立即触发重跑，全套单测、集成测试与镜像发布全绿通过（产出 order-service:f809d4a）。",
+          "type": "fix"
+        },
+        {
+          "label": "验收 dev-shared 环境自动上线成功",
+          "detail": "核实 k8s-gitops#422 已将 dev-shared 更新至 f809d4a；Checkout 与 OutboxDispatcher Pod 均为 Running/Ready（重启 0），日志准确打印 recommended_grace_period_min=3m00s，外部 LB /readyz 返回 200！",
+          "type": "discovery"
+        }
+      ],
+      "confusionBuster": {
+        "myth": "#146 合入后 dev-shared 环境都已经自动上线跑通了，为什么明天还要去 canary 做演练？",
+        "reality": "dev-shared 环境上线证明「新生命周期代码日常跑完全正常」，但它的部署方式依然是单副本 Recreate。次日的 canary 演练（#147/#149）是为了验证「1→2→1 多副本与 RollingUpdate 消除 LB 502 空窗」，两边各司其职！"
+      },
+      "leadsToNext": {
+        "hook": "至此，所有代码修复、补审合入、日常发版、Issue 解耦与次日演练手册已 100% 闭环！接下来只需按下方交接清单跟进次日演练。",
+        "nextTarget": "终局账单与接力指南"
+      },
+      "evidence": [
+        {
+          "title": "dev-shared 环境上线最终核验结果",
+          "kind": "command",
+          "content": "Image:   order-service:f809d4a\nGitOps:  nova-shop/k8s-gitops#422 (dev-shared overlay updated from 9b8a7c6 -> f809d4a)\nPods:    checkout & outbox-dispatcher Running (Ready, Restarts: 0)\nLogs:    phase: starting -> running | recommended_grace_period_min=3m00s\nLB:      GET /readyz -> HTTP 200 OK"
+        }
+      ]
+    }
+  ],
+  "confusionMatrix": [
+    {
+      "question": "为什么秒杀分支明明已经合进 main 了，换成我们的镜像却会把 canary 的秒杀关掉？",
+      "shortAnswer": "「代码合入了」≠「环境开关打开了」。秒杀在代码里默认是 false，只有登记在配置仓白名单里的镜像 SHA 才会被脚本注入开启补丁。",
+      "deepExplanation": "1) 代码层：cmd/checkout/config.go:64 中 CHECKOUT_FLASH_SALE_ENABLED 默认为 false。2) 配置层：k8s-gitops 的 environments/canary-flash/whitelist.yaml 只登记了指定 SHA（含阿杰在用的 7c8d9e0）。部署脚本发现我们的演练镜像不在名单内，就会生成空补丁，开关回到默认 false；演练结束切回 7c8d9e0 即自动恢复。"
+    },
+    {
+      "question": "负载均衡和 K8s 控制器全环境共用，为什么不能在 qa-bench 测完，canary 的特殊意义到底是什么？",
+      "shortAnswer": "测订单服务单组件自己用 qa-bench 就够；但跨服务联合演练（上游工作流 + 订单服务同时排空）只能在 canary 做，因为全集群只有 canary 启用了上游工作流的排空策略！",
+      "deepExplanation": "下单链路是「Cart Workflow → Order Service → 库存/支付」。其他环境的上游工作流仍是 Recreate（一重启就掐断正在等订单服务返回的任务）；只有 canary 启用了上游工作流滚动更新 + 排空退避。加上 #105 约定在 canary 统一排期，所以最终锁死在 canary 演练。"
+    },
+    {
+      "question": "为什么 PR #146 都已经正式 Approve 并合入 main 了，Issue #140 还是不能关？",
+      "shortAnswer": "因为 #146 解决的是「代码合规与单组件基础排空」，而 #140 结案还要求「消费 idempotency-kit 正式版」和「完成消除 LB 502 空窗等环境验收」。",
+      "deepExplanation": "目前 idempotency-kit 只有 v0.2.0-rc.1（预发布版），需要等他们发正式版后再切 go.mod；同时 LB 零空窗替换（1→2→1 与 RollingUpdate）及超时退出验证已拆到 #147，待次日 canary 演练交账后即可与 SDK 正式版一起将 #140 彻底关闭。"
+    }
+  ],
+  "endState": {
+    "completedItems": [
+      {
+        "item": "PR #146 合并后补审与三处代码/日志修复",
+        "ref": "order-service#146 → main (f809d4a)",
+        "note": "架构师林工正式 Approve，已合入 main"
+      },
+      {
+        "item": "OutboxDispatcher 停机释放屏障修复与红绿反证单测",
+        "ref": "commit f604d2e",
+        "note": "3 项屏障单测 + PostgreSQL 集成门禁全绿"
+      },
+      {
+        "item": "dev-shared 环境自动发版与 3m00s 宽限期线上核验",
+        "ref": "k8s-gitops#422 / order-service:f809d4a",
+        "note": "Checkout & OutboxDispatcher Running/Ready，/readyz 200"
+      },
+      {
+        "item": "遗留问题解耦拆单（多实例演练 / 旧键清理 / 契约测试）",
+        "ref": "order-service#147 · #148 · k8s-gitops#418",
+        "note": "已挂入 platform-rfcs#105 与 order-service#140"
+      },
+      {
+        "item": "canary 多实例演练手册编写与两轮 9 项修订",
+        "ref": "order-service#149 (head e702c9b)",
+        "note": "阿杰已确认让出窗口，已请林工复审"
       }
+    ],
+    "pendingHandoffs": [
+      {
+        "task": "确认发送最后一条群话题同步消息（汇报 #146 已合入且 dev-shared 环境已更新）",
+        "owner": "你（最后点确认）",
+        "when": "随时可发（草稿已就绪）"
+      },
+      {
+        "task": "复审通过演练手册 PR #149，并在 #147 登记 Argo 暂停操作者与恢复责任人",
+        "owner": "架构师林工",
+        "when": "次日 10:00 演练窗口前"
+      },
+      {
+        "task": "按 RUNBOOK-0002 在 canary 执行上午 1→2→1 与下午 RollingUpdate + ReadinessGate 演练",
+        "owner": "你 + AI 执行",
+        "when": "次日 10:00–12:00 & 14:00–17:00"
+      },
+      {
+        "task": "演练结束后按 4 步恢复顺序交还阿杰 7c8d9e0 秒杀基线，回贴证据到 #147",
+        "owner": "你 + AI 执行",
+        "when": "次日演练完毕当日（18:00 前）"
+      },
+      {
+        "task": "待 idempotency-kit 发布正式版后切换 go.mod 依赖并关闭 #140",
+        "owner": "基础库团队 → 你",
+        "when": "待正式版 Release 发布后"
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Recreate",
+      "plain": "K8s 换版本的一种方式：先把旧的全关掉，再开新的。只有一个副本时，中间会有一段「店门关着」的空窗。"
+    },
+    {
+      "term": "RollingUpdate",
+      "plain": "滚动更新：先把新店开起来接客，再关旧店，顾客不会吃闭门羹。"
+    },
+    {
+      "term": "ReadinessGate",
+      "plain": "新实例必须拿到「我真的准备好接单了」的通行证，外面的负载均衡才会把流量切过去。"
+    },
+    {
+      "term": "preStop",
+      "plain": "实例临死前先等几秒（这里是 10 秒），让负载均衡来得及把它从名单里摘掉，别再往里塞新请求。"
+    },
+    {
+      "term": "selfHeal",
+      "plain": "Argo 的自动纠正：发现集群里被人手动改过、和 Git 里写的不一样，几秒内就自动改回去。"
+    },
+    {
+      "term": "overlay",
+      "plain": "每个环境（dev-shared、canary、qa-bench）贴在通用配置上面的那一层专属小补丁。"
+    },
+    {
+      "term": "OutboxDispatcher",
+      "plain": "订单服务里的后台投递员：Checkout 负责在前台接单锁库存，OutboxDispatcher 负责在后台把订单事件异步发出去。"
+    },
+    {
+      "term": "1→2→1",
+      "plain": "同一个版本先从 1 个实例扩到 2 个，跑稳了再缩回 1 个，用来验证「两个实例同时跑会不会打架」。"
+    }
+  ]
+}
     </script>
 
     <script>

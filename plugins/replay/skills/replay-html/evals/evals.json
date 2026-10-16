@@ -10,8 +10,8 @@
     },
     {
       "id": 2,
-      "prompt": "把开发机上的「实际测试演练对话」做成交互式步进 HTML 网页，特别是把里面为什么语音功能会关闭、为什么非要在 staging-b 做演练做成破雾卡片。",
-      "expected_output": "触发 replay-html：提取指定会话主线，浓缩为 8 个首尾咬合的步骤，在 Step 7 与终点页「你可能还会问」中用大白话讲清语音白名单与 staging-b Worker 联合排空，术语进入小词典，产出可双击离线运行的单文件 HTML。",
+      "prompt": "把开发机上的「库存预扣演练会话」做成交互式步进 HTML 网页，特别是把里面为什么秒杀功能会关闭、为什么非要在 canary 环境做演练做成破雾卡片。",
+      "expected_output": "触发 replay-html：提取指定会话主线，浓缩为 8 个首尾咬合的步骤，在 Step 7 与终点页「你可能还会问」中用大白话讲清秒杀白名单与 canary 联合排空，术语进入小词典，产出可双击离线运行的单文件 HTML。",
       "files": []
     },
     {
@@ -34,7 +34,7 @@
     },
     {
       "id": 6,
-      "prompt": "帮我画一张 AI 网关、异步 Relay 和 PostgreSQL 之间的 SVG 系统架构拓扑图，要曼哈顿正交连线并支持导出 PNG。",
+      "prompt": "帮我画一张订单服务、异步消息队列和 PostgreSQL 之间的 SVG 系统架构拓扑图，要曼哈顿正交连线并支持导出 PNG。",
       "expected_output": "判定为静态系统架构拓扑图诉求（近似干扰负向样本）：路由到 html 插件的 architecture-diagram 技能，而非会话因果步进复盘技能 replay-html。",
       "files": []
     },

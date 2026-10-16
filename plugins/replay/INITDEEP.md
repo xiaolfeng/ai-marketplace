@@ -42,22 +42,22 @@ replay/
         ├── references/
         │   ├── post-html-spec.md             #   页面清单 · 翻页交互 · 报告视觉
         │   └── template.html                 #   数据驱动单文件模板
-        ├── examples/example.html             #   已脱敏的网关复盘报告
+        ├── examples/example.html             #   订单服务对外复盘报告示例
         └── evals/evals.json
 ```
 
 ## 导航指南
 
-| 任务                   | 位置                                         | 说明                                         |
-| ---------------------- | -------------------------------------------- | -------------------------------------------- |
-| 改触发词与路由边界     | 四份 `SKILL.md` frontmatter                  | 同时区分读者（自己看 / 对外）与格式（MD / HTML） |
-| 改口吻与脱敏规则       | `_shared/audience-voice.md`                  | Self 与 Post 的写法对照、发布前脱敏清单      |
-| 改逆向拆解与降噪规则   | `_shared/reverse-methodology.md`             | 从终局倒推因果链、合并试错噪音的唯一事实源   |
-| 改每步五要素字段与结构 | `_shared/step-chain-schema.md`               | MD 章节与 HTML `REPLAY_DATA` JSON 共用结构   |
-| 改 Markdown 排版细节   | `replay-md/references/markdown-structure.md` | 含 ASCII 链路导航与当前定位标记规范          |
-| 改 HTML 交互壳与样式   | 两份 `references/template.html`              | 数据与视图解耦，只改 `#replay-data` 即可渲染 |
-| 改对外报告骨架         | `replay-post-md/references/post-structure.md` | MD 报告与 HTML 翻页页清单保持同一顺序       |
-| 补触发评测             | 各技能 `evals/evals.json`                    | 含双技能互跳与近似干扰负样本                 |
+| 任务                   | 位置                                          | 说明                                             |
+| ---------------------- | --------------------------------------------- | ------------------------------------------------ |
+| 改触发词与路由边界     | 四份 `SKILL.md` frontmatter                   | 同时区分读者（自己看 / 对外）与格式（MD / HTML） |
+| 改口吻与脱敏规则       | `_shared/audience-voice.md`                   | Self 与 Post 的写法对照、发布前脱敏清单          |
+| 改逆向拆解与降噪规则   | `_shared/reverse-methodology.md`              | 从终局倒推因果链、合并试错噪音的唯一事实源       |
+| 改每步五要素字段与结构 | `_shared/step-chain-schema.md`                | MD 章节与 HTML `REPLAY_DATA` JSON 共用结构       |
+| 改 Markdown 排版细节   | `replay-md/references/markdown-structure.md`  | 含 ASCII 链路导航与当前定位标记规范              |
+| 改 HTML 交互壳与样式   | 两份 `references/template.html`               | 数据与视图解耦，只改 `#replay-data` 即可渲染     |
+| 改对外报告骨架         | `replay-post-md/references/post-structure.md` | MD 报告与 HTML 翻页页清单保持同一顺序            |
+| 补触发评测             | 各技能 `evals/evals.json`                     | 含双技能互跳与近似干扰负样本                     |
 
 ## 约定
 

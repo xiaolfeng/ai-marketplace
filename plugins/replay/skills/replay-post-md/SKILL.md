@@ -17,10 +17,10 @@ description: >
 
 四个复盘技能的分工：
 
-| 读者 \ 格式 | Markdown                       | HTML                                             |
-| ----------- | ------------------------------ | ------------------------------------------------ |
-| 自己看      | [replay-md](../replay-md/SKILL.md) | [replay-html](../replay-html/SKILL.md)       |
-| 对外发布    | **replay-post-md（本技能）**   | [replay-post-html](../replay-post-html/SKILL.md) |
+| 读者 \ 格式 | Markdown                           | HTML                                             |
+| ----------- | ---------------------------------- | ------------------------------------------------ |
+| 自己看      | [replay-md](../replay-md/SKILL.md) | [replay-html](../replay-html/SKILL.md)           |
+| 对外发布    | **replay-post-md（本技能）**       | [replay-post-html](../replay-post-html/SKILL.md) |
 
 ## 资源地图
 
@@ -30,7 +30,7 @@ description: >
 | 步进数据契约与 `publication` 发布块 | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)     |
 | 对外口吻与发布前脱敏清单            | [../_shared/audience-voice.md](../_shared/audience-voice.md)           |
 | 报告骨架与排版纪律                  | [references/post-structure.md](references/post-structure.md)           |
-| 完整示例（已脱敏的网关复盘报告）    | [examples/postmortem.md](examples/postmortem.md)                       |
+| 完整示例（订单服务对外复盘报告）    | [examples/postmortem.md](examples/postmortem.md)                       |
 
 ## 铁律
 
@@ -62,9 +62,9 @@ description: >
 
 ## 特殊情况速查
 
-| 信号                                         | 处置                                                                 | 条目 |
-| -------------------------------------------- | -------------------------------------------------------------------- | ---- |
-| 已经有一份 `replay-md` 自用稿                | 复用其中的步骤与证据，按 Post 口吻重写，删除对话细节，补齐 `publication` 字段 | P1   |
-| 读者是管理者                                 | 摘要与影响放在最前，过程详述可只保留每阶段的结论段，证据收进 `<details>`    | P2   |
-| 公开到社区或外部客户                         | 私有仓库只保留编号不放链接，业务数据改为比例或量级，署名改为团队名        | P3   |
-| 用户还想要可分享的网页                       | 同一份数据交给 `replay-post-html`，产出翻页式正式报告                     | P4   |
+| 信号                          | 处置                                                                          | 条目 |
+| ----------------------------- | ----------------------------------------------------------------------------- | ---- |
+| 已经有一份 `replay-md` 自用稿 | 复用其中的步骤与证据，按 Post 口吻重写，删除对话细节，补齐 `publication` 字段 | P1   |
+| 读者是管理者                  | 摘要与影响放在最前，过程详述可只保留每阶段的结论段，证据收进 `<details>`      | P2   |
+| 公开到社区或外部客户          | 私有仓库只保留编号不放链接，业务数据改为比例或量级，署名改为团队名            | P3   |
+| 用户还想要可分享的网页        | 同一份数据交给 `replay-post-html`，产出翻页式正式报告                         | P4   |

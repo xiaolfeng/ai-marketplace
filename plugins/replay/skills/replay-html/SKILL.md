@@ -17,21 +17,21 @@ description: >
 
 四个复盘技能的分工：
 
-| 读者 \ 格式 | Markdown                                      | HTML                                                |
-| ----------- | --------------------------------------------- | --------------------------------------------------- |
-| 自己看      | [replay-md](../replay-md/SKILL.md)            | **replay-html（本技能）**                           |
-| 对外发布    | [replay-post-md](../replay-post-md/SKILL.md)  | [replay-post-html](../replay-post-html/SKILL.md)    |
+| 读者 \ 格式 | Markdown                                     | HTML                                             |
+| ----------- | -------------------------------------------- | ------------------------------------------------ |
+| 自己看      | [replay-md](../replay-md/SKILL.md)           | **replay-html（本技能）**                        |
+| 对外发布    | [replay-post-md](../replay-post-md/SKILL.md) | [replay-post-html](../replay-post-html/SKILL.md) |
 
 ## 资源地图
 
-| 资源                                   | 位置                                                                       |
-| -------------------------------------- | -------------------------------------------------------------------------- |
-| 逆向拆解与四类噪音折叠方法论           | [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md)     |
-| 步进五要素与 `#replay-data` JSON 契约  | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)         |
-| 自己看 / 对外发布的口吻差异            | [../_shared/audience-voice.md](../_shared/audience-voice.md)               |
-| 页面结构、交互与视觉规范               | [references/html-interaction-spec.md](references/html-interaction-spec.md) |
-| 单文件 HTML 起手模板（数据驱动）       | [references/template.html](references/template.html)                       |
-| 完整示例（网关生命周期演练复盘）       | [examples/example.html](examples/example.html)                             |
+| 资源                                  | 位置                                                                       |
+| ------------------------------------- | -------------------------------------------------------------------------- |
+| 逆向拆解与四类噪音折叠方法论          | [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md)     |
+| 步进五要素与 `#replay-data` JSON 契约 | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)         |
+| 自己看 / 对外发布的口吻差异           | [../_shared/audience-voice.md](../_shared/audience-voice.md)               |
+| 页面结构、交互与视觉规范              | [references/html-interaction-spec.md](references/html-interaction-spec.md) |
+| 单文件 HTML 起手模板（数据驱动）      | [references/template.html](references/template.html)                       |
+| 完整示例（订单服务库存预扣演练复盘）  | [examples/example.html](examples/example.html)                             |
 
 ## 铁律
 

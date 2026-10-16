@@ -40,17 +40,17 @@ ai-marketplace/
 
 ## 🧩 插件列表
 
-| 插件                                                | 说明                                                                                                                     | 版本  |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
-| [git-manage](./plugins/git-manage/)                 | Git 工作流管理：分析 diff 生成规范化中文提交信息，scope 统一业务域词表                                                   | 0.0.1 |
-| [discovery](./plugins/discovery/)                   | 项目知识库与架构约束：`init-deep` 生成分层 `INITDEEP.md`，`init-arch` 编写架构文件，`AGENTS.md` 只做简短入口             | 0.0.4 |
-| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→(design｜adr) 五阶段 + docs-init 初始化 + doc-clean 卫生整理                        | 0.0.5 |
-| [research](./plugins/research/)                     | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告                                                            | 0.0.2 |
-| [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                          | 0.0.1 |
-| [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
-| [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                       | 0.0.1 |
-| [agent-studio](./plugins/agent-studio/)             | 个人全局 Agent 体系构建：分支问答、真实模型选择与用途记录，生成可独立使用的 Agent/Workflow                               | 0.0.2 |
-| [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，自己看的大白话版与对外发布的正式版各提供 Markdown 与 HTML 两种格式 | 0.1.0 |
+| 插件                                                | 说明                                                                                                                                      | 版本  |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| [git-manage](./plugins/git-manage/)                 | Git 工作流管理：分析 diff 生成规范化中文提交信息，scope 统一业务域词表                                                                    | 0.0.1 |
+| [discovery](./plugins/discovery/)                   | 项目知识库与架构约束：`init-deep` 生成分层 `INITDEEP.md`，`init-arch` 编写架构文件，`AGENTS.md` 只做简短入口                              | 0.0.4 |
+| [engineering-design](./plugins/engineering-design/) | 工程设计文档管理：draft→research→rfc→(design｜adr) 五阶段 + docs-init 初始化 + doc-clean 卫生整理                                         | 0.0.5 |
+| [research](./plugins/research/)                     | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告                                                                             | 0.0.2 |
+| [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                                           | 0.0.1 |
+| [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出                  | 0.0.7 |
+| [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                                        | 0.0.1 |
+| [agent-studio](./plugins/agent-studio/)             | 个人全局 Agent 体系构建：分支问答、真实模型选择与用途记录，生成可独立使用的 Agent/Workflow                                                | 0.0.2 |
+| [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，自己看的大白话版与对外发布的正式版各提供 Markdown 与 HTML 两种格式 | 0.1.1 |
 
 ## ➕ 如何添加插件
 

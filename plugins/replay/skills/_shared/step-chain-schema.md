@@ -25,12 +25,12 @@
 ### 1. 📍 第一步看什么（`lookAt` / Entry Anchor）
 
 - **定位**：给读者一个极其具体的「视觉落脚点」——具体到某个 PR、某个文件行号、某条评论、某个环境配置或某段报错。
-- **要求**：绝不能写「先看代码」「先看环境」这种正确的废话；必须写如 `ai-gateway#280 的合入记录与 Issue #273 的关闭状态` 或 `cmd/gateway/config.go:86 与 deploy-manifests/environments/voice-preview/config.yaml`。
+- **要求**：绝不能写「先看代码」「先看环境」这种正确的废话；必须写如 `order-service#145 的合入记录与 Issue #140 的关闭状态` 或 `cmd/checkout/config.go:64 与 k8s-gitops/environments/canary-flash/whitelist.yaml`。
 
 ### 2. 💡 为什么要看这里（`whyLookHere` / Motivation & Trigger）
 
 - **定位**：承接上一步的引申（或开篇起因），解释**如果不看这里会踩什么坑、当时面临什么矛盾**。
-- **要求**：用大白话讲透背后的工程逻辑。例如：「因为前一个 AI 在没有任何人 Approve 的情况下自己把 #280 合进了 main，还顺手把 #273 关了！如果不立刻锁定这笔合入的边界，主干代码就处于『无人验收裸奔』状态。」
+- **要求**：用大白话讲透背后的工程逻辑。例如：「因为前一个自动化流程在没有任何人 Approve 的情况下自己把 #145 合进了 main，还顺手把 #140 关了！如果不立刻锁定这笔合入的边界，主干代码就处于『无人验收裸奔』状态。」
 
 ### 3. 🛠️ 在这里发现了什么 & AI 做了什么（`whatWasDone` / Discovery & Actions）
 
@@ -54,13 +54,13 @@
 ```json
 {
   "meta": {
-    "title": "复盘标题（例：AI Gateway #273 生命周期补审与多实例演练全链路复盘）",
-    "subtitle": "一句话副标题：从零评审抢跑合入到 #281 正式放行、#282/#284 演练就绪的 8 步逆向拆解",
-    "sessionName": "实际测试演练对话",
-    "repo": "acme-cloud/ai-gateway",
-    "branch": "drill/issue-282-gateway-multi-instance",
+    "title": "复盘标题（例：Order Service #140 库存预扣幂等改造与多实例演练全链路复盘）",
+    "subtitle": "一句话副标题：从零评审抢跑合入到 #146 正式放行、#147/#149 演练就绪的 8 步逆向拆解",
+    "sessionName": "库存预扣演练会话",
+    "repo": "nova-shop/order-service",
+    "branch": "drill/issue-147-order-multi-instance",
     "date": "2026-10-15",
-    "totalRawTurns": "2858 行 JSONL / 750+ AI 动作",
+    "totalRawTurns": "2400 行 JSONL / 600+ AI 动作",
     "distilledSteps": 8,
     "status": "阶段闭环 · 待明日窗口演练"
   },
@@ -71,9 +71,9 @@
   },
   "actorsAndRepos": [
     {
-      "name": "ai-gateway",
+      "name": "order-service",
       "role": "核心业务仓",
-      "detail": "#273 主任务、#280 抢跑合入、#281 补审修复 PR、#282 多实例演练 Issue、#284 演练手册 PR"
+      "detail": "#140 主任务、#145 抢跑合入、#146 补审修复 PR、#147 多实例演练 Issue、#149 演练手册 PR"
     }
   ],
   "steps": [
@@ -114,7 +114,7 @@
   ],
   "confusionMatrix": [
     {
-      "question": "高频灵魂追问（如：为什么语音分支合并了，换镜像却会把语音关掉？）",
+      "question": "高频灵魂追问（如：为什么秒杀分支合并了，换镜像却会把秒杀关掉？）",
       "shortAnswer": "一句话秒懂结论",
       "deepExplanation": "底层代码开关 + 部署白名单机制详解"
     }
@@ -130,7 +130,7 @@
     "pendingHandoffs": [
       {
         "task": "待办事项",
-        "owner": "谁来做（你 / 架构师老戴 / 负责人小曹 / 基础库团队）",
+        "owner": "谁来做（你 / 架构师林工 / 模块负责人阿杰 / 基础库团队）",
         "when": "触发时机或窗口"
       }
     ]
@@ -142,7 +142,7 @@
 
 ## 四、 质量红线
 
-1. **禁止丢掉具体锚点**：复盘不是写心灵鸡汤。所有的 PR 号（如 `#280`、`#281`、`#284`）、Issue 号（`#273`、`#282`）、关键 Commit（`894315e`、`8897616`）、关键配置键（`GATEWAY_AUDIO_GENERATION_EGRESS`）和实测数据（如 `20.9s / 46.3s 503 空窗`）必须原样保留。
+1. **禁止丢掉具体锚点**：复盘不是写心灵鸡汤。所有的 PR 号（如 `#145`、`#146`、`#149`）、Issue 号（`#140`、`#147`）、关键 Commit（`f604d2e`、`f809d4a`）、关键配置键（`CHECKOUT_FLASH_SALE_ENABLED`）和实测数据（如 `15.4s / 32.8s 502 空窗`）必须原样保留。
 2. **人话优先，先讲人话再贴证据**：正文（`whyLookHere`、`confusionBuster`、`leadsToNext`）必须用直白、有呼吸感的中文向人类解释因果；长代码、长命令和原始输出放进 `evidence`（在 MD 中为折叠块或次级引用块，在 HTML 中为右侧可展开证据面板）。
 3. **诚实标注未完成项**：AI 做得再猛，也不能把「还在等别人审批 / 等正式版发布 / 等明天演练窗口」吹成「全部搞定」。`endState.pendingHandoffs` 必须按责任人切分清楚。
 
@@ -190,8 +190,8 @@
     "impact": [
       {
         "label": "停机空窗",
-        "value": "20.9s–46.3s",
-        "note": "单副本 Recreate 替换期间的 503 时长"
+        "value": "15.4s–32.8s",
+        "note": "单副本 Recreate 替换期间的 502 时长"
       }
     ],
     "timeline": [
