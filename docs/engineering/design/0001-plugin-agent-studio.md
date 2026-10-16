@@ -1,6 +1,6 @@
 # Agent Studio：宿主感知的工作组与工作流构建插件
 
-> 状态：draft · 2026-10-15
+> 状态：superseded · 2026-10-16 · 由 [本地全局 Agent 体系构建设计](0002-plugin-agent-studio-global.md) 替代；正文保留为 0.0.1 历史方案。
 > 承接：用户已确认通用插件方向，并授权详细设计与首版实现；尚无独立 RFC/ADR。
 > Scope：plugin。实现入口：[agent-studio](../../../plugins/agent-studio/README.md)。
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import { pathToFileURL } from "node:url";
 import { realpathSync } from "node:fs";
+import { mkdir } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join, resolve } from "node:path";
 import { DATA, Workspace, fail, requireValue, serialize } from "./store.mjs";
 import {
   detectHost,
@@ -9,6 +12,7 @@ import {
   requireInitialized,
 } from "./host.mjs";
 import { registry, resolveModel, setModel } from "./models.mjs";
+import { candidates, saveCatalog } from "./catalog.mjs";
 import {
   applyAgent,
   check,
@@ -16,17 +20,22 @@ import {
   saveAgent,
   saveWorkflow,
 } from "./definitions.mjs";
+import { applyWorkflow, inventory, renderWorkflow } from "./exports.mjs";
 import { completeStep, nextStep, startRun } from "./runs.mjs";
 
 const COMMANDS = {
   host: [],
   init: ["adapter"],
+  inventory: [],
   "model-list": [],
+  "model-catalog-save": ["file"],
+  "model-candidates": ["query", "provider"],
   "model-set": ["id", "provider", "model", "replace"],
   "model-resolve": ["id"],
   "agent-save": ["file", "replace"],
   "agent-render": ["id", "apply", "replace"],
   "workflow-save": ["file", "replace"],
+  "workflow-render": ["id", "apply", "replace"],
   check: [],
   "run-start": ["workflow"],
   "run-next": ["run"],
@@ -40,7 +49,7 @@ function parse(args) {
     "COMMAND",
     "未知命令；运行 help 查看命令列表",
   );
-  const allowed = ["root", "host", ...COMMANDS[command]];
+  const allowed = ["root", "host", "scope", ...COMMANDS[command]];
   const options = {};
   for (let index = 0; index < rest.length; index += 1) {
     const argument = rest[index];
@@ -83,26 +92,65 @@ export async function execute(args, env = process.env) {
   ) {
     return {
       commands: COMMANDS,
-      common: ["--root <project>", "--host claude|pi"],
+      common: [
+        "--host claude|pi",
+        "--scope user|project",
+        "--root <directory>",
+      ],
+      defaultScope: "user",
       dataDirectory: DATA,
-      note: "只管理配置与工件进度，不启动模型；--file 必须是项目内相对路径。",
+      note: "默认构建用户全局角色与独立工作流技能；显式 --root 且省略 scope 时兼容旧项目模式。--file 是配置根内相对路径。run-* 仅保留给旧项目运行。",
     };
   }
   const { command, options } = parse(args);
-  const workspace = await Workspace.open(options.root ?? process.cwd());
-  const detection = await detectHost(workspace, options.host, env);
-  if (command === "host") return detection;
+  const scope = options.scope ?? (options.root ? "project" : "user");
+  requireValue(
+    ["user", "project"].includes(scope),
+    "ARGUMENT",
+    "scope 必须是 user 或 project",
+  );
+  const context = await Workspace.open(
+    scope === "project" ? (options.root ?? process.cwd()) : process.cwd(),
+  );
+  const detection = await detectHost(context, options.host, env);
+  if (command === "host" && detection.host === null)
+    return { ...detection, scope };
   const host = requireHost(detection);
+  const userRoot =
+    host === "pi"
+      ? env.PI_CODING_AGENT_DIR || join(env.HOME || homedir(), ".pi", "agent")
+      : env.CLAUDE_CONFIG_DIR || join(env.HOME || homedir(), ".claude");
+  const root = resolve(
+    options.root ?? (scope === "user" ? userRoot : process.cwd()),
+  );
+  if (command === "host") return { ...detection, scope, root };
+  requireValue(
+    scope === "project" || !command.startsWith("run-"),
+    "SCOPE",
+    "全局工作流请通过生成的技能独立调用；run-* 仅兼容旧项目运行",
+  );
+  if (command === "init") await mkdir(root, { recursive: true });
+  const workspace = await Workspace.open(root);
+  workspace.scope = scope;
+  if (command === "inventory") return inventory(workspace, host);
   const action = async () => {
     if (command === "init") {
       if (await workspace.exists(`${DATA}/models/registry.json`))
         await registry(workspace);
-      return initialize(workspace, host, options.adapter);
+      return { ...(await initialize(workspace, host, options.adapter)), scope };
     }
     await requireInitialized(workspace, host);
     switch (command) {
       case "model-list":
         return registry(workspace);
+      case "model-catalog-save":
+        return saveCatalog(
+          workspace,
+          host,
+          await workspace.json(needed(options, "file")),
+        );
+      case "model-candidates":
+        return candidates(workspace, host, options);
       case "model-set":
         needed(options, "id");
         needed(options, "model");
@@ -119,25 +167,43 @@ export async function execute(args, env = process.env) {
           await workspace.json(needed(options, "file")),
           options.replace,
         );
-      case "agent-render": {
-        const name = needed(options, "id");
-        requireValue(
-          !options.replace || options.apply,
-          "ARGUMENT",
-          "--replace 仅可与 --apply 一起使用",
-        );
-        return options.apply
-          ? applyAgent(workspace, host, name, options.replace)
-          : renderAgent(workspace, host, name);
-      }
       case "workflow-save":
         return saveWorkflow(
           workspace,
           await workspace.json(needed(options, "file")),
           options.replace,
         );
-      case "check":
-        return check(workspace, host);
+      case "agent-render":
+      case "workflow-render": {
+        const name = needed(options, "id");
+        requireValue(
+          !options.replace || options.apply,
+          "ARGUMENT",
+          "--replace 仅可与 --apply 一起使用",
+        );
+        const render =
+          command === "agent-render" ? renderAgent : renderWorkflow;
+        const apply = command === "agent-render" ? applyAgent : applyWorkflow;
+        return options.apply
+          ? apply(workspace, host, name, options.replace)
+          : render(workspace, host, name);
+      }
+      case "check": {
+        const result = await check(workspace, host);
+        if (scope === "user") {
+          for (const name of result.workflows) {
+            const rendered = await renderWorkflow(workspace, host, name);
+            requireValue(
+              (await workspace.exists(rendered.path)) &&
+                (await workspace.bytes(rendered.path)).toString("utf8") ===
+                  rendered.content,
+              "DRIFT",
+              `Workflow 技能未生成或已过期：${name}`,
+            );
+          }
+        }
+        return result;
+      }
       case "run-start":
         return startRun(workspace, host, needed(options, "workflow"));
       case "run-next":
@@ -158,12 +224,13 @@ export async function execute(args, env = process.env) {
     [
       "init",
       "model-set",
+      "model-catalog-save",
       "agent-save",
       "workflow-save",
       "run-start",
       "run-complete",
     ].includes(command) ||
-    (command === "agent-render" && options.apply);
+    (["agent-render", "workflow-render"].includes(command) && options.apply);
   return mutates ? workspace.locked(action) : action();
 }
 

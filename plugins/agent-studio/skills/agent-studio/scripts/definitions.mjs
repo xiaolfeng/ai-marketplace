@@ -57,7 +57,7 @@ export function validateAgent(value) {
   );
   version(value);
   id(value.id);
-  id(value.model);
+  if (value.model !== null) id(value.model);
   text(value.description, "description");
   requireValue(
     value.description.length <= 1024,
@@ -109,7 +109,9 @@ export async function renderAgent(workspace, host, name, models = undefined) {
     `name: ${JSON.stringify(agent.id)}`,
     `description: ${JSON.stringify(agent.description)}`,
     `tools: ${tools.join(", ")}`,
-    `model: ${JSON.stringify(model.native)}`,
+    ...(model.mode === "inherit"
+      ? []
+      : [`model: ${JSON.stringify(model.native)}`]),
     "---",
     "",
     agent.instructions.trim(),
@@ -117,16 +119,41 @@ export async function renderAgent(workspace, host, name, models = undefined) {
   ].join("\n");
   return {
     id: name,
-    path: `.${host}/agents/${name}.md`,
+    path: nativePath(workspace, host, `agents/${name}.md`),
     content,
     digest: digest(content),
     model,
   };
 }
 
+export function nativePath(workspace, host, path) {
+  return workspace.scope === "user" ? path : `.${host}/${path}`;
+}
+
 export async function applyAgent(workspace, host, name, replace) {
-  const rendered = await renderAgent(workspace, host, name);
-  const recordPath = `${DATA}/generated/${host}/${name}.json`;
+  return applyGenerated(
+    workspace,
+    host,
+    "agents",
+    name,
+    await renderAgent(workspace, host, name),
+    replace,
+  );
+}
+
+export async function applyGenerated(
+  workspace,
+  host,
+  topic,
+  name,
+  rendered,
+  replace,
+) {
+  // Retain the original agent record path for project-level compatibility.
+  const recordPath =
+    topic === "agents"
+      ? `${DATA}/generated/${host}/${name}.json`
+      : `${DATA}/generated/${host}/${topic}/${name}.json`;
   if (await workspace.exists(rendered.path)) {
     const current = digest(await workspace.bytes(rendered.path));
     if (current !== rendered.digest) {
@@ -163,7 +190,7 @@ export async function saveAgent(workspace, value, replace) {
   validateAgent(value);
   const models = await registry(workspace);
   requireValue(
-    Object.hasOwn(models.profiles, value.model),
+    value.model === null || Object.hasOwn(models.profiles, value.model),
     "MODEL_UNKNOWN",
     "请先登记 Agent 使用的 model profile",
   );
@@ -193,6 +220,11 @@ export function validateWorkflow(value) {
   version(value);
   id(value.id);
   text(value.description, "description");
+  requireValue(
+    value.description.length <= 1024,
+    "SCHEMA",
+    "description 最多 1024 字符",
+  );
   requireValue(
     Array.isArray(value.steps) && value.steps.length > 0,
     "SCHEMA",

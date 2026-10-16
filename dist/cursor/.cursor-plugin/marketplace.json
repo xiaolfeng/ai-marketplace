@@ -157,8 +157,8 @@
     {
       "name": "agent-studio",
       "source": "./plugins/agent-studio",
-      "description": "宿主感知的 Agent 工作组与顺序工作流构建：模型专题登记、原生代理配置生成、工件验收和进度恢复，首版适配 Claude Code 与兼容子代理加载器的 Pi",
-      "version": "0.0.1",
+      "description": "个人全局 Agent 体系构建助手：分支问答、真实模型目录选择与用途记录，生成可脱离插件使用的原生 Agent 和独立 Workflow 技能，支持 Claude Code/Pi",
+      "version": "0.0.2",
       "keywords": [
         "agents",
         "workflow",

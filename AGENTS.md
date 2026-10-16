@@ -7,6 +7,7 @@
 - 修改插件或版本时，同步 `.claude-plugin/marketplace.json`、插件的 `plugin.json` 与根 `README.md`；清单变更后运行 `npm run build` 并保留 `dist/cursor/` 导出物。
 - 技能放在 `plugins/<name>/skills/<skill>/` 单层目录；名称使用 kebab-case，不添加运行时依赖，不在清单中写入密钥。
 - 提交前运行 `claude plugin validate .`、`npx skills add . --list`、`npm run check`。
+- 中文 Markdown 按自然段连贯书写，不为满足行长硬换行；保持 `.markdownlint.json` 中 `MD013: false`，保留列表、代码块与语义分段所需换行。
 
 ## 按需阅读
 

@@ -68,7 +68,7 @@ export async function initialize(workspace, host, adapter) {
   requireValue(
     chosen === ADAPTERS[host],
     "ADAPTER_REQUIRED",
-    "Pi 需确认支持项目级 Markdown 子代理后传入 --adapter pi-subagent-v1",
+    "Pi 需确认支持用户级 Markdown 子代理后传入 --adapter pi-subagent-v1",
   );
   const file = `${DATA}/config.json`;
   const value = (await workspace.exists(file))

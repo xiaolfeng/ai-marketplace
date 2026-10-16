@@ -19,7 +19,7 @@ docs/
     ├── draft/             # 草案（空，待写入）
     ├── research/          # 调研笔记（0001~0005 已有）
     ├── rfc/               # 提案（空，待写入）
-    ├── design/            # 设计（0001：Agent Studio 宿主、模型与工作流契约）
+    ├── design/            # 设计（0001 历史项目方案；0002 个人全局体系构建）
     └── adr/               # 架构决策记录（空，待写入）
 ```
 
@@ -63,4 +63,5 @@ docs/
 ## 引用
 
 - [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录写作技能的宿主插件
-- [Agent Studio 设计](engineering/design/0001-plugin-agent-studio.md) — 通用工作组构建的首版边界与验收（draft）
+- [Agent Studio 全局构建设计](engineering/design/0002-plugin-agent-studio-global.md) — 个人角色、模型选择和独立工作流（draft）
+- [Agent Studio 历史设计](engineering/design/0001-plugin-agent-studio.md) — 0.0.1 项目运行方案（superseded）

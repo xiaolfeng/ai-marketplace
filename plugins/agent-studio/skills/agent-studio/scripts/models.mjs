@@ -40,6 +40,14 @@ export async function registry(workspace) {
 }
 
 export function resolveModel(value, host, profile) {
+  if (profile === null)
+    return {
+      profile: null,
+      host,
+      mode: "inherit",
+      native: null,
+      availability: "not-verified",
+    };
   id(profile);
   requireValue(
     Object.hasOwn(value.profiles, profile),
@@ -56,6 +64,7 @@ export function resolveModel(value, host, profile) {
   return {
     profile,
     host,
+    mode: "fixed",
     ...target,
     native: host === "pi" ? `${target.provider}/${target.model}` : target.model,
     availability: "not-verified",

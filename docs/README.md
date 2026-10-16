@@ -44,7 +44,8 @@
 
 ### design/
 
-1. [Agent Studio：宿主感知的工作组与工作流构建插件](./engineering/design/0001-plugin-agent-studio.md) — draft
+1. [Agent Studio：宿主感知的工作组与工作流构建插件](./engineering/design/0001-plugin-agent-studio.md) — superseded，保留 0.0.1 历史方案
+2. [Agent Studio：本地全局 Agent 体系构建](./engineering/design/0002-plugin-agent-studio-global.md) — draft
 
 ### 其他
 

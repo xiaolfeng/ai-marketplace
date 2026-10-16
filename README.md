@@ -49,7 +49,7 @@ ai-marketplace/
 | [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                          | 0.0.1 |
 | [html](./plugins/html/)                             | HTML 视觉与架构图表套件：遵循 huashu-design 规范的高保真系统架构拓扑图与 Excalidraw 手绘白板图表，双主题交互与多格式导出 | 0.0.6 |
 | [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                       | 0.0.1 |
-| [agent-studio](./plugins/agent-studio/)             | 自定义 Agent 工作组与顺序工作流：宿主识别、模型专题登记、代理生成、工件验收与恢复；首版支持 Claude Code/Pi               | 0.0.1 |
+| [agent-studio](./plugins/agent-studio/)             | 个人全局 Agent 体系构建：分支问答、真实模型选择与用途记录，生成可独立使用的 Agent/Workflow                               | 0.0.2 |
 | [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，提供 Markdown 走读稿与 HTML 交互步进闯关双模式    | 0.0.1 |
 
 ## ➕ 如何添加插件

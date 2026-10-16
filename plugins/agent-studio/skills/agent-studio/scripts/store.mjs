@@ -68,7 +68,7 @@ export function relativePath(value) {
       !/[\\:\x00-\x1f]/.test(value) &&
       value.split("/").every((part) => part && part !== "." && part !== ".."),
     "PATH",
-    "路径必须是项目内相对路径，不能包含 .、..、反斜杠或冒号",
+    "路径必须是配置根内相对路径，不能包含 .、..、反斜杠或冒号",
   );
   return value;
 }
@@ -87,7 +87,7 @@ export class Workspace {
     requireValue(
       (await lstat(actual)).isDirectory(),
       "PATH",
-      "项目根必须是目录",
+      "配置根必须是目录",
     );
     return new Workspace(actual);
   }

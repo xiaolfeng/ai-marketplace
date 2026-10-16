@@ -1,107 +1,87 @@
 ---
 name: agent-studio
 description: >
-  在当前 Agent 工具中搭建和维护用户自定义的 Agent 工作组与顺序工作流。
-  用户要创建代理小组、自定义 workflow、登记模型、修正 provider/model、生成 .claude/agents
-  或 .pi/agents 配置、继续已有 Agent Studio 工作流时使用。通过 .mjs 管理
-  .xlf-marketplace/models 等专题记录。首版适配 Claude Code 与兼容 Markdown 子代理的 Pi。
-  普通业务开发、安装现成插件、直接执行任意命令不由本技能接管。
-compatibility: Node.js >=18；Claude Code 或已确认项目级子代理加载能力的 Pi。
+  辅助用户搭建本地全局、属于自己的 Agent 与 Workflow 体系。用户要创建或调整个人代理、
+  设计可复用工作流、梳理已有角色、查看匹配模型列表、记录模型用途与派发映射时使用。
+  通过分支问答收集类型、用途、触发条件、默认或固定模型与工具，生成用户级原生 Agent
+  和独立 Workflow 技能；生成后可脱离本插件直接调用。支持 Claude Code 与兼容 Markdown
+  子代理加载器的 Pi。执行已有角色的日常任务时直接使用对应 Agent/Workflow。
+compatibility: Node.js >=18；Claude Code 或有用户级 Markdown 子代理加载器的 Pi。
 ---
 
 # Agent Studio
 
-把使用者自己的角色和流程写成可维护的定义，再按当前宿主生成配置。业务步骤来自
-用户要求。脚本管理模型登记、文件生成和顺序进度；模型调用由当前宿主完成。
+帮助用户建立自己的本地全局 Agent 体系。交付物是宿主直接读取的角色文件与工作流技能，模型专题记录辅助后续维护。插件负责构建；建成后，任务由已有 Agent/Workflow 承担。不要因为当前打开了代码仓库，就把用户的个人体系建进该项目。
 
-## 定位入口
+## 开场与分支问答
 
-脚本在本技能目录的 `scripts/cli.mjs`，参考在
-[references/contracts.md](references/contracts.md)。相对路径以本技能所在目录解析，
-不要假定安装目录就是项目目录。每次执行都用绝对脚本路径及明确的 `--root` 项目根。
+先读 [问答路径](references/interview.md)，复用用户已经给出的答案，按分支补问。使用当前宿主的结构化问答工具，每批最多 4 问，每题 2–4 个选项；支持补充文本。先确定“创建 Agent / 创建 Workflow / 管理模型 / 维护已有体系”，再展开相关问题。用途和触发条件不预设为开发、审查、测试或发布；允许学习、写作、资料整理等任意职责。用户已说明目标时，直接进入对应分支，避免再问相同问题。
 
-```bash
-node '<本技能绝对目录>/scripts/cli.mjs' help
-node '<本技能绝对目录>/scripts/cli.mjs' host --root '<项目根>'
-```
+依次确认：
 
-命令成功返回 JSON `ok:true`；错误在 stderr 返回 `ok:false` 并以 1 退出。
-首版仅处理项目级配置，不能改写用户级目录或凭据。
+1. **用途与边界**：主要做什么、输入什么、交付什么，哪些事交回调用者。
+2. **触发方式**：用户会怎样表达需求、适用场景和相邻但不适用的场景；默认允许按 description 匹配，也给出明确调用方式。匹配是模型行为，不能保证自动触发。
+3. **模型策略**：继承派发时的会话默认模型，或从实际模型目录选择固定模型。不要把“默认”误写为创建时当前模型的固定 ID。
+4. **工具和协作**：需要哪些工具、是否允许修改文件、是否需要用户确认。Workflow 另外确认步骤、成员复用、材料交接、失败处理及确认位置。
 
-## 先确认正在使用的工具
+用户提出创建即授权在约定的用户全局位置生成文件；必要答案齐备后，展示简短配置概览并落盘，不为常规创建追加确认。对未托管文件冲突，展示差异再让用户决定。
 
-1. 从当前会话工具契约确认 Claude Code 或 Pi，再调用 `host` 核对。不要根据项目内
-   `.claude/`、`.pi/`、`CLAUDE.md` 或安装过的 CLI 猜测当前宿主。
-2. 若脚本返回 `host:null`，在会话上下文足够明确时显式传 `--host claude|pi`；上下文
-   也不明确时询问用户正在用哪个工具。遇到 HOST_CONFLICT 先查明运行环境，不能
-   清除标记后强行继续。其他工具暂不支持生成，说明所缺适配。
-3. Pi 须确认当前会话有能读取 `.pi/agents/*.md` 的子代理工具，及其真实参数与工具名。
-   对得上本技能契约后，初始化传 `--adapter pi-subagent-v1`；只有基本 Pi 主代理时，
-   不能宣称已经拥有子代理执行能力，也不要自行安装扩展。
-4. 后续每个命令明确传 `--host`。以前登记的宿主不是当前会话证据。
+## 宿主与全局位置
 
-## 初始化与模型专题
+脚本入口为本技能绝对目录下的 `scripts/cli.mjs`。参数与数据契约见 [contracts.md](references/contracts.md)。所有示例中的脚本路径都应换成安装后的绝对路径。
+
+先从会话确认宿主，再运行：
 
 ```bash
-node '<技能目录>/scripts/cli.mjs' init --root '<项目根>' --host pi --adapter pi-subagent-v1
+node '<技能目录>/scripts/cli.mjs' host --host pi
+node '<技能目录>/scripts/cli.mjs' init --host pi --adapter pi-subagent-v1
+node '<技能目录>/scripts/cli.mjs' inventory --host pi
 ```
 
-Claude 使用 `--host claude`，省略 adapter。初始化保留既有配置，不填默认模型。
-先运行 `model-list`，复用用户登记的 profile；新增时从用户给出的配置或当前宿主
-模型选择器取得准确值，不根据模型印象编造 ID。Pi 可用 shell 注入的 `PI_PROVIDER`
-和 `PI_MODEL` 核对当前选中值，但它们不代表其他模型可用。
+Claude 使用 `--host claude`，初始化不需要 adapter。不要通过 `.claude/` 或 `.pi/` 目录存在来认定活跃宿主。Pi 初始化前确认实际子代理工具支持用户级 Markdown 角色、工具名和模型字段。缺少加载器时说明缺少的能力，不自行安装或宣称已能调用。
 
-Pi 通过 `model-set --id <profile> --provider <provider> --model <provider 内 ID>`
-登记；Claude 只传 `--model <原生值>`。先读契约中的模型例子。
-不对 Claude ID 删斜杠前缀，不自动替换模型，不把登记视作已验证授权。
-更新既有映射时仅在用户需求包含该更新后使用 `--replace`，并说明影响的 Agent
-需要重新渲染；旧运行快照不会自动换模型。
+默认作用域为 user：Pi 写入 `${PI_CODING_AGENT_DIR:-~/.pi/agent}`，Claude 写入 `${CLAUDE_CONFIG_DIR:-~/.claude}`。角色位于 `agents/<id>.md`，工作流技能位于 `skills/<id>/SKILL.md`，管理记录位于该根内 `.xlf-marketplace/`。后续调用保持相同宿主和作用域。全局自定义根须同时传 `--scope user --root '<根>'`。只有用户明确要项目级角色时，才使用 `--scope project --root '<项目根>'`。
 
-## 创建或维护工作组
+## 从已有模型中选择
 
-1. 从用户目标提取角色的职责、输入、输出、model profile 和工具需求。足够明确则
-   直接起草；缺少关键模型或职责信息时集中询问。避免预设所有人都需要开发流水线。
-2. 按 [examples/agent.json](examples/agent.json) 写项目内定义文件。model 是已登记
-   profile，不能直接填模型 ID。`read-only` 只允许 read/search，不能为了跑命令加 shell。
-   确实要运行命令的角色使用 workspace-write 并明确说明其写入能力。
-3. `agent-save --file <项目相对路径>` 保存通用定义；`agent-render --id <角色>` 预览
-   原生路径、模型和工具。用户已授权生成配置时接着加 `--apply` 落盘，无需重复确认。
-4. 遇到 UNMANAGED/DRIFT，展示真实差异并让用户决定如何保留，不删除文件或重建
-   管理记录来绕过检查。更新未被手改的插件生成文件可用 `--apply --replace`。
-5. 需要多个成员时按同样方式分别登记。提供自定义角色文件并不代表宿主已加载；
-   按当前工具的加载方式核对。Pi 项目代理可能需要 project/both scope。
+先读 `model-list` 复用个人模型 profile，再读取宿主实际模型目录。Pi 若有 codemode：
 
-## 编写与执行工作流
+```js
+const available = await models.getAvailableOfType("chat");
+text(
+  available.map((m) => ({ provider: m.provider, model: m.id, name: m.name })),
+);
+```
 
-按 [examples/workflow.json](examples/workflow.json) 组织用户需要的步骤，步骤数量不限。
-每步指定 agent、task、inputs、outputs 和 approval。需要调用已有技能时，将当前
-环境实际可用的技能路径及其职责写入 task，并在派发前读取；不要发明跨宿主通用
-的 Skill 调用 API，也不要假定子代理继承了父会话加载的技能。
+只保留 provider、model、name。不要输出整个模型对象、认证配置或完整环境变量。若无该接口，按宿主已验证的列表能力（如 Pi 的 `pi --list-models`）读取候选； Claude 从当前会话提供的模型选择器/目录获得原生值，不能硬编码一份“最新列表”。
 
-`workflow-save --file <项目相对路径>` 保存后执行 `check`。若用户只要求搭建流程，
-交付配置即可；用户已要求执行时继续：
+将已读取列表整理为契约中的 catalog JSON，放在配置根内 `.xlf-marketplace/drafts/models.json`，然后：
 
-1. `run-start --workflow <id>` 创建运行，保存返回的 run ID。
-2. `run-next --run <id>` 获取当前步骤。按返回的 agentPath、model、task 和输入快照
-   构造完整派发请求，要求代理返回或写入指定输出。使用当前宿主实际提供的子代理
-   工具，显式选择配置的代理和模型；没有该能力则说明阻塞，不假装已执行。
-3. Pi 字符串入口使用返回的 `model.native`（provider/model）；结构化入口使用
-   `model.provider` 和 `model.model` 分开传入。Claude 使用其登记的原生值。工具若
-   不支持这些字段，以已渲染代理定义为准；无法确认加载契约时停止派发。
-4. 等待真实完成事件，读取结果和实际验证证据。失败、取消、输出不完整时保持当前
-   步骤；不能用占位文件或自写成功结论推进。只读代理的结果由主代理写入所指定
-   工件路径，勿因此扩大子代理权限。
-5. 审核结果符合该步骤 task 后，运行 `run-complete --run <id> --step <id>`。
-   approval 为 true 时，等待实际用户确认后再用 `--approval '<确认内容>'` 记录。
-   不得把文本记录字段当作具备独立身份认证的批准凭证。
-6. 继续 run-next，直到返回 completed。恢复时复用原 run ID。遇到历史工件或原生
-   代理漂移时说明变化；修改原始定义后可开始新运行，不悄悄改旧快照。
+```bash
+node '<技能目录>/scripts/cli.mjs' model-catalog-save --host pi --file .xlf-marketplace/drafts/models.json
+node '<技能目录>/scripts/cli.mjs' model-candidates --host pi --query '<用户关键词>'
+```
 
-## 交付与限制
+catalog 是本次发现的快照，开始新的选模会话时刷新；model-list 是用户有意保存的用途映射。二者不能相互冒充。按 provider、名称或 ID 匹配候选后，显示带 provider 的选项供用户直接选择。超过问答工具容量时先按 provider 或关键词收窄，再分页；说明还有多少候选，不静默截断。选项标签可缩短，描述保留完整标识，并在内部保留精确 provider/model 元组。默认不要求用户手填模型 ID。
 
-交付具体文件路径、宿主及适配器、已登记模型、检查结果、运行 ID（如有）。区分
-“已生成”“静态检查通过”“宿主实际加载”“模型实际调用成功”。脚本只验证文件、
-字段和顺序，不保证内容质量或最终路由，不能声称消除了所有错误模型调用。
+若选择默认模型，Agent 定义使用 `model: null`，不创建固定 profile。若选择固定模型，用 `model-set --id <用途名> --provider <原值> --model <原值>` 保存 Pi 映射； Claude 仅传原生 `--model`。profile 名按用途命名，如资料整理、写作对应的 kebab-case 标识。目录不可读或无匹配时提供刷新、换筛选、继承默认等选择；只有用户明确要求手工登记时才接受输入，不编造候选。登记不等于模型调用已验证。
 
-脚本不运行用户配置里的 shell 命令；测试或业务验证需要写入步骤任务，并由宿主
-按授权执行。工作流中的人工确认是协作约定；本插件不是操作系统沙箱。
+## 生成 Agent
+
+1. 用 [agent.json](examples/agent.json) 结构起草 JSON 到配置根内 `.xlf-marketplace/drafts/<id>.json`。description 写清职责与触发场景；instructions 写清输入、工作方法、输出格式、边界和失败处理。model 是 null 或已登记 profile。
+2. `agent-save --file <相对路径>` 保存，`agent-render --id <id>` 预览，然后 `agent-render --id <id> --apply` 写出原生角色。
+3. read-only 只含 read/search。shell 有写入能力；需要命令时明确工具和权限，不能用文字“只读”抵消 shell 的能力。本版工具映射不含 MCP 或联网；需要这些工具时说明适配缺口，不默默降低用户需求。
+4. 已有角色优先通过 inventory 发现并读取；导入维护时从其实际内容起草定义，不覆盖或接管不同内容。同名全局/项目角色可能互相遮蔽，交付时核对实际加载来源。
+
+## 生成 Workflow
+
+1. 确认各步骤职责、角色、输入输出与确认位置。从已有全局角色复用适合的成员，缺少角色时走 Agent 分支；每个成员可独立选默认或固定模型。未登记角色先读取并起草等价定义；只有原生文件与渲染内容一致时可直接采用。存在差异时保留用户文件，展示差异并选择新 ID 或人工维护方式，不宣称已经无损导入。
+2. 按 [workflow.json](examples/workflow.json) 起草 JSON，description 包含整个流程的用途与触发场景。首版支持顺序交接；需要并行/DAG 时说明尚需宿主专用适配。
+3. `workflow-save --file <相对路径>` 保存；`workflow-render --id <id>` 预览，再加 `--apply` 生成为用户全局 `skills/<id>/SKILL.md`。导出包含真实原生角色路径、固定模型值或继承策略、所有任务与输入输出、失败处理和确认要求，不引用插件脚本。
+4. 生成后运行 `check`，交付角色/技能的绝对路径及调用示例。Pi 工作流可直接 `/skill:<id>`；Claude 可 `/<id>`，角色通过宿主的子代理入口使用。说明按宿主需要 reload 或重启，并区分已生成、静态检查、宿主已加载、真实调用四种状态。
+
+## 交付和维护
+
+创建后的日常任务直接交给对应角色或工作流。不要调用 run-start/next/complete 来成为必经运行入口；这些命令只兼容旧项目记录。全局构建不在当前项目写入进度数据，也不自动执行新建流程。模型选择与生成本身不会调用付费模型 API。
+
+更新个人体系时重新进入相关问答分支。用户要求更新已托管、未手改的文件时使用 `--replace`；UNMANAGED/DRIFT 先展示差异，不清除记录绕过保护。修改模型 profile 后提示哪些角色需要重新生成，再更新引用它们的 workflow；已导出的固定模型不会随注册表偷偷变化。生成的角色和技能是用户自己的文件，可以手工维护，移除构建插件与管理记录后仍可使用；宿主本身的加载器和用户选用的其他技能仍是实际依赖。

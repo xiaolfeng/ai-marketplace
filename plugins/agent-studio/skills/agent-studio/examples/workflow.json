@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "compare",
-  "description": "示例：按用户指定主题整理材料，再核对证据。步骤可替换为任意业务流程。",
+  "description": "用户需要先整理材料再核对证据时使用；按主题提取事实、对照差异，最终等待用户确认。",
   "steps": [
     {
       "id": "collect",

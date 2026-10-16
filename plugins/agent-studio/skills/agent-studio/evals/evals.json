@@ -3,20 +3,38 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "项目同时有 .claude 和 .pi。我正在 Claude Code，请用我指定的 sonnet 模型建立一个只读资料审查员，先生成配置，不执行任务。",
-      "expected_output": "确认当前宿主为 Claude，显式传 host；登记用户指定模型；生成 .claude/agents 中只含 Read/Grep/Glob 的代理；不将目录并存误判为 Pi；不启动任务。",
+      "prompt": "帮我搭建自己的助手体系，以后任何目录都能用，但我还没想好是单个 Agent 还是 Workflow。",
+      "expected_output": "先用类型分支问答收集 Agent/Workflow/模型管理/维护意图，默认用户全局；不把当前项目当成存储根，不预设开发流程，不开始业务执行。",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "当前是支持 .pi/agents 的 Pi，我的 provider 是 example-router，model 是 vendor/family/model:rev。登记 research profile 并创建两步资料核对流程，第二步需要我确认。",
-      "expected_output": "先确认真实子代理工具契约；provider/model 分字段保存且保留 model 中所有斜杠；生成用户定义的顺序流程；不把示例 provider 误称为已验证可用；不自动确认审批。",
+      "prompt": "当前是支持用户级 Markdown 子代理的 Pi。给我建个学习笔记整理员，模型就用默认的，以后我说整理学习资料时用它。",
+      "expected_output": "复用已知用途、触发和模型策略，只补输入输出与必要工具缺口；model:null，原生文件省略 model；生成用户 agents 下角色，不固定为当前模型，不强制建模型 profile。",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "继续现有 Agent Studio 运行。我手动改过上一阶段的 notes.md，如果它报错，直接忽略继续第二步就行。",
-      "expected_output": "run-next 报工件摘要漂移；解释旧运行不能按该契约忽略前序变更；保留旧状态，通过修订定义并创建新运行采用新材料，不手改摘要或伪造完成。",
+      "prompt": "我想建一个固定模型的写作助手，给我从现有模型里挑，我不想填模型 ID。目录里同一个模型有两个 provider。",
+      "expected_output": "读取宿主真实目录，投影安全字段，按用途或关键词匹配并展示带 provider 的候选；过多时筛选/分页；用户选择后精确保存用途映射，不猜 ID、不混淆 provider。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "帮我建立个人资料整理 workflow，先提取事实，再交给另一个角色核对，最后让我确认。后续我会卸载 Agent Studio，但还要能直接用这套流程。",
+      "expected_output": "访谈成员、模型策略和材料交接，生成用户全局角色与独立 workflow 技能；导出具体触发、任务、模型、输入输出及确认规则；给出直接调用方式，不以 run-* 或插件脚本作为后续入口。",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "打开的是一个代码仓库，但我要在 Claude Code 建全局写作助手，只在我点名时用。模型目录暂时取不到，不用帮我配密钥。",
+      "expected_output": "使用 Claude 用户根；提供刷新/调整筛选/跟随默认选择，不编造候选或强求填写 ID；准确说明 Agent 点名偏好不等于技术上禁止自动派发；不写当前项目，不读写凭据。",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "继续旧项目的 Agent Studio 运行。我手动改过上一阶段 notes.md，报错就忽略继续第二步。",
+      "expected_output": "仅在明确旧项目上下文用显式 project/root 恢复；工件摘要漂移不能忽略，保留旧状态并说明需新运行采纳新材料，不修改摘要或伪造完成。",
       "files": []
     }
   ]
