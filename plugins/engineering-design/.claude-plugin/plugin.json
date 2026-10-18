@@ -1,7 +1,7 @@
 {
   "name": "engineering-design",
-  "description": "工程设计文档管理：draft/research/rfc/design/adr 五技能分管草案、调研、提案、实施设计与定稿，docs-init 初始化目录，doc-clean 整理编号/引用/错位，各阶段独立四位编号",
-  "version": "0.0.5",
+  "description": "工程文档与实施计划管理：research/design/spec/runbook/plan 五模式技能分管调研、工程设计（draft→rfc→adr）、技术规范（draft→rfc→adr）、运维手册与顶层实施计划（含 archive 归档），docs-init 初始化目录与 MAINTENANCE.md，doc-clean 巡检编号/引用/状态机",
+  "version": "0.1.0",
   "author": {
     "name": "xiao_lfeng",
     "url": "https://www.x-lf.com"
@@ -9,5 +9,5 @@
   "homepage": "https://github.com/xiaolfeng/ai-marketplace",
   "repository": "https://github.com/xiaolfeng/ai-marketplace",
   "license": "MIT",
-  "keywords": ["docs", "adr", "rfc", "research", "draft", "design", "workflow"]
+  "keywords": ["docs", "research", "design", "spec", "runbook", "plan", "adr", "rfc", "workflow"]
 }

@@ -35,7 +35,7 @@
     {
       "id": 6,
       "prompt": "帮我写一份把网关部署从 Recreate 改成 RollingUpdate 的 RFC 提案。",
-      "expected_output": "判定为事前方案提案（近似干扰负向样本）：路由到 engineering-design 的 rfc-er，而非事后复盘技能。",
+      "expected_output": "判定为事前方案提案（近似干扰负向样本）：路由到 engineering-design 的 design-er（rfc 提案阶段），而非事后复盘技能。",
       "files": []
     }
   ]

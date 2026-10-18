@@ -1,67 +1,63 @@
-<!-- init-deep:synced@293803c -->
+<!-- init-deep:synced@c4d6803 -->
 
 # docs 知识库
 
 ## 概述
 
-文档中心：`plugin-guidelines.md` 与 `scope-manage.md` 两份项目级规范，加上
-`engineering/` 五阶段工程文档目录。写作行为由 engineering-design 插件的技能
-执行；本知识库管的是「文件放哪、叫什么、怎么流转」。
+项目文档中心：根级包含 `README.md`（按模式分区的文档中心索引）与 `scope-manage.md`（业务域总账），
+`engineering/` 下由 `MAINTENANCE.md` 统管四大工程模式目录（`research/`、`design/`、`spec/`、`runbook/`），
+并与顶层 `plan/`（含 `plan/archive/`）协同构成完整的研发文档体系。写作与巡检由 `engineering-design` 插件执行。
 
 ## 目录结构
 
 ```text
 docs/
-├── README.md              # 文档中心索引：阶段定义、命名规范、流转规则
-├── plugin-guidelines.md   # 向本市场提交插件的唯一标准
-├── scope-manage.md        # Scope 总账：Git 提交与工程文档共用业务域词表
+├── README.md                        # 文档中心索引：按模式分区导航 + 分模式文档台账
+├── scope-manage.md                  # Scope 总账：Git 提交、工程文档与 plan 共用业务域词表
 └── engineering/
-    ├── draft/             # 草案（空，待写入）
-    ├── research/          # 调研笔记（0001~0005 已有）
-    ├── rfc/               # 提案（空，待写入）
-    ├── design/            # 设计（0001 历史项目方案；0002 个人全局体系构建）
-    └── adr/               # 架构决策记录（空，待写入）
+    ├── MAINTENANCE.md               # 工程文档维护器公约：命名、取号、状态机、演进与归档铁律
+    ├── research/                    # 调研模式（0001~0005：无状态，直接记录现状与证据）
+    ├── design/                      # 设计模式（0001~0002：单文件演进 draft → rfc → adr）
+    ├── spec/                        # 规范模式（0001 插件编写与上架规范：draft → rfc → adr）
+    └── runbook/                     # 手册模式（运行与排障 SOP：draft → active → deprecated）
 ```
+
+（实施与迁移计划位于与 `docs/` 同级的顶层 `plan/` 目录，活动计划平铺，完结计划归入 `plan/archive/`。）
 
 ## 导航指南
 
-| 任务               | 位置                    | 说明                               |
-| ------------------ | ----------------------- | ---------------------------------- |
-| 写调研笔记         | `engineering/research/` | 只记现状与证据                     |
-| 写提案             | `engineering/rfc/`      | 方向已收敛、需评审时               |
-| 写设计稿           | `engineering/design/`   | 方向已确认、需明确实施方式与验证时 |
-| 定稿长期决策       | `engineering/adr/`      | 从被接受的 RFC 冻结                |
-| 登记新业务域 Scope | `scope-manage.md`       | 三列一次填齐                       |
-| 修改插件上架标准   | `plugin-guidelines.md`  | 全平台实测结论，改动需附依据       |
+| 任务               | 位置                                         | 说明                                                          |
+| ------------------ | -------------------------------------------- | ------------------------------------------------------------- |
+| 查工程文档维护规则 | `engineering/MAINTENANCE.md`                 | 命名、取号、各模式状态机与归档铁律                            |
+| 写调研笔记         | `engineering/research/`                      | 只记现状与证据，无状态（`research-er`）                       |
+| 写或演进工程设计   | `engineering/design/`                        | 单文件原位演进 `draft → rfc → adr`（`design-er`）             |
+| 写或演进技术规范   | `engineering/spec/`                          | 跨模块标准与红线，单文件演进 `draft → rfc → adr`（`spec-er`） |
+| 写运维排障手册     | `engineering/runbook/`                       | 部署与止血 SOP，`draft → active → deprecated`（`runbook-er`） |
+| 写或归档实施计划   | `../plan/` 与 `../plan/archive/`             | 活动平铺、终态进 `archive/`（`plan-er`）                      |
+| 登记新业务域 Scope | `scope-manage.md`                            | 三列一次填齐                                                  |
+| 修改插件上架标准   | `engineering/spec/0001-plugin-guidelines.md` | 全平台实测结论，按 `spec` 模式演进维护                        |
 
 ## 约定
 
-- **编号按阶段分列**：`NNNN-<scope>-<title>.md` 的四位编号在 draft / research /
-  rfc / design / adr 各自独立递增。写 RFC 只看 `rfc/` 的最大号，写 ADR 只看
-  `adr/`——拿「全部子目录全局最大号」续号会把 RFC 和 ADR 拧成一条序列。
-- **阶段与 Scope 正交**：目录名（draft/research/…）表达生命周期阶段，Scope 是
-  文件名里的业务域段，取自 `scope-manage.md` 词表英文单词列——两者不可互相替代。
-- **单向流动，不回改旧文**：draft→research→rfc→(adr|design)；同一主题跨阶段
-  在目标目录内单独取号，承接靠文首链接；被取代的旧文保留原文并在文首标注去向。
-- **词表三列一次填齐**：2 字中文、4 字中文、英文单词即使当前只用一列也照填，
-  防未来切换提交模式出现歧义。
+- **模式与过程阶段正交**：目录名（`research` / `design` / `spec` / `runbook` / `plan`）表达文档模式；`draft → rfc → adr` 等是文档内部的**过程阶段状态**，在原文件内原位演进，不拆独立目录；
+- **编号按模式独立递增**：`NNNN-<scope>-<title>.md` 的四位编号在五大模式中各自从 `0001` 起独立递增；其中 `plan` 取新号时必须同时扫描 `plan/` 与 `plan/archive/`；
+- **索引按模式分表**：`docs/README.md` 按模式独立建表登记，禁止将不同模式的文档混排在一起；
+- **词表三列一次填齐**：2 字中文、4 字中文、英文单词即使当前只用一列也照填。
 
 ## 反模式
 
-- 删除已被取代的旧文档——讨论上下文是流程的一部分；
-- 在 `docs/` 根散放未登记的新文档——现有两个根级文件是登记过的特例，
-  新增同类文件应先进 `engineering/` 流转或在 README 挂索引；
-- 绕过 engineering-design 技能手写工程文档——编号分配与模板约束由技能保证。
+- 删除已被取代的旧文档——讨论上下文是流程的一部分，应标 `superseded` 并链接新文；
+- 把已经进入终态（`done` / `cancelled` / `superseded`）的计划继续留在 `plan/` 根目录而不移入 `plan/archive/`；
+- 绕过 `engineering-design` 技能与 `MAINTENANCE.md` 手写未编号或未登记的工程文档。
 
 ## 调试路径
 
-1. 编号疑似冲突或引用打空 → 跑 engineering-design 的 `doc-clean`，
-   不要手算跨目录编号；
+1. 编号疑似冲突、终态计划未归档或引用打空 → 跑 `engineering-design` 的 `doc-clean`（`scan_docs.mjs`）；
 2. Scope 拿不准 → 查 `scope-manage.md` 词表，任一名字列语义命中即视为同域复用；
-3. 阶段选择困惑 → 对照 `README.md` 流转规则与 `_shared/lifecycle.md` 状态机。
+3. 模式或状态选择困惑 → 对照 `engineering/MAINTENANCE.md` 与 `_shared/lifecycle.md`。
 
 ## 引用
 
-- [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录写作技能的宿主插件
-- [Agent Studio 全局构建设计](engineering/design/0002-plugin-agent-studio-global.md) — 个人角色、模型选择和独立工作流（draft）
-- [Agent Studio 历史设计](engineering/design/0001-plugin-agent-studio.md) — 0.0.1 项目运行方案（superseded）
+- [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录与 `plan/` 写作技能的宿主插件
+- [插件编写与上架规范](engineering/spec/0001-plugin-guidelines.md) — 向本市场提交插件的唯一标准（`adr`）
+- [Agent Studio 全局体系设计](engineering/design/0002-plugin-agent-studio-global.md) — 本地全局 Agent 与独立工作流构建设计（`draft`）

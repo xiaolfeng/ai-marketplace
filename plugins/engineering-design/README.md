@@ -1,27 +1,27 @@
 # engineering-design
 
-工程设计文档管理插件。五个写作技能覆盖草案、调研、提案、设计与定稿，外加目录初始化器
-和文档卫生整理——写作技能自带好坏对照示例与可复制操作清单。
+工程研发文档与实施计划管理插件。将**文档模式（写什么体裁）**与**过程阶段（走到哪一步）**正交解耦：
+五个写作技能分管**调研（`research`）**、**设计（`design`）**、**规范（`spec`）**、**手册（`runbook`）**与**实施计划（`plan`）**，
+外加 `docs-init` 目录与维护器初始化、`doc-clean` 卫生巡检。
 
 ## 包含技能
 
-| 技能 | 阶段 | 一句话定位 |
-| --- | --- | --- |
-| [`draft-er`](./skills/draft-er/) | 草案 | 链首：钉住困惑与初步想法，允许粗糙 |
-| [`research-er`](./skills/research-er/) | 调研 | 只记现状与证据，判断标「倾向」不拍板 |
-| [`rfc-er`](./skills/rfc-er/) | 提案 | 给评审人拍的：采用什么、不做什么、哪些没定 |
-| [`design-er`](./skills/design-er/) | 设计 | 将已确认方向细化为职责、契约、失败路径和验证方式 |
-| [`adr-er`](./skills/adr-er/) | 定稿 | 冻结长期约束，每条可单独引用 |
-| [`docs-init`](./skills/docs-init/) | 初始化 | Node 脚本幂等创建五段式文档目录 |
-| [`doc-clean`](./skills/doc-clean/) | 整理 | 扫描编号/引用/错位，安全项直接修，重编号先请示 |
+| 技能                                   | 模式与落点                           | 状态机（过程阶段）                   | 一句话定位                                              |
+| -------------------------------------- | ------------------------------------ | ------------------------------------ | ------------------------------------------------------- |
+| [`research-er`](./skills/research-er/) | 调研 · `docs/engineering/research/`  | 无状态（仅记日期）                   | 直接记录现状与实测证据，方向判断标「倾向」不拍板        |
+| [`design-er`](./skills/design-er/)     | 设计 · `docs/engineering/design/`    | `draft → rfc → adr`                  | 单文件原位演进模块职责、数据接口、备选对比、异常与验证  |
+| [`spec-er`](./skills/spec-er/)         | 规范 · `docs/engineering/spec/`      | `draft → rfc → adr`                  | 单文件原位演进跨模块标准、协议契约、正反例与长期红线    |
+| [`runbook-er`](./skills/runbook-er/)   | 手册 · `docs/engineering/runbook/`   | `draft → active → deprecated`        | 编写部署发布、告警排查、故障止血回滚与恢复验证 SOP      |
+| [`plan-er`](./skills/plan-er/)         | 计划 · 顶层 `plan/`（含 `archive/`） | `draft → ready → in-progress → done` | 活动计划平铺于 `plan/`，完结移入 `plan/archive/`        |
+| [`docs-init`](./skills/docs-init/)     | 初始化 · `docs/` + `plan/`           | —                                    | 幂等创建目录树、`MAINTENANCE.md` 与分模式索引           |
+| [`doc-clean`](./skills/doc-clean/)     | 卫生整理 · 全受控域                  | —                                    | 扫描编号/引用/状态机/归档位置，安全项直修，重编号先请示 |
 
-## 设计
+## 核心架构设计
 
-- **调用链**：`draft ──► research ──► rfc ──► (design | adr)`，确认方向后按需要进入实施设计或长期决策；
-- **渐进披露**：SKILL.md 只放操作清单和文档骨架；好坏对照示例在各自的 `references/example.md`，动笔前才读；
-- **共享约束**：编号命名、业务域词表、状态机流转、输出语言纪律收在 [`skills/_shared/`](./skills/_shared/)，五技能一份事实源；
-- **自由度分级**：编号与状态是死命令，文档骨架按模板，行文语气按原则；
-- **反 AI 腔**：内置空话词禁用表、「删减测试」与万能句式黑名单——文档写给人看，不是写给汇报看的。
+- **体裁模式与过程阶段解耦**：`rfc`（提案描述/评审）与 `adr`（定稿约束/冻结）不再是独立目录，而是 `design` 与 `spec` 文档在**同一文件内原位演进的过程阶段**（`draft → rfc → adr`）；
+- **静态资产与动态计划分离**：`docs/engineering/` 沉淀长期有效的调研、设计、规范与运维手册；与 `docs/` 同级的顶层 `plan/` 承载分阶段推进与迁移计划（活动平铺、终态归入 `plan/archive/`）；
+- **维护器自治（`MAINTENANCE.md`）**：`docs/engineering/MAINTENANCE.md` 固化目标仓库的命名、独立取号与状态机铁律；`docs/README.md` 只做按模式分区的导航与分模式台账，互不混排；
+- **反 AI 腔与技术真实性六门禁**：内置空话词禁用表、最强反驳原则（反稻草人拉踩）、工作树现状与规划隔离、物理失效边界自白与自研退出条件。
 
 ## 安装
 
@@ -31,29 +31,29 @@
 /plugin install engineering-design@ai-marketplace
 
 # 或任意支持 Agent Skills 的工具（78+）
-npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --skill rfc-er --skill design-er --skill adr-er --skill docs-init --skill doc-clean
+npx skills add xiaolfeng/ai-marketplace --skill research-er --skill design-er --skill spec-er --skill runbook-er --skill plan-er --skill docs-init --skill doc-clean
 ```
 
 ## 使用
 
-| 场景 | 说的话 | 触发技能 |
-| --- | --- | --- |
-| 想法还没想清楚 | 「先记个草案」 | `draft-er` |
-| 需要摸清现状 | 「调研一下 X」 | `research-er` |
-| 方案要评审 | 「写个 RFC 提议 X」 | `rfc-er` |
-| 方向已确认、需要具体实施方式 | 「写个详细设计稿」 | `design-er` |
-| 决定要定稿 | 「把这个决定记下来」 | `adr-er` |
-| 新项目搭文档骨架 | 「初始化文档」 | `docs-init` |
-| 编号乱了、引用打空、文件放错 | 「整理一下工程文档」 | `doc-clean` |
+| 场景                                | 说的话                                     | 触发技能      |
+| ----------------------------------- | ------------------------------------------ | ------------- |
+| 需要摸清现状或对比方案              | 「调研一下 X」                             | `research-er` |
+| 设计功能/模块，或推进设计提案与定稿 | 「写个详细设计稿」「把这个设计定稿为 ADR」 | `design-er`   |
+| 制定跨模块标准、协议或架构红线      | 「写个规范」「把这条规矩冻住」             | `spec-er`     |
+| 编写部署步骤、排障或应急止血手册    | 「写个排障 runbook」                       | `runbook-er`  |
+| 拆解多阶段改造、存量迁移或完结归档  | 「写个实施计划」「把这个计划归档」         | `plan-er`     |
+| 新项目搭建文档与计划骨架            | 「初始化文档」                             | `docs-init`   |
+| 检查编号串号、断链或未归档计划      | 「整理一下工程文档」                       | `doc-clean`   |
 
 也可显式调用：
 
 ```bash
-/draft-er
 /research-er
-/rfc-er
 /design-er
-/adr-er
+/spec-er
+/runbook-er
+/plan-er
 /docs-init
 /doc-clean
 ```
@@ -63,19 +63,11 @@ npx skills add xiaolfeng/ai-marketplace --skill draft-er --skill research-er --s
 ```text
 engineering-design/skills/
 ├── _shared/
-│   ├── scope-manage.md     # 业务域词表对接（公共）
-│   ├── conventions.md      # 五阶段目录 + 阶段内独立编号（公共）
-│   ├── lifecycle.md        # 流转方向 + 状态机（公共）
-│   └── writing-style.md    # 输出语言纪律（公共）
-├── draft-er/
-│   ├── SKILL.md
-│   ├── references/example.md
-│   └── examples/sample.md
+│   ├── conventions.md      # 四工程模式 + 顶层 plan/ + MAINTENANCE.md + 独立编号规则
+│   ├── lifecycle.md        # 五模式流转方向 + 定制状态机（含 draft → rfc → adr 原位演进）
+│   ├── scope-manage.md     # 业务域词表对接（docs 与 plan 共用）
+│   └── writing-style.md    # 输出语言纪律 + 技术真实性六门禁
 ├── research-er/
-│   ├── SKILL.md
-│   ├── references/example.md
-│   └── examples/sample.md
-├── rfc-er/
 │   ├── SKILL.md
 │   ├── references/example.md
 │   └── examples/sample.md
@@ -83,7 +75,15 @@ engineering-design/skills/
 │   ├── SKILL.md
 │   ├── references/example.md
 │   └── examples/sample.md
-├── adr-er/
+├── spec-er/
+│   ├── SKILL.md
+│   ├── references/example.md
+│   └── examples/sample.md
+├── runbook-er/
+│   ├── SKILL.md
+│   ├── references/example.md
+│   └── examples/sample.md
+├── plan-er/
 │   ├── SKILL.md
 │   ├── references/example.md
 │   └── examples/sample.md
@@ -95,10 +95,6 @@ engineering-design/skills/
     ├── SKILL.md
     ├── references/checks.md
     ├── examples/sample-report.md
+    ├── evals/evals.json
     └── scripts/scan_docs.mjs
 ```
-
-`references/example.md` 是好坏对照教学材料；`examples/sample.md`
-是可直接复制改写的完整成品样例——五技能的样例共用「构建产物入库」
-一条主题线，演示 draft → research → rfc → (design | adr) 的流转；
-各阶段编号独立递增，承接靠文首链接而不是跨目录续号。

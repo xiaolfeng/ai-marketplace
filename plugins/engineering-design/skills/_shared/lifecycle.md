@@ -1,36 +1,49 @@
-# 公共约定：流转与状态
+# 公共约定：流转与状态机
 
-写作技能与 doc-clean 共用本文件。
+写作技能、`docs-init` 与 `doc-clean` 共用本文件。
 
-## 流转方向
+## 模式流转与过程阶段
+
+在新架构中，**文档模式（写什么体裁）**与**过程阶段（走到哪一步）**正交解耦：
+
+- `rfc`（提案描述/评审）与 `adr`（定稿约束/冻结）是文档内部的**演进阶段**，不再拆成独立目录或独立文件；
+- 同一篇 `design` 或 `spec` 从起草到定稿始终留在原文件内，随评审推进文首状态与正文收敛度。
 
 ```text
-draft ──► research ──► rfc ──► adr
-(草案)     (调研)       (提案)   (定稿)
-                └──► design（方向已确认后写清实施方式）
+research (调研模式 · 直接结果，无状态)
+   │
+   ├──► design  (设计模式 · 单文件原位演进：draft ──► rfc [描述/评审] ──► adr [约束/定稿])
+   │       │
+   │       ├──► plan    (实施计划 · 顶层 plan/ 平铺：draft ──► ready ──► in-progress ──► archive/: done)
+   │       └──► runbook (运维手册 · 状态演进：draft ──► active ──► deprecated)
+   │
+   └──► spec    (规范模式 · 单文件原位演进：draft ──► rfc [描述/评审] ──► adr [约束/定稿])
 ```
-
-单向流动，不回头改旧文：
-
-- draft 钉住困惑和初步想法，允许粗糙；
-- research 的倾向判断由 rfc 论证，research 自己不拍板；
-- rfc 收敛后二选一下游：长期约束抽成 adr；已确认的方向需要写实施方式时进 design；
-- 同一主题跨阶段时，在目标目录内单独取号；承接关系用文首链接，
-  不靠编号对齐，也不把 rfc / adr 拧成一条总序列。
 
 ## 状态机
 
-| 阶段 | 合法状态 | 新建默认 |
-| --- | --- | --- |
-| draft | `open` → `resolved` / `superseded` | `open` |
-| research | 无状态；头部记调研日期 | — |
-| rfc | `draft` → `in-review` → `accepted` / `rejected` / `superseded` | `draft` |
-| design | `draft` → `in-review` → `accepted` / `superseded` | `draft` |
-| adr | `proposed` → `accepted` / `rejected` / `superseded` | `proposed` |
+| 模式     | 合法状态                                                                | 新建默认 | 阶段与存储规则                                                                                                             |
+| -------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| research | 无状态；头部记调研日期                                                  | —        | 直接沉淀客观事实与证据，方案判断写「倾向」，不设状态字段                                                                   |
+| design   | `draft` → `rfc` → `adr` / `rejected` / `superseded`                     | `draft`  | 同文件演进：`draft` 起草 → `rfc` 提案评审 → `adr` 锁定约束                                                                 |
+| spec     | `draft` → `rfc` → `adr` / `rejected` / `superseded`                     | `draft`  | 同文件演进：`draft` 起草 → `rfc` 提案评审 → `adr` 锁定约束                                                                 |
+| runbook  | `draft` → `active` → `deprecated` / `superseded`                        | `draft`  | `draft` 编写待验 → `active` 经实测/演练现行有效 → `deprecated` 停用                                                        |
+| plan     | `draft` → `ready` → `in-progress` → `done` / `cancelled` / `superseded` | `draft`  | 活动态（`draft` / `ready` / `in-progress`）平铺于 `plan/`；终态（`done` / `cancelled` / `superseded`）移入 `plan/archive/` |
 
-四条纪律：
+## 阶段演进细则（`design` 与 `spec` 的三阶段）
 
-1. `accepted` 必须有人明确确认，技能不得擅自升级状态；
-2. 任何状态都只代表共识，不代表已落地；
-3. draft 的 `resolved` 必须标注去向——哪篇 research / rfc 接手了；
-4. 被取代的旧文标 `superseded` 并链接新文，正文不删。
+1. **`draft`（起草阶段）**：
+   - 允许存在并列候选思路、待验证假设和留白；重点是把问题边界与初步设计/规则骨架搭起来。
+2. **`rfc`（提案描述阶段）**：
+   - 方案已收敛为单一主推方向，面向评审人完整描述「做什么、不做什么、备选对比（遵循最强反驳原则）与待确认项」。还有并列方案未决时，先回 `research` 补证据或留在 `draft`。
+3. **`adr`（约束定稿阶段）**：
+   - 经用户或评审人明确拍板后升级为 `adr`；清零阻塞性「待确认」项，固化长期约束条款、后果、验证口径与重评退出条件。
+   - **冻结纪律**：状态一旦进入 `adr`，正文核心决定不可直接篡改；后续若推翻或发生破坏性变更，必须新建一篇同模式文档，并将旧文状态改为 `superseded`，文首双向互链。
+
+## 五条通用纪律
+
+1. **不越权定稿**：新建文档一律使用默认初始态 `draft`；升级到 `adr`（design/spec）、`active`（runbook）或 `ready`（plan）必须有人明确确认，技能不得擅自跳级；
+2. **状态只表共识或阶段，不替代代码验证**：`design` 进入 `adr` 代表设计约束已冻结，代码是否实现以 `plan` 进度与测试结果为准；
+3. **`plan` 终态归档必搬移**：活动中的计划平铺在 `plan/NNNN-<scope>-<title>.md`；状态变为 `done`、`cancelled` 或 `superseded` 时，必须移入 `plan/archive/NNNN-<scope>-<title>.md` 并更新 `plan/README.md`；
+4. **跨模式承接靠文首链接**：从 `research` 衍生 `design`/`spec`，或从 `design` 拆解 `plan`/`runbook` 时，在目标目录独立取号，文首写明 `承接 [NNNN](相对路径)`；
+5. **旧文不删**：被取代或取消的文档标 `superseded` / `cancelled` 并注明去向链接，保留历史上下文。

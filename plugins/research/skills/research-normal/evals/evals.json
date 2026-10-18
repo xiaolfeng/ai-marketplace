@@ -23,7 +23,7 @@
     {
       "id": 4,
       "prompt": "把我们上周关于网关选型的争论纪要整理成一篇 ADR 定稿吧",
-      "expected_output": "判定为工程设计文档写作（负向样本）：属 engineering-design 插件 adr-er 的职责，说明归属并拒绝以调研报告形式承接",
+      "expected_output": "判定为工程设计与规范文档写作（负向样本）：属 engineering-design 插件 design-er / spec-er（adr 定稿阶段）的职责，说明归属并拒绝以调研报告形式承接",
       "files": []
     },
     {

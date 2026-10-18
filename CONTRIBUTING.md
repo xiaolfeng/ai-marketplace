@@ -14,7 +14,7 @@
 
 1. 在 `plugins/<plugin-name>/` 下创建插件目录，遵循
    [Agent Skills 规范](https://agentskills.io/specification) 编写 `SKILL.md`，
-   目录模板与字段要求见 [docs/plugin-guidelines.md](./docs/plugin-guidelines.md)；
+   目录模板与字段要求见 [docs/engineering/spec/0001-plugin-guidelines.md](./docs/engineering/spec/0001-plugin-guidelines.md)；
 2. 在 `.claude-plugin/marketplace.json` 的 `plugins` 数组中登记条目；
 3. 本地校验全部通过：
 

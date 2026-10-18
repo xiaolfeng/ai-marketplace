@@ -35,7 +35,7 @@
     {
       "id": 6,
       "prompt": "我们接下来要把网关的部署策略从 Recreate 改成 Argo Rollouts 蓝绿发布，帮我写一份正式的工程详细设计文档（Design Doc）。",
-      "expected_output": "判定为事前工程设计文档撰写（近似干扰负向样本）：路由到 engineering-design 插件的 design-er（或 rfc-er），而非事后逆向复盘技能 replay-md。",
+      "expected_output": "判定为事前工程设计文档撰写（近似干扰负向样本）：路由到 engineering-design 插件的 design-er，而非事后逆向复盘技能 replay-md。",
       "files": []
     },
     {

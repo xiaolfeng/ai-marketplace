@@ -1,6 +1,6 @@
 # 项目 Scope 总账
 
-本文件是 ai-marketplace 唯一的 Scope 台账：**Git 提交与工程文档共用同一套
+本文件是 ai-marketplace 唯一的 Scope 台账：**Git 提交、工程文档与实施计划共用同一套
 业务域词表**。Scope 即业务域——从项目里分析出的一类业务环境。
 目标：项目级可自我管理，防止同义多词的 Scope（如「用户」与「user」）并存。
 
@@ -20,7 +20,7 @@
 | 英文单词    | `feat(marketplace): 初始化清单结构` |
 
 此后所有提交照此取用，不再重复询问；如需变更须显式改写本栏并全仓对齐。
-engineering-design 写文档固定取下方词表的英文单词列，不受本模式影响。
+`engineering-design` 写工程文档与实施计划时固定取下方词表的**英文单词列**，不受本模式影响。
 
 ## 词表
 
@@ -32,7 +32,7 @@ engineering-design 写文档固定取下方词表的英文单词列，不受本�
 | 市场清单与分发 | 市场     | 插件市场 | `marketplace` | marketplace.json 与各安装消费方 |
 | 插件本体       | 插件     | 插件包   | `plugin`      | plugins/ 下插件与其 manifest    |
 | 技能内容       | 技能     | 技能集   | `skill`       | SKILL.md、references、scripts   |
-| 文档中心       | 文档     | 工程文档 | `docs`        | docs/ 目录与写作规范            |
+| 文档中心       | 文档     | 工程文档 | `docs`        | docs/ 与 plan/ 目录及写作规范   |
 | 构建流水线     | 构建     | 构建脚本 | `build`       | 导出脚本与 GitHub Actions       |
 
 ## 登记纪律
@@ -40,5 +40,4 @@ engineering-design 写文档固定取下方词表的英文单词列，不受本�
 1. 新 Scope 先查上表与 `git log`：任一名字列语义命中即视为同一域，必须复用；
 2. 确属新域时三列同时起名，经用户确认后登记为新行；
 3. 废弃的 Scope 标注「废弃原因 + 归并去向」，不删除行；
-4. 工程文档目录名（draft / research / rfc / design / adr）是生命周期阶段，
-   不是 Scope——阶段规则见 conventions / lifecycle，不在此登记。
+4. 目录名（`research` / `design` / `spec` / `runbook` / `plan`）是文档模式，文首状态（`draft` / `rfc` / `adr` 等）是过程阶段，均不是 Scope——规则见 [`engineering/MAINTENANCE.md`](./engineering/MAINTENANCE.md)。

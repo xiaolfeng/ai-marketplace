@@ -6,7 +6,7 @@
 
 「筱锋のAI插件库」——面向 AI 编码助手的开源 Skills 与 Plugins 市场。
 面向人类读者的说明见 [README.md](./README.md)；插件编写规范见
-[docs/plugin-guidelines.md](./docs/plugin-guidelines.md)。
+[docs/engineering/spec/0001-plugin-guidelines.md](./docs/engineering/spec/0001-plugin-guidelines.md)。
 
 ### 架构原则
 
@@ -23,7 +23,8 @@ ai-marketplace/
 ├── plugins/<plugin-name>/            # 插件源码（manifest 位于各自 .claude-plugin/plugin.json）
 ├── scripts/build-cursor-manifest.mjs # Cursor 清单导出器（--check 供 CI 校验）
 ├── dist/cursor/                      # Cursor 清单导出产物，随仓库分发（dist/ 其余内容不入库）
-├── docs/                             # 工程文档 + 插件编写规范 + scope 词表
+├── docs/                             # 工程研发文档（research/design/spec/runbook + MAINTENANCE.md）+ scope 词表
+├── plan/                             # 实施与迁移计划（活动平铺 + archive/ 归档）
 └── .github/workflows/validate.yml    # CI：三道门校验（validate / 发现检查 / 导出核对）
 ```
 
@@ -33,18 +34,18 @@ ai-marketplace/
 | ---------------------- | ------------------------------------------- | -------------------------------------------------- |
 | 新增或修改插件         | `plugins/<name>/` + `marketplace.json` 登记 | 缺一不可，版本号两处同步                           |
 | 发布前校验             | 三连命令见「常用命令」                      | 本地全绿再提 PR                                    |
-| 写工程文档             | `docs/engineering/` 五阶段目录              | 各阶段独立四位编号，技能代写；整理走 doc-clean     |
+| 写工程文档与实施计划   | `docs/engineering/` 四模式 + 顶层 `plan/`   | 各模式独立四位编号，由 `MAINTENANCE.md` 与技能约束 |
 | 查或登记 Scope         | `docs/scope-manage.md`                      | Git 提交与工程文档共用词表                         |
 | 找某层的目录导航与约定 | 见「引用」段的各级 `INITDEEP.md`            | 按任务读取对应层索引；项目通用约束见根 `AGENTS.md` |
 
 ## 模块架构
 
-| 子系统 | 位置                                                 | 职责                                 |
-| ------ | ---------------------------------------------------- | ------------------------------------ |
-| 清单源 | `.claude-plugin/marketplace.json`                    | 唯一手写的市场索引                   |
-| 插件层 | `plugins/<name>/`                                    | 九个独立插件，互不依赖代码           |
-| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式         |
-| 文档层 | `docs/`                                              | 上架标准、scope 总账、五阶段工程文档 |
+| 子系统 | 位置                                                 | 职责                                     |
+| ------ | ---------------------------------------------------- | ---------------------------------------- |
+| 清单源 | `.claude-plugin/marketplace.json`                    | 唯一手写的市场索引                       |
+| 插件层 | `plugins/<name>/`                                    | 九个独立插件，互不依赖代码               |
+| 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式             |
+| 文档层 | `docs/` + `plan/`                                    | scope 总账、工程四模式文档与顶层实施计划 |
 
 ## 代码地图
 
@@ -69,9 +70,7 @@ npm run build`；
 3. `skills/` 目录保持单层结构，不使用嵌套分组；
 4. 不引入任何运行时依赖；构建脚本保持零依赖 Node（>=18）可执行；
 5. 不要把密钥或敏感值写入任何清单文件；
-6. 设计文档一律按 `docs/README.md` 规范管理：`draft/research/rfc/design/adr` 五阶段目录 +
-   `NNNN-<scope>-<title>.md` 各阶段独立四位编号（scope 取自 `docs/scope-manage.md` 业务域词表），
-   日常写作由 engineering-design 插件执行。
+6. 工程文档与实施计划按 `docs/engineering/MAINTENANCE.md` 规范管理：`docs/engineering/{research,design,spec,runbook}` 四模式 + 顶层 `plan/`（含 `archive/`），各模式独立四位编号（`design`/`spec` 内部走 `draft→rfc→adr` 原位演进），由 engineering-design 插件执行。
 
 ## 反模式
 
