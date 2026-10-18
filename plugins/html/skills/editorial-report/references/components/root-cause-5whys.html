@@ -1,0 +1,34 @@
+<!-- 模块：根因 5-Whys 追问分析链 (5-Whys Root Cause Chain) -->
+<!-- 适用场景：故障深度归因、机制缺陷挖掘、避免浅层表面定责 -->
+<div class="why-box" data-component="root-cause-5whys">
+  <div class="why-head">
+    <span class="why-title">5-WHYS ROOT CAUSE ANALYSIS / 根因连续追问</span>
+    <span class="why-meta">DRILL DOWN CHAIN</span>
+  </div>
+  <div class="why-chain">
+    <div class="why-node">
+      <div class="why-step">WHY 1 · 现象</div>
+      <p>为什么前端出现大面积 504 Gateway Timeout？</p>
+      <div class="why-ans">↳ 因为业务后端请求处理超时，连接全部被占满。</div>
+    </div>
+    <div class="why-node">
+      <div class="why-step">WHY 2 · 机制</div>
+      <p>为什么业务后端请求处理超时？</p>
+      <div class="why-ans">↳ 因为底层数据库在执行一条无索引的批量聚合查询引发全表锁。</div>
+    </div>
+    <div class="why-node">
+      <div class="why-step">WHY 3 · 流程</div>
+      <p>为什么生产环境会跑出无索引的批量聚合慢查询？</p>
+      <div class="why-ans">↳ 因为本次发布的新特性上线前未经过自动化 SQL 执行计划 Review。</div>
+    </div>
+    <div class="why-node">
+      <div class="why-step">WHY 4 · 规范</div>
+      <p>为什么没有经过自动化 SQL Review？</p>
+      <div class="why-ans">↳ 因为 CI 流水线中未配置自动慢 SQL 静态拦截门禁。</div>
+    </div>
+    <div class="why-node root-why">
+      <div class="why-step root-badge">ROOT CAUSE · 根本原因</div>
+      <p><strong>根本原因：</strong>发布体系缺少数据库 DDL/DML 的强制门禁检查，且熔断器超时阈值配置过长（30s）未起到快速失败保护。</p>
+    </div>
+  </div>
+</div>

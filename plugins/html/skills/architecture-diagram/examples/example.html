@@ -1,15 +1,9 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>通用分层系统架构示例 · Architecture Blueprint</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
-      rel="stylesheet"
-    />
     <script
       src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
       integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H"
@@ -22,73 +16,128 @@
     ></script>
     <style>
       /* ==========================================================================
-       DESIGN TOKENS & DUAL THEMES (深浅双主题)
-       外层主题严格遵循硬核直角（Sharp Edges），内部图保持优雅圆角
-       ========================================================================== */
-      :root,
-      [data-theme="dark"] {
-        --bg-canvas: #090d16;
-        --bg-panel: rgba(15, 23, 42, 0.85);
-        --bg-card: rgba(23, 32, 54, 0.7);
-        --node-base: #0b1329;
-        --border-subtle: rgba(148, 163, 184, 0.12);
-        --border-strong: rgba(148, 163, 184, 0.28);
-        --text-primary: #f8fafc;
-        --text-secondary: #94a3b8;
-        --text-muted: #64748b;
-        --grid-line: rgba(148, 163, 184, 0.05);
-        --grid-dot: rgba(148, 163, 184, 0.18);
+         DESIGN TOKENS · 纸白墨蓝工程图纸（对齐 replay-post-html）
+         跟随系统深浅色，可手动切换并持久化；外壳圆角与 replay 一致，内部画布保持原有图形语言
+         ========================================================================== */
+      :root {
+        --bg-page: #f7f7f3;
+        --bg-canvas: #fbfbf8;
+        --bg-panel: #ffffff;
+        --bg-card: #f4f4ef;
+        --node-base: #ffffff;
+        --border-subtle: #e3e3dc;
+        --border-strong: #cdcdc4;
+        --text-primary: #16181d;
+        --text-secondary: #464b55;
+        --text-muted: #7a7f89;
+        --grid-line: rgba(22, 24, 29, 0.05);
+        --grid-dot: rgba(22, 24, 29, 0.16);
+        --accent: #2445c9;
 
         /* Semantic Palette */
-        --c-client: #38bdf8;
-        --c-gateway: #0ea5e9;
-        --c-service: #10b981;
-        --c-storage: #f59e0b;
-        --c-security: #f43f5e;
-        --c-message: #8b5cf6;
-        --c-boundary: rgba(148, 163, 184, 0.22);
-        --c-boundary-text: #94a3b8;
-        --node-title-fill: #f8fafc;
-        --node-sub-fill: #94a3b8;
-        --line-label-fill: #94a3b8;
-        --hero-border: rgba(14, 165, 233, 0.35);
-        --btn-bg: rgba(30, 41, 59, 0.7);
-        --btn-hover-bg: rgba(51, 65, 85, 0.9);
-        --badge-bg: rgba(16, 185, 129, 0.12);
-        --badge-text: #34d399;
-        --badge-border: rgba(16, 185, 129, 0.3);
-      }
-
-      [data-theme="light"] {
-        --bg-canvas: #f8fafc;
-        --bg-panel: #ffffff;
-        --bg-card: #f1f5f9;
-        --node-base: #ffffff;
-        --border-subtle: rgba(100, 116, 139, 0.2);
-        --border-strong: rgba(100, 116, 139, 0.35);
-        --text-primary: #0f172a;
-        --text-secondary: #475569;
-        --text-muted: #64748b;
-        --grid-line: rgba(100, 116, 139, 0.08);
-        --grid-dot: rgba(100, 116, 139, 0.22);
-
         --c-client: #0284c7;
         --c-gateway: #0369a1;
         --c-service: #059669;
         --c-storage: #d97706;
         --c-security: #e11d48;
         --c-message: #7c3aed;
-        --c-boundary: rgba(100, 116, 139, 0.35);
-        --c-boundary-text: #334155;
-        --node-title-fill: #0f172a;
-        --node-sub-fill: #475569;
-        --line-label-fill: #475569;
-        --hero-border: rgba(3, 105, 161, 0.4);
-        --btn-bg: #f8fafc;
-        --btn-hover-bg: #e2e8f0;
-        --badge-bg: rgba(5, 150, 105, 0.1);
-        --badge-text: #059669;
-        --badge-border: rgba(5, 150, 105, 0.3);
+        --c-boundary: rgba(70, 75, 85, 0.32);
+        --c-boundary-text: #464b55;
+        --node-title-fill: #16181d;
+        --node-sub-fill: #464b55;
+        --line-label-fill: #464b55;
+        --hero-border: rgba(36, 69, 201, 0.35);
+        --btn-bg: #ffffff;
+        --btn-hover-bg: #f1f1ec;
+        --badge-bg: rgba(36, 69, 201, 0.07);
+        --badge-text: #2445c9;
+        --badge-border: rgba(36, 69, 201, 0.28);
+        --shadow: 0 1px 0 rgba(22, 24, 29, 0.03), 0 18px 40px -26px rgba(22, 24, 29, 0.3);
+        --shadow-float: 0 8px 20px -10px rgba(22, 24, 29, 0.25);
+        color-scheme: light;
+
+        --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
+        --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+          "Microsoft YaHei", "Segoe UI", sans-serif;
+        --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+        --radius-xs: 6px;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 14px;
+        --radius-pill: 999px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg-page: #0f1114;
+          --bg-canvas: #13161a;
+          --bg-panel: #16191e;
+          --bg-card: #1c1f25;
+          --node-base: #1a1d23;
+          --border-subtle: #2a2e35;
+          --border-strong: #3a3f48;
+          --text-primary: #e7e8eb;
+          --text-secondary: #b1b5bd;
+          --text-muted: #7d828c;
+          --grid-line: rgba(231, 232, 235, 0.04);
+          --grid-dot: rgba(231, 232, 235, 0.14);
+          --accent: #8fa5ff;
+          --c-client: #38bdf8;
+          --c-gateway: #0ea5e9;
+          --c-service: #10b981;
+          --c-storage: #f59e0b;
+          --c-security: #f43f5e;
+          --c-message: #8b5cf6;
+          --c-boundary: rgba(177, 181, 189, 0.24);
+          --c-boundary-text: #b1b5bd;
+          --node-title-fill: #e7e8eb;
+          --node-sub-fill: #b1b5bd;
+          --line-label-fill: #b1b5bd;
+          --hero-border: rgba(143, 165, 255, 0.4);
+          --btn-bg: #16191e;
+          --btn-hover-bg: #22262d;
+          --badge-bg: rgba(143, 165, 255, 0.1);
+          --badge-text: #8fa5ff;
+          --badge-border: rgba(143, 165, 255, 0.32);
+          --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 44px -26px rgba(0, 0, 0, 0.8);
+          --shadow-float: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg-page: #0f1114;
+        --bg-canvas: #13161a;
+        --bg-panel: #16191e;
+        --bg-card: #1c1f25;
+        --node-base: #1a1d23;
+        --border-subtle: #2a2e35;
+        --border-strong: #3a3f48;
+        --text-primary: #e7e8eb;
+        --text-secondary: #b1b5bd;
+        --text-muted: #7d828c;
+        --grid-line: rgba(231, 232, 235, 0.04);
+        --grid-dot: rgba(231, 232, 235, 0.14);
+        --accent: #8fa5ff;
+        --c-client: #38bdf8;
+        --c-gateway: #0ea5e9;
+        --c-service: #10b981;
+        --c-storage: #f59e0b;
+        --c-security: #f43f5e;
+        --c-message: #8b5cf6;
+        --c-boundary: rgba(177, 181, 189, 0.24);
+        --c-boundary-text: #b1b5bd;
+        --node-title-fill: #e7e8eb;
+        --node-sub-fill: #b1b5bd;
+        --line-label-fill: #b1b5bd;
+        --hero-border: rgba(143, 165, 255, 0.4);
+        --btn-bg: #16191e;
+        --btn-hover-bg: #22262d;
+        --badge-bg: rgba(143, 165, 255, 0.1);
+        --badge-text: #8fa5ff;
+        --badge-border: rgba(143, 165, 255, 0.32);
+        --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 44px -26px rgba(0, 0, 0, 0.8);
+        --shadow-float: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
+        color-scheme: dark;
       }
 
       * {
@@ -97,14 +146,8 @@
         box-sizing: border-box;
       }
       body {
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          sans-serif;
-        background: var(--bg-canvas);
+        font-family: var(--sans);
+        background: var(--bg-page);
         color: var(--text-primary);
         min-height: 100vh;
         padding: 2.5rem 1.5rem;
@@ -145,11 +188,11 @@
         padding: 0.25rem 0.65rem;
         font-size: 0.75rem;
         font-weight: 700;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
         background: var(--badge-bg);
         color: var(--badge-text);
         border: 1px solid var(--badge-border);
-        border-radius: 0;
+        border-radius: var(--radius-pill);
         letter-spacing: 0.05em;
       }
       .status-badge svg {
@@ -177,7 +220,7 @@
         cursor: pointer;
         transition: all 0.15s ease;
         user-select: none;
-        border-radius: 0;
+        border-radius: var(--radius-sm);
         white-space: nowrap;
       }
       .btn:hover {
@@ -194,9 +237,10 @@
       }
 
       .hero-main h1 {
+        font-family: var(--serif);
         font-size: 2.25rem;
-        font-weight: 800;
-        letter-spacing: -0.03em;
+        font-weight: 700;
+        letter-spacing: -0.01em;
         color: var(--text-primary);
         line-height: 1.2;
         margin-bottom: 0.6rem;
@@ -210,12 +254,12 @@
 
       /* Canvas Viewport & Pan-Zoom Panel (自适应视口与平移缩放) */
       .diagram-panel {
-        background: var(--bg-panel);
+        background: var(--bg-canvas);
         border: 1px solid var(--border-strong);
-        border-radius: 0;
+        border-radius: var(--radius-lg);
         padding: 0;
         position: relative;
-        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+        box-shadow: var(--shadow);
         overflow: hidden;
         height: 660px;
         min-height: 480px;
@@ -232,14 +276,14 @@
       .diagram-panel.is-active {
         cursor: grab;
         touch-action: none;
-        border-color: #3b82f6;
+        border-color: var(--accent);
         box-shadow:
-          0 0 0 3px rgba(59, 130, 246, 0.35),
-          0 0 24px rgba(59, 130, 246, 0.3);
+          0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent),
+          0 0 24px color-mix(in srgb, var(--accent) 22%, transparent);
       }
 
       .diagram-panel:focus-visible {
-        outline: 2px solid #3b82f6;
+        outline: 2px solid var(--accent);
         outline-offset: 4px;
       }
 
@@ -251,11 +295,7 @@
         width: 100%;
         height: 100%;
         display: block;
-        font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
+        font-family: var(--sans);
         pointer-events: auto;
       }
 
@@ -270,8 +310,9 @@
         background: var(--bg-panel);
         border: 1px solid var(--border-strong);
         padding: 0.25rem;
+        border-radius: var(--radius-md);
         z-index: 10;
-        box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+        box-shadow: var(--shadow-float);
       }
 
       .viewport-btn {
@@ -284,7 +325,7 @@
         border: 1px solid transparent;
         color: var(--text-secondary);
         cursor: pointer;
-        border-radius: 0;
+        border-radius: var(--radius-xs);
         transition: all 0.15s ease;
         padding: 0;
       }
@@ -303,7 +344,7 @@
 
       .viewport-scale-badge {
         font-size: 0.75rem;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
         font-weight: 600;
         color: var(--text-muted);
         padding: 0 0.45rem;
@@ -322,14 +363,14 @@
         left: 1rem;
         bottom: 1rem;
         font-size: 0.75rem;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
         color: var(--text-muted);
         pointer-events: none;
         opacity: 0.65;
         z-index: 5;
       }
       .svg-mono {
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
       }
       .node-title {
         font-size: 11.5px;
@@ -339,26 +380,26 @@
       .node-subtitle {
         font-size: 9px;
         fill: var(--node-sub-fill);
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
       }
       .node-tag {
         font-size: 8px;
         font-weight: 600;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
       }
       .line-label {
         font-size: 8.5px;
         font-weight: 600;
         fill: var(--line-label-fill);
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
       }
 
-      /* Legend Deck (直角面板) */
+      /* Legend Deck (图例面板) */
       .legend-deck {
         margin-top: 1.5rem;
         background: var(--bg-panel);
         border: 1px solid var(--border-strong);
-        border-radius: 0;
+        border-radius: var(--radius-lg);
         padding: 1.25rem;
       }
       .legend-header {
@@ -426,7 +467,7 @@
       .spec-card {
         background: var(--bg-card);
         border: 1px solid var(--border-subtle);
-        border-radius: 0;
+        border-radius: var(--radius-md);
         padding: 1.25rem;
         display: flex;
         flex-direction: column;
@@ -474,7 +515,7 @@
         border-top: 1px solid var(--border-subtle);
         color: var(--text-muted);
         font-size: 0.75rem;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--mono);
         flex-wrap: wrap;
         gap: 0.5rem;
       }
@@ -564,6 +605,92 @@
         }
         .toolbar-flat {
           display: none !important;
+        }
+      }
+
+      /* ==========================================================================
+         ACCENT · 二次元点缀：✦ 四角星、网点、对话气泡、荧光笔与平涂错位阴影
+         只借漫画的表达语法，不放角色素材；点缀集中在本段，删掉本段即回到素版
+         ========================================================================== */
+      :root {
+        --sakura: #d6537e;
+        --sakura-tint: #fbe4ec;
+        --tone: color-mix(in srgb, var(--accent) 30%, transparent);
+        --sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z'/%3E%3C/svg%3E");
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --sakura: #f29ab9;
+          --sakura-tint: #3b2330;
+        }
+      }
+      :root[data-theme="dark"] {
+        --sakura: #f29ab9;
+        --sakura-tint: #3b2330;
+      }
+      .hero-header {
+        position: relative;
+        isolation: isolate;
+      }
+      .hero-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(320px, 40%);
+        height: 170px;
+        z-index: -1;
+        background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
+        background-size: 7px 7px;
+        -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        pointer-events: none;
+      }
+      .hero-main h1 {
+        text-decoration: underline;
+        text-decoration-color: var(--sakura-tint);
+        text-decoration-thickness: 0.3em;
+        text-underline-offset: -0.14em;
+        text-decoration-skip-ink: none;
+      }
+      .spec-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .spec-card-header svg {
+        color: var(--sakura);
+      }
+      .spec-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 76px;
+        height: 76px;
+        background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
+        background-size: 7px 7px;
+        -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        pointer-events: none;
+      }
+      .footer > span:first-child::before {
+        content: "";
+        display: inline-block;
+        width: 0.9em;
+        height: 0.9em;
+        flex: none;
+        background: var(--sakura);
+        -webkit-mask: var(--sparkle) center / contain no-repeat;
+        mask: var(--sparkle) center / contain no-repeat;
+      }
+      .footer > span:first-child::before {
+        margin-right: 0.5em;
+        vertical-align: -0.12em;
+      }
+      @media print {
+        .hero-header::before,
+        .spec-card::after {
+          display: none;
         }
       }
     </style>
@@ -1818,7 +1945,18 @@
     </div>
 
     <script>
-      function applyTheme(theme) {
+      const THEME_STORAGE_KEY = "arch_diagram_theme";
+      const systemDarkQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+
+      function readSavedTheme() {
+        try {
+          return localStorage.getItem(THEME_STORAGE_KEY);
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function applyTheme(theme, persist = true) {
         document.documentElement.setAttribute("data-theme", theme);
         const isDark = theme === "dark";
         const sunIcon = document.getElementById("theme-icon-sun");
@@ -1829,27 +1967,26 @@
           moonIcon.style.display = isDark ? "inline-block" : "none";
           textSpan.textContent = isDark ? "浅色模式" : "深色模式";
         }
-        localStorage.setItem("arch_diagram_theme", theme);
+        if (!persist) return;
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, theme);
+        } catch (err) {
+          // 隐私模式等场景下静默忽略，主题仍在本次浏览中生效
+        }
       }
 
       function toggleTheme() {
-        const current =
-          document.documentElement.getAttribute("data-theme") || "dark";
+        const current = document.documentElement.getAttribute("data-theme") || "light";
         applyTheme(current === "dark" ? "light" : "dark");
       }
 
+      // 未手动选择时跟随系统深浅色，并随系统切换实时同步
       (function initTheme() {
-        const saved = localStorage.getItem("arch_diagram_theme");
-        if (saved) {
-          applyTheme(saved);
-        } else if (
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: light)").matches
-        ) {
-          applyTheme("light");
-        } else {
-          applyTheme("dark");
-        }
+        const saved = readSavedTheme();
+        applyTheme(saved || (systemDarkQuery?.matches ? "dark" : "light"), false);
+        systemDarkQuery?.addEventListener?.("change", (e) => {
+          if (!readSavedTheme()) applyTheme(e.matches ? "dark" : "light", false);
+        });
       })();
 
       // ==========================================================================
@@ -2125,7 +2262,7 @@
         return (
           getComputedStyle(document.documentElement)
             .getPropertyValue("--bg-canvas")
-            .trim() || "#090d16"
+            .trim() || "#fbfbf8"
         );
       }
 

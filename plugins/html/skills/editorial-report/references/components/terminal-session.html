@@ -1,0 +1,23 @@
+<!-- 模块：macOS/Linux 真实终端窗口 (Terminal Session Window) -->
+<!-- 适用场景：CLI 工具演示、排障命令交互记录、输出高亮展示 -->
+<div class="term-window" data-component="terminal-session">
+  <div class="term-header">
+    <div class="term-controls">
+      <span class="ctrl close"></span>
+      <span class="ctrl min"></span>
+      <span class="ctrl max"></span>
+    </div>
+    <div class="term-title">bash — dev@laptop: ~/projects/acme-service</div>
+    <div class="term-badge">zsh 5.9</div>
+  </div>
+  <pre class="term-body"><code><span class="prompt">$</span> npm run build
+<span class="term-out info">==&gt; acme-service build 执行结果：</span>
+  • 入口: src/main.ts
+  • 产物目录: dist/
+  • 模块数: 128
+  • 产物体积: 412 KB (gzip 118 KB)
+<span class="term-out success">✔ 构建完成，用时 3.2s。</span>
+
+<span class="prompt">$</span> git status --short
+<span class="term-out"> M package-lock.json</span></code></pre>
+</div>

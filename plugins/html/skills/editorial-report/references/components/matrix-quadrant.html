@@ -1,0 +1,36 @@
+<!-- 模块：2x2 四象限决策与风险矩阵 (2x2 Quadrant Matrix) -->
+<!-- 适用场景：收益/成本分析、风险/紧急度优先级排序、需求排期优先级 -->
+<div class="matrix-box" data-component="matrix-quadrant">
+  <div class="matrix-head">
+    <div class="matrix-title">【替换：决策四象限矩阵】</div>
+    <div class="matrix-sub">横轴：实现代价 (Cost) ｜ 纵轴：业务价值 (Impact)</div>
+  </div>
+  <div class="quadrant-grid">
+    <div class="quadrant q-high-high">
+      <div class="quadrant-label">Q1 · 战略重点 (高收益 / 高代价)</div>
+      <ul class="quadrant-items">
+        <li><span>【核心链路重构】</span><span class="badge badge-progress">P0</span></li>
+        <li><span>【多机房双活容灾建设】</span><span class="badge badge-plan">P1</span></li>
+      </ul>
+    </div>
+    <div class="quadrant q-high-low">
+      <div class="quadrant-label">Q2 · 优先速赢 (高收益 / 低代价)</div>
+      <ul class="quadrant-items">
+        <li><span>【读接口引入本地内存缓存】</span><span class="badge badge-done">Done</span></li>
+        <li><span>【优化慢 SQL 索引覆盖】</span><span class="badge badge-done">Done</span></li>
+      </ul>
+    </div>
+    <div class="quadrant q-low-high">
+      <div class="quadrant-label">Q3 · 暂缓搁置 (低收益 / 高代价)</div>
+      <ul class="quadrant-items">
+        <li><span>【自建自研日志存储系统】</span><span class="badge badge-blocked">Drop</span></li>
+      </ul>
+    </div>
+    <div class="quadrant q-low-low">
+      <div class="quadrant-label">Q4 · 按需填充 (低收益 / 低代价)</div>
+      <ul class="quadrant-items">
+        <li><span>【非核心后台表单校验微调】</span><span class="badge badge-plan">P2</span></li>
+      </ul>
+    </div>
+  </div>
+</div>

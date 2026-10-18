@@ -1,0 +1,57 @@
+<!-- 模块：纯矢量柱状图与条形图 (SVG Bar Chart) -->
+<!-- 适用场景：各阶段耗时、接口调用量对比、分服务资源占用。纯 SVG，双主题自适应 -->
+<div class="chart-box" data-component="chart-bar">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：图表标题】</div>
+      <div class="chart-sub">【替换：图表说明或口径】</div>
+    </div>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>【系列 A】</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--mark)"></span>【系列 B】</span>
+    </div>
+  </div>
+  <div class="chart-svg-wrap">
+    <svg class="chart-svg" viewBox="0 0 600 240" preserveAspectRatio="none" role="img" aria-label="柱状图">
+      <!-- 网格基线 -->
+      <line x1="40" y1="30" x2="580" y2="30" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="80" x2="580" y2="80" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="130" x2="580" y2="130" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="180" x2="580" y2="180" stroke="var(--rule-strong)" />
+      
+      <!-- Y 轴刻度文字 -->
+      <text x="32" y="34" class="chart-label" text-anchor="end">100</text>
+      <text x="32" y="84" class="chart-label" text-anchor="end">75</text>
+      <text x="32" y="134" class="chart-label" text-anchor="end">50</text>
+      <text x="32" y="184" class="chart-label" text-anchor="end">0</text>
+      
+      <!-- 柱条 1 -->
+      <rect x="70" y="50" width="36" height="130" fill="var(--accent)" />
+      <rect x="112" y="75" width="36" height="105" fill="var(--mark)" />
+      <text x="109" y="202" class="chart-label" text-anchor="middle">模块 A</text>
+      <text x="88" y="42" class="chart-val" text-anchor="middle">85</text>
+      <text x="130" y="68" class="chart-val" text-anchor="middle">68</text>
+
+      <!-- 柱条 2 -->
+      <rect x="195" y="40" width="36" height="140" fill="var(--accent)" />
+      <rect x="237" y="95" width="36" height="85" fill="var(--mark)" />
+      <text x="234" y="202" class="chart-label" text-anchor="middle">模块 B</text>
+      <text x="213" y="32" class="chart-val" text-anchor="middle">92</text>
+      <text x="255" y="88" class="chart-val" text-anchor="middle">55</text>
+
+      <!-- 柱条 3 -->
+      <rect x="320" y="65" width="36" height="115" fill="var(--accent)" />
+      <rect x="362" y="120" width="36" height="60" fill="var(--mark)" />
+      <text x="359" y="202" class="chart-label" text-anchor="middle">模块 C</text>
+      <text x="338" y="57" class="chart-val" text-anchor="middle">76</text>
+      <text x="380" y="112" class="chart-val" text-anchor="middle">38</text>
+
+      <!-- 柱条 4 -->
+      <rect x="445" y="80" width="36" height="100" fill="var(--accent)" />
+      <rect x="487" y="145" width="36" height="35" fill="var(--mark)" />
+      <text x="484" y="202" class="chart-label" text-anchor="middle">模块 D</text>
+      <text x="463" y="72" class="chart-val" text-anchor="middle">65</text>
+      <text x="505" y="138" class="chart-val" text-anchor="middle">24</text>
+    </svg>
+  </div>
+</div>

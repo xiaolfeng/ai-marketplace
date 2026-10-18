@@ -1,0 +1,45 @@
+<!-- 模块：SVG 仪表盘与 SLO 水位圆规 (SVG Gauge / SLO Dial) -->
+<!-- 适用场景：SRE 稳定性可用率、SLO 达成率 (如 99.95%)、系统健康水位 -->
+<div class="chart-box" data-component="chart-gauge">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：SRE 可用性 SLO 达成水位】</div>
+      <div class="chart-sub">【替换：月度 SLA 目标 99.90% ｜ 实际达成 99.95%】</div>
+    </div>
+    <div class="chart-delta delta-up">SLO 达标</div>
+  </div>
+  <div class="gauge-wrap">
+    <div class="gauge-svg-container">
+      <svg class="gauge-svg" viewBox="0 0 200 120" role="img" aria-label="仪表盘图表">
+        <!-- 半圆弧长 PI*80 ≈ 251.32 -->
+        <!-- 轨道底色 -->
+        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--rule)" stroke-width="20" stroke-linecap="butt" />
+        <!-- 告警区 (后 10%) -->
+        <path d="M 148 44 A 80 80 0 0 1 180 100" fill="none" stroke="var(--color-danger-bg)" stroke-width="20" />
+        <!-- 实际达成弧度 99.95% (当前填至 ~88% 位置示警) -->
+        <path d="M 20 100 A 80 80 0 0 1 168 56" fill="none" stroke="var(--accent)" stroke-width="20" stroke-linecap="butt" />
+        <!-- 指针或刻度中点 -->
+        <circle cx="100" cy="100" r="6" fill="var(--ink)" />
+        <line x1="100" y1="100" x2="152" y2="65" stroke="var(--ink)" stroke-width="3" />
+      </svg>
+      <div class="gauge-readout">
+        <span class="gauge-num">99.95%</span>
+        <span class="gauge-label">AVAILABILITY</span>
+      </div>
+    </div>
+    <div class="gauge-details">
+      <div class="gauge-stat-row">
+        <span>当前不可用预算剩余 (Error Budget)</span>
+        <strong style="color:var(--color-success)">84.2% (良好)</strong>
+      </div>
+      <div class="gauge-stat-row">
+        <span>本周期总故障停机时长</span>
+        <strong>21 分钟 / 允许 43 分钟</strong>
+      </div>
+      <div class="gauge-stat-row">
+        <span>告警触发次数 (P1/P2)</span>
+        <span>0 次 P1 / 2 次 P2</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<!-- 模块：故障复盘定级刊头 (Incident Severity Header) -->
+<!-- 适用场景：线上故障复盘报告、重大事故分析、SRE 应急总结 -->
+<div class="incident-header-box" data-component="incident-header">
+  <div class="incident-top-strip">
+    <div class="incident-level level-p1">INCIDENT · P1 级事故</div>
+    <div class="incident-status"><span class="badge badge-done">已止血恢复</span></div>
+  </div>
+  <div class="incident-main-grid">
+    <div class="incident-summary">
+      <div class="incident-title">【替换：2026-09-01 核心存储服务不可用故障复盘】</div>
+      <p class="incident-cause">【根因一句话：由于数据库连接池突发死锁导致请求堆积，熔断器未及时阻断流量引发连锁雪崩。】</p>
+    </div>
+    <div class="incident-impact-stats">
+      <div class="impact-item">
+        <span class="impact-label">影响时长</span>
+        <strong class="impact-val">42 分钟</strong>
+      </div>
+      <div class="impact-item">
+        <span class="impact-label">受影响用户</span>
+        <strong class="impact-val">约 14.2k</strong>
+      </div>
+      <div class="impact-item">
+        <span class="impact-label">丢单 / 资损</span>
+        <strong class="impact-val">0 笔 (已对账)</strong>
+      </div>
+    </div>
+  </div>
+</div>

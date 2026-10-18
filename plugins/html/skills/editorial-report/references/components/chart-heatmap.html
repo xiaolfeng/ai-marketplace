@@ -1,0 +1,69 @@
+<!-- 模块：时间分布热力图网格 (Time Heatmap Grid) -->
+<!-- 适用场景：7x24小时流量热点、周度告警分布、CI 跑批高频时段 -->
+<div class="chart-box" data-component="chart-heatmap">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：一周 24 小时系统请求密度热力图】</div>
+      <div class="chart-sub">【替换：颜色越深代表 QPS 越高 ｜ 识别夜间批处理与午高峰】</div>
+    </div>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--accent-tint)"></span>低</span>
+      <span class="legend-item"><span class="legend-dot" style="background:color-mix(in srgb, var(--accent) 50%, transparent)"></span>中</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>高</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--mark)"></span>高峰</span>
+    </div>
+  </div>
+  <div class="heatmap-wrap">
+    <div class="heatmap-grid">
+      <!-- 星期轴 + 24小时格子 -->
+      <div class="heatmap-row">
+        <span class="heatmap-day">周一</span>
+        <div class="heatmap-cells">
+          <span class="hm-c l1" title="00:00"></span><span class="hm-c l1"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l1"></span><span class="hm-c l2"></span>
+          <span class="hm-c l3" title="06:00"></span><span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l3"></span>
+          <span class="hm-c l3" title="12:00"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l3"></span><span class="hm-c l2"></span>
+          <span class="hm-c l2" title="18:00"></span><span class="hm-c l3"></span><span class="hm-c l3"></span><span class="hm-c l2"></span><span class="hm-c l1"></span><span class="hm-c l1"></span>
+        </div>
+      </div>
+      <div class="heatmap-row">
+        <span class="heatmap-day">周二</span>
+        <div class="heatmap-cells">
+          <span class="hm-c l1"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l1"></span><span class="hm-c l2"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l5" title="高峰"></span><span class="hm-c l4"></span><span class="hm-c l3"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l5"></span><span class="hm-c l4"></span><span class="hm-c l3"></span><span class="hm-c l2"></span>
+          <span class="hm-c l2"></span><span class="hm-c l3"></span><span class="hm-c l3"></span><span class="hm-c l2"></span><span class="hm-c l1"></span><span class="hm-c l1"></span>
+        </div>
+      </div>
+      <div class="heatmap-row">
+        <span class="heatmap-day">周三</span>
+        <div class="heatmap-cells">
+          <span class="hm-c l1"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l1"></span><span class="hm-c l2"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l5"></span><span class="hm-c l5"></span><span class="hm-c l4"></span><span class="hm-c l3"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l3"></span><span class="hm-c l3"></span><span class="hm-c l2"></span>
+          <span class="hm-c l2"></span><span class="hm-c l2"></span><span class="hm-c l2"></span><span class="hm-c l1"></span><span class="hm-c l1"></span><span class="hm-c l0"></span>
+        </div>
+      </div>
+      <div class="heatmap-row">
+        <span class="heatmap-day">周四</span>
+        <div class="heatmap-cells">
+          <span class="hm-c l1"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l1"></span><span class="hm-c l2"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l3"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l4"></span><span class="hm-c l3"></span><span class="hm-c l2"></span><span class="hm-c l2"></span>
+          <span class="hm-c l2"></span><span class="hm-c l2"></span><span class="hm-c l2"></span><span class="hm-c l1"></span><span class="hm-c l1"></span><span class="hm-c l0"></span>
+        </div>
+      </div>
+      <div class="heatmap-row">
+        <span class="heatmap-day">周五</span>
+        <div class="heatmap-cells">
+          <span class="hm-c l1"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l0"></span><span class="hm-c l1"></span><span class="hm-c l2"></span>
+          <span class="hm-c l3"></span><span class="hm-c l4"></span><span class="hm-c l5"></span><span class="hm-c l5"></span><span class="hm-c l5"></span><span class="hm-c l4"></span>
+          <span class="hm-c l4"></span><span class="hm-c l5"></span><span class="hm-c l5"></span><span class="hm-c l4"></span><span class="hm-c l3"></span><span class="hm-c l2"></span>
+          <span class="hm-c l2"></span><span class="hm-c l3"></span><span class="hm-c l2"></span><span class="hm-c l1"></span><span class="hm-c l1"></span><span class="hm-c l0"></span>
+        </div>
+      </div>
+    </div>
+    <div class="heatmap-hours">
+      <span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span><span>24:00</span>
+    </div>
+  </div>
+</div>

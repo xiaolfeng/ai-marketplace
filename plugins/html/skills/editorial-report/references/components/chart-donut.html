@@ -1,0 +1,51 @@
+<!-- 模块：纯矢量环形占比图 (SVG Donut Chart) -->
+<!-- 适用场景：流量来源占比、错误分类构成、各团队投入比例。纯 SVG，双主题自适应 -->
+<div class="chart-box" data-component="chart-donut">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：占比构成标题】</div>
+      <div class="chart-sub">【替换：统计总样本量】</div>
+    </div>
+  </div>
+  <div class="donut-wrap">
+    <div class="donut-svg-container">
+      <svg class="donut-svg" viewBox="0 0 160 160" role="img" aria-label="环形占比图">
+        <!-- 环形计算: r=60, C=2*PI*60 ≈ 376.99 -->
+        <!-- Segment 1: 45% = 169.64 -->
+        <circle cx="80" cy="80" r="60" fill="none" stroke="var(--accent)" stroke-width="24" stroke-dasharray="169.64 376.99" stroke-dashoffset="0" />
+        <!-- Segment 2: 30% = 113.10 -->
+        <circle cx="80" cy="80" r="60" fill="none" stroke="var(--mark)" stroke-width="24" stroke-dasharray="113.10 376.99" stroke-dashoffset="-169.64" />
+        <!-- Segment 3: 15% = 56.55 -->
+        <circle cx="80" cy="80" r="60" fill="none" stroke="var(--rose)" stroke-width="24" stroke-dasharray="56.55 376.99" stroke-dashoffset="-282.74" />
+        <!-- Segment 4: 10% = 37.70 -->
+        <circle cx="80" cy="80" r="60" fill="none" stroke="var(--subtle)" stroke-width="24" stroke-dasharray="37.70 376.99" stroke-dashoffset="-339.29" />
+      </svg>
+      <div class="donut-center">
+        <span class="donut-center-num">100%</span>
+        <span class="donut-center-label">TOTAL</span>
+      </div>
+    </div>
+    <div class="donut-legend-list">
+      <div class="donut-legend-row">
+        <span class="legend-dot" style="background:var(--accent)"></span>
+        <span class="donut-legend-name">【类别 A · 主业务调用】</span>
+        <strong class="donut-legend-val">45.0%</strong>
+      </div>
+      <div class="donut-legend-row">
+        <span class="legend-dot" style="background:var(--mark)"></span>
+        <span class="donut-legend-name">【类别 B · 异步任务拉取】</span>
+        <strong class="donut-legend-val">30.0%</strong>
+      </div>
+      <div class="donut-legend-row">
+        <span class="legend-dot" style="background:var(--rose)"></span>
+        <span class="donut-legend-name">【类别 C · 离线分析任务】</span>
+        <strong class="donut-legend-val">15.0%</strong>
+      </div>
+      <div class="donut-legend-row">
+        <span class="legend-dot" style="background:var(--subtle)"></span>
+        <span class="donut-legend-name">【类别 D · 其它与探测】</span>
+        <strong class="donut-legend-val">10.0%</strong>
+      </div>
+    </div>
+  </div>
+</div>

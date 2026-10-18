@@ -1009,6 +1009,79 @@
           white-space: pre-wrap;
         }
       }
+
+      /* ==========================================================================
+         ACCENT · 二次元点缀：✦ 四角星、网点、对话气泡、荧光笔与平涂错位阴影
+         只借漫画的表达语法，不放角色素材；点缀集中在本段，删掉本段即回到素版
+         ========================================================================== */
+      :root {
+        --sakura: #d6537e;
+        --sakura-tint: #fbe4ec;
+        --tone: color-mix(in srgb, var(--accent) 30%, transparent);
+        --sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z'/%3E%3C/svg%3E");
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --sakura: #f29ab9;
+          --sakura-tint: #3b2330;
+        }
+      }
+      :root[data-theme="dark"] {
+        --sakura: #f29ab9;
+        --sakura-tint: #3b2330;
+      }
+      .folio .sec {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45em;
+      }
+      .folio .sec::before {
+        content: "";
+        display: inline-block;
+        width: 0.95em;
+        height: 0.95em;
+        flex: none;
+        background: var(--sakura);
+        -webkit-mask: var(--sparkle) center / contain no-repeat;
+        mask: var(--sparkle) center / contain no-repeat;
+      }
+      .sheet {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+      }
+      .sheet::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(240px, 40%);
+        height: 150px;
+        z-index: -1;
+        background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
+        background-size: 7px 7px;
+        -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        pointer-events: none;
+      }
+      h1.headline {
+        text-decoration: underline;
+        text-decoration-color: var(--sakura-tint);
+        text-decoration-thickness: 0.3em;
+        text-underline-offset: -0.14em;
+        text-decoration-skip-ink: none;
+      }
+      .tldr {
+        box-shadow: 5px 5px 0 var(--sakura-tint);
+      }
+      @media print {
+        .sheet::before {
+          display: none;
+        }
+        .tldr {
+          box-shadow: none;
+        }
+      }
     </style>
   </head>
   <body>

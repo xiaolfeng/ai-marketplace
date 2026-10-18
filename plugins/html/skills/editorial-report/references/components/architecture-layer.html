@@ -1,0 +1,59 @@
+<!-- 模块：分层架构分层盒 (Layered Architecture Stack) -->
+<!-- 适用场景：系统分层解耦、接入层/服务层/数据层职责划分、自顶向下架构图 -->
+<div class="arch-stack-box" data-component="architecture-layer">
+  <div class="arch-stack-head">
+    <span class="arch-stack-title"
+      >SYSTEM ARCHITECTURE STACK / 系统分层架构</span
+    >
+    <span class="arch-stack-meta">TOP-DOWN LAYERS</span>
+  </div>
+  <div class="arch-layers">
+    <!-- 接入层 -->
+    <div class="arch-layer">
+      <div class="layer-badge">01 · 接入与网关层 (Edge & Gateway)</div>
+      <div class="layer-nodes">
+        <div class="layer-node">
+          <span>BFF API Gateway</span><small>反向代理 / TLS 卸载</small>
+        </div>
+        <div class="layer-node">
+          <span>Auth & RateLimit</span><small>JWT 验签 / 令牌桶限流</small>
+        </div>
+        <div class="layer-node">
+          <span>CDN & Edge Cache</span><small>静态物料加速</small>
+        </div>
+      </div>
+    </div>
+    <div class="layer-connector">↓ gRPC / HTTP 内部协议 ↓</div>
+    <!-- 领域微服务层 -->
+    <div class="arch-layer highlight-layer">
+      <div class="layer-badge">02 · 核心微服务集群 (Core Services)</div>
+      <div class="layer-nodes">
+        <div class="layer-node accent">
+          <span>Task-Dispatch Service</span><small>任务调度 / 状态编排</small>
+        </div>
+        <div class="layer-node accent">
+          <span>Worker Engine Pool</span><small>异步批处理 / 渲染流水线</small>
+        </div>
+        <div class="layer-node">
+          <span>Event Bus Dispatcher</span><small>领域事件发布与审计</small>
+        </div>
+      </div>
+    </div>
+    <div class="layer-connector">↓ 持久化协议 & 消息队列 ↓</div>
+    <!-- 数据与存储层 -->
+    <div class="arch-layer">
+      <div class="layer-badge">03 · 数据与基础设施层 (Data & Storage)</div>
+      <div class="layer-nodes">
+        <div class="layer-node">
+          <span>PostgreSQL (Primary/Replica)</span><small>事务关系库</small>
+        </div>
+        <div class="layer-node">
+          <span>Redis Cluster</span><small>分布式缓存 / 锁</small>
+        </div>
+        <div class="layer-node">
+          <span>Shared Storage / S3</span><small>持久化对象文件存储</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

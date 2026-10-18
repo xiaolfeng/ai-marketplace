@@ -1,0 +1,36 @@
+<!-- 模块：架构决策演进流水记录 (Architecture Decision Log) -->
+<!-- 适用场景：ADR 决策演进追踪、历史决策审计、弃用/替代方案归档 -->
+<div class="decision-box" data-component="decision-log">
+  <div class="decision-head">
+    <span class="decision-title">ARCHITECTURE DECISION LOG / 架构决策演进流水</span>
+    <span class="decision-meta">ADR LEDGER</span>
+  </div>
+  <div class="decision-items">
+    <div class="decision-item">
+      <div class="decision-top">
+        <span class="decision-id">ADR-001</span>
+        <span class="decision-name">采用统一插件市场架构拆分单体仓库</span>
+        <span class="badge badge-done">ACCEPTED</span>
+      </div>
+      <p class="decision-desc">将工程规范、审查集群与 HTML 报表拆解为独立插件，共享底层单一事实源。</p>
+      <div class="decision-footer">
+        <span>拍板人: 架构负责人</span>
+        <span>生效日期: 2026-08-24</span>
+        <span>替代方案: 多独立 Git 仓库 (Rejected)</span>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-top">
+        <span class="decision-id">ADR-002</span>
+        <span class="decision-name">报表视觉采用纸白墨蓝特刊与双主题</span>
+        <span class="badge badge-done">ACCEPTED</span>
+      </div>
+      <p class="decision-desc">采用衬线印刷排版、核心判断匣与柔和圆角，深浅主题跟随系统并可手动切换。</p>
+      <div class="decision-footer">
+        <span>拍板人: 架构负责人</span>
+        <span>生效日期: 2026-09-01</span>
+        <span>替代方案: SaaS 仪表盘风格 (Deprecated)</span>
+      </div>
+    </div>
+  </div>
+</div>

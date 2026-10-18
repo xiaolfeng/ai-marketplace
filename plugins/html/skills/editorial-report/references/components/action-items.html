@@ -1,0 +1,48 @@
+<!-- 模块：改进措施与责任追踪表 (Action Items & CAPA) -->
+<!-- 适用场景：故障复盘行动项、架构整改承诺、安全合规整改计划 -->
+<div class="action-box" data-component="action-items">
+  <div class="action-head">
+    <span class="action-title">ACTION ITEMS / 改进措施与推进追踪</span>
+    <span class="action-meta">CAPA TRACKING</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data action-table">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>改进措施项 (Action Item)</th>
+          <th>类型</th>
+          <th>责任人</th>
+          <th>截止日期</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="编号"><strong>ACT-01</strong></td>
+          <td data-label="改进措施项">CI 流水线强制接入 SQL EXPLAIN 执行计划静态检查</td>
+          <td data-label="类型"><span class="badge badge-done">预防机制</span></td>
+          <td data-label="责任人">Alex</td>
+          <td data-label="截止日期">2026-09-08</td>
+          <td data-label="状态"><span class="badge badge-progress">进行中</span></td>
+        </tr>
+        <tr>
+          <td data-label="编号"><strong>ACT-02</strong></td>
+          <td data-label="改进措施项">将网关对业务服务熔断超时阈值由 30s 缩紧至 3s</td>
+          <td data-label="类型"><span class="badge badge-warn">配置优化</span></td>
+          <td data-label="责任人">SRE 团队</td>
+          <td data-label="截止日期">2026-09-05</td>
+          <td data-label="状态"><span class="badge badge-done">已上线</span></td>
+        </tr>
+        <tr>
+          <td data-label="编号"><strong>ACT-03</strong></td>
+          <td data-label="改进措施项">建立突发锁等待超过 5s 的自动 Kill-Query 保护巡检</td>
+          <td data-label="类型"><span class="badge badge-info">自动化运维</span></td>
+          <td data-label="责任人">DBA 团队</td>
+          <td data-label="截止日期">2026-09-12</td>
+          <td data-label="状态"><span class="badge badge-plan">规划中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

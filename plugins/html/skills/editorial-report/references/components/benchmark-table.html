@@ -1,0 +1,52 @@
+<!-- 模块：性能基准测试对照表 (Benchmark Perf Matrix) -->
+<!-- 适用场景：压测报告、技术重构前后性能指标、硬件选型横向对比 -->
+<div class="benchmark-box" data-component="benchmark-table">
+  <div class="benchmark-head">
+    <span class="benchmark-title">PERFORMANCE BENCHMARK / 性能压测基准对比</span>
+    <span class="benchmark-meta">CONCURRENCY = 500 ｜ 10 MIN CONTINUOUS</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data benchmark-table">
+      <thead>
+        <tr>
+          <th>测试用例 / 方案</th>
+          <th>吞吐量 (RPS)</th>
+          <th>P50 延迟</th>
+          <th>P99 延迟</th>
+          <th>CPU 峰值</th>
+          <th>内存占用</th>
+          <th>压测评级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="测试用例"><strong>基准 · 旧单体架构</strong></td>
+          <td data-label="吞吐量">3,420 rps</td>
+          <td data-label="P50 延迟">48 ms</td>
+          <td data-label="P99 延迟">280 ms</td>
+          <td data-label="CPU 峰值">88%</td>
+          <td data-label="内存占用">4.2 GB</td>
+          <td data-label="压测评级"><span class="badge badge-warn">BASELINE</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td data-label="测试用例"><strong>目标 · 微内核异步化 (新)</strong></td>
+          <td data-label="吞吐量" style="color:var(--color-success); font-weight:700;">14,890 rps (+335%)</td>
+          <td data-label="P50 延迟" style="color:var(--color-success); font-weight:700;">12 ms</td>
+          <td data-label="P99 延迟" style="color:var(--color-success); font-weight:700;">38 ms</td>
+          <td data-label="CPU 峰值">46%</td>
+          <td data-label="内存占用">1.8 GB</td>
+          <td data-label="压测评级"><span class="badge badge-done">PASSED</span></td>
+        </tr>
+        <tr>
+          <td data-label="测试用例"><strong>对比 · 纯内存极速版</strong></td>
+          <td data-label="吞吐量">22,100 rps</td>
+          <td data-label="P50 延迟">4 ms</td>
+          <td data-label="P99 延迟">15 ms</td>
+          <td data-label="CPU 峰值">35%</td>
+          <td data-label="内存占用">12.6 GB</td>
+          <td data-label="压测评级"><span class="badge badge-plan">UNSAFE (无持久化)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

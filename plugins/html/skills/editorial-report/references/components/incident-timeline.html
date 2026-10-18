@@ -1,0 +1,42 @@
+<!-- 模块：故障排障细粒度时序轴 (Fine-grained Incident Clock) -->
+<!-- 适用场景：分钟级故障排障时序、应急处置回溯、关键动作审计 -->
+<div class="incident-timeline-box" data-component="incident-timeline">
+  <div class="incident-timeline-head">
+    <span class="incident-timeline-title">INCIDENT TIMELINE / 故障处置分钟级时序</span>
+    <span class="incident-timeline-meta">UTC+8 · EXACT TIMESTAMPS</span>
+  </div>
+  <div class="inc-timeline">
+    <div class="inc-time-row danger">
+      <div class="inc-time">14:22:10</div>
+      <div class="inc-dot"></div>
+      <div class="inc-content">
+        <strong>【告警触发】P99 延迟突破 5000ms，SLS 报错率激增</strong>
+        <p>监控系统自动向 On-Call 值班群触发电话加急告警。</p>
+      </div>
+    </div>
+    <div class="inc-time-row warn">
+      <div class="inc-time">14:26:45</div>
+      <div class="inc-dot"></div>
+      <div class="inc-content">
+        <strong>【应急响应】值班人员上线，启动应急处置群</strong>
+        <p>定位到数据库 CPU 满载 100%，连接池全部处于 Lock Wait 状态。</p>
+      </div>
+    </div>
+    <div class="inc-time-row">
+      <div class="inc-time">14:38:00</div>
+      <div class="inc-dot"></div>
+      <div class="inc-content">
+        <strong>【止血操作】强制终止死锁查询并重启连接池</strong>
+        <p>下发限流规则拦截慢查询请求，服务连接数逐步回落。</p>
+      </div>
+    </div>
+    <div class="inc-time-row success">
+      <div class="inc-time">15:04:12</div>
+      <div class="inc-dot"></div>
+      <div class="inc-content">
+        <strong>【服务恢复】全链路流量对账完成，指标恢复全绿</strong>
+        <p>P99 延迟回落至 32ms，宣布事故解除，启动后续复盘追踪。</p>
+      </div>
+    </div>
+  </div>
+</div>

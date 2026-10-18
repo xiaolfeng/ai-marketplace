@@ -1,0 +1,69 @@
+<!-- 模块：SVG 堆叠柱状与多段条形图 (SVG Stacked Bar Chart) -->
+<!-- 适用场景：端到端耗时分解 (网络传输/网关认证/业务处理/数据库IO)、多子项消耗占比 -->
+<div class="chart-box" data-component="chart-stacked-bar">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：端到端请求耗时阶段分解】</div>
+      <div class="chart-sub">【替换：单位 ms ｜ 接口 P95 阶段耗时统计】</div>
+    </div>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>网关</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--mark)"></span>业务逻辑</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--rose)"></span>数据库 SQL</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--subtle)"></span>外部 RPC</span>
+    </div>
+  </div>
+  <div class="chart-svg-wrap">
+    <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none" role="img" aria-label="堆叠柱状图">
+      <line x1="40" y1="20" x2="580" y2="20" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="70" x2="580" y2="70" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="120" x2="580" y2="120" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="160" x2="580" y2="160" stroke="var(--rule-strong)" />
+
+      <text x="32" y="24" class="chart-label" text-anchor="end">120ms</text>
+      <text x="32" y="74" class="chart-label" text-anchor="end">80ms</text>
+      <text x="32" y="124" class="chart-label" text-anchor="end">40ms</text>
+      <text x="32" y="164" class="chart-label" text-anchor="end">0ms</text>
+
+      <!-- 堆叠柱 1: API A -->
+      <g>
+        <rect x="80" y="40" width="48" height="20" fill="var(--subtle)" />
+        <rect x="80" y="60" width="48" height="40" fill="var(--rose)" />
+        <rect x="80" y="100" width="48" height="45" fill="var(--mark)" />
+        <rect x="80" y="145" width="48" height="15" fill="var(--accent)" />
+        <text x="104" y="180" class="chart-label" text-anchor="middle">/api/upload</text>
+        <text x="104" y="32" class="chart-val" text-anchor="middle">115ms</text>
+      </g>
+
+      <!-- 堆叠柱 2: API B -->
+      <g>
+        <rect x="200" y="65" width="48" height="15" fill="var(--subtle)" />
+        <rect x="200" y="80" width="48" height="30" fill="var(--rose)" />
+        <rect x="200" y="110" width="48" height="35" fill="var(--mark)" />
+        <rect x="200" y="145" width="48" height="15" fill="var(--accent)" />
+        <text x="224" y="180" class="chart-label" text-anchor="middle">/api/query</text>
+        <text x="224" y="57" class="chart-val" text-anchor="middle">95ms</text>
+      </g>
+
+      <!-- 堆叠柱 3: API C -->
+      <g>
+        <rect x="320" y="90" width="48" height="10" fill="var(--subtle)" />
+        <rect x="320" y="100" width="48" height="20" fill="var(--rose)" />
+        <rect x="320" y="120" width="48" height="30" fill="var(--mark)" />
+        <rect x="320" y="150" width="48" height="10" fill="var(--accent)" />
+        <text x="344" y="180" class="chart-label" text-anchor="middle">/api/auth</text>
+        <text x="344" y="82" class="chart-val" text-anchor="middle">70ms</text>
+      </g>
+
+      <!-- 堆叠柱 4: API D -->
+      <g>
+        <rect x="440" y="115" width="48" height="5" fill="var(--subtle)" />
+        <rect x="440" y="120" width="48" height="15" fill="var(--rose)" />
+        <rect x="440" y="135" width="48" height="15" fill="var(--mark)" />
+        <rect x="440" y="150" width="48" height="10" fill="var(--accent)" />
+        <text x="464" y="180" class="chart-label" text-anchor="middle">/api/health</text>
+        <text x="464" y="107" class="chart-val" text-anchor="middle">45ms</text>
+      </g>
+    </svg>
+  </div>
+</div>

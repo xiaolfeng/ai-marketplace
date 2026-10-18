@@ -1,0 +1,23 @@
+<!-- 模块：代码与配置变更 Diff 视图 (Diff View) -->
+<!-- 适用场景：配置文件变更、SQL 迁移前后、接口字段变更、架构关键代码对照 -->
+<div class="diff-box" data-component="compare-diff">
+  <div class="diff-head">
+    <div class="diff-file-title">【替换：文件路径或对象名，如 config/application.yaml】</div>
+    <div class="diff-stats">
+      <span class="diff-add">+4 行</span>
+      <span class="diff-del">-2 行</span>
+    </div>
+  </div>
+  <div class="diff-body">
+    <div class="diff-line ctx"><span class="ln">12</span><span class="sign"> </span><span class="code">server:</span></div>
+    <div class="diff-line ctx"><span class="ln">13</span><span class="sign"> </span><span class="code">  port: 8080</span></div>
+    <div class="diff-line del"><span class="ln">14</span><span class="sign">-</span><span class="code">  mode: standalone-legacy</span></div>
+    <div class="diff-line del"><span class="ln">15</span><span class="sign">-</span><span class="code">  max-connections: 128</span></div>
+    <div class="diff-line add"><span class="ln">14</span><span class="sign">+</span><span class="code">  mode: cluster-distributed</span></div>
+    <div class="diff-line add"><span class="ln">15</span><span class="sign">+</span><span class="code">  max-connections: 10240</span></div>
+    <div class="diff-line add"><span class="ln">16</span><span class="sign">+</span><span class="code">  observability:</span></div>
+    <div class="diff-line add"><span class="ln">17</span><span class="sign">+</span><span class="code">    enabled: true</span></div>
+    <div class="diff-line ctx"><span class="ln">18</span><span class="sign"> </span><span class="code">logging:</span></div>
+    <div class="diff-line ctx"><span class="ln">19</span><span class="sign"> </span><span class="code">  level: INFO</span></div>
+  </div>
+</div>

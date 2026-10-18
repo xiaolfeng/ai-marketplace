@@ -1,0 +1,54 @@
+<!-- 模块：纯矢量趋势折线与面积图 (SVG Trend Line & Area Chart) -->
+<!-- 适用场景：QPS 变化趋势、错误率变化、周环比增长曲线。纯 SVG，双主题自适应 -->
+<div class="chart-box" data-component="chart-line">
+  <div class="chart-head">
+    <div>
+      <div class="chart-title">【替换：趋势图标题】</div>
+      <div class="chart-sub">【替换：采样区间与聚合口径】</div>
+    </div>
+    <div class="chart-delta delta-up">【峰值 14,200 QPS】</div>
+  </div>
+  <div class="chart-svg-wrap">
+    <svg class="chart-svg" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="折线趋势图">
+      <defs>
+        <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3" />
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0" />
+        </linearGradient>
+      </defs>
+      <!-- 基准线 -->
+      <line x1="40" y1="30" x2="580" y2="30" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="85" x2="580" y2="85" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="140" x2="580" y2="140" stroke="var(--rule)" stroke-dasharray="2 2" />
+      <line x1="40" y1="180" x2="580" y2="180" stroke="var(--rule-strong)" />
+
+      <!-- Y 轴文字 -->
+      <text x="32" y="34" class="chart-label" text-anchor="end">15k</text>
+      <text x="32" y="89" class="chart-label" text-anchor="end">10k</text>
+      <text x="32" y="144" class="chart-label" text-anchor="end">5k</text>
+      <text x="32" y="184" class="chart-label" text-anchor="end">0</text>
+
+      <!-- 面积与折线 -->
+      <polygon points="70,140 150,110 240,60 330,80 420,40 510,70 560,50 560,180 70,180" fill="url(#area-grad)" />
+      <polyline points="70,140 150,110 240,60 330,80 420,40 510,70 560,50" fill="none" stroke="var(--accent)" stroke-width="2.5" />
+
+      <!-- 数据点 -->
+      <circle cx="70" cy="140" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="150" cy="110" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="240" cy="60" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="330" cy="80" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="420" cy="40" r="5" fill="var(--mark)" stroke="var(--paper)" stroke-width="2" />
+      <circle cx="510" cy="70" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="560" cy="50" r="4" fill="var(--paper)" stroke="var(--accent)" stroke-width="2" />
+
+      <!-- X 轴刻度 -->
+      <text x="70" y="200" class="chart-label" text-anchor="middle">Mon</text>
+      <text x="150" y="200" class="chart-label" text-anchor="middle">Tue</text>
+      <text x="240" y="200" class="chart-label" text-anchor="middle">Wed</text>
+      <text x="330" y="200" class="chart-label" text-anchor="middle">Thu</text>
+      <text x="420" y="200" class="chart-label" text-anchor="middle" font-weight="700" fill="var(--mark)">Fri (Peak)</text>
+      <text x="510" y="200" class="chart-label" text-anchor="middle">Sat</text>
+      <text x="560" y="200" class="chart-label" text-anchor="middle">Sun</text>
+    </svg>
+  </div>
+</div>

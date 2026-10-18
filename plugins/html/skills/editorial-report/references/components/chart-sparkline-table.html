@@ -1,0 +1,71 @@
+<!-- 模块：内置迷你走势线数据表 (Sparkline Inline Table) -->
+<!-- 适用场景：服务健康清单、核心业务指标概览，每行带 7 日微型 SVG 走势线 -->
+<div class="table-wrap" data-component="chart-sparkline-table">
+  <table class="data sparkline-table">
+    <thead>
+      <tr>
+        <th>服务模块</th>
+        <th>当前 QPS</th>
+        <th>P99 延迟</th>
+        <th>7日趋势</th>
+        <th>健康度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="服务模块"><strong>auth-service</strong></td>
+        <td data-label="当前 QPS">4,280</td>
+        <td data-label="P99 延迟">18ms</td>
+        <td data-label="7日趋势" class="spark-cell">
+          <svg class="sparkline-svg" viewBox="0 0 100 24">
+            <polyline
+              points="0,18 15,16 30,12 45,15 60,10 75,8 90,6 100,5"
+              fill="none"
+              stroke="var(--color-success)"
+              stroke-width="2"
+            />
+          </svg>
+        </td>
+        <td data-label="健康度">
+          <span class="badge badge-done">HEALTHY</span>
+        </td>
+      </tr>
+      <tr>
+        <td data-label="服务模块"><strong>media-service</strong></td>
+        <td data-label="当前 QPS">1,890</td>
+        <td data-label="P99 延迟">142ms</td>
+        <td data-label="7日趋势" class="spark-cell">
+          <svg class="sparkline-svg" viewBox="0 0 100 24">
+            <polyline
+              points="0,12 15,14 30,10 45,18 60,20 75,16 90,8 100,6"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+            />
+          </svg>
+        </td>
+        <td data-label="健康度">
+          <span class="badge badge-done">HEALTHY</span>
+        </td>
+      </tr>
+      <tr>
+        <td data-label="服务模块"><strong>billing-worker</strong></td>
+        <td data-label="当前 QPS">320</td>
+        <td data-label="P99 延迟">380ms</td>
+        <td data-label="7日趋势" class="spark-cell">
+          <svg class="sparkline-svg" viewBox="0 0 100 24">
+            <polyline
+              points="0,8 15,10 30,12 45,10 60,14 75,18 90,21 100,22"
+              fill="none"
+              stroke="var(--color-danger)"
+              stroke-width="2"
+            />
+          </svg>
+        </td>
+        <td data-label="健康度">
+          <span class="badge badge-warn">DEGRADED</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

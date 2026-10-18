@@ -1,0 +1,56 @@
+<!-- 模块：多维决策与技术评估卡 (Evaluation Scorecard) -->
+<!-- 适用场景：方案选型打分、技术评审矩阵量化、安全合规检查打分 -->
+<div class="scorecard-box" data-component="scorecard">
+  <div class="scorecard-head">
+    <div>
+      <div class="scorecard-title">【替换：方案选型评估结论】</div>
+      <div class="scorecard-sub">【替换：评估团队与评分标准】</div>
+    </div>
+    <div class="scorecard-total">
+      <span class="scorecard-total-num">9.2</span>
+      <span class="scorecard-total-badge badge badge-done">GRADE A</span>
+    </div>
+  </div>
+  <div class="scorecard-list">
+    <div class="scorecard-row">
+      <div class="scorecard-dim">
+        <strong>架构解耦度 (Weight 30%)</strong>
+        <span>模块间有明确契约边界，无跨层直接依赖</span>
+      </div>
+      <div class="scorecard-bar-wrap">
+        <div class="scorecard-bar"><span style="width: 95%"></span></div>
+        <span class="scorecard-score">9.5</span>
+      </div>
+    </div>
+    <div class="scorecard-row">
+      <div class="scorecard-dim">
+        <strong>运维与可观测 (Weight 25%)</strong>
+        <span>支持分布式 Trace 与指标告警全覆盖</span>
+      </div>
+      <div class="scorecard-bar-wrap">
+        <div class="scorecard-bar"><span style="width: 90%"></span></div>
+        <span class="scorecard-score">9.0</span>
+      </div>
+    </div>
+    <div class="scorecard-row">
+      <div class="scorecard-dim">
+        <strong>迁移改造成本 (Weight 25%)</strong>
+        <span>存量数据需双写迁移，预期需 2 周联调</span>
+      </div>
+      <div class="scorecard-bar-wrap">
+        <div class="scorecard-bar warn"><span style="width: 82%"></span></div>
+        <span class="scorecard-score">8.2</span>
+      </div>
+    </div>
+    <div class="scorecard-row">
+      <div class="scorecard-dim">
+        <strong>社区活跃与生态 (Weight 20%)</strong>
+        <span>CNCF 毕业项目，长期维护保证</span>
+      </div>
+      <div class="scorecard-bar-wrap">
+        <div class="scorecard-bar"><span style="width: 100%"></span></div>
+        <span class="scorecard-score">10.0</span>
+      </div>
+    </div>
+  </div>
+</div>

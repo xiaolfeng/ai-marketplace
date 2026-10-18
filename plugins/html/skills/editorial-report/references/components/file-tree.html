@@ -1,0 +1,22 @@
+<!-- 模块：工程目录与架构层级树 (File Tree & Module Hierarchy) -->
+<!-- 适用场景：项目重构前后目录演进、产物包结构、代码规范推荐布局 -->
+<div class="file-tree-box" data-component="file-tree">
+  <div class="file-tree-head">
+    <span class="file-tree-title">REPOSITORY STRUCTURE / 目录拓扑</span>
+    <span class="file-tree-meta">ASCII / MONOSPACE</span>
+  </div>
+  <pre class="file-tree-body"><code>.
+├── .claude-plugin/
+│   └── marketplace.json        <span class="tree-comment"># 市场清单，指向各插件目录</span>
+├── shared/                     <span class="tree-comment"># 市场级共享知识包 (单一事实源)</span>
+│   ├── project-context/        <span class="tree-comment"># 项目事实、仓库地图、运维门槛</span>
+│   ├── doc-conventions/        <span class="tree-comment"># ADR / RFC / Design 文档规范</span>
+│   └── templates/              <span class="tree-comment"># 人类可读写作模板</span>
+└── plugins/
+    ├── engineering/            <span class="tree-comment"># 工程技能 (读仓/写文档/提 PR)</span>
+    ├── review/                 <span class="tree-comment"># 合并前审查集群 (12 subagents)</span>
+    └── html/                   <span class="tree-comment"># HTML 图表与报告制作</span>
+        └── skills/
+            ├── architecture-diagram/ <span class="tree-comment"># 系统架构拓扑图</span>
+            └── editorial-report/ <span class="tree-comment"># 报告生成 (大纲/文案/套壳)</span></code></pre>
+</div>

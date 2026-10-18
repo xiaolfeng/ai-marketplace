@@ -1,0 +1,53 @@
+<!-- 模块：服务调用依赖拓扑盒 (Service Dependency Mesh) -->
+<!-- 适用场景：微服务上下游依赖拓扑、强弱依赖治理、熔断与降级策略梳理 -->
+<div class="mesh-box" data-component="service-mesh">
+  <div class="mesh-head">
+    <span class="mesh-title"
+      >SERVICE DEPENDENCY TOPOLOGY / 服务拓扑与依赖治理</span
+    >
+    <span class="mesh-meta">UPSTREAM & DOWNSTREAM</span>
+  </div>
+  <div class="mesh-grid">
+    <!-- 上游依赖 -->
+    <div class="mesh-col">
+      <div class="mesh-col-title">上游调用方 (Upstream)</div>
+      <div class="mesh-card">
+        <strong>Web Portal Frontend</strong>
+        <span class="badge badge-done">HTTP / REST</span>
+        <p>用户直接交互界面，强依赖</p>
+      </div>
+      <div class="mesh-card">
+        <strong>Cron Scheduler</strong>
+        <span class="badge badge-done">gRPC</span>
+        <p>定时对账流水任务，弱依赖</p>
+      </div>
+    </div>
+    <!-- 核心服务 -->
+    <div class="mesh-col center-col">
+      <div class="mesh-col-title">核心服务 (Target Svc)</div>
+      <div class="mesh-card center-card">
+        <div class="mesh-target-name">order-api.service</div>
+        <div class="mesh-target-sub">Version v3.0.0 ｜ 16 Pods</div>
+        <div class="mesh-pills">
+          <span>QPS: 12.4k</span>
+          <span>P99: 42ms</span>
+          <span>Err: 0.01%</span>
+        </div>
+      </div>
+    </div>
+    <!-- 下游依赖 -->
+    <div class="mesh-col">
+      <div class="mesh-col-title">下游依赖与基础设施 (Downstream)</div>
+      <div class="mesh-card">
+        <strong>PostgreSQL Primary</strong>
+        <span class="badge badge-blocked">强依赖</span>
+        <p>故障时不可降级，需高可用双机热备</p>
+      </div>
+      <div class="mesh-card">
+        <strong>Redis Cluster</strong>
+        <span class="badge badge-warn">弱依赖 (可降级)</span>
+        <p>故障时回源 DB 查只读副本</p>
+      </div>
+    </div>
+  </div>
+</div>

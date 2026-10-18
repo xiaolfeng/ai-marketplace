@@ -4,7 +4,7 @@
 
 ## 1. 页面结构
 
-页面外壳保持直角，内部 SVG 节点可使用小圆角。Header 只展示真实标题、说明与操作，不添加无信息量标签。工具栏直接显示主题、复制、PNG、SVG、PDF 操作。
+页面外壳使用 `--radius-*` 圆角 token（与 replay 一致：徽标胶囊、按钮 8px、卡片 12px、画板 14px），内部 SVG 节点保持组件库规定的小圆角。Header 只展示真实标题、说明与操作，不添加无信息量标签。工具栏直接显示主题、复制、PNG、SVG、PDF 操作。
 
 ```html
 <div class="container">
@@ -17,6 +17,10 @@
   <section class="spec-cards">...</section>
 </div>
 ```
+
+### 二次元点缀
+
+模板样式末尾有一段独立的「ACCENT · 二次元点缀」，只借漫画的表达语法，不放角色素材：樱粉点缀色 `--sakura` / `--sakura-tint`、用 CSS 遮罩画的 ✦ 四角星 `--sparkle`、从角落径向淡出的极淡网点 `--tone`、平涂错位阴影（`box-shadow: 5px 5px 0 var(--sakura-tint)`）。点缀全部集中在这一段，生成页面时整段保留、不要另加；删掉整段即回到素版。打印时网点与错位阴影自动关闭。外壳上的落点：Header 右上角网点、标题樱粉荧光笔下划线、规格卡片右上角网点与樱粉图标、页脚开头的 ✦。画布内部（SVG 节点、手绘图元）不加任何点缀，导出结果不受影响。
 
 ## 2. 画板交互
 
@@ -97,7 +101,11 @@
 
 ## 4. 主题与导出
 
-深浅主题通过 CSS 变量驱动。导出前要把 SVG 计算样式实体化：
+外壳配色与 replay-post-html 同源的纸白墨蓝体系：页面底色 `--bg-page`、画布底色 `--bg-canvas`、图例与规格卡片面板 `--bg-panel` / `--bg-card`，强调色 `--accent` 用于徽标、主题按钮与画板激活光晕；节点语义色 `--c-*` 不随外壳调整。字体只用系统字体栈 `--sans` / `--serif` / `--mono`，标题使用衬线体，不引入外部 Web 字体。
+
+深浅主题通过 CSS 变量驱动：`:root` 写浅色，`@media (prefers-color-scheme: dark)` 下的 `:root:not([data-theme="light"])` 与 `:root[data-theme="dark"]` 写深色。未手动切换时跟随系统并实时同步，手动切换后写入 `localStorage` 持久化；读写存储均包在 `try/catch` 中。组件 SVG 绘制满幅背景时使用 `var(--bg-canvas)`，与画板底色保持一致。
+
+导出前要把 SVG 计算样式实体化：
 
 1. 克隆 `#main-diagram-svg`；
 2. 把最终 `fill`、`stroke`、字体等写入克隆；

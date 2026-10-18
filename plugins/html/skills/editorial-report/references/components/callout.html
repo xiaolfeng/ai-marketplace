@@ -1,0 +1,36 @@
+<!-- 模块：风险与状态提示框 (Callouts) -->
+<!-- 适用场景：破坏性变更、安全红线、合规须知、交付达成。不要用 emoji 当图标 -->
+
+<div data-component="callout" class="callout callout-warn">
+  <div class="callout-title">注意事项 / 破坏性变更</div>
+  <p>升级版本时需注意旧命令迁移，正式合并前确认下游依赖版本已对齐。</p>
+</div>
+
+<div class="callout callout-danger">
+  <div class="callout-title">阻塞风险 / 安全红线</div>
+  <p>未经用户明确授权前不执行线上写操作，必须先 dry-run。</p>
+</div>
+
+<div class="callout callout-info">
+  <div class="callout-title">补充说明</div>
+  <p>本功能支持完全离线渲染，断网环境下仍然保持排版与双主题切换。</p>
+</div>
+
+<div class="callout callout-success">
+  <div class="callout-title">验证通过</div>
+  <p>全量回归与端到端用例已通过，符合上线门槛。</p>
+</div>
+
+<!-- 两栏对照说明（参考特刊的「已确认 / 仍未公开」） -->
+<div class="callout split-note">
+  <div>
+    <span class="label confirmed">平台确认</span>
+    <h3 style="margin-top:14px">已核对的事实</h3>
+    <p>只写能回到来源的内容。</p>
+  </div>
+  <div>
+    <span class="label unknown">仍未公开</span>
+    <h3 style="margin-top:14px">还缺的证据</h3>
+    <p>不要用猜测补齐。</p>
+  </div>
+</div>

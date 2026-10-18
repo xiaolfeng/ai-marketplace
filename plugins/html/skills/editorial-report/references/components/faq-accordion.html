@@ -1,0 +1,37 @@
+<!-- 模块：常见问题解答折叠群 (FAQ Accordion) -->
+<!-- 适用场景：新架构落地答疑、权限申请指引、常见操作排错 Q&A -->
+<div class="faq-box" data-component="faq-accordion">
+  <div class="faq-head">
+    <span class="faq-title">FREQUENTLY ASKED QUESTIONS / 常见问题解答</span>
+    <span class="faq-meta">Q&A ACCORDION</span>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item" open>
+      <summary class="faq-q">
+        <span class="q-badge">Q1</span>
+        <strong>为什么旧报告的 HTML 不会自动变成新版特刊样式？</strong>
+      </summary>
+      <div class="faq-a">
+        <p>因为每份报表 HTML 均采用单文件内联交付模式，CSS 直接嵌入在产物中，确保离线双击即可完美渲染。如需将历史周报升级至新特刊视觉，需重新运行套壳脚本更新。</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="q-badge">Q2</span>
+        <strong>大纲和文案草稿放在哪里？</strong>
+      </summary>
+      <div class="faq-a">
+        <p>默认与最终 HTML 同目录，即 <code>reports/&lt;日期&gt;-&lt;slug&gt;/</code> 下的 <code>outline.md</code> 与 <code>copy.md</code>，方便以后回溯与改稿。</p>
+      </div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="q-badge">Q3</span>
+        <strong>如何指定生成最终 HTML 的输出位置？</strong>
+      </summary>
+      <div class="faq-a">
+        <p>直接在对话中向助手说明即可（例如「输出到 public/report.html」）。系统严格遵从用户声明的最终输出路径，未声明时才默认归档至 <code>reports/</code>。</p>
+      </div>
+    </details>
+  </div>
+</div>

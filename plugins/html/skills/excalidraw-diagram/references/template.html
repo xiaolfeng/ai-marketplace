@@ -1,91 +1,136 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>[PROJECT NAME] 白板流程与拓扑架构</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
   <style>
     /* ==========================================================================
-       DESIGN TOKENS & DUAL THEMES (深浅双主题)
-       外层主题严格遵循硬核直角（Sharp Edges），内部白板画布保持手绘自然感
+       DESIGN TOKENS · 暖纸笔记本白板（对齐 replay-html）
+       跟随系统深浅色，可手动切换并持久化；外壳圆角与 replay 一致，内部画布保持原有图形语言
        ========================================================================== */
-    :root, [data-theme="dark"] {
-      --bg-canvas: #090d16;
-      --bg-panel: rgba(15, 23, 42, 0.85);
-      --bg-card: rgba(23, 32, 54, 0.7);
-      --board-bg: #121212;
-      --border-subtle: rgba(148, 163, 184, 0.12);
-      --border-strong: rgba(148, 163, 184, 0.28);
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --grid-line: rgba(148, 163, 184, 0.05);
-      --grid-dot: rgba(148, 163, 184, 0.2);
+    :root {
+      --bg-page: #f7f2e8;
+      --board-bg: #fffdf8;
+      --bg-panel: #fffdf8;
+      --bg-card: #fbf7ef;
+      --border-subtle: #e4dac7;
+      --border-strong: #d3c6ad;
+      --text-primary: #2b2620;
+      --text-secondary: #5a5146;
+      --text-muted: #8c8273;
+      --grid-line: rgba(43, 38, 32, 0.05);
+      --grid-dot: rgba(43, 38, 32, 0.18);
+      --accent: #c0551b;
 
       /* Semantic Palette */
-      --c-client: #38bdf8;
-      --c-gateway: #0ea5e9;
-      --c-service: #10b981;
-      --c-storage: #f59e0b;
-      --c-security: #f43f5e;
-      --c-message: #8b5cf6;
-      --c-boundary: rgba(148, 163, 184, 0.22);
-      --c-boundary-text: #94a3b8;
-
-      --hero-border: rgba(14, 165, 233, 0.35);
-      --btn-bg: rgba(30, 41, 59, 0.7);
-      --btn-hover-bg: rgba(51, 65, 85, 0.9);
-      --badge-bg: rgba(16, 185, 129, 0.12);
-      --badge-text: #34d399;
-      --badge-border: rgba(16, 185, 129, 0.3);
-
-      --sketch-default-stroke: #e2e8f0;
-      --sketch-default-text: #f8fafc;
-    }
-
-    [data-theme="light"] {
-      --bg-canvas: #f8fafc;
-      --bg-panel: #ffffff;
-      --bg-card: #f1f5f9;
-      --board-bg: #ffffff;
-      --border-subtle: rgba(100, 116, 139, 0.2);
-      --border-strong: rgba(100, 116, 139, 0.35);
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #64748b;
-      --grid-line: rgba(100, 116, 139, 0.08);
-      --grid-dot: rgba(100, 116, 139, 0.22);
-
       --c-client: #0284c7;
       --c-gateway: #0369a1;
       --c-service: #059669;
       --c-storage: #d97706;
       --c-security: #e11d48;
       --c-message: #7c3aed;
-      --c-boundary: rgba(100, 116, 139, 0.35);
-      --c-boundary-text: #334155;
-
-      --hero-border: rgba(3, 105, 161, 0.4);
-      --btn-bg: #f8fafc;
-      --btn-hover-bg: #e2e8f0;
-      --badge-bg: rgba(5, 150, 105, 0.1);
-      --badge-text: #059669;
-      --badge-border: rgba(5, 150, 105, 0.3);
-
+      --c-boundary: rgba(90, 81, 70, 0.32);
+      --c-boundary-text: #5a5146;
+      --hero-border: rgba(192, 85, 27, 0.35);
+      --btn-bg: #fffdf8;
+      --btn-hover-bg: #efe7d7;
+      --badge-bg: rgba(192, 85, 27, 0.1);
+      --badge-text: #c0551b;
+      --badge-border: rgba(192, 85, 27, 0.3);
       --sketch-default-stroke: #1e1e1e;
       --sketch-default-text: #1e1e1e;
+      --shadow: 0 1px 0 rgba(43, 38, 32, 0.04), 0 12px 32px -18px rgba(43, 38, 32, 0.28);
+      --shadow-float: 0 8px 20px -10px rgba(43, 38, 32, 0.25);
+      color-scheme: light;
+
+      --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+        "Microsoft YaHei", "Segoe UI", sans-serif;
+      --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+      --radius-xs: 6px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-pill: 999px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg-page: #1b1915;
+        --board-bg: #211e19;
+        --bg-panel: #262219;
+        --bg-card: #23201b;
+        --border-subtle: #3a342a;
+        --border-strong: #4a4336;
+        --text-primary: #ece4d4;
+        --text-secondary: #c1b6a2;
+        --text-muted: #8b8170;
+        --grid-line: rgba(236, 228, 212, 0.04);
+        --grid-dot: rgba(236, 228, 212, 0.14);
+        --accent: #e48a52;
+        --c-client: #38bdf8;
+        --c-gateway: #0ea5e9;
+        --c-service: #10b981;
+        --c-storage: #f59e0b;
+        --c-security: #f43f5e;
+        --c-message: #8b5cf6;
+        --c-boundary: rgba(193, 182, 162, 0.24);
+        --c-boundary-text: #c1b6a2;
+        --hero-border: rgba(228, 138, 82, 0.4);
+        --btn-bg: #262219;
+        --btn-hover-bg: #312c23;
+        --badge-bg: rgba(228, 138, 82, 0.14);
+        --badge-text: #e48a52;
+        --badge-border: rgba(228, 138, 82, 0.35);
+        --sketch-default-stroke: #ece4d4;
+        --sketch-default-text: #ece4d4;
+        --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+        --shadow-float: 0 8px 20px -8px rgba(0, 0, 0, 0.55);
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg-page: #1b1915;
+      --board-bg: #211e19;
+      --bg-panel: #262219;
+      --bg-card: #23201b;
+      --border-subtle: #3a342a;
+      --border-strong: #4a4336;
+      --text-primary: #ece4d4;
+      --text-secondary: #c1b6a2;
+      --text-muted: #8b8170;
+      --grid-line: rgba(236, 228, 212, 0.04);
+      --grid-dot: rgba(236, 228, 212, 0.14);
+      --accent: #e48a52;
+      --c-client: #38bdf8;
+      --c-gateway: #0ea5e9;
+      --c-service: #10b981;
+      --c-storage: #f59e0b;
+      --c-security: #f43f5e;
+      --c-message: #8b5cf6;
+      --c-boundary: rgba(193, 182, 162, 0.24);
+      --c-boundary-text: #c1b6a2;
+      --hero-border: rgba(228, 138, 82, 0.4);
+      --btn-bg: #262219;
+      --btn-hover-bg: #312c23;
+      --badge-bg: rgba(228, 138, 82, 0.14);
+      --badge-text: #e48a52;
+      --badge-border: rgba(228, 138, 82, 0.35);
+      --sketch-default-stroke: #ece4d4;
+      --sketch-default-text: #ece4d4;
+      --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+      --shadow-float: 0 8px 20px -8px rgba(0, 0, 0, 0.55);
+      color-scheme: dark;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg-canvas);
+      font-family: var(--sans);
+      background: var(--bg-page);
       color: var(--text-primary);
       min-height: 100vh;
       padding: 2.5rem 1.5rem;
@@ -117,11 +162,11 @@
       padding: 0.25rem 0.65rem;
       font-size: 0.75rem;
       font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--mono);
       background: var(--badge-bg);
       color: var(--badge-text);
       border: 1px solid var(--badge-border);
-      border-radius: 0;
+      border-radius: var(--radius-pill);
       letter-spacing: 0.05em;
     }
     .status-badge svg { width: 12px; height: 12px; }
@@ -141,7 +186,7 @@
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
-      border-radius: 0;
+      border-radius: var(--radius-sm);
       white-space: nowrap;
     }
     .btn:hover { background: var(--btn-hover-bg); border-color: var(--text-muted); }
@@ -150,9 +195,10 @@
     .btn-excalidraw { border-color: var(--c-message); color: var(--text-primary); }
 
     .hero-main h1 {
+      font-family: var(--serif);
       font-size: 2.25rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       color: var(--text-primary);
       line-height: 1.2;
       margin-bottom: 0.6rem;
@@ -166,12 +212,12 @@
 
     /* Canvas Viewport & Pan-Zoom Panel (自适应视口与平移缩放) */
     .diagram-panel {
-      background: var(--bg-panel);
+      background: var(--board-bg);
       border: 1px solid var(--border-strong);
-      border-radius: 0;
+      border-radius: var(--radius-lg);
       padding: 0;
       position: relative;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow);
       overflow: hidden;
       height: 660px;
       min-height: 480px;
@@ -185,12 +231,13 @@
     .diagram-panel.is-active {
       cursor: grab;
       touch-action: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), 0 0 24px rgba(59, 130, 246, 0.3);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent),
+        0 0 24px color-mix(in srgb, var(--accent) 22%, transparent);
     }
 
     .diagram-panel:focus-visible {
-      outline: 2px solid #3b82f6;
+      outline: 2px solid var(--accent);
       outline-offset: 4px;
     }
 
@@ -202,7 +249,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      font-family: 'Virgil', 'Excalifont', 'Inter', -apple-system, sans-serif;
+      font-family: 'Virgil', 'Excalifont', var(--sans);
       pointer-events: auto;
     }
 
@@ -217,8 +264,9 @@
       background: var(--bg-panel);
       border: 1px solid var(--border-strong);
       padding: 0.25rem;
+      border-radius: var(--radius-md);
       z-index: 10;
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+      box-shadow: var(--shadow-float);
     }
 
     .viewport-btn {
@@ -231,7 +279,7 @@
       border: 1px solid transparent;
       color: var(--text-secondary);
       cursor: pointer;
-      border-radius: 0;
+      border-radius: var(--radius-xs);
       transition: all 0.15s ease;
       padding: 0;
     }
@@ -250,7 +298,7 @@
 
     .viewport-scale-badge {
       font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--mono);
       font-weight: 600;
       color: var(--text-muted);
       padding: 0 0.45rem;
@@ -269,19 +317,19 @@
       left: 1rem;
       bottom: 1rem;
       font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--mono);
       color: var(--text-muted);
       pointer-events: none;
       opacity: 0.65;
       z-index: 5;
     }
 
-    /* Legend Deck (直角面板) */
+    /* Legend Deck (图例面板) */
     .legend-deck {
       margin-top: 1.5rem;
       background: var(--bg-panel);
       border: 1px solid var(--border-strong);
-      border-radius: 0;
+      border-radius: var(--radius-lg);
       padding: 1.25rem;
     }
     .legend-header {
@@ -325,7 +373,7 @@
     .spec-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 0;
+      border-radius: var(--radius-md);
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
@@ -360,7 +408,7 @@
       border-top: 1px solid var(--border-subtle);
       color: var(--text-muted);
       font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--mono);
       flex-wrap: wrap;
       gap: 0.5rem;
     }
@@ -423,6 +471,92 @@
     @media print {
       body { background: #ffffff !important; color: #000000 !important; padding: 0; }
       .toolbar-flat { display: none !important; }
+    }
+
+    /* ==========================================================================
+       ACCENT · 二次元点缀：✦ 四角星、网点、对话气泡、荧光笔与平涂错位阴影
+       只借漫画的表达语法，不放角色素材；点缀集中在本段，删掉本段即回到素版
+       ========================================================================== */
+    :root {
+      --sakura: #d6537e;
+      --sakura-tint: #fbe4ec;
+      --tone: color-mix(in srgb, var(--accent) 30%, transparent);
+      --sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z'/%3E%3C/svg%3E");
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --sakura: #f29ab9;
+        --sakura-tint: #3b2330;
+      }
+    }
+    :root[data-theme="dark"] {
+      --sakura: #f29ab9;
+      --sakura-tint: #3b2330;
+    }
+    .hero-header {
+      position: relative;
+      isolation: isolate;
+    }
+    .hero-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: min(320px, 40%);
+      height: 170px;
+      z-index: -1;
+      background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
+      background-size: 7px 7px;
+      -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+      mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+      pointer-events: none;
+    }
+    .hero-main h1 {
+      text-decoration: underline;
+      text-decoration-color: var(--sakura-tint);
+      text-decoration-thickness: 0.3em;
+      text-underline-offset: -0.14em;
+      text-decoration-skip-ink: none;
+    }
+    .spec-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .spec-card-header svg {
+      color: var(--sakura);
+    }
+    .spec-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 76px;
+      height: 76px;
+      background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
+      background-size: 7px 7px;
+      -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+      mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+      pointer-events: none;
+    }
+    .footer > span:first-child::before {
+      content: "";
+      display: inline-block;
+      width: 0.9em;
+      height: 0.9em;
+      flex: none;
+      background: var(--sakura);
+      -webkit-mask: var(--sparkle) center / contain no-repeat;
+      mask: var(--sparkle) center / contain no-repeat;
+    }
+    .footer > span:first-child::before {
+      margin-right: 0.5em;
+      vertical-align: -0.12em;
+    }
+    @media print {
+      .hero-header::before,
+      .spec-card::after {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -807,9 +941,19 @@
     // THEME & PERSISTENCE
     // ==========================================================================
     const EXPORT_FILE_BASENAME = 'excalidraw-diagram';
-    let currentTheme = 'dark';
+    const THEME_STORAGE_KEY = 'excalidraw_theme';
+    const systemDarkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    let currentTheme = 'light';
 
-    function applyTheme(theme, reRender = true) {
+    function readSavedTheme() {
+      try {
+        return localStorage.getItem(THEME_STORAGE_KEY);
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function applyTheme(theme, reRender = true, persist = true) {
       currentTheme = theme;
       document.documentElement.setAttribute('data-theme', theme);
       const isDark = theme === 'dark';
@@ -821,26 +965,30 @@
         moonIcon.style.display = isDark ? 'inline-block' : 'none';
         textSpan.textContent = isDark ? '浅色模式' : '深色模式';
       }
-      localStorage.setItem('excalidraw_theme', theme);
+      if (persist) {
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, theme);
+        } catch (err) {
+          // 隐私模式等场景下静默忽略，主题仍在本次浏览中生效
+        }
+      }
       if (reRender) {
         renderExcalidrawDiagram(isDark);
       }
     }
 
     function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
       applyTheme(current === 'dark' ? 'light' : 'dark');
     }
 
+    // 未手动选择时跟随系统深浅色，并随系统切换实时同步
     (function initTheme() {
-      const saved = localStorage.getItem('excalidraw_theme');
-      if (saved) {
-        applyTheme(saved, false);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        applyTheme('light', false);
-      } else {
-        applyTheme('dark', false);
-      }
+      const saved = readSavedTheme();
+      applyTheme(saved || (systemDarkQuery?.matches ? 'dark' : 'light'), false, false);
+      systemDarkQuery?.addEventListener?.('change', (e) => {
+        if (!readSavedTheme()) applyTheme(e.matches ? 'dark' : 'light', true, false);
+      });
     })();
 
     // ==========================================================================
@@ -854,14 +1002,22 @@
       const lower = String(c).toLowerCase().trim();
       if (isDark) {
         if (lower === '#1e1e1e' || lower === '#000000' || lower === '#121212' || lower === '#222222') {
-          return '#e2e8f0';
+          return '#ece4d4';
         }
-        if (lower === '#ffffff') return '#1e293b';
+        if (lower === '#ffffff') return '#262219';
       } else {
         if (lower === '#ffffff') return '#ffffff';
         if (lower === '#1e1e1e' || lower === '#000000') return '#1e1e1e';
       }
       return c;
+    }
+
+    // 判断背景色是否为浅色（相对亮度 > 0.5），用于深色模式下保持浅底图元文字可读
+    function isLightColor(c) {
+      const hex = String(c || '').trim().replace('#', '');
+      if (!/^[0-9a-f]{6}$/i.test(hex)) return false;
+      const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.5;
     }
 
     function renderExcalidrawDiagram(isDark) {
@@ -999,7 +1155,8 @@
         if (rawText) {
           const textGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
           const fontSize = el.fontSize || 16;
-          const textColor = mapThemeColor(el.strokeColor || '#1e1e1e', isDark);
+          const onLightFill = hasBg && fillStyle === 'solid' && isLightColor(el.backgroundColor);
+          const textColor = isDark && onLightFill ? '#1e1e1e' : mapThemeColor(el.strokeColor || '#1e1e1e', isDark);
           const align = el.textAlign || (el.type === 'text' ? 'left' : 'center');
           
           let anchor = 'middle';
@@ -1030,7 +1187,7 @@
             tspan.setAttribute('fill', textColor);
             tspan.setAttribute('font-size', `${fontSize}px`);
             tspan.setAttribute('font-weight', '500');
-            tspan.setAttribute('font-family', 'Virgil, Excalifont, "Inter", -apple-system, sans-serif');
+            tspan.setAttribute('font-family', 'Virgil, Excalifont, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif');
             tspan.textContent = line;
             textGroup.appendChild(tspan);
           });
@@ -1233,7 +1390,7 @@
     // EXPORT UTILITIES (SVG, PNG, PDF, EXCALIDRAW, CLIPBOARD)
     // ==========================================================================
     function getExportBackground() {
-      return getComputedStyle(document.documentElement).getPropertyValue('--board-bg').trim() || '#121212';
+      return getComputedStyle(document.documentElement).getPropertyValue('--board-bg').trim() || '#fffdf8';
     }
 
     async function waitForExportAssets() {

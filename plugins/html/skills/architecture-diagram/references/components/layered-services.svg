@@ -4,34 +4,34 @@
   <defs>
     <style>
       /* Default values match example.html; inherited page tokens take precedence. */
-      .architecture-component { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .architecture-component { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "Segoe UI", sans-serif; }
       .architecture-component[data-theme="light"] {
-        --bg-canvas: #f8fafc;
+        --bg-canvas: #fbfbf8;
         --node-base: #ffffff;
-        --grid-line: rgba(100, 116, 139, 0.08);
-        --grid-dot: rgba(100, 116, 139, 0.22);
+        --grid-line: rgba(22, 24, 29, 0.05);
+        --grid-dot: rgba(22, 24, 29, 0.16);
         --c-client: #0284c7;
         --c-gateway: #0369a1;
         --c-service: #059669;
         --c-storage: #d97706;
         --c-security: #e11d48;
         --c-message: #7c3aed;
-        --c-boundary: rgba(100, 116, 139, 0.35);
-        --c-boundary-text: #334155;
-        --node-title-fill: #0f172a;
-        --node-sub-fill: #475569;
-        --line-label-fill: #475569;
+        --c-boundary: rgba(70, 75, 85, 0.32);
+        --c-boundary-text: #464b55;
+        --node-title-fill: #16181d;
+        --node-sub-fill: #464b55;
+        --line-label-fill: #464b55;
       }
-      .architecture-component .node-title { fill: var(--node-title-fill, #f8fafc); font-size: 11.5px; font-weight: 600; }
-      .architecture-component .node-subtitle { fill: var(--node-sub-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 400; }
-      .architecture-component .node-tag { font-family: "JetBrains Mono", monospace; font-size: 8px; font-weight: 600; }
-      .architecture-component .line-label { fill: var(--line-label-fill, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 8.5px; font-weight: 600; }
-      .architecture-component .boundary-title { fill: var(--c-boundary-text, #94a3b8); font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 600; }
-      .architecture-component .region-title { font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 600; }
+      .architecture-component .node-title { fill: var(--node-title-fill, #e7e8eb); font-size: 11.5px; font-weight: 600; }
+      .architecture-component .node-subtitle { fill: var(--node-sub-fill, #b1b5bd); font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 9px; font-weight: 400; }
+      .architecture-component .node-tag { font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 8px; font-weight: 600; }
+      .architecture-component .line-label { fill: var(--line-label-fill, #b1b5bd); font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 8.5px; font-weight: 600; }
+      .architecture-component .boundary-title { fill: var(--c-boundary-text, #b1b5bd); font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 10px; font-weight: 600; }
+      .architecture-component .region-title { font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 9px; font-weight: 600; }
     </style>
     <pattern id="layered-services-grid" width="28" height="28" patternUnits="userSpaceOnUse">
-      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="var(--grid-line, rgba(148, 163, 184, 0.05))" stroke-width="0.75"/>
-      <circle cx="0" cy="0" r="0.8" fill="var(--grid-dot, rgba(148, 163, 184, 0.18))"/>
+      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="var(--grid-line, rgba(231, 232, 235, 0.04))" stroke-width="0.75"/>
+      <circle cx="0" cy="0" r="0.8" fill="var(--grid-dot, rgba(231, 232, 235, 0.14))"/>
     </pattern>
     <marker id="layered-services-arrow-gateway" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <polygon points="0 0.5, 7 3, 0 5.5" fill="var(--c-gateway, #0ea5e9)"/>
@@ -63,11 +63,11 @@
     </g>
   </defs>
 
-  <rect width="960" height="424" fill="var(--bg-canvas, #090d16)"/>
+  <rect width="960" height="424" fill="var(--bg-canvas, #13161a)"/>
   <rect width="960" height="424" fill="url(#layered-services-grid)"/>
 
   <g id="boundaries">
-    <rect x="24" y="24" width="912" height="376" rx="10" fill="none" stroke="var(--c-boundary, rgba(148, 163, 184, 0.22))" stroke-width="1.25" stroke-dasharray="6 4"/>
+    <rect x="24" y="24" width="912" height="376" rx="10" fill="none" stroke="var(--c-boundary, rgba(177, 181, 189, 0.24))" stroke-width="1.25" stroke-dasharray="6 4"/>
     <text x="40" y="46" class="boundary-title">SHARED DEPLOYMENT BOUNDARY</text>
     <rect x="40" y="68" width="196" height="308" rx="8" fill="rgba(14, 165, 233, 0.03)" stroke="var(--c-gateway, #0ea5e9)" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="4 4"/>
     <text x="56" y="90" class="region-title" fill="var(--c-gateway, #0ea5e9)">ENTRY</text>
@@ -100,7 +100,7 @@
 
   <g id="nodes">
     <g id="node-gateway" data-node="" transform="translate(56 154)">
-      <rect data-node-box="" width="164" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect data-node-box="" width="164" height="64" rx="6" fill="var(--node-base, #1a1d23)"/>
       <rect width="164" height="64" rx="6" fill="rgba(14, 165, 233, 0.1)" stroke="var(--c-gateway, #0ea5e9)" stroke-width="1.5"/>
       <g transform="translate(28 24)" color="var(--c-gateway, #0ea5e9)"><use href="#layered-services-icon-network"/></g>
       <text x="54" y="29" class="node-title" data-node-title="">Gateway Node</text>
@@ -108,7 +108,7 @@
     </g>
 
     <g id="node-primary" data-node="" transform="translate(372 154)">
-      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #1a1d23)"/>
       <rect width="208" height="64" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="var(--c-service, #10b981)" stroke-width="1.25"/>
       <g transform="translate(29 24)" color="var(--c-service, #10b981)"><use href="#layered-services-icon-server"/></g>
       <text x="55" y="29" class="node-title" data-node-title="">Primary Service</text>
@@ -116,7 +116,7 @@
     </g>
 
     <g id="node-worker" data-node="" transform="translate(372 282)">
-      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect data-node-box="" width="208" height="64" rx="6" fill="var(--node-base, #1a1d23)"/>
       <rect width="208" height="64" rx="6" fill="rgba(139, 92, 246, 0.1)" stroke="var(--c-message, #8b5cf6)" stroke-width="1.25"/>
       <g transform="translate(29 24)" color="var(--c-message, #8b5cf6)"><use href="#layered-services-icon-zap"/></g>
       <text x="55" y="29" class="node-title" data-node-title="">Worker Node</text>
@@ -124,7 +124,7 @@
     </g>
 
     <g id="node-dependent" data-node="" transform="translate(732 154)">
-      <rect data-node-box="" width="172" height="64" rx="6" fill="var(--node-base, #0b1329)"/>
+      <rect data-node-box="" width="172" height="64" rx="6" fill="var(--node-base, #1a1d23)"/>
       <rect width="172" height="64" rx="6" fill="rgba(245, 158, 11, 0.08)" stroke="var(--c-storage, #f59e0b)" stroke-width="1.25"/>
       <g transform="translate(21 24)" color="var(--c-storage, #f59e0b)"><use href="#layered-services-icon-box"/></g>
       <text x="47" y="29" class="node-title" data-node-title="">Dependent Node</text>

@@ -1,0 +1,41 @@
+<!-- 模块：状态机流转与状态迁移表 (State Transition Diagram) -->
+<!-- 适用场景：任务生命周期、订单/PR/审批状态机迁移规则与守卫条件 -->
+<div class="state-box" data-component="state-machine">
+  <div class="state-head">
+    <span class="state-title">JOB STATE MACHINE / 任务状态机流转</span>
+    <span class="state-meta">5 STATES · 7 TRANSITIONS</span>
+  </div>
+  <div class="state-nodes-flow">
+    <div class="state-node initial">
+      <div class="state-badge">INIT</div>
+      <div class="state-name">草稿 / 初始化</div>
+    </div>
+    <div class="state-arrow"><span>[Submit]</span> →</div>
+    <div class="state-node in-progress">
+      <div class="state-badge">QUEUED</div>
+      <div class="state-name">排队中</div>
+    </div>
+    <div class="state-arrow"><span>[Dispatch]</span> →</div>
+    <div class="state-node active">
+      <div class="state-badge">RUNNING</div>
+      <div class="state-name">处理中</div>
+    </div>
+    <div class="state-arrow"><span>[Complete]</span> →</div>
+    <div class="state-node terminal-success">
+      <div class="state-badge">SUCCEEDED</div>
+      <div class="state-name">已完成</div>
+    </div>
+  </div>
+  <div class="state-rules-table">
+    <table class="data">
+      <thead>
+        <tr><th>起始状态</th><th>触发事件 (Event)</th><th>目标状态</th><th>守卫条件 (Guard)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>QUEUED</code></td><td>Worker Ack</td><td><code>RUNNING</code></td><td>租户并发配额未耗尽</td></tr>
+        <tr><td><code>RUNNING</code></td><td>Fatal Exception</td><td><code>FAILED</code></td><td>重试次数达到上限 3 次</td></tr>
+        <tr><td><code>RUNNING</code></td><td>Timeout (300s)</td><td><code>CANCELED</code></td><td>超时熔断自动回收</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

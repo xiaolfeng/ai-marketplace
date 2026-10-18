@@ -1,0 +1,34 @@
+<!-- 模块：利弊权衡与优缺点卡 (Pros & Cons Tradeoff Card) -->
+<!-- 适用场景：方案选型权衡、架构决策取舍、引入新技术栈的优劣势分析 -->
+<div class="pros-cons-box" data-component="pros-cons">
+  <div class="pros-cons-head">
+    <span class="pros-cons-title">TRADEOFF ANALYSIS / 方案利弊权衡</span>
+    <span class="pros-cons-meta">PROS VS CONS</span>
+  </div>
+  <div class="pros-cons-grid">
+    <!-- 优势 Pros -->
+    <div class="pros-col">
+      <div class="pros-head">
+        <span class="sign-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <strong>主要优势 (Pros)</strong>
+      </div>
+      <ul class="pros-list">
+        <li><strong>吞吐量提升显著</strong>：异步化与批处理将整体吞吐量提升 3 倍以上。</li>
+        <li><strong>故障隔离彻底</strong>：单一 Worker 崩溃不影响管控面 API 响应。</li>
+        <li><strong>水平扩展灵活</strong>：计算节点可依据队列堆积长度自动弹性伸缩。</li>
+      </ul>
+    </div>
+    <!-- 代价 Cons -->
+    <div class="cons-col">
+      <div class="cons-head">
+        <span class="sign-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
+        <strong>潜在代价与约束 (Cons)</strong>
+      </div>
+      <ul class="cons-list">
+        <li><strong>最终一致性延迟</strong>：写入后需轮询或监听事件获取最终状态。</li>
+        <li><strong>排障链路拉长</strong>：全链路需要统一 TraceID 贯穿日志与告警。</li>
+        <li><strong>维护复杂度增加</strong>：需额外维护分布式消息队列高可用集群。</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<!-- 模块：项目风险登记与缓解册 (Risk Register Table) -->
+<!-- 适用场景：重大项目风险管理、合规审计、技术债务与单点瓶颈登记 -->
+<div class="risk-box" data-component="risk-register">
+  <div class="risk-head">
+    <span class="risk-title">RISK REGISTER / 关键风险与应对预案登记册</span>
+    <span class="risk-meta">PROBABILITY & IMPACT MATRIX</span>
+  </div>
+  <div class="table-wrap">
+    <table class="data risk-table">
+      <thead>
+        <tr>
+          <th>风险编号</th>
+          <th>风险描述</th>
+          <th>概率</th>
+          <th>影响</th>
+          <th>风险等级</th>
+          <th>缓解与应对预案</th>
+          <th>责任人</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="风险编号"><strong>RSK-01</strong></td>
+          <td data-label="风险描述">底层存储机房网络抖动引发写入超时</td>
+          <td data-label="概率">低</td>
+          <td data-label="影响">高</td>
+          <td data-label="风险等级">
+            <span class="badge badge-warn">MEDIUM</span>
+          </td>
+          <td data-label="缓解与应对预案">
+            配置本地双写缓存队列，支持网络闪断时自动重试。
+          </td>
+          <td data-label="责任人">SRE 团队</td>
+        </tr>
+        <tr>
+          <td data-label="风险编号"><strong>RSK-02</strong></td>
+          <td data-label="风险描述">
+            上游接口字段突发破坏性改动引发反序列化失败
+          </td>
+          <td data-label="概率">中</td>
+          <td data-label="影响">高</td>
+          <td data-label="风险等级">
+            <span class="badge badge-danger">HIGH</span>
+          </td>
+          <td data-label="缓解与应对预案">
+            在 CI 门禁中强制接入 OpenAPI 契约向后兼容性校验。
+          </td>
+          <td data-label="责任人">Alex</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

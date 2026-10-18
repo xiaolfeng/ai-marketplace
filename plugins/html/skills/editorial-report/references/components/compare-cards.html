@@ -1,0 +1,23 @@
+<!-- 模块：双栏方案 / 前后对比卡片 (Comparison Cards) -->
+<!-- 适用场景：方案 A vs 方案 B、改造前 vs 改造后，可在推荐卡片添加 class="target" -->
+<div data-component="compare-cards" class="compare-grid">
+  <div class="compare-card">
+    <span class="compare-tag">改造前 · 方案 A</span>
+    <div class="compare-title">原架构特点</div>
+    <ul class="bits">
+      <li>模块强耦合，修改容易引发连锁副作用。</li>
+      <li>规则在多处重复定义，难以统一审计。</li>
+      <li>无标准 UI 体系，各端视觉体验不一致。</li>
+    </ul>
+  </div>
+
+  <div class="compare-card target">
+    <span class="compare-tag">改造后 · 方案 B (推荐)</span>
+    <div class="compare-title">目标架构特点</div>
+    <ul class="bits">
+      <li>微内核解耦，各模块独立测试与交付。</li>
+      <li>单一事实源共享层，多处引用保证一致性。</li>
+      <li>标准化组件系统，双主题自动自适应。</li>
+    </ul>
+  </div>
+</div>

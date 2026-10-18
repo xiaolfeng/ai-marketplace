@@ -1,0 +1,40 @@
+<!-- 模块：多维度方案对比矩阵 (Comparison Matrix Table) -->
+<!-- 适用场景：跨 3 个以上方案的多维度横向评审选型，支持 th.highlight / td.highlight 高亮推荐列 -->
+<div data-component="compare-table" class="table-wrap">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>评估维度</th>
+        <th>方案 A (单体)</th>
+        <th class="highlight">方案 B (模块化市场 - 当前采用)</th>
+        <th>方案 C (微服务独立仓)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>维护成本</strong></td>
+        <td>中等（代码堆积易膨胀）</td>
+        <td class="highlight">低（共享事实层，单仓协同）</td>
+        <td>高（多仓 PR 切换繁琐）</td>
+      </tr>
+      <tr>
+        <td><strong>解耦与隔离</strong></td>
+        <td>差（命名空间无隔离）</td>
+        <td class="highlight">优（插件级命名空间隔离）</td>
+        <td>优（物理仓库隔离）</td>
+      </tr>
+      <tr>
+        <td><strong>安装与体验</strong></td>
+        <td>一揽子安装，无法裁剪</td>
+        <td class="highlight">按需独立安装，体验一致</td>
+        <td>需配置多个插件源</td>
+      </tr>
+      <tr>
+        <td><strong>选型结论</strong></td>
+        <td><span class="badge badge-blocked">废弃</span></td>
+        <td class="highlight"><span class="badge badge-done">采纳落地</span></td>
+        <td><span class="badge badge-plan">暂不考虑</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

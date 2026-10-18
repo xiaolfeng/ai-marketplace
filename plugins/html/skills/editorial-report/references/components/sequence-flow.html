@@ -1,0 +1,41 @@
+<!-- 模块：纯 CSS/HTML 时序泳道调用图 (Lane Sequence Flow) -->
+<!-- 适用场景：轻量级调用时序交互，无需外部 JS 渲染，展示客户端/网关/服务/数据库交互流程 -->
+<div class="seq-box" data-component="sequence-flow">
+  <div class="seq-head">
+    <span class="seq-title">INTERACTION SEQUENCE / 请求时序调用流</span>
+    <span class="seq-meta">4-ACTORS FLOW</span>
+  </div>
+  <div class="seq-actors">
+    <div class="actor">客户端 (Client)</div>
+    <div class="actor">API 网关 (Gateway)</div>
+    <div class="actor">业务服务 (Service)</div>
+    <div class="actor">数据库 (DB)</div>
+  </div>
+  <div class="seq-steps">
+    <div class="seq-step from-1 to-2">
+      <span class="seq-num">01</span>
+      <span class="seq-desc">POST /api/v1/jobs (创建任务)</span>
+      <span class="seq-line"></span>
+    </div>
+    <div class="seq-step from-2 to-3">
+      <span class="seq-num">02</span>
+      <span class="seq-desc">gRPC 转发 + 鉴权信息附带</span>
+      <span class="seq-line"></span>
+    </div>
+    <div class="seq-step from-3 to-4">
+      <span class="seq-num">03</span>
+      <span class="seq-desc">INSERT 写入任务账本并出票</span>
+      <span class="seq-line"></span>
+    </div>
+    <div class="seq-step from-4 to-3 return-step">
+      <span class="seq-num">04</span>
+      <span class="seq-desc">返回 Job_ID 200 OK</span>
+      <span class="seq-line"></span>
+    </div>
+    <div class="seq-step from-3 to-1 return-step">
+      <span class="seq-num">05</span>
+      <span class="seq-desc">异步返回 202 Accepted {job_id, ticket}</span>
+      <span class="seq-line"></span>
+    </div>
+  </div>
+</div>
