@@ -1,0 +1,21 @@
+<!-- 模块：关键决策卡 (Decision) · 适用场景：结论页 D 编号决策：背景、备选方案（采纳 / 未采纳）与理由；多卡之间自动加分隔线 -->
+<div class="decision" data-component="decision">
+  <h3><span class="no">D1</span>部署策略调整前先完成多实例演练</h3>
+  <p class="ctx">
+    按发布规范，部署策略调整前必须先完成同版本 1→2→1
+    多实例演练，且只能在联合金丝雀环境中进行。
+  </p>
+  <ul class="options">
+    <!-- 与 choice 一字匹配的选项加 class="chosen" 并标「采纳」，其余标「未采纳」 -->
+    <li>
+      <span class="mk">未采纳</span><span>直接调整为 RollingUpdate 上线</span>
+    </li>
+    <li class="chosen">
+      <span class="mk">采纳</span><span>先在联合金丝雀环境完成 1→2→1 演练</span>
+    </li>
+  </ul>
+  <p class="why">
+    <b>理由：</b>单副本 Recreate 的 502
+    空窗属部署层问题，未经演练验证的策略切换不满足零停机发布门禁。
+  </p>
+</div>

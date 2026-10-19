@@ -1,0 +1,29 @@
+<!-- 模块：Pele 图表容器 (Pele Diagram) -->
+<!-- 适用场景：把调用链 / 状态流转 / 决策分支画成图。源码用 Mermaid 语法写在 pre.pele 文本节点里，
+     页面出现 pre.pele 才按需注入 Pele 渲染器 CDN 并自动挂载；主题走 --pele-* 变量，深浅切换无需重渲染。
+     pele-source 折叠里放同一份源码，方便读者复制核对 -->
+<div class="pele-box">
+  <div class="pele-head"><span class="kind">DIAGRAM</span>这一步的调用链</div>
+  <!-- 说明位可省略 -->
+  <p class="pele-note">一句话点出看图要点：先看分支，再看回流。</p>
+  <div class="pele-view">
+    <pre class="pele">
+flowchart TD
+    A[客户端下单] -->|预扣库存| B{幂等键命中?}
+    B -->|命中| C[返回上次结果]
+    B -->|未命中| D[扣减并落 Outbox]
+    D --> E[异步释放屏障]
+    E --> F[库存回流]
+    </pre>
+  </div>
+  <details class="pele-source">
+    <summary>查看源码</summary>
+    <pre>
+flowchart TD
+    A[客户端下单] -->|预扣库存| B{幂等键命中?}
+    B -->|命中| C[返回上次结果]
+    B -->|未命中| D[扣减并落 Outbox]
+    D --> E[异步释放屏障]
+    E --> F[库存回流]</pre>
+  </details>
+</div>

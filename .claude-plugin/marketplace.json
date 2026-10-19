@@ -12,9 +12,17 @@
       "description": "Git 工作流管理：分析 diff 自动生成规范化中文提交信息，并直接执行提交，scope 统一业务环境命名",
       "version": "0.0.1",
       "category": "developer-tools",
-      "tags": ["git", "commit"],
-      "keywords": ["git", "commit"],
-      "skills": ["./skills"]
+      "tags": [
+        "git",
+        "commit"
+      ],
+      "keywords": [
+        "git",
+        "commit"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "discovery",
@@ -22,9 +30,19 @@
       "description": "项目知识库与架构约束：init-deep 生成分层 INITDEEP.md 索引，init-arch 编写架构总览与层级文件；根 AGENTS.md 保持简短按需导航",
       "version": "0.0.4",
       "category": "developer-tools",
-      "tags": ["agents-md", "knowledge-base", "onboarding"],
-      "keywords": ["agents", "docs", "init"],
-      "skills": ["./skills"]
+      "tags": [
+        "agents-md",
+        "knowledge-base",
+        "onboarding"
+      ],
+      "keywords": [
+        "agents",
+        "docs",
+        "init"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "engineering-design",
@@ -32,9 +50,29 @@
       "description": "工程文档与实施计划管理：research/design/spec/runbook/plan 五模式技能分管调研、工程设计（draft→rfc→adr）、技术规范（draft→rfc→adr）、运维手册与顶层实施计划（含 archive 归档），docs-init 初始化目录与 MAINTENANCE.md，doc-clean 巡检编号/引用/状态机",
       "version": "0.1.0",
       "category": "developer-tools",
-      "tags": ["docs", "research", "design", "spec", "runbook", "plan", "adr", "rfc"],
-      "keywords": ["docs", "research", "design", "spec", "runbook", "plan", "adr", "rfc"],
-      "skills": ["./skills"]
+      "tags": [
+        "docs",
+        "research",
+        "design",
+        "spec",
+        "runbook",
+        "plan",
+        "adr",
+        "rfc"
+      ],
+      "keywords": [
+        "docs",
+        "research",
+        "design",
+        "spec",
+        "runbook",
+        "plan",
+        "adr",
+        "rfc"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "research",
@@ -42,9 +80,17 @@
       "description": "调研工作流：对抗性调研模式由 AI 与用户边辩边查证交叉对练，final-research-check 子代理终审产出「问题陈述 / 诱因 / 根因」三要素报告",
       "version": "0.0.2",
       "category": "developer-tools",
-      "tags": ["research", "adversarial"],
-      "keywords": ["research", "investigation"],
-      "skills": ["./skills"]
+      "tags": [
+        "research",
+        "adversarial"
+      ],
+      "keywords": [
+        "research",
+        "investigation"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "charm",
@@ -52,19 +98,53 @@
       "description": "魅力文学：基于语言学实证与经典写作准则的双技能人文风格插件——like-a-human-writing 去除书面 AI 腔，like-a-human-speaking 让对话语感回到活人",
       "version": "0.0.1",
       "category": "developer-tools",
-      "tags": ["style", "human-like", "writing"],
-      "keywords": ["style", "tone", "humanize"],
-      "skills": ["./skills"]
+      "tags": [
+        "style",
+        "human-like",
+        "writing"
+      ],
+      "keywords": [
+        "style",
+        "tone",
+        "humanize"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "html",
       "source": "./plugins/html",
-      "description": "HTML 视觉、图表与报告套件：高保真系统架构拓扑图、Excalidraw 手绘白板流程图，以及从大纲到文案再到单文件 HTML 的报告特刊，双主题跟随系统，告别 AI 模板腔",
-      "version": "0.1.0",
+      "description": "HTML 视觉、图表与报告套件：高保真系统架构拓扑图、Excalidraw 手绘白板流程图，以及从大纲到文案再到单文件 HTML 的报告特刊（双侧栏：合集导航与本文目录），双主题跟随系统，告别 AI 模板腔",
+      "version": "0.3.0",
       "category": "developer-tools",
-      "tags": ["html", "architecture", "diagram", "svg", "topology", "excalidraw", "whiteboard", "report"],
-      "keywords": ["architecture", "diagram", "html", "svg", "system-design", "excalidraw", "whiteboard", "report"],
-      "skills": ["./skills"]
+      "tags": [
+        "html",
+        "architecture",
+        "diagram",
+        "svg",
+        "topology",
+        "excalidraw",
+        "whiteboard",
+        "report",
+        "navigation",
+        "toc"
+      ],
+      "keywords": [
+        "architecture",
+        "diagram",
+        "html",
+        "svg",
+        "system-design",
+        "excalidraw",
+        "whiteboard",
+        "report",
+        "navigation",
+        "toc"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "bug",
@@ -72,9 +152,21 @@
       "description": "缺陷工作流：find-bug 找质量缺陷，find-security-bug 做授权范围内的安全审查，fix-bug 按根因落地最小修复",
       "version": "0.0.1",
       "category": "developer-tools",
-      "tags": ["bug", "debug", "security", "review"],
-      "keywords": ["bug", "debug", "security", "fix"],
-      "skills": ["./skills"]
+      "tags": [
+        "bug",
+        "debug",
+        "security",
+        "review"
+      ],
+      "keywords": [
+        "bug",
+        "debug",
+        "security",
+        "fix"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "agent-studio",
@@ -82,19 +174,48 @@
       "description": "个人全局 Agent 体系构建助手：分支问答、真实模型目录选择与用途记录，生成可脱离插件使用的原生 Agent 和独立 Workflow 技能，支持 Claude Code/Pi",
       "version": "0.0.2",
       "category": "developer-tools",
-      "tags": ["agents", "workflow", "models"],
-      "keywords": ["agents", "workflow", "models", "claude", "pi"],
-      "skills": ["./skills"]
+      "tags": [
+        "agents",
+        "workflow",
+        "models"
+      ],
+      "keywords": [
+        "agents",
+        "workflow",
+        "models",
+        "claude",
+        "pi"
+      ],
+      "skills": [
+        "./skills"
+      ]
     },
     {
       "name": "replay",
       "source": "./plugins/replay",
       "description": "复盘工作流：当 AI 在长对话或多轮自动执行中产出了大量动作而用户陷入信息过载时，逆向拆解「先看什么 → 为什么看 → 做了什么 → 引申到哪里」的因果链路，按读者与格式提供四个技能——自己看的大白话版 replay-md（Markdown 走读手册）与 replay-html（暖纸笔记本式步进页），对外发布的正式版 replay-post-md（Markdown 复盘报告）与 replay-post-html（翻页式正式报告）",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "category": "developer-tools",
-      "tags": ["replay", "retrospective", "walkthrough", "postmortem", "html", "markdown"],
-      "keywords": ["replay", "retrospective", "walkthrough", "postmortem", "session-review", "html", "markdown"],
-      "skills": ["./skills"]
+      "tags": [
+        "replay",
+        "retrospective",
+        "walkthrough",
+        "postmortem",
+        "html",
+        "markdown"
+      ],
+      "keywords": [
+        "replay",
+        "retrospective",
+        "walkthrough",
+        "postmortem",
+        "session-review",
+        "html",
+        "markdown"
+      ],
+      "skills": [
+        "./skills"
+      ]
     }
   ]
 }

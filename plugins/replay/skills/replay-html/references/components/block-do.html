@@ -1,0 +1,35 @@
+<!-- 模块：发现了什么、做了什么 (Block · Do) -->
+<!-- 适用场景：步骤五要素之一：编号清单记录动作与发现；kind 徽章四选一：discovery=发现 / action=动作 / fix=修复 / sync=同步，可省略 -->
+<section class="block">
+  <div class="label do">
+    <svg
+      class="ic"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" /></svg
+    >在这里发现了什么、做了什么
+  </div>
+  <ol class="do-list">
+    <li>
+      <span class="n">1</span>
+      <div class="head">
+        <span class="kind discovery">发现</span><span>旧策略是 Recreate</span>
+      </div>
+      <div class="detail">换版本时会先全关再开，中间有空窗。</div>
+    </li>
+    <li>
+      <span class="n">2</span>
+      <div class="head">
+        <span class="kind fix">修复</span><span>改成 RollingUpdate</span>
+      </div>
+      <div class="detail">逐个替换，压测验证空窗消失。</div>
+    </li>
+  </ol>
+</section>

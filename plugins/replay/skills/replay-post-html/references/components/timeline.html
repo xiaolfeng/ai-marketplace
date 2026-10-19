@@ -1,0 +1,21 @@
+<!-- 模块：时间线 (Timeline) · 适用场景：概览页按时间排布的事件；带 stepRef 的条目可点击翻到对应步骤页，无对应页的计划项为虚线圆点 -->
+<ol class="timeline" data-component="timeline">
+  <li>
+    <span class="t">D1 上午</span>
+    <!-- data-go 填步骤页下标；§n 为 steps[].id -->
+    <button class="e" type="button" data-go="3">
+      收回未经评审的合入<span class="ref">§1</span>
+    </button>
+  </li>
+  <li>
+    <span class="t">D2 下午</span>
+    <button class="e" type="button" data-go="5">
+      三轮启停演练发现 502 空窗<span class="ref">§3</span>
+    </button>
+  </li>
+  <!-- class="plan"：无 stepRef 的计划项，虚线圆点、不可点击 -->
+  <li class="plan">
+    <span class="t">待排期</span>
+    <span class="e">联合金丝雀环境 1→2→1 多实例演练</span>
+  </li>
+</ol>

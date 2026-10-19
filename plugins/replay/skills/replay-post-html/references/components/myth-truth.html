@@ -1,0 +1,13 @@
+<!-- 模块：误解对照 (Myth vs Truth) · 适用场景：步骤页纠正常见误解：左「误解」右「实际情况」并排，移动端自动上下排列；包在 block-label（标签「常见误解」）内使用 -->
+<div class="callout" data-component="myth-truth">
+  <div class="myth">
+    <div class="h">误解</div>
+    出现 502 说明进程内优雅停机未生效。
+  </div>
+  <div class="truth">
+    <div class="h">实际情况</div>
+    进程排空只保证已建立的请求完成；新请求能否被接住取决于部署策略，单副本
+    Recreate 下的空窗无法通过应用代码消除。
+  </div>
+</div>
+<!-- 误解侧可整体省略（confusionBuster.myth 为空时只保留实际情况侧） -->

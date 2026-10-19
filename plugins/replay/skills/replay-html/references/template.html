@@ -29,11 +29,32 @@
         --truth: #3b7550;
         --truth-soft: rgba(59, 117, 80, 0.08);
         --code-bg: #f1eadb;
-        --shadow: 0 1px 0 rgba(43, 38, 32, 0.04), 0 12px 32px -18px rgba(43, 38, 32, 0.28);
-        --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
-        --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
-          "Microsoft YaHei", sans-serif;
-        --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        --shadow:
+          0 1px 0 rgba(43, 38, 32, 0.04),
+          0 12px 32px -18px rgba(43, 38, 32, 0.28);
+        --serif:
+          "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong",
+          Georgia, serif;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+          "Noto Sans SC", "Microsoft YaHei", sans-serif;
+        --mono:
+          "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        /* Pele 图表主题变量：值全部引用上方既有 token。深浅主题切换时 token 变、
+           变量跟随自动生效，已渲染的 SVG 无需重渲染 */
+        --pele-bg: var(--paper);
+        --pele-fg: var(--ink);
+        --pele-muted: var(--ink-3);
+        --pele-line: var(--line-strong);
+        --pele-border: var(--line-strong);
+        --pele-surface: var(--accent-soft);
+        --pele-surface-alt: var(--truth-soft);
+        --pele-accent: var(--accent);
+        --pele-critical: var(--myth);
+        --pele-error: var(--myth);
+        --pele-font: var(--sans);
+        --pele-font-mono: var(--mono);
+        --pele-radius: 9px;
         color-scheme: light;
       }
       @media (prefers-color-scheme: dark) {
@@ -58,7 +79,8 @@
           --truth: #8cc49d;
           --truth-soft: rgba(140, 196, 157, 0.09);
           --code-bg: #201d18;
-          --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+          --shadow:
+            0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
           color-scheme: dark;
         }
       }
@@ -83,7 +105,8 @@
         --truth: #8cc49d;
         --truth-soft: rgba(140, 196, 157, 0.09);
         --code-bg: #201d18;
-        --shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
+        --shadow:
+          0 1px 0 rgba(0, 0, 0, 0.2), 0 16px 36px -20px rgba(0, 0, 0, 0.7);
         color-scheme: dark;
       }
 
@@ -544,6 +567,97 @@
         font-family: var(--serif);
       }
 
+      /* ------------ Diagram · Pele 图表容器（Mermaid 语法） ------------ */
+      .pele-box {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .pele-box .pele-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1rem;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper-sunk);
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--ink-2);
+      }
+      .pele-box .pele-head .kind {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--ink-3);
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        padding: 0 0.35rem;
+      }
+      .pele-box .pele-note {
+        padding: 0.8rem 1rem 0;
+        font-size: 0.86rem;
+        color: var(--ink-3);
+      }
+      .pele-box .pele-view {
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      .pele-box pre.pele {
+        margin: 0;
+        font-size: 0.8rem;
+        line-height: 1.65;
+        color: var(--ink-2);
+        white-space: pre;
+      }
+      .pele-box pre.pele[data-pele-state="done"] {
+        color: inherit;
+        white-space: normal;
+      }
+      .pele-box svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+      }
+      .pele-box .pele-source {
+        border-top: 1px solid var(--line);
+      }
+      .pele-box .pele-source > summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 0.55rem 1rem;
+        font-size: 0.8rem;
+        color: var(--ink-3);
+      }
+      .pele-box .pele-source > summary::-webkit-details-marker {
+        display: none;
+      }
+      .pele-box .pele-source > summary::after {
+        content: "展开";
+        margin-left: 0.35rem;
+      }
+      .pele-box .pele-source[open] > summary::after {
+        content: "收起";
+      }
+      .pele-box .pele-source pre {
+        margin: 0 0.6rem 0.6rem;
+        padding: 0.85rem 1rem;
+        background: var(--code-bg);
+        border-radius: 9px;
+        font-size: 0.8rem;
+        line-height: 1.65;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--ink-2);
+      }
+      .pele-box .note {
+        margin: 0 1rem 1rem;
+        color: var(--myth);
+      }
+
       .next-card {
         margin-top: 2.4rem;
         padding: 1.3rem 1.3rem 1.4rem;
@@ -822,7 +936,9 @@
         height: 9px;
         border-radius: 50%;
         background: var(--line-strong);
-        transition: transform 0.2s ease, background 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
       }
       .dot.visited {
         background: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
@@ -1042,7 +1158,11 @@
         z-index: -1;
         background-image: radial-gradient(var(--tone) 1.1px, transparent 1.5px);
         background-size: 7px 7px;
-        -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
+        -webkit-mask-image: radial-gradient(
+          circle at 100% 0,
+          #000 0,
+          transparent 72%
+        );
         mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 72%);
         pointer-events: none;
       }
@@ -1059,8 +1179,10 @@
         width: 16px;
         height: 16px;
         background: color-mix(in srgb, var(--accent) 10%, var(--paper));
-        border-right: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-        border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+        border-right: 1px solid
+          color-mix(in srgb, var(--accent) 28%, transparent);
+        border-bottom: 1px solid
+          color-mix(in srgb, var(--accent) 28%, transparent);
         transform: rotate(45deg);
       }
       /* 当前步骤圆点换成 ✦ */
@@ -1085,27 +1207,67 @@
   <body>
     <header class="topbar">
       <div class="topbar-inner">
-        <button class="icon-btn" id="btn-toc" type="button" aria-label="打开目录" title="目录（T）">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <button
+          class="icon-btn"
+          id="btn-toc"
+          type="button"
+          aria-label="打开目录"
+          title="目录（T）"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
             <path d="M4 6h16M4 12h16M4 18h10" />
           </svg>
         </button>
         <div class="bar-title" id="bar-title"></div>
         <span class="bar-count" id="bar-count"></span>
-        <button class="icon-btn" id="btn-theme" type="button" aria-label="切换深浅色" title="切换深浅色">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <button
+          class="icon-btn"
+          id="btn-theme"
+          type="button"
+          aria-label="切换深浅色"
+          title="切换深浅色"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
             <circle cx="12" cy="12" r="8" />
             <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
           </svg>
         </button>
         <div class="menu-wrap">
-          <button class="icon-btn" id="btn-menu" type="button" aria-label="更多" aria-haspopup="true" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>
+          <button
+            class="icon-btn"
+            id="btn-menu"
+            type="button"
+            aria-label="更多"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="5" cy="12" r="1.7" />
+              <circle cx="12" cy="12" r="1.7" />
+              <circle cx="19" cy="12" r="1.7" />
+            </svg>
           </button>
           <div class="menu" id="menu" role="menu">
-            <button type="button" role="menuitem" data-act="md">导出 Markdown</button>
-            <button type="button" role="menuitem" data-act="print">打印 / 存为 PDF</button>
-            <button type="button" role="menuitem" data-act="restart">回到开头</button>
+            <button type="button" role="menuitem" data-act="md">
+              导出 Markdown
+            </button>
+            <button type="button" role="menuitem" data-act="print">
+              打印 / 存为 PDF
+            </button>
+            <button type="button" role="menuitem" data-act="restart">
+              回到开头
+            </button>
           </div>
         </div>
       </div>
@@ -1117,9 +1279,13 @@
 
     <nav class="dock" aria-label="步进控制">
       <div class="dock-inner">
-        <button class="step-btn prev" id="btn-prev" type="button">← <span class="long">上一步</span></button>
+        <button class="step-btn prev" id="btn-prev" type="button">
+          ← <span class="long">上一步</span>
+        </button>
         <div class="dots" id="dots"></div>
-        <button class="step-btn next" id="btn-next" type="button"><span class="long">下一步</span> →</button>
+        <button class="step-btn next" id="btn-next" type="button">
+          <span class="long">下一步</span> →
+        </button>
       </div>
     </nav>
 
@@ -1150,7 +1316,11 @@
           "readingGuide": "不用翻原始记录。每次只看一步，按「下一步」或键盘 → 往下走就行。"
         },
         "actorsAndRepos": [
-          { "name": "core-repo", "role": "主业务仓", "detail": "这次主要改动发生在这里" }
+          {
+            "name": "core-repo",
+            "role": "主业务仓",
+            "detail": "这次主要改动发生在这里"
+          }
         ],
         "steps": [
           {
@@ -1159,12 +1329,33 @@
             "title": "第一步示例标题",
             "summary": "一句话说清这一步让你明白了什么",
             "status": "completed",
-            "lookAt": { "target": "第一步要看的具体文件或 PR", "anchors": ["src/main.go:42", "PR #101"] },
+            "lookAt": {
+              "target": "第一步要看的具体文件或 PR",
+              "anchors": ["src/main.go:42", "PR #101"]
+            },
             "whyLookHere": "用大白话解释为什么要先看这里，比如这里用了 Recreate。",
-            "whatWasDone": [{ "label": "关键发现", "detail": "发现了某个具体问题", "type": "discovery" }],
-            "confusionBuster": { "myth": "你可能以为……", "reality": "其实是……" },
-            "leadsToNext": { "hook": "因为发现了这个问题，接下来得去验证它会不会影响下游。", "nextTarget": "验证下游表现" },
-            "evidence": [{ "title": "关键证据", "kind": "code", "content": "// 示例代码或命令输出" }]
+            "whatWasDone": [
+              {
+                "label": "关键发现",
+                "detail": "发现了某个具体问题",
+                "type": "discovery"
+              }
+            ],
+            "confusionBuster": {
+              "myth": "你可能以为……",
+              "reality": "其实是……"
+            },
+            "leadsToNext": {
+              "hook": "因为发现了这个问题，接下来得去验证它会不会影响下游。",
+              "nextTarget": "验证下游表现"
+            },
+            "evidence": [
+              {
+                "title": "关键证据",
+                "kind": "code",
+                "content": "// 示例代码或命令输出"
+              }
+            ]
           },
           {
             "id": 2,
@@ -1172,23 +1363,59 @@
             "title": "第二步示例标题",
             "summary": "一句话说清这一步怎么收尾",
             "status": "decision",
-            "lookAt": { "target": "第二步要看的具体对象", "anchors": ["test-env", "Issue #102"] },
+            "lookAt": {
+              "target": "第二步要看的具体对象",
+              "anchors": ["test-env", "Issue #102"]
+            },
             "whyLookHere": "承接上一步的引申，解释为什么要看这里。",
-            "whatWasDone": [{ "label": "落地修复", "detail": "完成修复并验证通过", "type": "fix" }],
-            "confusionBuster": { "myth": "容易混淆的说法", "reality": "实际是这样运作的" },
-            "leadsToNext": { "hook": "都验证完了，去终点看看现在的状态吧。", "nextTarget": "终点" },
-            "evidence": [{ "title": "验证输出", "kind": "command", "content": "$ make check\nPASS" }]
+            "whatWasDone": [
+              {
+                "label": "落地修复",
+                "detail": "完成修复并验证通过",
+                "type": "fix"
+              }
+            ],
+            "confusionBuster": {
+              "myth": "容易混淆的说法",
+              "reality": "实际是这样运作的"
+            },
+            "leadsToNext": {
+              "hook": "都验证完了，去终点看看现在的状态吧。",
+              "nextTarget": "终点"
+            },
+            "evidence": [
+              {
+                "title": "验证输出",
+                "kind": "command",
+                "content": "$ make check\nPASS"
+              }
+            ]
           }
         ],
         "confusionMatrix": [
-          { "question": "为什么 A 变了但 B 没生效？", "shortAnswer": "因为 B 有自己独立的开关。", "deepExplanation": "这里详细讲底层原因。" }
+          {
+            "question": "为什么 A 变了但 B 没生效？",
+            "shortAnswer": "因为 B 有自己独立的开关。",
+            "deepExplanation": "这里详细讲底层原因。"
+          }
         ],
         "endState": {
-          "completedItems": [{ "item": "完成核心修复", "ref": "PR #101", "note": "CI 全绿，已合入" }],
-          "pendingHandoffs": [{ "task": "明天观察监控", "owner": "你", "when": "明日 10:00" }]
+          "completedItems": [
+            {
+              "item": "完成核心修复",
+              "ref": "PR #101",
+              "note": "CI 全绿，已合入"
+            }
+          ],
+          "pendingHandoffs": [
+            { "task": "明天观察监控", "owner": "你", "when": "明日 10:00" }
+          ]
         },
         "glossary": [
-          { "term": "Recreate", "plain": "换版本时先把旧的全关掉，再开新的，中间会有一小段「店门关着」的空窗。" }
+          {
+            "term": "Recreate",
+            "plain": "换版本时先把旧的全关掉，再开新的，中间会有一小段「店门关着」的空窗。"
+          }
         ]
       }
     </script>
@@ -1203,7 +1430,9 @@
           data = JSON.parse(raw);
         } catch (err) {
           document.getElementById("stage").innerHTML =
-            '<div class="note">复盘数据解析失败：' + String(err.message).replace(/</g, "&lt;") + "</div>";
+            '<div class="note">复盘数据解析失败：' +
+            String(err.message).replace(/</g, "&lt;") +
+            "</div>";
           return;
         }
 
@@ -1219,36 +1448,61 @@
         var current = 0;
         var visited = {};
 
-        var KIND_LABEL = { discovery: "发现", action: "动作", fix: "修复", sync: "同步" };
+        var KIND_LABEL = {
+          discovery: "发现",
+          action: "动作",
+          fix: "修复",
+          sync: "同步",
+        };
         var STATUS_LABEL = { decision: "关键拍板", blocked: "卡住了" };
-        var EV_LABEL = { code: "代码", command: "命令", quote: "原话", table: "表格" };
+        var EV_LABEL = {
+          code: "代码",
+          command: "命令",
+          quote: "原话",
+          table: "表格",
+        };
 
         /* ---------------------------- 文本工具 ---------------------------- */
         // Lucide 图标（ISC License），内联 path 保持单文件零依赖
         var ICONS = {
-          sprout: '<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>',
-          "cloud-fog": '<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 17H7"/><path d="M17 21H9"/>',
-          users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-          compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+          sprout:
+            '<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>',
+          "cloud-fog":
+            '<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 17H7"/><path d="M17 21H9"/>',
+          users:
+            '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+          compass:
+            '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
           eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
-          "circle-help": '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+          "circle-help":
+            '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
           search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
-          lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
-          paperclip: '<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>',
+          lightbulb:
+            '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+          paperclip:
+            '<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>',
           "arrow-right": '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
-          "circle-check": '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
-          "user-check": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
-          "message-circle-question": '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
-          "book-open": '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
-          clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+          "circle-check":
+            '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+          "user-check":
+            '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
+          "message-circle-question":
+            '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+          "book-open":
+            '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+          clock:
+            '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
           check: '<path d="M20 6 9 17l-5-5"/>',
           flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>',
-          "circle-dot": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>'
+          "circle-dot":
+            '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/>',
         };
         function icon(name) {
           return (
             '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[name] + "</svg>"
+            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            ICONS[name] +
+            "</svg>"
           );
         }
 
@@ -1287,7 +1541,13 @@
             .map(function (seg) {
               if (seg.charAt(0) === "<") return seg;
               return seg.replace(termRe, function (m) {
-                return '<span class="term" tabindex="0" data-term="' + m + '">' + m + "</span>";
+                return (
+                  '<span class="term" tabindex="0" data-term="' +
+                  m +
+                  '">' +
+                  m +
+                  "</span>"
+                );
               });
             })
             .join("");
@@ -1299,7 +1559,8 @@
           var re = /(^|[\s；;。：:，,])\d+[)）]\s*/g;
           var marks = [];
           var m;
-          while ((m = re.exec(s))) marks.push({ start: m.index + m[1].length, end: re.lastIndex });
+          while ((m = re.exec(s)))
+            marks.push({ start: m.index + m[1].length, end: re.lastIndex });
           if (marks.length < 2) return "<p>" + rich(s) + "</p>";
           var lead = s.slice(0, marks[0].start).trim();
           var items = marks.map(function (mk, i) {
@@ -1321,7 +1582,12 @@
         function block(cls, iconName, label, inner) {
           return (
             '<section class="block">' +
-            '<div class="label ' + cls + '">' + icon(iconName) + label + "</div>" +
+            '<div class="label ' +
+            cls +
+            '">' +
+            icon(iconName) +
+            label +
+            "</div>" +
             inner +
             "</section>"
           );
@@ -1332,12 +1598,22 @@
           var cast = (data.actorsAndRepos || [])
             .map(function (a) {
               return (
-                '<div class="cast-card"><div class="name">' + esc(a.name) + '</div><div class="role">' + esc(a.role) +
-                '</div><div class="detail">' + rich(a.detail) + "</div></div>"
+                '<div class="cast-card"><div class="name">' +
+                esc(a.name) +
+                '</div><div class="role">' +
+                esc(a.role) +
+                '</div><div class="detail">' +
+                rich(a.detail) +
+                "</div></div>"
               );
             })
             .join("");
-          var strip = [meta.date, meta.sessionName, meta.totalRawTurns, meta.status]
+          var strip = [
+            meta.date,
+            meta.sessionName,
+            meta.totalRawTurns,
+            meta.status,
+          ]
             .filter(Boolean)
             .map(function (x) {
               return "<span>" + esc(x) + "</span>";
@@ -1346,13 +1622,41 @@
           return (
             '<article class="screen">' +
             '<div class="kicker"><span class="num">复盘笔记</span><span>写给当时一路点「同意」的你</span></div>' +
-            '<h1 class="title"><span class="mark">' + esc(meta.title) + "</span></h1>" +
-            '<p class="lead">' + rich(meta.subtitle) + "</p>" +
-            '<div class="meta-strip">' + strip + "</div>" +
-            block("plain", "sprout", "一开始，其实只想做这件事", '<div class="prose"><p>' + rich(bg.originGoal) + "</p></div>") +
-            block("why", "cloud-fog", "为什么后来会看懵", '<div class="prose">' + listOrPara(bg.whyConfusing) + "</div>") +
-            (cast ? block("look", "users", "出场角色（先混个脸熟）", '<div class="cast">' + cast + "</div>") : "") +
-            block("plain", "compass", "怎么看这份复盘", '<div class="note">' + rich(bg.readingGuide) + "</div>") +
+            '<h1 class="title"><span class="mark">' +
+            esc(meta.title) +
+            "</span></h1>" +
+            '<p class="lead">' +
+            rich(meta.subtitle) +
+            "</p>" +
+            '<div class="meta-strip">' +
+            strip +
+            "</div>" +
+            block(
+              "plain",
+              "sprout",
+              "一开始，其实只想做这件事",
+              '<div class="prose"><p>' + rich(bg.originGoal) + "</p></div>",
+            ) +
+            block(
+              "why",
+              "cloud-fog",
+              "为什么后来会看懵",
+              '<div class="prose">' + listOrPara(bg.whyConfusing) + "</div>",
+            ) +
+            (cast
+              ? block(
+                  "look",
+                  "users",
+                  "出场角色（先混个脸熟）",
+                  '<div class="cast">' + cast + "</div>",
+                )
+              : "") +
+            block(
+              "plain",
+              "compass",
+              "怎么看这份复盘",
+              '<div class="note">' + rich(bg.readingGuide) + "</div>",
+            ) +
             '<button class="cta" type="button" data-go="1">从第 1 步开始 →</button>' +
             "</article>"
           );
@@ -1370,10 +1674,23 @@
             .join("");
           var dos = (s.whatWasDone || [])
             .map(function (w, i) {
-              var k = KIND_LABEL[w.type] ? '<span class="kind ' + esc(w.type) + '">' + KIND_LABEL[w.type] + "</span>" : "";
+              var k = KIND_LABEL[w.type]
+                ? '<span class="kind ' +
+                  esc(w.type) +
+                  '">' +
+                  KIND_LABEL[w.type] +
+                  "</span>"
+                : "";
               return (
-                '<li><span class="n">' + (i + 1) + '</span><div class="head">' + k + "<span>" + rich(w.label) +
-                '</span></div><div class="detail">' + rich(w.detail) + "</div></li>"
+                '<li><span class="n">' +
+                (i + 1) +
+                '</span><div class="head">' +
+                k +
+                "<span>" +
+                rich(w.label) +
+                '</span></div><div class="detail">' +
+                rich(w.detail) +
+                "</div></li>"
               );
             })
             .join("");
@@ -1384,39 +1701,104 @@
                   ? "<blockquote>" + esc(ev.content) + "</blockquote>"
                   : "<pre>" + esc(ev.content) + "</pre>";
               return (
-                '<details class="ev"' + (forPrint ? " open" : "") + "><summary>" +
-                '<span class="kind">' + (EV_LABEL[ev.kind] || esc(ev.kind || "证据")) + "</span>" + esc(ev.title) +
-                "</summary>" + body + "</details>"
+                '<details class="ev"' +
+                (forPrint ? " open" : "") +
+                "><summary>" +
+                '<span class="kind">' +
+                (EV_LABEL[ev.kind] || esc(ev.kind || "证据")) +
+                "</span>" +
+                esc(ev.title) +
+                "</summary>" +
+                body +
+                "</details>"
               );
             })
             .join("");
           var isLast = idx === steps.length;
-          var nextLabel = isLast ? "走完啦，看看现在的状态 →" : "懂了，下一步：" + esc(steps[idx].title) + " →";
-          var status = STATUS_LABEL[s.status] ? '<span class="tag ' + esc(s.status) + '">' + STATUS_LABEL[s.status] + "</span>" : "";
+          var nextLabel = isLast
+            ? "走完啦，看看现在的状态 →"
+            : "懂了，下一步：" + esc(steps[idx].title) + " →";
+          var status = STATUS_LABEL[s.status]
+            ? '<span class="tag ' +
+              esc(s.status) +
+              '">' +
+              STATUS_LABEL[s.status] +
+              "</span>"
+            : "";
 
           return (
-            '<article class="screen" id="print-step-' + idx + '">' +
-            '<div class="kicker"><span class="num">第 ' + idx + " 步 / 共 " + steps.length + " 步</span><span>" +
-            esc(s.phase) + "</span>" + status + "</div>" +
-            '<h2 class="title">' + esc(s.title) + "</h2>" +
-            '<p class="lead">' + rich(s.summary) + "</p>" +
+            '<article class="screen" id="print-step-' +
+            idx +
+            '">' +
+            '<div class="kicker"><span class="num">第 ' +
+            idx +
+            " 步 / 共 " +
+            steps.length +
+            " 步</span><span>" +
+            esc(s.phase) +
+            "</span>" +
+            status +
+            "</div>" +
+            '<h2 class="title">' +
+            esc(s.title) +
+            "</h2>" +
+            '<p class="lead">' +
+            rich(s.summary) +
+            "</p>" +
             block(
-              "look", "eye", "先看这里",
-              '<div class="look-target">' + rich(look.target) + "</div>" + (chips ? '<div class="chips">' + chips + "</div>" : "")
+              "look",
+              "eye",
+              "先看这里",
+              '<div class="look-target">' +
+                rich(look.target) +
+                "</div>" +
+                (chips ? '<div class="chips">' + chips + "</div>" : ""),
             ) +
-            block("why", "circle-help", "为什么要看这里", '<div class="prose">' + listOrPara(s.whyLookHere) + "</div>") +
-            (dos ? block("do", "search", "在这里发现了什么、做了什么", '<ol class="do-list">' + dos + "</ol>") : "") +
-            (cb.myth || cb.reality
+            block(
+              "why",
+              "circle-help",
+              "为什么要看这里",
+              '<div class="prose">' + listOrPara(s.whyLookHere) + "</div>",
+            ) +
+            (dos
               ? block(
-                  "plain", "lightbulb", "最容易想岔的地方",
-                  '<div class="myth-card"><div class="myth"><h4>你可能以为</h4><p>' + rich(cb.myth) +
-                    '</p></div><div class="truth"><h4>其实是</h4><p>' + rich(cb.reality) + "</p></div></div>"
+                  "do",
+                  "search",
+                  "在这里发现了什么、做了什么",
+                  '<ol class="do-list">' + dos + "</ol>",
                 )
               : "") +
-            (evs ? block("plain", "paperclip", "想核对原始证据？点开看", '<div class="evidence">' + evs + "</div>") : "") +
-            '<section class="next-card"><div class="label next">' + icon("arrow-right") + '所以接下来</div>' +
-            "<p>" + rich(nx.hook) + "</p>" +
-            '<button class="cta" type="button" data-go="' + (idx + 1) + '">' + nextLabel + "</button></section>" +
+            (cb.myth || cb.reality
+              ? block(
+                  "plain",
+                  "lightbulb",
+                  "最容易想岔的地方",
+                  '<div class="myth-card"><div class="myth"><h4>你可能以为</h4><p>' +
+                    rich(cb.myth) +
+                    '</p></div><div class="truth"><h4>其实是</h4><p>' +
+                    rich(cb.reality) +
+                    "</p></div></div>",
+                )
+              : "") +
+            (evs
+              ? block(
+                  "plain",
+                  "paperclip",
+                  "想核对原始证据？点开看",
+                  '<div class="evidence">' + evs + "</div>",
+                )
+              : "") +
+            '<section class="next-card"><div class="label next">' +
+            icon("arrow-right") +
+            "所以接下来</div>" +
+            "<p>" +
+            rich(nx.hook) +
+            "</p>" +
+            '<button class="cta" type="button" data-go="' +
+            (idx + 1) +
+            '">' +
+            nextLabel +
+            "</button></section>" +
             "</article>"
           );
         }
@@ -1425,8 +1807,15 @@
           var done = (end.completedItems || [])
             .map(function (c) {
               return (
-                '<li><span class="tick">' + icon("check") + '</span><div><div>' + rich(c.item) + "</div>" +
-                '<div class="sub">' + (c.ref ? '<code>' + esc(c.ref) + "</code> " : "") + rich(c.note) + "</div></div></li>"
+                '<li><span class="tick">' +
+                icon("check") +
+                "</span><div><div>" +
+                rich(c.item) +
+                "</div>" +
+                '<div class="sub">' +
+                (c.ref ? "<code>" + esc(c.ref) + "</code> " : "") +
+                rich(c.note) +
+                "</div></div></li>"
               );
             })
             .join("");
@@ -1443,10 +1832,22 @@
           var owners = order
             .map(function (who) {
               return (
-                '<div class="owner"><h4>轮到 <span class="who">' + esc(who) + "</span></h4><ul>" +
+                '<div class="owner"><h4>轮到 <span class="who">' +
+                esc(who) +
+                "</span></h4><ul>" +
                 groups[who]
                   .map(function (p) {
-                    return "<li>" + rich(p.task) + (p.when ? '<span class="when">' + icon("clock") + esc(p.when) + "</span>" : "") + "</li>";
+                    return (
+                      "<li>" +
+                      rich(p.task) +
+                      (p.when
+                        ? '<span class="when">' +
+                          icon("clock") +
+                          esc(p.when) +
+                          "</span>"
+                        : "") +
+                      "</li>"
+                    );
                   })
                   .join("") +
                 "</ul></div>"
@@ -1456,27 +1857,69 @@
           var qa = (data.confusionMatrix || [])
             .map(function (q) {
               return (
-                '<div class="qa-item"><div class="q">' + esc(q.question) + '</div><div class="a">' + rich(q.shortAnswer) + "</div>" +
-                (q.deepExplanation ? "<details><summary>再讲细一点</summary><p>" + rich(q.deepExplanation) + "</p></details>" : "") +
+                '<div class="qa-item"><div class="q">' +
+                esc(q.question) +
+                '</div><div class="a">' +
+                rich(q.shortAnswer) +
+                "</div>" +
+                (q.deepExplanation
+                  ? "<details><summary>再讲细一点</summary><p>" +
+                    rich(q.deepExplanation) +
+                    "</p></details>"
+                  : "") +
                 "</div>"
               );
             })
             .join("");
           var gl = glossary
             .map(function (g) {
-              return "<dt>" + esc(g.term) + "</dt><dd>" + esc(g.plain) + "</dd>";
+              return (
+                "<dt>" + esc(g.term) + "</dt><dd>" + esc(g.plain) + "</dd>"
+              );
             })
             .join("");
 
           return (
             '<article class="screen">' +
-            '<div class="kicker"><span class="num">终点</span><span>' + esc(meta.status) + "</span></div>" +
+            '<div class="kicker"><span class="num">终点</span><span>' +
+            esc(meta.status) +
+            "</span></div>" +
             '<h2 class="title">走完啦，现在是这样的</h2>' +
-            '<p class="lead">' + rich(meta.subtitle) + "</p>" +
-            (done ? block("do", "circle-check", "已经办妥的（不用再操心）", '<ul class="done-list">' + done + "</ul>") : "") +
-            (owners ? block("next", "user-check", "接下来轮到谁", '<div class="owners">' + owners + "</div>") : "") +
-            (qa ? block("why", "message-circle-question", "你可能还会问", '<div class="qa">' + qa + "</div>") : "") +
-            (gl ? block("look", "book-open", "小词典", '<dl class="gloss">' + gl + "</dl>") : "") +
+            '<p class="lead">' +
+            rich(meta.subtitle) +
+            "</p>" +
+            (done
+              ? block(
+                  "do",
+                  "circle-check",
+                  "已经办妥的（不用再操心）",
+                  '<ul class="done-list">' + done + "</ul>",
+                )
+              : "") +
+            (owners
+              ? block(
+                  "next",
+                  "user-check",
+                  "接下来轮到谁",
+                  '<div class="owners">' + owners + "</div>",
+                )
+              : "") +
+            (qa
+              ? block(
+                  "why",
+                  "message-circle-question",
+                  "你可能还会问",
+                  '<div class="qa">' + qa + "</div>",
+                )
+              : "") +
+            (gl
+              ? block(
+                  "look",
+                  "book-open",
+                  "小词典",
+                  '<dl class="gloss">' + gl + "</dl>",
+                )
+              : "") +
             '<div class="row-actions no-print">' +
             '<button class="cta ghost" type="button" data-go="0">回到开头</button>' +
             '<button class="cta ghost" type="button" data-act="md">导出 Markdown</button>' +
@@ -1507,7 +1950,10 @@
         }
         function saveState() {
           try {
-            localStorage.setItem(storeKey, JSON.stringify({ current: current, visited: visited }));
+            localStorage.setItem(
+              storeKey,
+              JSON.stringify({ current: current, visited: visited }),
+            );
           } catch (e) {
             /* 隐私模式等场景下静默忽略 */
           }
@@ -1521,23 +1967,46 @@
           if (h === "#start") return 0;
           if (h === "#end") return LAST;
           var m = /^#step-(\d+)$/.exec(h);
-          return m ? Math.min(Math.max(parseInt(m[1], 10), 1), steps.length) : null;
+          return m
+            ? Math.min(Math.max(parseInt(m[1], 10), 1), steps.length)
+            : null;
         }
 
         function renderDots() {
           var html = "";
           for (var i = 0; i <= LAST; i++) {
-            var cls = "dot" + (i === 0 || i === LAST ? " edge" : "") + (visited[i] ? " visited" : "") + (i === current ? " current" : "");
-            var name = i === 0 ? "开场" : i === LAST ? "终点" : "第 " + i + " 步：" + steps[i - 1].title;
-            html += '<button class="' + cls + '" type="button" data-go="' + i + '" aria-label="' + esc(name) + '" title="' + esc(name) + '"></button>';
+            var cls =
+              "dot" +
+              (i === 0 || i === LAST ? " edge" : "") +
+              (visited[i] ? " visited" : "") +
+              (i === current ? " current" : "");
+            var name =
+              i === 0
+                ? "开场"
+                : i === LAST
+                  ? "终点"
+                  : "第 " + i + " 步：" + steps[i - 1].title;
+            html +=
+              '<button class="' +
+              cls +
+              '" type="button" data-go="' +
+              i +
+              '" aria-label="' +
+              esc(name) +
+              '" title="' +
+              esc(name) +
+              '"></button>';
           }
           dotsEl.innerHTML = html;
         }
 
         function renderToc() {
           var html =
-            '<button class="toc-item' + (current === 0 ? " current" : visited[0] ? " visited" : "") +
-            '" type="button" data-go="0"><span class="mk">' + icon("circle-dot") + '</span><span>开场：发生了什么</span></button>';
+            '<button class="toc-item' +
+            (current === 0 ? " current" : visited[0] ? " visited" : "") +
+            '" type="button" data-go="0"><span class="mk">' +
+            icon("circle-dot") +
+            "</span><span>开场：发生了什么</span></button>";
           var lastPhase = null;
           steps.forEach(function (s, i) {
             var idx = i + 1;
@@ -1545,14 +2014,29 @@
               html += '<div class="phase">' + esc(s.phase) + "</div>";
               lastPhase = s.phase;
             }
-            var cls = idx === current ? " current" : visited[idx] ? " visited" : "";
+            var cls =
+              idx === current ? " current" : visited[idx] ? " visited" : "";
             html +=
-              '<button class="toc-item' + cls + '" type="button" data-go="' + idx + '"><span class="mk">' +
-              (cls === " visited" ? icon("check") : idx) + "</span><span>" + esc(s.title) + "<small>" + esc(s.summary) + "</small></span></button>";
+              '<button class="toc-item' +
+              cls +
+              '" type="button" data-go="' +
+              idx +
+              '"><span class="mk">' +
+              (cls === " visited" ? icon("check") : idx) +
+              "</span><span>" +
+              esc(s.title) +
+              "<small>" +
+              esc(s.summary) +
+              "</small></span></button>";
           });
           html +=
-            '<div class="phase">收尾</div><button class="toc-item' + (current === LAST ? " current" : visited[LAST] ? " visited" : "") +
-            '" type="button" data-go="' + LAST + '"><span class="mk">' + icon("flag") + '</span><span>终点：现在的状态</span></button>';
+            '<div class="phase">收尾</div><button class="toc-item' +
+            (current === LAST ? " current" : visited[LAST] ? " visited" : "") +
+            '" type="button" data-go="' +
+            LAST +
+            '"><span class="mk">' +
+            icon("flag") +
+            "</span><span>终点：现在的状态</span></button>";
           tocEl.innerHTML = html;
         }
 
@@ -1565,10 +2049,12 @@
           document.getElementById("btn-prev").disabled = i === 0;
           var nextBtn = document.getElementById("btn-next");
           nextBtn.disabled = i === LAST;
-          nextBtn.querySelector(".long").textContent = i === 0 ? "开始" : i === steps.length ? "看终点" : "下一步";
+          nextBtn.querySelector(".long").textContent =
+            i === 0 ? "开始" : i === steps.length ? "看终点" : "下一步";
           document.getElementById("bar-count").textContent =
             i === 0 ? "开场" : i === LAST ? "终点" : i + " / " + steps.length;
-          document.getElementById("progress-bar").style.width = (i / LAST) * 100 + "%";
+          document.getElementById("progress-bar").style.width =
+            (i / LAST) * 100 + "%";
           renderDots();
           renderToc();
           saveState();
@@ -1577,6 +2063,7 @@
           }
           window.scrollTo({ top: 0, behavior: "auto" });
           closeDrawer();
+          mountPele(); // 画面若带 Pele 图表，重渲染后重新挂载
         }
 
         /* ---------------------------- 小词典气泡 ---------------------------- */
@@ -1591,7 +2078,10 @@
           var r = el.getBoundingClientRect();
           var pw = pop.offsetWidth;
           var ph = pop.offsetHeight;
-          var left = Math.min(Math.max(16, r.left + r.width / 2 - pw / 2), window.innerWidth - pw - 16);
+          var left = Math.min(
+            Math.max(16, r.left + r.width / 2 - pw / 2),
+            window.innerWidth - pw - 16,
+          );
           var top = r.bottom + 8;
           if (top + ph > window.innerHeight - 90) top = r.top - ph - 8;
           pop.style.left = left + "px";
@@ -1612,14 +2102,20 @@
         var menu = document.getElementById("menu");
         var menuBtn = document.getElementById("btn-menu");
         function toggleMenu(force) {
-          var open = typeof force === "boolean" ? force : !menu.classList.contains("open");
+          var open =
+            typeof force === "boolean"
+              ? force
+              : !menu.classList.contains("open");
           menu.classList.toggle("open", open);
           menuBtn.setAttribute("aria-expanded", String(open));
         }
         function currentTheme() {
           var set = document.documentElement.getAttribute("data-theme");
           if (set) return set;
-          return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          return window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
         }
         function toggleTheme() {
           var next = currentTheme() === "dark" ? "light" : "dark";
@@ -1632,7 +2128,8 @@
         }
         try {
           var savedTheme = localStorage.getItem("replay-self:theme");
-          if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+          if (savedTheme)
+            document.documentElement.setAttribute("data-theme", savedTheme);
         } catch (e) {
           /* ignore */
         }
@@ -1646,17 +2143,37 @@
           L.push("- **一开始只想做**：" + (bg.originGoal || ""));
           L.push("- **为什么会看懵**：" + (bg.whyConfusing || ""), "");
           if ((data.actorsAndRepos || []).length) {
-            L.push("| 出场角色 | 是谁 | 记住这些就够了 |", "| :--- | :--- | :--- |");
+            L.push(
+              "| 出场角色 | 是谁 | 记住这些就够了 |",
+              "| :--- | :--- | :--- |",
+            );
             data.actorsAndRepos.forEach(function (a) {
-              L.push("| `" + a.name + "` | " + a.role + " | " + a.detail + " |");
+              L.push(
+                "| `" + a.name + "` | " + a.role + " | " + a.detail + " |",
+              );
             });
             L.push("");
           }
           steps.forEach(function (s, i) {
             var look = s.lookAt || {};
-            L.push("## 第 " + (i + 1) + " 步 / 共 " + steps.length + " 步 · " + s.title, "");
+            L.push(
+              "## 第 " +
+                (i + 1) +
+                " 步 / 共 " +
+                steps.length +
+                " 步 · " +
+                s.title,
+              "",
+            );
             L.push("> " + (s.summary || ""), "");
-            L.push("**先看这里**：" + (look.target || "") + ((look.anchors || []).length ? "（`" + look.anchors.join("` · `") + "`）" : ""), "");
+            L.push(
+              "**先看这里**：" +
+                (look.target || "") +
+                ((look.anchors || []).length
+                  ? "（`" + look.anchors.join("` · `") + "`）"
+                  : ""),
+              "",
+            );
             L.push("**为什么要看这里**：" + (s.whyLookHere || ""), "");
             L.push("**发现了什么、做了什么**：", "");
             (s.whatWasDone || []).forEach(function (w, j) {
@@ -1670,7 +2187,17 @@
             }
             L.push("**所以接下来**：" + ((s.leadsToNext || {}).hook || ""), "");
             (s.evidence || []).forEach(function (ev) {
-              L.push("<details>", "<summary>证据：" + ev.title + "</summary>", "", "```text", ev.content, "```", "", "</details>", "");
+              L.push(
+                "<details>",
+                "<summary>证据：" + ev.title + "</summary>",
+                "",
+                "```text",
+                ev.content,
+                "```",
+                "",
+                "</details>",
+                "",
+              );
             });
           });
           L.push("## 终点：现在是这样的", "");
@@ -1679,13 +2206,22 @@
           });
           L.push("");
           (end.pendingHandoffs || []).forEach(function (p) {
-            L.push("- [ ] **" + p.owner + "**：" + p.task + "（" + p.when + "）");
+            L.push(
+              "- [ ] **" + p.owner + "**：" + p.task + "（" + p.when + "）",
+            );
           });
           L.push("");
           if ((data.confusionMatrix || []).length) {
             L.push("## 你可能还会问", "");
             data.confusionMatrix.forEach(function (q) {
-              L.push("**" + q.question + "**", "", q.shortAnswer, "", "> " + (q.deepExplanation || ""), "");
+              L.push(
+                "**" + q.question + "**",
+                "",
+                q.shortAnswer,
+                "",
+                "> " + (q.deepExplanation || ""),
+                "",
+              );
             });
           }
           if (glossary.length) {
@@ -1710,14 +2246,75 @@
         }
         function act(name) {
           toggleMenu(false);
-          if (name === "md") download((meta.title || "replay") + ".md", toMarkdown());
+          if (name === "md")
+            download((meta.title || "replay") + ".md", toMarkdown());
           if (name === "print") {
             var all = "";
             for (var i = 0; i <= LAST; i++) all += screenHtml(i, true);
             document.getElementById("print-all").innerHTML = all;
+            mountPele(); // 打印副本里的图表同步挂载（渲染器已就绪时即时生效）
             window.print();
           }
           if (name === "restart") go(0);
+        }
+
+        /* ---------------------------- Pele 图表（Mermaid 语法） ---------------------------- */
+        // Pele 1.6.0（obsidianmd/pele，MIT，语法兼容 Mermaid 12.1.0）：读取 pre.pele 里的
+        // Mermaid 源码文本并同步渲染成 SVG；主题全部走 --pele-* CSS 变量，切深浅色无需重渲染。
+        // 页面出现 pre.pele 才按需注入 CDN，没有图表时不发任何网络请求。
+        var PELE_CDN =
+          "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js";
+        var peleAsked = false;
+
+        function peleFail(pre, msg) {
+          // 失败只在容器内以既有 note 样式提示，不抛页面级异常
+          pre.setAttribute("data-pele-state", "error");
+          var box = pre.closest(".pele-box") || pre.parentNode;
+          var tip = document.createElement("div");
+          tip.className = "note";
+          tip.textContent = "图表渲染失败：" + msg;
+          if (box) box.appendChild(tip);
+        }
+
+        function peleLoad() {
+          if (peleAsked) return;
+          peleAsked = true;
+          var s = document.createElement("script");
+          s.src = PELE_CDN;
+          s.onload = function () {
+            peleMountAll();
+          };
+          s.onerror = function () {
+            var nodes = document.querySelectorAll("pre.pele");
+            for (var i = 0; i < nodes.length; i++) {
+              if (!nodes[i].getAttribute("data-pele-state"))
+                peleFail(nodes[i], "渲染器加载失败（CDN 不可达）");
+            }
+          };
+          document.head.appendChild(s);
+        }
+
+        function peleMountAll() {
+          var nodes = document.querySelectorAll("pre.pele");
+          for (var i = 0; i < nodes.length; i++) {
+            var el = nodes[i];
+            if (el.getAttribute("data-pele-state")) continue; // 已处理过，避免重复挂载
+            if (!window.pele) {
+              peleLoad(); // 首次遇到图表才拉取渲染器，onload 后统一挂载
+              return;
+            }
+            el.setAttribute("data-pele-state", "done");
+            try {
+              window.pele.mount(el, el.textContent.trim());
+            } catch (err) {
+              peleFail(el, String((err && err.message) || err));
+            }
+          }
+        }
+
+        function mountPele() {
+          if (!document.querySelector("pre.pele")) return;
+          peleMountAll();
         }
 
         /* ---------------------------- 事件绑定 ---------------------------- */
@@ -1732,7 +2329,8 @@
             popFor === t ? hidePop() : showPop(t);
             return;
           }
-          if (t.hasAttribute("data-go")) go(parseInt(t.getAttribute("data-go"), 10));
+          if (t.hasAttribute("data-go"))
+            go(parseInt(t.getAttribute("data-go"), 10));
           if (t.hasAttribute("data-act")) act(t.getAttribute("data-act"));
         });
         document.addEventListener("mouseover", function (e) {
@@ -1744,20 +2342,29 @@
           if (t && window.matchMedia("(hover: hover)").matches) hidePop();
         });
         document.addEventListener("focusin", function (e) {
-          if (e.target.classList && e.target.classList.contains("term")) showPop(e.target);
+          if (e.target.classList && e.target.classList.contains("term"))
+            showPop(e.target);
         });
         window.addEventListener("scroll", hidePop, { passive: true });
         window.addEventListener("resize", hidePop);
 
-        document.getElementById("btn-prev").addEventListener("click", function () {
-          go(current - 1);
-        });
-        document.getElementById("btn-next").addEventListener("click", function () {
-          go(current + 1);
-        });
-        document.getElementById("btn-toc").addEventListener("click", openDrawer);
+        document
+          .getElementById("btn-prev")
+          .addEventListener("click", function () {
+            go(current - 1);
+          });
+        document
+          .getElementById("btn-next")
+          .addEventListener("click", function () {
+            go(current + 1);
+          });
+        document
+          .getElementById("btn-toc")
+          .addEventListener("click", openDrawer);
         document.getElementById("scrim").addEventListener("click", closeDrawer);
-        document.getElementById("btn-theme").addEventListener("click", toggleTheme);
+        document
+          .getElementById("btn-theme")
+          .addEventListener("click", toggleTheme);
         menuBtn.addEventListener("click", function (e) {
           e.stopPropagation();
           toggleMenu();
@@ -1774,12 +2381,19 @@
           else if (e.key === "ArrowLeft" || e.key === "h") go(current - 1);
           else if (e.key === "Home") go(0);
           else if (e.key === "End") go(LAST);
-          else if (e.key === "t") document.body.classList.contains("drawer-open") ? closeDrawer() : openDrawer();
+          else if (e.key === "t")
+            document.body.classList.contains("drawer-open")
+              ? closeDrawer()
+              : openDrawer();
           else if (e.key === "Escape") {
             closeDrawer();
             hidePop();
             toggleMenu(false);
-          } else if (/^[1-9]$/.test(e.key) && parseInt(e.key, 10) <= steps.length) go(parseInt(e.key, 10));
+          } else if (
+            /^[1-9]$/.test(e.key) &&
+            parseInt(e.key, 10) <= steps.length
+          )
+            go(parseInt(e.key, 10));
         });
 
         /* ---------------------------- 启动 ---------------------------- */
@@ -1788,7 +2402,10 @@
           "<b>复盘</b> · " + esc(meta.title);
         var fromHash = parseHash();
         var saved = loadState();
-        go(fromHash !== null ? fromHash : Math.min(saved, LAST), fromHash !== null);
+        go(
+          fromHash !== null ? fromHash : Math.min(saved, LAST),
+          fromHash !== null,
+        );
       })();
     </script>
   </body>

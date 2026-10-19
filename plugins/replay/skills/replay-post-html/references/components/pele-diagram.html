@@ -1,0 +1,26 @@
+<!-- 模块：Pele 图表 (Pele Diagram) · 适用场景：流程图 / 时序图 / 状态图等 Mermaid 语法图表；渲染器 Pele 1.6.0 按需 CDN 加载，主题走 --pele-* 变量 -->
+<figure data-component="pele-diagram">
+  <div class="pele-box">
+    <!-- pre.pele 内容是 Mermaid 源码；页面出现 pre.pele 才注入 CDN，onload 后逐个 pele.mount(el, el.textContent.trim()) -->
+    <pre class="pele">
+sequenceDiagram
+  participant LB as 负载均衡
+  participant Old as 旧实例（单副本）
+  participant New as 新实例
+  LB-&gt;&gt;Old: 持续下单请求
+  Old--&gt;&gt;LB: 200（在途请求排空后返回）
+  Note over Old: preStop 摘流后完整退出
+  Note over LB: 无可用后端 → 502 空窗 15.4s～32.8s
+  New-&gt;&gt;LB: Ready，恢复接收新请求</pre>
+  </div>
+  <figcaption><b>图 3-2</b>单副本 Recreate 替换时序 · 图表</figcaption>
+  <!-- 源码折叠为可选（克制使用）：渲染后 pre.pele 被 SVG 替换，需要留源码时另存一份在 details 里 -->
+  <details class="pele-src">
+    <summary>查看 Mermaid 源码</summary>
+    <pre>
+sequenceDiagram
+  participant LB as 负载均衡
+  ...（与上方源码一致）</pre>
+  </details>
+</figure>
+<!-- 渲染器：Pele 1.6.0（obsidianmd/pele，MIT），兼容 Mermaid 12.1.0 语法；CDN：cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js -->

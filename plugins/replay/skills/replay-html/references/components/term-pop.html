@@ -1,0 +1,11 @@
+<!-- 模块：术语气泡 (Term Pop) -->
+<!-- 适用场景：正文中带大白话气泡的术语。数据驱动时 rich() 会按 glossary 自动给正文加 span.term，无需手写；
+     手工扩展正文时才按此骨架书写，data-term 必须与 glossary 里的 term 一字不差。气泡本体 #pop 全页唯一 -->
+<p>
+  上线用的是
+  <span class="term" tabindex="0" data-term="Recreate">Recreate</span>
+  策略，所以会有空窗。
+</p>
+
+<!-- 气泡容器：页面骨架自带，仅作参考，不要重复添加 -->
+<div class="pop" id="pop" role="tooltip"></div>

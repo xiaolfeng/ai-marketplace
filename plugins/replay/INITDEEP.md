@@ -28,8 +28,9 @@ replay/
     ├── replay-html/                          # 自己看 · HTML 暖纸笔记本步进页
     │   ├── SKILL.md
     │   ├── references/
-    │   │   ├── html-interaction-spec.md      #   一屏一步 · 词条气泡 · 键盘与 hash 定位
-    │   │   └── template.html                 #   数据驱动单文件模板
+    │   │   ├── html-interaction-spec.md      #   一屏一步 · 词条气泡 · 键盘与 hash 定位 · 组件清单
+    │   │   ├── template.html                 #   数据驱动单文件模板（含 Pele 图表按需渲染）
+    │   │   └── components/                   #   20 类组件片段（骨架/步进/五要素/词典）
     │   ├── examples/example.html
     │   └── evals/evals.json
     ├── replay-post-md/                       # 对外发布 · Markdown 正式复盘报告
@@ -40,8 +41,9 @@ replay/
     └── replay-post-html/                     # 对外发布 · HTML 翻页式正式报告
         ├── SKILL.md
         ├── references/
-        │   ├── post-html-spec.md             #   页面清单 · 翻页交互 · 报告视觉
-        │   └── template.html                 #   数据驱动单文件模板
+        │   ├── post-html-spec.md             #   页面清单 · 翻页交互 · 报告视觉 · 组件清单
+        │   ├── template.html                 #   数据驱动单文件模板（含 Pele 图表按需渲染）
+        │   └── components/                   #   19 类组件片段（封面/时间线/决策/FAQ）
         ├── examples/example.html             #   订单服务对外复盘报告示例
         └── evals/evals.json
 ```
@@ -56,6 +58,7 @@ replay/
 | 改每步五要素字段与结构 | `_shared/step-chain-schema.md`                | MD 章节与 HTML `REPLAY_DATA` JSON 共用结构       |
 | 改 Markdown 排版细节   | `replay-md/references/markdown-structure.md`  | 含 ASCII 链路导航与当前定位标记规范              |
 | 改 HTML 交互壳与样式   | 两份 `references/template.html`               | 数据与视图解耦，只改 `#replay-data` 即可渲染     |
+| 查 HTML 组件片段       | 两份 `references/components/` + `README.md`   | 套壳骨架参考，样式仍由 template.html 提供        |
 | 改对外报告骨架         | `replay-post-md/references/post-structure.md` | MD 报告与 HTML 翻页页清单保持同一顺序            |
 | 补触发评测             | 各技能 `evals/evals.json`                     | 含双技能互跳与近似干扰负样本                     |
 
@@ -65,7 +68,7 @@ replay/
 - **步步咬合（Handoff Hook）**：Step $k$ 的「引申到哪里（Next Trigger）」必须精确等于 Step $k+1$ 的「第一步看什么（Entry Anchor）」，断链即视为复盘失败；
 - **迷雾雷达（Confusion Buster）**：只要原会话中用户出现追问、撤回（revert）、打断或连点同意，必须在对应 Step 提炼「直觉误区 vs 真实机制」；
 - **读者先于格式**：先判断给谁看（自己 / 对外），再判断格式；对外版本必须执行 `_shared/audience-voice.md` 的脱敏清单；
-- **HTML 单文件零依赖**：两套模板完全内联 CSS/JS 与 JSON 数据，不引用外部字体，双击即可运行，支持深浅主题、键盘 `←`/`→` 翻页、目录抽屉、hash 定位与 Markdown/打印导出。
+- **HTML 单文件零依赖**：两套模板完全内联 CSS/JS 与 JSON 数据，不引用外部字体，双击即可运行，支持深浅主题、键盘 `←`/`→` 翻页、目录抽屉、hash 定位与 Markdown/打印导出；唯一例外是图表：页面出现 `pre.pele`（Mermaid 语法）才按需加载 Pele 1.6.0 渲染成 SVG，主题走 `--pele-*` 变量即时变色。
 - **二次元点缀与 html 插件同构**：两套 HTML 模板末尾的「ACCENT · 二次元点缀」样式段与 html 插件同源（樱粉 `--sakura`、✦ 四角星、角落网点、对话气泡、平涂错位阴影），改点缀时两边同步。
 
 ## 反模式

@@ -3,7 +3,7 @@ name: editorial-report
 description: 把周报、日报、月报、项目进展、复盘简报、指标简报等报告，从大纲、文案写到单文件 HTML 报告特刊（纸白墨蓝、深浅主题跟随系统，内置 60 余类组件）。用户说「写个报告」「出个周报 / 日报 / 月报」「进展汇报」「复盘简报」「HTML 报表」「做成报告页面」时使用。正文口吻沿用用户设定的角色，没有设定时用中性同事口吻。系统架构拓扑图走 architecture-diagram，手绘流程图走 excalidraw-diagram，会话逆向复盘走 replay。
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Editorial Report
@@ -14,12 +14,13 @@ metadata:
 
 开工先读 [`references/voice.md`](references/voice.md)（口吻）与 [`references/html-design.md`](references/html-design.md)（视觉），然后按阶段整份读取对应文件，不要只抽几段：
 
-| 阶段     | 必读                                                                                                                          |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| 策划大纲 | [`references/outline.md`](references/outline.md)                                                                             |
-| 写文案   | [`references/copy.md`](references/copy.md)                                                                                   |
+| 阶段     | 必读                                                                                                                           |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 策划大纲 | [`references/outline.md`](references/outline.md)                                                                               |
+| 写文案   | [`references/copy.md`](references/copy.md)                                                                                     |
 | 套壳     | [`references/template.html`](references/template.html)；单个组件看 [`references/components/`](references/components/README.md) |
-| 查全组件 | [`examples/example.html`](examples/example.html)（全部组件与状态变体的占位参考）                                              |
+| 查全组件 | [`examples/example.html`](examples/example.html)（全部组件与状态变体的占位参考）                                               |
+| 合集导航 | [`references/report-nav.md`](references/report-nav.md)；同步脚本 [`scripts/sync-nav.mjs`](scripts/sync-nav.mjs)                |
 
 ## 产物落点
 
@@ -33,6 +34,19 @@ reports/2026-10-18-weekly/
 └── index.html    # 最终 HTML
 ```
 
+同一目录的多篇报告组成合集时，合集根目录多一份共享导航，成员页只多内嵌快照：
+
+```text
+reports/
+├── report-nav.json          # 共享导航，最高两级，唯一编辑源
+├── 2026-10-12-weekly/
+│   ├── outline.md
+│   ├── copy.md
+│   └── index.html           # 含 #report-nav-data 快照
+└── 2026-10-19-weekly/
+    └── index.html
+```
+
 报告不写进本插件目录。
 
 ## 工作顺序
@@ -41,7 +55,7 @@ reports/2026-10-18-weekly/
 2. **收事实**：只用来源里有的。缺读者、时段或「这篇要回答什么」时一次最多问三个问题；能从上下文安全确定的不再问。
 3. **出大纲**：按 `outline.md` 写 `outline.md`。用户没说「直接写」时，先把大纲给用户看一眼再写文案；用户给了完整大纲或明确跳过，也要把大纲落盘。
 4. **写文案**：按 `copy.md` 从大纲写 `copy.md`。未确认的内容单独成节，不编进度。
-5. **套壳**：复制 `template.html` 为 `index.html`，按 `html-design.md` 的模块表填槽；拿不准结构或状态 class 时参考 `examples/example.html`。example 只是全量目录，正式报告按事实删减，不要整页照搬。不写 `data-theme` 让页面跟随系统；用户说投屏、深色展示时才写 `data-theme="dark"`。不要另起 `<style>`。
+5. **套壳**：复制 `template.html` 为 `index.html`，按 `html-design.md` 的模块表填槽；拿不准结构或状态 class 时参考 `examples/example.html`。example 只是全量目录，正式报告按事实删减，不要整页照搬。不写 `data-theme` 让页面跟随系统；用户说投屏、深色展示时才写 `data-theme="dark"`。不要另起 `<style>`。双侧栏自动工作：右栏从 h2/h3 生成本文目录；单篇报告的 `#report-nav-data` 槽位保持 `{}`，合集成员页在写好 `report-nav.json` 后运行 `node scripts/sync-nav.mjs <report-nav.json>` 注入快照，不手抄。
 6. **验证并交付**：在浏览器里打开 `index.html`，确认深浅主题、约 `390px` 移动宽度无横向溢出、没有残留的 `<!-- SLOT -->` 与 `【替换：…】`；然后把本地路径交给用户。
 
 ## 完成标准
@@ -50,7 +64,8 @@ reports/2026-10-18-weekly/
 - `outline.md` 与 `copy.md` 章节对得上，HTML 里没有大纲之外的板块；
 - 导语和收尾是用户设定的口吻（或中性同事口吻），事实段落没有用口头禅改状态；
 - `index.html` 来自模板，class 与 `html-design.md` 一致，没有临场皮肤；
-- 深浅主题、桌面与移动宽度都实际看过。
+- 深浅主题、桌面与移动宽度都实际看过；
+- 合集模式下 `sync-nav.mjs --check` 通过：每篇左栏与 `report-nav.json` 一致，当前页高亮与上下篇正确。
 
 ## 禁止
 

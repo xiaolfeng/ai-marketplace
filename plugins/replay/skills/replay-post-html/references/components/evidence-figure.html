@@ -1,0 +1,11 @@
+<!-- 模块：证据图 (Evidence Figure) · 适用场景：代码、命令输出、原文摘录证据；图号「步骤-序号」+ 标题 + 类型后缀；包在 block-label（标签「证据」）内使用 -->
+<figure data-component="evidence-figure">
+  <!-- 默认：代码 / 命令输出 / 数据表都以纯文本呈现 -->
+  <pre>
+order-service#145 -&gt; merged into main (a104f2c, no review)
+k8s-gitops#410    -&gt; merged into main (b208e1d, grace=185s)
+main CI           -&gt; failed: rate limited while downloading cache</pre>
+  <figcaption><b>图 1-1</b>合入前状态核查 · 命令输出</figcaption>
+</figure>
+<!-- 换成原文摘录：<blockquote>整段原文，保留换行</blockquote>；figcaption 类型后缀：代码 / 命令输出 / 原文摘录 / 数据 / 图表 -->
+<!-- 换成 Mermaid 图表：主体替换为 pele-diagram.html 的 .pele-box 结构 -->

@@ -47,3 +47,19 @@
 - **数字**：影响指标用衬线大号数字 + 指标名 + 口径说明三行，等宽数字对齐；
 - **响应式**：640px 以下纸张边距收窄，「误解 / 实际情况」改为上下排列，时间线改为左侧单轴，宽表格在容器内横向滚动，保证 390px 宽度页面本身不出现横向滚动；
 - **动效**：翻页 0.36s 上浮淡入，遵守 `prefers-reduced-motion`。
+
+## 五、 组件片段
+
+套壳与扩写时从 [`components/`](./components/) 取片段：每组件一个 kebab-case HTML 文件，顶部一行注释写组件名与适用场景，索引见 [`components/README.md`](./components/README.md)。
+
+- `references/template.html` 仍是视觉唯一事实源：片段不带 `<style>`，生成页里不要另写 `<style>` 或内联样式，颜色、字体、圆角一律落回模板 token；
+- 片段给的是结构与 `data-*` 契约（`data-go` 翻页、`data-act` 菜单动作、`data-component` 组件标识），占位文案用真实事实替换；
+- 常规报告直接替换 `replay-data` JSON 即可由渲染器自动生成全部结构，只在扩写或定制区块时才需要手取片段。
+
+## 六、 图表（Pele）
+
+- **语法与渲染器**：图表文本用 Mermaid 语法，渲染器是 Pele 1.6.0（obsidianmd/pele，MIT），兼容 Mermaid 12.1.0 语法；
+- **容器约定**：外层 `.pele-box`、文本节点 `pre.pele`（内容为 Mermaid 源码）。数据侧给步骤证据加 `evidence[].kind: "diagram"`，渲染器自动套用该结构；
+- **按需加载**：页面出现 `pre.pele` 才注入 CDN（`https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js`，全局 `window.pele`）；加载完成后对每个 `pre.pele` 执行 `pele.mount(el, el.textContent.trim())`，解析错误由 mount 自行展示，外层 `try/catch` 不抛页面级异常；
+- **主题**：`--pele-*` 变量在模板 token 区映射到既有 token（如 `--pele-fg: var(--ink)`），深浅切换自动生效、无需重渲染；渲染后源码可用 `<details class="pele-src">` 折叠留底（克制使用）；
+- **导出与打印**：导出 Markdown 时 diagram 证据以 mermaid 代码块输出；打印时若 CDN 尚未加载完成会退化为源码文本（建议先翻阅过图表页再打印）。

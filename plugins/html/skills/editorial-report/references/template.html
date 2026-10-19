@@ -902,15 +902,31 @@
       color: var(--ink);
     }
 
-    /* MODULE 11: Mermaid Diagram Container */
-    .mermaid-box {
+    /* MODULE 11: Pele Diagram Container（Mermaid 语法 · Pele 渲染） */
+    :root {
+      /* Pele 主题：全部引用模板 token，深浅切换即时生效，无需重新渲染 */
+      --pele-bg: var(--paper);
+      --pele-fg: var(--ink);
+      --pele-muted: var(--muted);
+      --pele-line: var(--rule-strong);
+      --pele-border: var(--rule-strong);
+      --pele-surface: var(--accent-tint);
+      --pele-surface-alt: var(--mark-tint);
+      --pele-accent: var(--accent);
+      --pele-critical: var(--rose);
+      --pele-error: var(--color-danger);
+      --pele-font: var(--font-sans);
+      --pele-font-mono: var(--font-mono);
+      --pele-radius: var(--radius-sm);
+    }
+    .pele-box {
       background: var(--paper);
       border: 1px solid var(--rule);
       border-top: 3px solid var(--accent);
       margin: 18px 0;
       padding: 18px 20px;
     }
-    .mermaid-head {
+    .pele-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -918,24 +934,24 @@
       padding-bottom: 8px;
       border-bottom: 1px solid var(--rule);
     }
-    .mermaid-tag {
+    .pele-tag {
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--accent);
     }
-    .mermaid-meta {
+    .pele-meta {
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--muted);
     }
-    .mermaid-view {
+    .pele-view {
       overflow-x: auto;
       padding: 12px 0;
       text-align: center;
     }
-    .mermaid-view pre.mermaid {
+    .pele-view pre.pele {
       background: transparent;
       margin: 0;
       font-family: var(--font-mono);
@@ -943,19 +959,19 @@
       color: var(--ink);
       white-space: pre;
     }
-    .mermaid-source {
+    .pele-source {
       margin-top: 10px;
       border-top: 1px dashed var(--rule);
       padding-top: 8px;
       font-family: var(--font-mono);
       font-size: 12px;
     }
-    .mermaid-source summary {
+    .pele-source summary {
       cursor: pointer;
       color: var(--muted);
       font-weight: 600;
     }
-    .mermaid-source pre {
+    .pele-source pre {
       background: color-mix(in srgb, var(--bg) 70%, var(--paper));
       padding: 10px 12px;
       margin: 8px 0 0;
@@ -1945,7 +1961,7 @@
 
     /* Shape · 圆角层级与 replay 对齐：大面板 14px、卡片 12px、内嵌块 8px、增减标记 6px、标签与进度条胶囊 */
     .glance, .takeaway, .verdict, .system-map, .hero-metric-focal { border-radius: var(--radius-lg); }
-    .stat-card, .compare-card, .callout, .chart-box, .mermaid-box, .diff-box, .scorecard-box, .matrix-box,
+    .stat-card, .compare-card, .callout, .chart-box, .pele-box, .diff-box, .scorecard-box, .matrix-box,
     .gallery-item, .personnel-card, .file-tree-box, .hero-figure-box, .split-lead-box, .arch-stack-box,
     .seq-box, .state-box, .mesh-box, .pros-cons-box, .pros-col, .cons-col, .decision-box, .slider-box,
     .incident-header-box, .incident-timeline-box, .why-box, .release-box, .gantt-box, .kanban-box,
@@ -2054,6 +2070,7 @@
       .top { padding-top: 20px; }
       .meta { text-align: left; }
       .theme button { min-height: 44px; padding: 8px 14px; }
+      .rail-toggle { min-height: 44px; padding: 8px 14px; }
       .hero { padding: 42px 0 36px; }
       .diff-head, .scorecard-head, .chart-head { flex-direction: column; align-items: flex-start; gap: 8px; }
       .donut-svg-container { width: 140px; height: 140px; }
@@ -2117,7 +2134,8 @@
         --rule: #e3e3dc;
         --rule-strong: #cdcdc4;
       }
-      body { background: #fff !important; }
+      body { background: #fff !important; padding: 0 !important; }
+      .rail, .rail-drawer, .rail-toggles { display: none !important; }
       .block, .hero, .glance, .open, .stat-card, .compare-card, .callout, .takeaway {
         break-inside: avoid;
       }
@@ -2125,10 +2143,348 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body, button, table.data tbody tr { transition: none !important; }
+      body, button, table.data tbody tr, .rail-link, .rail-toc-list a, .rail-toggle, .rail-drawer-panel { transition: none !important; }
     }
 
     /* ==========================================================================
+       SIDE RAILS · 双侧栏：左「文档集导航」（#report-nav-data 快照）、右「本文目录」
+       数据缺失时整段不出现；≥1240px 固定双侧栏，以下收进顶栏按钮与抽屉；打印时隐藏
+       ========================================================================== */
+      :root {
+        --rail-nav-w: 248px;
+        --rail-toc-w: 236px;
+      }
+
+      .rail {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        display: none;
+        padding: 30px 18px 44px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--rule-strong) transparent;
+        overscroll-behavior: contain;
+        font-size: 13px;
+        line-height: 1.55;
+        background: var(--bg);
+      }
+      .rail::-webkit-scrollbar {
+        width: 6px;
+      }
+      .rail::-webkit-scrollbar-thumb {
+        background: var(--rule-strong);
+        border-radius: 3px;
+      }
+      .rail-nav {
+        left: 0;
+        width: var(--rail-nav-w);
+        border-right: 1px solid var(--rule);
+      }
+      .rail-toc {
+        right: 0;
+        width: var(--rail-toc-w);
+        border-left: 1px solid var(--rule);
+      }
+      .sheet :is(h2, h3) {
+        scroll-margin-top: 24px;
+      }
+
+      .rail-title {
+        margin: 0 0 14px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--subtle);
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .rail-title small {
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .rail-group-label {
+        margin: 14px 0 4px;
+        padding: 0 10px;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--subtle);
+      }
+      .rail-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .rail-link {
+        display: block;
+        padding: 5px 10px;
+        border-radius: var(--radius-xs);
+        color: var(--muted);
+        text-decoration: none;
+        transition:
+          background-color 0.15s var(--ease-snappy),
+          color 0.15s var(--ease-snappy);
+      }
+      .rail-link:hover {
+        color: var(--ink);
+        background: var(--paper);
+      }
+      .rail-link-title {
+        display: block;
+      }
+      .rail-link-tag {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 0 6px;
+        border: 1px solid var(--rule-strong);
+        border-radius: var(--radius-pill);
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.06em;
+        color: var(--mark);
+        vertical-align: 1px;
+      }
+      .rail-link-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-top: 1px;
+        font-size: 11.5px;
+        line-height: 1.45;
+        color: var(--subtle);
+      }
+      .rail-link.current {
+        background: var(--accent-tint);
+        color: var(--ink);
+        box-shadow: inset 2px 0 0 var(--accent);
+      }
+      .rail-link.current .rail-link-desc {
+        color: var(--muted);
+      }
+
+      .rail-pager {
+        margin-top: 20px;
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        display: grid;
+        gap: 6px;
+      }
+      .rail-pager-link {
+        display: block;
+        padding: 6px 10px;
+        border: 1px solid var(--rule);
+        border-radius: var(--radius-xs);
+        background: var(--paper);
+        text-decoration: none;
+        transition:
+          border-color 0.15s var(--ease-snappy),
+          color 0.15s var(--ease-snappy);
+      }
+      .rail-pager-link:hover {
+        border-color: var(--rule-strong);
+      }
+      .rail-pager-dir {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        color: var(--subtle);
+      }
+      .rail-pager-title {
+        display: block;
+        margin-top: 1px;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .rail-pager-link:hover .rail-pager-title {
+        color: var(--ink);
+      }
+
+      .rail-toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .rail-toc-list a {
+        display: block;
+        padding: 4px 10px;
+        border-radius: var(--radius-xs);
+        font-size: 12.5px;
+        color: var(--muted);
+        text-decoration: none;
+        transition:
+          background-color 0.15s var(--ease-snappy),
+          color 0.15s var(--ease-snappy);
+      }
+      .rail-toc-list li.lv3 a {
+        padding-left: 24px;
+        font-size: 12px;
+        color: var(--subtle);
+      }
+      .rail-toc-list a:hover {
+        color: var(--ink);
+        background: var(--paper);
+      }
+      .rail-toc-list a.on {
+        background: var(--accent-tint);
+        color: var(--ink);
+        box-shadow: inset 2px 0 0 var(--accent);
+      }
+
+      /* 顶栏按钮组：窄屏出现，与 .theme 切换器同语言 */
+      .rail-toggles {
+        display: none;
+        align-items: stretch;
+        border: 1px solid var(--rule-strong);
+        background: var(--paper);
+      }
+      .rail-toggle {
+        min-height: 36px;
+        padding: 6px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        transition:
+          background-color 0.2s var(--ease-snappy),
+          color 0.2s var(--ease-snappy);
+      }
+      .rail-toggle + .rail-toggle {
+        border-left: 1px solid var(--rule-strong);
+      }
+      .rail-toggle:hover {
+        color: var(--ink);
+      }
+      .rail-toggle .ic {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* 抽屉：窄屏承载两侧内容 */
+      .rail-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: none;
+      }
+      .rail-drawer.open {
+        display: block;
+      }
+      .rail-drawer-scrim {
+        position: absolute;
+        inset: 0;
+        background: color-mix(in srgb, var(--ink) 32%, transparent);
+      }
+      .rail-drawer-panel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(340px, 88vw);
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        border-right: 1px solid var(--rule-strong);
+        box-shadow: var(--shadow);
+        transform: translateX(-14px);
+        opacity: 0;
+        transition:
+          transform 0.22s var(--ease-snappy),
+          opacity 0.22s var(--ease-snappy);
+      }
+      .rail-drawer[data-side="toc"] .rail-drawer-panel {
+        left: auto;
+        right: 0;
+        border-right: 0;
+        border-left: 1px solid var(--rule-strong);
+        transform: translateX(14px);
+      }
+      .rail-drawer.in .rail-drawer-panel {
+        transform: none;
+        opacity: 1;
+      }
+      .rail-drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 18px 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .rail-drawer-head .rail-title {
+        margin: 0;
+        flex: 1;
+        min-width: 0;
+      }
+      .rail-drawer-close {
+        min-width: 36px;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-pill);
+        color: var(--muted);
+      }
+      .rail-drawer-close:hover {
+        color: var(--ink);
+        background: var(--bg);
+      }
+      .rail-drawer-close .ic {
+        width: 16px;
+        height: 16px;
+      }
+      .rail-drawer-body {
+        flex: 1;
+        padding: 0 14px 28px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        font-size: 13px;
+      }
+      .rail-drawer-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .rail-drawer-body::-webkit-scrollbar-thumb {
+        background: var(--rule-strong);
+        border-radius: 3px;
+      }
+      body.rail-drawer-lock {
+        overflow: hidden;
+      }
+
+      /* 断点：≥1240px 双侧栏常驻、正文两侧留白；以下收进按钮与抽屉 */
+      @media (min-width: 1240px) {
+        .rail:not([hidden]) {
+          display: block;
+        }
+        body.rail-nav-on {
+          padding-left: var(--rail-nav-w);
+        }
+        body.rail-toc-on {
+          padding-right: var(--rail-toc-w);
+        }
+      }
+      @media (max-width: 1239.98px) {
+        body.rail-on .rail-toggles {
+          display: inline-flex;
+        }
+      }
+
+/* ==========================================================================
        ACCENT · 二次元点缀：✦ 四角星、网点、对话气泡、荧光笔与平涂错位阴影
        只借漫画的表达语法，不放角色素材；点缀集中在本段，删掉本段即回到素版
        ========================================================================== */
@@ -2336,19 +2692,50 @@
     </div>
     <footer><!-- SLOT:footer --></footer>
   </div>
-  <script>
+      <!-- SLOT:report-nav 文档集导航快照：单篇报告保持 {}；合集成员页由 scripts/sync-nav.mjs 注入 report-nav.json 全文并回填 data-src -->
+    <script
+      type="application/json"
+      id="report-nav-data"
+      data-src="report-nav.json"
+    >
+      {}
+    </script>
+    <aside class="rail rail-nav" aria-label="文档导航" hidden></aside>
+    <aside class="rail rail-toc" aria-label="本文目录" hidden></aside>
+    <div class="rail-drawer" hidden>
+      <div class="rail-drawer-scrim" data-rail-close></div>
+      <div class="rail-drawer-panel" role="dialog" aria-modal="true">
+        <div class="rail-drawer-head">
+          <p class="rail-title"></p>
+          <button
+            type="button"
+            class="rail-drawer-close"
+            data-rail-close
+            aria-label="关闭侧栏"
+          >
+            <svg
+              class="ic"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="rail-drawer-body"></div>
+      </div>
+    </div>
+
+<script>
     (function () {
       var KEY = "html-report-theme";
       var root = document.documentElement;
       var persist = !root.hasAttribute("data-demo");
       var systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-      function renderMermaid(theme) {
-        if (!window.mermaid || !document.querySelector(".mermaid")) return;
-        try {
-          window.mermaid.initialize({ startOnLoad: true, theme: theme === "dark" ? "dark" : "neutral" });
-          window.mermaid.run();
-        } catch (e) {}
-      }
       function apply(theme, manual) {
         if (theme !== "light" && theme !== "dark") return;
         root.setAttribute("data-theme", theme);
@@ -2361,7 +2748,6 @@
         document.querySelectorAll("[data-theme-set]").forEach(function (btn) {
           btn.setAttribute("aria-pressed", btn.getAttribute("data-theme-set") === theme ? "true" : "false");
         });
-        renderMermaid(theme);
       }
       apply(root.getAttribute("data-theme") || "light", false);
 
@@ -2372,13 +2758,21 @@
         });
       }
 
-      // 可选 Mermaid：页面出现 .mermaid 时才按需加载
-      if (document.querySelector("pre.mermaid, .mermaid")) {
+      // 可选 Pele（Mermaid 语法渲染器）：页面出现 pre.pele 时才按需加载；
+      // 主题走 CSS 变量 --pele-*，深浅切换即时生效，不需要重新渲染
+      (function () {
+        var nodes = document.querySelectorAll("pre.pele");
+        if (!nodes.length) return;
         var script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js";
-        script.onload = function () { renderMermaid(root.getAttribute("data-theme")); };
+        script.src = "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js";
+        script.onload = function () {
+          if (!window.pele || typeof window.pele.mount !== "function") return;
+          nodes.forEach(function (el) {
+            try { window.pele.mount(el, el.textContent.trim()); } catch (e) {}
+          });
+        };
         document.head.appendChild(script);
-      }
+      })();
 
       document.addEventListener("click", function (ev) {
         var btn = ev.target.closest("[data-theme-set]");
@@ -2386,5 +2780,493 @@
       });
     })();
   </script>
+  <script>
+      /* 双侧栏运行时：左侧文档集导航（#report-nav-data 快照，HTTP 下热刷新）、右侧本文目录 */
+      (function () {
+        "use strict";
+
+        var navSlot = document.getElementById("report-nav-data");
+        var railNav = document.querySelector(".rail-nav");
+        var railToc = document.querySelector(".rail-toc");
+        var drawer = document.querySelector(".rail-drawer");
+        var drawerBody = drawer
+          ? drawer.querySelector(".rail-drawer-body")
+          : null;
+        var drawerTitle = drawer
+          ? drawer.querySelector(".rail-drawer-head .rail-title")
+          : null;
+        var drawerPanel = drawer
+          ? drawer.querySelector(".rail-drawer-panel")
+          : null;
+
+        var navContentEl = null;
+        var tocContentEl = null;
+        var navModel = null;
+        var tocEntries = [];
+        var tocLinks = [];
+        var spyMark = null;
+        var lastFocus = null;
+
+        function el(tag, cls, text) {
+          var n = document.createElement(tag);
+          if (cls) n.className = cls;
+          if (text != null) n.textContent = text;
+          return n;
+        }
+
+        /* ---------- 导航数据 ---------- */
+
+        function normalizeItems(list) {
+          var out = [];
+          if (!Array.isArray(list)) return out;
+          list.forEach(function (it) {
+            if (!it || typeof it.file !== "string" || !it.file) return;
+            if (typeof it.title !== "string" || !it.title) return;
+            out.push({
+              file: it.file.replace(/\\/g, "/").replace(/^\.\//, ""),
+              title: it.title,
+              desc: typeof it.desc === "string" ? it.desc : "",
+              tag: typeof it.tag === "string" ? it.tag : "",
+            });
+          });
+          return out;
+        }
+
+        function normalizeNav(data) {
+          if (!data || typeof data !== "object") return null;
+          var groups = [];
+          if (Array.isArray(data.groups)) {
+            data.groups.forEach(function (g) {
+              g = g || {};
+              var items = normalizeItems(g.items);
+              if (items.length)
+                groups.push({
+                  label: typeof g.label === "string" ? g.label : "",
+                  items: items,
+                });
+            });
+          }
+          if (!groups.length) {
+            var flat = normalizeItems(data.items);
+            if (flat.length) groups.push({ label: "", items: flat });
+          }
+          if (!groups.length) return null;
+          return {
+            name: typeof data.name === "string" ? data.name : "",
+            updated: typeof data.updated === "string" ? data.updated : "",
+            groups: groups,
+          };
+        }
+
+        function parseNavSlot() {
+          if (!navSlot) return null;
+          var raw = (navSlot.textContent || "").trim();
+          if (!raw || raw === "{}") return null;
+          try {
+            return normalizeNav(JSON.parse(raw));
+          } catch (e) {
+            if (window.console)
+              console.warn(
+                "[report-nav] 内嵌导航 JSON 解析失败，左侧导航未启用",
+                e,
+              );
+            return null;
+          }
+        }
+
+        /* ---------- 路径与当前页 ---------- */
+
+        function canonUrl(href) {
+          var u;
+          try {
+            u = new URL(href, location.href);
+          } catch (e) {
+            return "";
+          }
+          var p = u.pathname;
+          try {
+            p = decodeURIComponent(p);
+          } catch (e) {}
+          return p.replace(/index\.html?$/i, "");
+        }
+
+        function flatten(model) {
+          var flat = [];
+          model.groups.forEach(function (g) {
+            g.items.forEach(function (it) {
+              flat.push(it);
+            });
+          });
+          return flat;
+        }
+
+        function resolveBase(model) {
+          var pageCanon = canonUrl(location.href);
+          var candidates = [];
+          if (navSlot) {
+            var src = navSlot.getAttribute("data-src");
+            if (src) {
+              try {
+                var u = new URL(src, location.href);
+                u.pathname = u.pathname.replace(/[^/]*$/, "");
+                candidates.push(u.href);
+              } catch (e) {}
+            }
+          }
+          try {
+            var dir = new URL("./", location.href);
+            for (var i = 0; i < 7; i++) {
+              candidates.push(dir.href);
+              var parent = new URL("../", dir.href);
+              if (parent.href === dir.href) break;
+              dir = parent;
+            }
+          } catch (e) {}
+          var flat = flatten(model);
+          for (var c = 0; c < candidates.length; c++) {
+            for (var f = 0; f < flat.length; f++) {
+              if (
+                canonUrl(new URL(flat[f].file, candidates[c]).href) ===
+                pageCanon
+              )
+                return { base: candidates[c], current: flat[f] };
+            }
+          }
+          return { base: candidates[0] || "./", current: null };
+        }
+
+        /* ---------- 左栏：文档集导航 ---------- */
+
+        function pagerLink(item, base, dir, rel) {
+          var a = el("a", "rail-pager-link");
+          a.href = new URL(item.file, base).href;
+          a.rel = rel;
+          a.appendChild(el("span", "rail-pager-dir", dir));
+          a.appendChild(el("span", "rail-pager-title", item.title));
+          return a;
+        }
+
+        function buildNavDom(model, info) {
+          var frag = document.createDocumentFragment();
+          var count = flatten(model).length;
+          var title = el("p", "rail-title", model.name || "文档");
+          title.appendChild(
+            el(
+              "small",
+              null,
+              count + " 篇" + (model.updated ? " · " + model.updated : ""),
+            ),
+          );
+          frag.appendChild(title);
+          model.groups.forEach(function (g) {
+            if (g.label) frag.appendChild(el("p", "rail-group-label", g.label));
+            var ul = el("ul", "rail-list");
+            g.items.forEach(function (it) {
+              var a = el("a", "rail-link");
+              a.href = new URL(it.file, info.base).href;
+              var titleLine = el("span", "rail-link-title", it.title);
+              if (it.tag)
+                titleLine.appendChild(el("span", "rail-link-tag", it.tag));
+              a.appendChild(titleLine);
+              if (it.desc) a.appendChild(el("span", "rail-link-desc", it.desc));
+              if (info.current && it === info.current) {
+                a.classList.add("current");
+                a.setAttribute("aria-current", "page");
+              }
+              var li = el("li");
+              li.appendChild(a);
+              ul.appendChild(li);
+            });
+            frag.appendChild(ul);
+          });
+          var flat = flatten(model);
+          var idx = info.current ? flat.indexOf(info.current) : -1;
+          if (idx > -1 && (idx > 0 || idx < flat.length - 1)) {
+            var pager = el("div", "rail-pager");
+            if (idx > 0)
+              pager.appendChild(
+                pagerLink(flat[idx - 1], info.base, "上一篇 · PREV", "prev"),
+              );
+            if (idx < flat.length - 1)
+              pager.appendChild(
+                pagerLink(flat[idx + 1], info.base, "下一篇 · NEXT", "next"),
+              );
+            frag.appendChild(pager);
+          }
+          return frag;
+        }
+
+        function renderNav(model) {
+          navModel = model;
+          if (!railNav) return;
+          var info = resolveBase(model);
+          navContentEl = el("div", "rail-content");
+          navContentEl.appendChild(buildNavDom(model, info));
+          railNav.replaceChildren(navContentEl.cloneNode(true));
+          railNav.hidden = false;
+          document.body.classList.add("rail-nav-on");
+        }
+
+        /* ---------- 右栏：本文目录 ---------- */
+
+        function slugify(text, used) {
+          var base = "";
+          try {
+            base = text
+              .trim()
+              .toLowerCase()
+              .replace(/[\s\u3000]+/g, "-")
+              .replace(/[^\p{L}\p{N}-]+/gu, "")
+              .replace(/-{2,}/g, "-")
+              .replace(/^-+|-+$/g, "");
+          } catch (e) {
+            base = "";
+          }
+          if (!base) base = "sec";
+          var slug = base;
+          var n = 2;
+          while (used[slug]) slug = base + "-" + n++;
+          used[slug] = true;
+          return slug;
+        }
+
+        function buildTocDom() {
+          var heads = [].slice
+            .call(document.querySelectorAll(".sheet :is(h2, h3)"))
+            .filter(function (h) {
+              return (
+                !h.closest(".rail, .rail-drawer") &&
+                (h.textContent || "").trim()
+              );
+            });
+          if (heads.length < 3) return null;
+          var used = {};
+          var frag = document.createDocumentFragment();
+          var title = el("p", "rail-title", "本文目录");
+          title.appendChild(el("small", null, heads.length + " 节"));
+          frag.appendChild(title);
+          var ul = el("ul", "rail-toc-list");
+          heads.forEach(function (h) {
+            if (!h.id) h.id = slugify(h.textContent, used);
+            tocEntries.push({ id: h.id, el: h });
+            var a = el("a", null, h.textContent.trim());
+            a.href = "#" + h.id;
+            var li = el("li", h.tagName === "H3" ? "lv3" : "lv2");
+            li.appendChild(a);
+            ul.appendChild(li);
+          });
+          frag.appendChild(ul);
+          return frag;
+        }
+
+        function renderToc() {
+          if (!railToc) return;
+          tocEntries = [];
+          var frag = buildTocDom();
+          if (!frag) return;
+          tocContentEl = el("div", "rail-content");
+          tocContentEl.appendChild(frag);
+          railToc.replaceChildren(tocContentEl.cloneNode(true));
+          railToc.hidden = false;
+          tocLinks = [].slice.call(railToc.querySelectorAll("a"));
+          document.body.classList.add("rail-toc-on");
+          spy();
+        }
+
+        /* ---------- 滚动高亮 ---------- */
+
+        function spy() {
+          if (!tocEntries.length) return;
+          var mark = null;
+          for (var i = 0; i < tocEntries.length; i++) {
+            if (tocEntries[i].el.getBoundingClientRect().top <= 110)
+              mark = tocEntries[i];
+            else break;
+          }
+          if (mark === spyMark) return;
+          spyMark = mark;
+          tocLinks.forEach(function (a, i) {
+            var on = !!mark && tocEntries[i] === mark;
+            a.classList.toggle("on", on);
+            if (on) a.setAttribute("aria-current", "true");
+            else a.removeAttribute("aria-current");
+          });
+          if (
+            mark &&
+            window.matchMedia &&
+            window.matchMedia("(min-width: 1240px)").matches
+          ) {
+            var active = tocLinks[tocEntries.indexOf(mark)];
+            if (active && active.scrollIntoView) {
+              try {
+                active.scrollIntoView({ block: "nearest" });
+              } catch (e) {}
+            }
+          }
+        }
+
+        /* ---------- 窄屏按钮与抽屉 ---------- */
+
+        function makeToggle(kind, label, iconPath) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "rail-toggle";
+          b.setAttribute("data-rail-open", kind);
+          b.setAttribute("aria-haspopup", "dialog");
+          b.innerHTML =
+            '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            iconPath +
+            "</svg>";
+          b.appendChild(document.createTextNode(label));
+          return b;
+        }
+
+        function mountToggles() {
+          var topRight = document.querySelector(".top-right");
+          if (!topRight) return;
+          var group = document.createElement("div");
+          group.className = "rail-toggles";
+          group.setAttribute("role", "group");
+          group.setAttribute("aria-label", "侧栏导航");
+          if (navContentEl)
+            group.appendChild(
+              makeToggle(
+                "nav",
+                "文档",
+                '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>',
+              ),
+            );
+          if (tocContentEl)
+            group.appendChild(
+              makeToggle(
+                "toc",
+                "目录",
+                '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+              ),
+            );
+          if (!group.childNodes.length) return;
+          topRight.insertBefore(group, topRight.querySelector(".theme"));
+          document.body.classList.add("rail-on");
+        }
+
+        function drawerOpen(kind) {
+          if (!drawer || !drawerBody) return;
+          var sourceEl = kind === "toc" ? tocContentEl : navContentEl;
+          if (!sourceEl) return;
+          lastFocus = document.activeElement;
+          drawer.setAttribute("data-side", kind);
+          var heading =
+            kind === "toc" ? "本文目录" : (navModel && navModel.name) || "文档";
+          drawerTitle.textContent = heading;
+          if (drawerPanel) drawerPanel.setAttribute("aria-label", heading);
+          drawerBody.replaceChildren(sourceEl.cloneNode(true));
+          drawer.hidden = false;
+          document.body.classList.add("rail-drawer-lock");
+          requestAnimationFrame(function () {
+            drawer.classList.add("open");
+            requestAnimationFrame(function () {
+              drawer.classList.add("in");
+            });
+          });
+          if (drawerPanel) {
+            drawerPanel.setAttribute("tabindex", "-1");
+            drawerPanel.focus();
+          }
+        }
+
+        function drawerClose() {
+          if (!drawer || drawer.hidden) return;
+          drawer.classList.remove("in");
+          setTimeout(function () {
+            drawer.classList.remove("open");
+            drawer.hidden = true;
+            document.body.classList.remove("rail-drawer-lock");
+            if (lastFocus && lastFocus.focus) {
+              try {
+                lastFocus.focus();
+              } catch (e) {}
+            }
+          }, 240);
+        }
+
+        /* ---------- 事件 ---------- */
+
+        document.addEventListener("click", function (ev) {
+          var t = ev.target;
+          if (!t || !t.closest) return;
+          var opener = t.closest("[data-rail-open]");
+          if (opener) {
+            drawerOpen(opener.getAttribute("data-rail-open"));
+            return;
+          }
+          if (t.closest("[data-rail-close]")) {
+            drawerClose();
+            return;
+          }
+          var hashLink = t.closest(
+            '.rail a[href^="#"], .rail-drawer a[href^="#"]',
+          );
+          if (hashLink) {
+            var id = "";
+            try {
+              id = decodeURIComponent(hashLink.hash.slice(1));
+            } catch (e) {
+              id = hashLink.hash.slice(1);
+            }
+            var target = id && document.getElementById(id);
+            var wrap = target && target.closest("details");
+            if (wrap && !wrap.open) wrap.open = true;
+            if (drawer && !drawer.hidden && hashLink.closest(".rail-drawer"))
+              drawerClose();
+          }
+        });
+
+        document.addEventListener("keydown", function (ev) {
+          if (ev.key === "Escape" && drawer && !drawer.hidden) drawerClose();
+        });
+
+        var ticking = false;
+        function rafSpy() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () {
+            ticking = false;
+            spy();
+          });
+        }
+        window.addEventListener("scroll", rafSpy, { passive: true });
+        window.addEventListener("resize", rafSpy);
+        window.addEventListener("load", rafSpy);
+
+        /* ---------- 启动 ---------- */
+
+        var slotModel = parseNavSlot();
+        if (slotModel) renderNav(slotModel);
+        renderToc();
+        mountToggles();
+
+        /* HTTP 下按 data-src 热刷新导航快照（file:// 双击打开时静默跳过） */
+        if (navSlot && /^https?:$/.test(location.protocol)) {
+          var src = navSlot.getAttribute("data-src");
+          if (src) {
+            fetch(src, { cache: "no-store" })
+              .then(function (r) {
+                return r.ok ? r.json() : null;
+              })
+              .then(function (data) {
+                if (!data || !navModel) return;
+                var fresh = normalizeNav(data);
+                if (
+                  !fresh ||
+                  JSON.stringify(fresh) === JSON.stringify(navModel)
+                )
+                  return;
+                renderNav(fresh);
+              })
+              .catch(function () {});
+          }
+        }
+      })();
+    </script>
 </body>
 </html>

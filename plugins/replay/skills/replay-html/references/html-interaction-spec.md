@@ -71,3 +71,20 @@
 - **二次元点缀**：模板样式末尾有一段独立的「ACCENT · 二次元点缀」，只借漫画的表达语法，不放角色素材：樱粉点缀色 `--sakura` / `--sakura-tint`、用 CSS 遮罩画的 ✦ 四角星 `--sparkle`、从角落径向淡出的极淡网点 `--tone`、平涂错位阴影（`box-shadow: 5px 5px 0 var(--sakura-tint)`）。点缀全部集中在这一段，生成页面时整段保留、不要另加；删掉整段即回到素版。打印时网点与错位阴影自动关闭。本页的落点：步骤眉题前的 ✦、画面右上角网点、「所以接下来」卡片做成带尾巴的对话气泡加错位阴影、底栏当前步骤圆点换成 ✦；
 - **响应式**：600px 以下误区卡改为上下排列，底栏按钮只保留箭头，保证 390px 宽度无横向滚动；
 - **动效**：切换画面 0.38s 上浮淡入，遵守 `prefers-reduced-motion`。
+
+## 五、组件片段（references/components/）
+
+模板的视觉与交互全部内嵌在 [template.html](template.html)，它是唯一的视觉事实源。套壳或扩展页面时，从 [components/](components/) 目录取现成片段，索引见 [components/README.md](components/README.md)：
+
+- 每个片段一个文件，只含最小可用 HTML 骨架与占位注释，可直接粘贴进对应槽位；
+- 片段不要自带 `<style>`：所有样式由 template.html 的既有规则提供，另写样式会破坏深浅主题与打印适配；
+- 页面默认由 `#replay-data` JSON 驱动，片段里的结构就是脚本渲染产物的 DOM 骨架——常规内容优先通过填 JSON 生成，只有 JSON 表达不了的内容（最典型是 Pele 图表）才手工粘贴片段；
+- 带 `id` 的骨架片段（topbar / dock / drawer / term-pop 的气泡容器）是全页唯一壳件，一份页面只出现一次。
+
+## 六、图表嵌入 · Pele
+
+- 图表文本用 **Mermaid 语法**书写，渲染器是 **Pele 1.6.0**（[obsidianmd/pele](https://github.com/obsidianmd/pele)，MIT），语法兼容 Mermaid 12.1.0；
+- 结构约定：外层 `.pele-box`（标题条 `.pele-head` + 说明位 `.pele-note` + 画布 `.pele-view`），图表源码放在文本节点 `pre.pele` 里，可用 `<details class="pele-source">` 折叠展示同一段源码；容器骨架见 [components/pele-diagram.html](components/pele-diagram.html)；
+- 按需加载：页面出现 `pre.pele` 才注入 CDN（`https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js`），onload 后对每个 `pre.pele` 执行 `pele.mount(el, el.textContent.trim())`；没有图表的页面不发起任何网络请求，单文件离线原则不破；
+- 主题：模板在 token 区提供 `--pele-*` 变量并绑定既有配色 token，Pele 渲染结果随深浅切换自动变色，无需重渲染；
+- 容错：语法解析失败由 `mount` 自带的错误显示兜底，渲染器加载失败在容器内以 `.note` 样式提示，均不抛页面级异常。

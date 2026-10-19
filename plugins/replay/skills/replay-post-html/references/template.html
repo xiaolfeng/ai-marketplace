@@ -28,6 +28,20 @@
         --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
           "Microsoft YaHei", "Segoe UI", sans-serif;
         --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+        /* Pele 图表主题映射：全部引用既有 token，深浅切换由变量解析自动生效、无需重渲染 */
+        --pele-fg: var(--ink);
+        --pele-muted: var(--ink-3);
+        --pele-line: var(--rule-strong);
+        --pele-border: var(--rule-strong);
+        --pele-surface: var(--accent-soft);
+        --pele-surface-alt: var(--sunk);
+        --pele-accent: var(--accent);
+        --pele-critical: var(--warn);
+        --pele-error: var(--warn);
+        --pele-font: var(--sans);
+        --pele-font-mono: var(--mono);
+        --pele-radius: 8px;
+        --pele-bg: var(--page);
         color-scheme: light;
       }
       @media (prefers-color-scheme: dark) {
@@ -612,6 +626,38 @@
         margin-right: 0.35rem;
       }
 
+      /* ------------------------------ Pele 图表 ------------------------------ */
+      .pele-box {
+        background: var(--page);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 0.95rem 1rem;
+        overflow-x: auto;
+      }
+      .pele-box pre.pele {
+        /* 渲染前是 Mermaid 源码文本；渲染后由 Pele 替换为 SVG，主题走 token 区 --pele-* 变量 */
+        background: none;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        max-height: none;
+        white-space: pre;
+      }
+      .pele-box svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .pele-src {
+        font-size: 0.78rem;
+        color: var(--ink-3);
+      }
+      .pele-src summary {
+        cursor: pointer;
+      }
+      .pele-src pre {
+        margin-top: 0.45rem;
+      }
+
       .turn {
         margin-top: 2.4rem;
         padding-top: 1.4rem;
@@ -1008,6 +1054,10 @@
           max-height: none;
           white-space: pre-wrap;
         }
+        .pele-box {
+          break-inside: avoid;
+          overflow: visible;
+        }
       }
 
       /* ==========================================================================
@@ -1226,7 +1276,7 @@
         var kicker = pub.kicker || "工程复盘";
 
         var KIND = { discovery: "发现", action: "行动", fix: "修复", sync: "协同" };
-        var EV = { code: "代码", command: "命令输出", quote: "原文摘录", table: "数据" };
+        var EV = { code: "代码", command: "命令输出", quote: "原文摘录", table: "数据", diagram: "图表" };
         var STATUS = { decision: "关键决策", blocked: "受阻" };
 
         /* ---------------------------- 文本工具 ---------------------------- */
@@ -1397,7 +1447,10 @@
               '</b><div class="d">' + rich(w.detail) + "</div></div></li>";
           }).join("");
           var figs = nonEmpty(s.evidence).map(function (ev, k) {
-            var body = ev.kind === "quote" ? "<blockquote>" + esc(ev.content) + "</blockquote>" : "<pre>" + esc(ev.content) + "</pre>";
+            var body;
+          if (ev.kind === "quote") body = "<blockquote>" + esc(ev.content) + "</blockquote>";
+          else if (ev.kind === "diagram") body = '<div class="pele-box"><pre class="pele">' + esc(ev.content) + "</pre></div>";
+          else body = "<pre>" + esc(ev.content) + "</pre>";
             return "<figure>" + body + "<figcaption><b>图 " + esc(s.id) + "-" + (k + 1) + "</b>" + esc(ev.title) +
               (EV[ev.kind] ? " · " + EV[ev.kind] : "") + "</figcaption></figure>";
           }).join("");
@@ -1545,6 +1598,7 @@
           current = i;
           visited[i] = true;
           stage.innerHTML = sheet(i);
+          mountPele(stage); // 若本页含 pre.pele，按需加载 Pele 并挂载图表
           document.getElementById("btn-prev").disabled = i === 0;
           document.getElementById("btn-next").disabled = i === LAST;
           document.getElementById("bar-count").textContent = i + 1 + " / " + (LAST + 1);
@@ -1648,7 +1702,7 @@
               L.push("> **常见误解**：" + (s.confusionBuster.myth || "") + "  ", "> **实际情况**：" + s.confusionBuster.reality, "");
             }
             nonEmpty(s.evidence).forEach(function (ev, k) {
-              L.push("```text", ev.content, "```", "", "*图 " + s.id + "-" + (k + 1) + "：" + ev.title + "*", "");
+              L.push("```" + (ev.kind === "diagram" ? "mermaid" : "text"), ev.content, "```", "", "*图 " + s.id + "-" + (k + 1) + "：" + ev.title + "*", "");
             });
             if (s.leadsToNext && s.leadsToNext.hook) L.push("*" + s.leadsToNext.hook + "*", "");
           });
@@ -1702,6 +1756,7 @@
             var all = "";
             for (var i = 0; i <= LAST; i++) all += sheet(i);
             document.getElementById("print-all").innerHTML = all;
+            mountPele(document.getElementById("print-all")); // 已加载时同步渲染成 SVG；未加载时打印降级为源码文本
             window.print();
           }
           if (name === "link") {
@@ -1712,6 +1767,46 @@
               say(url);
             }
           }
+        }
+
+        /* ---------------------------- Pele 图表 ---------------------------- */
+        // 图表源码写在 <pre class="pele">（Mermaid 语法）；页面出现 pre.pele 才按需注入 CDN：
+        // https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js（全局 window.pele，导出 render/mount/parse 等）。
+        // 主题全部走 token 区的 --pele-* 变量：深浅切换自动生效，无需重渲染。
+        var PELE_CDN = "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js";
+        var peleQueue = [];
+        var peleLoading = false;
+        function mountPele(scope) {
+          var nodes = (scope || document).querySelectorAll("pre.pele:not([data-pele])");
+          for (var i = 0; i < nodes.length; i++) {
+            nodes[i].setAttribute("data-pele", "1");
+            peleQueue.push(nodes[i]);
+          }
+          if (!peleQueue.length) return;
+          if (window.pele) flushPele();
+          else loadPele();
+        }
+        function loadPele() {
+          if (peleLoading) return;
+          peleLoading = true;
+          var s = document.createElement("script");
+          s.src = PELE_CDN;
+          s.onload = function () { flushPele(); };
+          s.onerror = function () { peleLoading = false; }; // 加载失败允许下次翻页重试，期间以源码文本降级展示
+          document.head.appendChild(s);
+        }
+        function flushPele() {
+          if (!window.pele) return;
+          var q = peleQueue;
+          peleQueue = [];
+          q.forEach(function (el) {
+            if (!el.isConnected) return; // 翻页后已从文档移除的旧节点直接丢弃
+            try {
+              window.pele.mount(el, el.textContent.trim()); // mount 自带解析错误展示
+            } catch (err) {
+              /* 其余异常静默，不影响翻页与阅读 */
+            }
+          });
         }
 
         /* ---------------------------- 事件绑定 ---------------------------- */

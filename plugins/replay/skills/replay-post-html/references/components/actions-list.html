@@ -1,0 +1,36 @@
+<!-- 模块：发现与行动清单 (Actions List) · 适用场景：步骤页的关键动作记录；类型标签四种：discovery 发现 / action 行动 / fix 修复 / sync 协同；包在 block-label（标签「发现与行动」）内使用 -->
+<ol class="actions" data-component="actions-list">
+  <li>
+    <span class="k discovery">发现</span>
+    <div>
+      <b>识别部署策略层面的空窗</b>
+      <div class="d">
+        单副本 Recreate 策略先停旧再启新，三轮分别出现 15.4s、16.1s、32.8s 的
+        502。
+      </div>
+    </div>
+  </li>
+  <li>
+    <span class="k fix">修复</span>
+    <div>
+      <b>校准停机预算（d402b9c）</b>
+      <div class="d">拆分为摘流等待 10s 与安全余量 10s 两个常量。</div>
+    </div>
+  </li>
+  <li>
+    <span class="k action">行动</span>
+    <div>
+      <b>重开任务并验证主干</b>
+      <div class="d">
+        通过仅验证、不发布的手动 CI 确认失败源于限流而非代码问题。
+      </div>
+    </div>
+  </li>
+  <li>
+    <span class="k sync">协同</span>
+    <div>
+      <b>建立补审 PR</b>
+      <div class="d">从主干切出补审分支，评审范围覆盖合并结果。</div>
+    </div>
+  </li>
+</ol>

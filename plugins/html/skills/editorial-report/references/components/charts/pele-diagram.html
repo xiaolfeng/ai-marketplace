@@ -1,12 +1,12 @@
-<!-- 模块：Mermaid 流程/时序图表容器 (Mermaid Diagram) -->
-<!-- 适用场景：架构流程、调用时序泳道图、状态机迁移。支持 Mermaid.js 原生渲染与代码折叠 -->
-<div class="mermaid-box" data-component="mermaid-diagram">
-  <div class="mermaid-head">
-    <span class="mermaid-tag">DIAGRAM / 流程图</span>
-    <span class="mermaid-meta">MERMAID.JS SUPPORTED</span>
+<!-- 模块：Pele 流程/时序图表容器 (Pele Diagram) -->
+<!-- 适用场景：架构流程、调用时序泳道图、状态机迁移。写 Mermaid 语法文本，由 Pele 渲染成 SVG；主题跟随页面 token，深浅切换即时生效 -->
+<div class="pele-box" data-component="pele-diagram">
+  <div class="pele-head">
+    <span class="pele-tag">DIAGRAM / 流程图</span>
+    <span class="pele-meta">MERMAID SYNTAX · PELE RENDERED</span>
   </div>
-  <div class="mermaid-view">
-    <pre class="mermaid">
+  <div class="pele-view">
+    <pre class="pele">
 flowchart LR
     A[客户端请求] -->|HTTP POST| B(Gateway 网关)
     B -->|验签路由| C{鉴权服务}
@@ -16,8 +16,8 @@ flowchart LR
     D -->|投递事件| G[[消息队列]]
     </pre>
   </div>
-  <details class="mermaid-source">
-    <summary>查看 Mermaid 源码</summary>
+  <details class="pele-source">
+    <summary>查看图表源码</summary>
     <pre><code>flowchart LR
     A[客户端请求] -->|HTTP POST| B(Gateway 网关)
     B -->|验签路由| C{鉴权服务}

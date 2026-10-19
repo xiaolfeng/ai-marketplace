@@ -1,0 +1,25 @@
+<!-- 模块：数据表 (Data Table) · 适用场景：系统与环境清单、已完成事项、后续事项等多列事实表；宽表在容器内横向滚动 -->
+<div class="table-wrap" data-component="data-table">
+  <table>
+    <thead>
+      <tr>
+        <th>系统 / 环境</th>
+        <th>职责</th>
+        <th>相关事项</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- td.mono：等宽标识符；td.nw：不换行短字段；正文内 <span class="muted"> 弱化说明 -->
+        <td class="mono">order-service</td>
+        <td class="nw">业务服务仓库</td>
+        <td>任务 <code>#140</code>、补审 PR <code>#146</code></td>
+      </tr>
+      <tr>
+        <td class="mono">qa-bench</td>
+        <td class="nw">单组件压测环境</td>
+        <td>启停、排空与回退验证</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
