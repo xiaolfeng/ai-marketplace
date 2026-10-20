@@ -5,78 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <title>报告组件参考 · 64 类全量组件</title>
-      <!-- SLOT:report-nav 文档集导航快照：单篇报告保持 {}；合集成员页由 scripts/sync-nav.mjs 注入 report-nav.json 全文并回填 data-src -->
-    <script
-      type="application/json"
-      id="report-nav-data"
-      data-src="report-nav.json"
-    >
-      {
-        "name": "组件参考 · 示例合集",
-        "updated": "2026-10-19",
-        "groups": [
-          {
-            "label": "本页",
-            "items": [
-              {
-                "file": "example.html",
-                "title": "全部组件与状态变体",
-                "desc": "左侧导航由共享 report-nav.json 渲染，当前页自动高亮并带上下篇",
-                "tag": "DEMO"
-              }
-            ]
-          },
-          {
-            "label": "配套规范",
-            "items": [
-              {
-                "file": "../references/report-nav.md",
-                "title": "report-nav.json 结构与同步工作流"
-              },
-              {
-                "file": "../references/html-design.md",
-                "title": "视觉规范与模块清单"
-              },
-              {
-                "file": "../references/components/README.md",
-                "title": "组件片段索引"
-              }
-            ]
-          }
-        ]
-      }
-    </script>
-    <aside class="rail rail-nav" aria-label="文档导航" hidden></aside>
-    <aside class="rail rail-toc" aria-label="本文目录" hidden></aside>
-    <div class="rail-drawer" hidden>
-      <div class="rail-drawer-scrim" data-rail-close></div>
-      <div class="rail-drawer-panel" role="dialog" aria-modal="true">
-        <div class="rail-drawer-head">
-          <p class="rail-title"></p>
-          <button
-            type="button"
-            class="rail-drawer-close"
-            data-rail-close
-            aria-label="关闭侧栏"
-          >
-            <svg
-              class="ic"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="rail-drawer-body"></div>
-      </div>
-    </div>
-
-  <script>
+    <script>
       // 首帧前确定主题：手动选择 > 页面声明的 data-theme > 系统深浅色，避免切换闪烁
       (function () {
         var root = document.documentElement;
@@ -3717,7 +3646,9 @@
       .brand::before,
       .hero .kicker::before,
       .block-no::before,
-      .takeaway-title::before {
+      .takeaway-title::before,
+      .rail-toc .rail-title::before,
+      .rail-drawer[data-side="toc"] .rail-drawer-head .rail-title::before {
         content: "";
         display: inline-block;
         width: 0.8em;
@@ -3891,343 +3822,476 @@
           box-shadow: none;
         }
       }
-  /* ==========================================================================
-         SIDE RAILS · 双侧栏：左「文档集导航」（#report-nav-data 快照）、右「本文目录」
-         数据缺失时整段不出现；≥1240px 固定双侧栏，以下收进顶栏按钮与抽屉；打印时隐藏
+      /* ==========================================================================
+         SIDE RAILS · 侧栏与页边目录：左「文档集导航」（#report-nav-data 快照）、
+         右「本文目录」（正文 <main> 旁 Sticky 浮动嵌套 · 无框页边导轨边注）
+         数据缺失时整段不出现；≥1240px 常驻展示，以下收进顶栏按钮与抽屉；打印时隐藏
          ========================================================================== */
-        :root {
-          --rail-nav-w: 248px;
-          --rail-toc-w: 236px;
-        }
+      :root {
+        --rail-nav-w: 248px;
+        --rail-toc-w: 224px;
+      }
 
-        .rail {
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          display: none;
-          padding: 30px 18px 44px;
+      .rail-nav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: var(--rail-nav-w);
+        border-right: 1px solid var(--rule);
+        display: none;
+        padding: 30px 18px 44px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--rule-strong) transparent;
+        overscroll-behavior: contain;
+        font-size: 13px;
+        line-height: 1.55;
+        background: var(--bg);
+      }
+      .rail-nav::-webkit-scrollbar {
+        width: 6px;
+      }
+      .rail-nav::-webkit-scrollbar-thumb {
+        background: var(--rule-strong);
+        border-radius: 3px;
+      }
+
+      .sheet-body {
+        min-width: 0;
+      }
+      .sheet-body > main {
+        min-width: 0;
+      }
+      .rail-toc {
+        display: none;
+        font-size: 12.5px;
+        line-height: 1.5;
+        background: transparent;
+      }
+      .rail-toc::-webkit-scrollbar {
+        width: 4px;
+      }
+      .rail-toc::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 2px;
+      }
+      .rail-toc:hover::-webkit-scrollbar-thumb {
+        background: var(--rule-strong);
+      }
+      .sheet :is(h2, h3) {
+        scroll-margin-top: 24px;
+      }
+
+      .rail-title {
+        margin: 0 0 14px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--subtle);
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .rail-title small {
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .rail-group-label {
+        margin: 14px 0 4px;
+        padding: 0 10px;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--subtle);
+      }
+      .rail-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .rail-link {
+        display: block;
+        padding: 5px 10px;
+        border-radius: var(--radius-xs);
+        color: var(--muted);
+        text-decoration: none;
+        transition:
+          background-color 0.15s var(--ease-snappy),
+          color 0.15s var(--ease-snappy);
+      }
+      .rail-link:hover {
+        color: var(--ink);
+        background: var(--paper);
+      }
+      .rail-link-title {
+        display: block;
+      }
+      .rail-link-tag {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 0 6px;
+        border: 1px solid var(--rule-strong);
+        border-radius: var(--radius-pill);
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        letter-spacing: 0.06em;
+        color: var(--mark);
+        vertical-align: 1px;
+      }
+      .rail-link-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-top: 1px;
+        font-size: 11.5px;
+        line-height: 1.45;
+        color: var(--subtle);
+      }
+      .rail-link.current {
+        background: var(--accent-tint);
+        color: var(--ink);
+        box-shadow: inset 2px 0 0 var(--accent);
+      }
+      .rail-link.current .rail-link-desc {
+        color: var(--muted);
+      }
+
+      .rail-pager {
+        margin-top: 20px;
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        display: grid;
+        gap: 6px;
+      }
+      .rail-pager-link {
+        display: block;
+        padding: 6px 10px;
+        border: 1px solid var(--rule);
+        border-radius: var(--radius-xs);
+        background: var(--paper);
+        text-decoration: none;
+        transition:
+          border-color 0.15s var(--ease-snappy),
+          color 0.15s var(--ease-snappy);
+      }
+      .rail-pager-link:hover {
+        border-color: var(--rule-strong);
+      }
+      .rail-pager-dir {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        color: var(--subtle);
+      }
+      .rail-pager-title {
+        display: block;
+        margin-top: 1px;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .rail-pager-link:hover .rail-pager-title {
+        color: var(--ink);
+      }
+
+      /* 右栏：无框页边导轨式本文目录（连续左侧发丝线 + 2px 激活滑块 + h2/h3 树状嵌套） */
+      .rail-toc .rail-title {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        margin: 0 0 10px;
+        padding: 2px 0 10px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--rule-strong);
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+      }
+      .rail-toc .rail-title small::before,
+      .rail-drawer[data-side="toc"]
+        .rail-drawer-head
+        .rail-title
+        small::before {
+        content: "· ";
+      }
+      .rail-toc-list {
+        list-style: none;
+        margin: 0;
+        padding: 2px 0;
+        border-left: 1px solid var(--rule-strong);
+      }
+      .rail-toc-group {
+        margin: 0;
+        padding: 0;
+      }
+      .rail-toc-group + .rail-toc-group {
+        margin-top: 2px;
+      }
+      .rail-toc-link {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-left: -1px;
+        padding: 5px 6px 5px 12px;
+        border-left: 2px solid transparent;
+        font-size: 12.5px;
+        line-height: 1.45;
+        color: var(--muted);
+        text-decoration: none;
+        transition:
+          color 0.15s var(--ease-snappy),
+          border-color 0.15s var(--ease-snappy);
+      }
+      .rail-toc-link:hover {
+        color: var(--ink);
+        border-left-color: var(--rule-strong);
+      }
+      .rail-toc-no {
+        flex: none;
+        padding-top: 1px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.45;
+        letter-spacing: 0.04em;
+        font-variant-numeric: tabular-nums;
+        color: var(--subtle);
+        transition: color 0.15s var(--ease-snappy);
+      }
+      .rail-toc-link:hover .rail-toc-no {
+        color: var(--muted);
+      }
+      .rail-toc-text {
+        flex: 1;
+        min-width: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .rail-toc-sub {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 4px;
+      }
+      .rail-toc-link.lv3 {
+        padding: 3.5px 6px 3.5px 28px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--subtle);
+        gap: 6px;
+      }
+      .rail-toc-link.lv3::before {
+        content: "·";
+        flex: none;
+        font-family: var(--font-mono);
+        font-weight: 700;
+        line-height: 1.4;
+        color: var(--rule-strong);
+        transition: color 0.15s var(--ease-snappy);
+      }
+      .rail-toc-link.lv3:hover::before {
+        color: var(--muted);
+      }
+      .rail-toc-group.in-view > .rail-toc-link.lv2 {
+        color: var(--ink);
+      }
+      .rail-toc-group.in-view > .rail-toc-link.lv2 .rail-toc-no {
+        color: var(--mark);
+      }
+      .rail-toc-link.on {
+        color: var(--ink);
+        font-weight: 600;
+        border-left-color: var(--accent);
+      }
+      .rail-toc-link.on .rail-toc-no,
+      .rail-toc-link.lv3.on::before {
+        color: var(--accent);
+      }
+
+      /* 顶栏按钮组：窄屏出现，与 .theme 切换器同语言 */
+      .rail-toggles {
+        display: none;
+        align-items: stretch;
+        border: 1px solid var(--rule-strong);
+        background: var(--paper);
+      }
+      .rail-toggle {
+        min-height: 36px;
+        padding: 6px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        transition:
+          background-color 0.2s var(--ease-snappy),
+          color 0.2s var(--ease-snappy);
+      }
+      .rail-toggle + .rail-toggle {
+        border-left: 1px solid var(--rule-strong);
+      }
+      .rail-toggle:hover {
+        color: var(--ink);
+      }
+      .rail-toggle .ic {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* 抽屉：窄屏承载两侧内容 */
+      .rail-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: none;
+      }
+      .rail-drawer.open {
+        display: block;
+      }
+      .rail-drawer-scrim {
+        position: absolute;
+        inset: 0;
+        background: color-mix(in srgb, var(--ink) 32%, transparent);
+      }
+      .rail-drawer-panel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(340px, 88vw);
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        border-right: 1px solid var(--rule-strong);
+        box-shadow: var(--shadow);
+        transform: translateX(-14px);
+        opacity: 0;
+        transition:
+          transform 0.22s var(--ease-snappy),
+          opacity 0.22s var(--ease-snappy);
+      }
+      .rail-drawer[data-side="toc"] .rail-drawer-panel {
+        left: auto;
+        right: 0;
+        border-right: 0;
+        border-left: 1px solid var(--rule-strong);
+        transform: translateX(14px);
+      }
+      .rail-drawer.in .rail-drawer-panel {
+        transform: none;
+        opacity: 1;
+      }
+      .rail-drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 18px 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .rail-drawer-head .rail-title {
+        margin: 0;
+        flex: 1;
+        min-width: 0;
+        align-items: center;
+        gap: 6px;
+      }
+      .rail-drawer-close {
+        min-width: 36px;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-pill);
+        color: var(--muted);
+      }
+      .rail-drawer-close:hover {
+        color: var(--ink);
+        background: var(--bg);
+      }
+      .rail-drawer-close .ic {
+        width: 16px;
+        height: 16px;
+      }
+      .rail-drawer-body {
+        flex: 1;
+        padding: 0 18px 28px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        font-size: 13px;
+      }
+      .rail-drawer-body > .rail-content > .rail-title {
+        display: none;
+      }
+      .rail-drawer-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .rail-drawer-body::-webkit-scrollbar-thumb {
+        background: var(--rule-strong);
+        border-radius: 3px;
+      }
+      body.rail-drawer-lock {
+        overflow: hidden;
+      }
+
+      /* 断点：≥1240px 左栏固定、右栏在正文 <main> 旁 Sticky 浮动嵌套；以下收进按钮与抽屉 */
+      @media (min-width: 1240px) {
+        .rail-nav:not([hidden]) {
+          display: block;
+        }
+        body.rail-nav-on {
+          padding-left: var(--rail-nav-w);
+        }
+        body.rail-toc-on {
+          --page: 78rem;
+        }
+        body.rail-toc-on .sheet-body {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) var(--rail-toc-w);
+          gap: 48px;
+          align-items: start;
+          border-top: 1px solid var(--rule-strong);
+        }
+        body.rail-toc-on .sheet-body > main > :first-child {
+          border-top: 0;
+        }
+        body.rail-toc-on .rail-toc:not([hidden]) {
+          display: block;
+          position: sticky;
+          top: 32px;
+          max-height: calc(100vh - 64px);
+          margin-top: 56px;
+          margin-bottom: 28px;
+          padding: 0 2px 16px 0;
           overflow-y: auto;
           scrollbar-width: thin;
+          scrollbar-color: transparent transparent;
+          overscroll-behavior: contain;
+        }
+        body.rail-toc-on .rail-toc:hover {
           scrollbar-color: var(--rule-strong) transparent;
-          overscroll-behavior: contain;
-          font-size: 13px;
-          line-height: 1.55;
-          background: var(--bg);
         }
-        .rail::-webkit-scrollbar {
-          width: 6px;
-        }
-        .rail::-webkit-scrollbar-thumb {
-          background: var(--rule-strong);
-          border-radius: 3px;
-        }
-        .rail-nav {
-          left: 0;
-          width: var(--rail-nav-w);
-          border-right: 1px solid var(--rule);
-        }
-        .rail-toc {
-          right: 0;
-          width: var(--rail-toc-w);
-          border-left: 1px solid var(--rule);
-        }
-        .sheet :is(h2, h3) {
-          scroll-margin-top: 24px;
-        }
-
-        .rail-title {
-          margin: 0 0 14px;
-          font-family: var(--font-mono);
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          color: var(--subtle);
-          display: flex;
-          align-items: baseline;
-          gap: 8px;
-        }
-        .rail-title small {
-          font-size: 10px;
-          font-weight: 400;
-          letter-spacing: 0.05em;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .rail-group-label {
-          margin: 14px 0 4px;
-          padding: 0 10px;
-          font-family: var(--font-mono);
-          font-size: 10.5px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--subtle);
-        }
-        .rail-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-        .rail-link {
-          display: block;
-          padding: 5px 10px;
-          border-radius: var(--radius-xs);
-          color: var(--muted);
-          text-decoration: none;
-          transition:
-            background-color 0.15s var(--ease-snappy),
-            color 0.15s var(--ease-snappy);
-        }
-        .rail-link:hover {
-          color: var(--ink);
-          background: var(--paper);
-        }
-        .rail-link-title {
-          display: block;
-        }
-        .rail-link-tag {
-          display: inline-block;
-          margin-left: 6px;
-          padding: 0 6px;
-          border: 1px solid var(--rule-strong);
-          border-radius: var(--radius-pill);
-          font-family: var(--font-mono);
-          font-size: 9.5px;
-          letter-spacing: 0.06em;
-          color: var(--mark);
-          vertical-align: 1px;
-        }
-        .rail-link-desc {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          margin-top: 1px;
-          font-size: 11.5px;
-          line-height: 1.45;
-          color: var(--subtle);
-        }
-        .rail-link.current {
-          background: var(--accent-tint);
-          color: var(--ink);
-          box-shadow: inset 2px 0 0 var(--accent);
-        }
-        .rail-link.current .rail-link-desc {
-          color: var(--muted);
-        }
-
-        .rail-pager {
-          margin-top: 20px;
-          padding-top: 14px;
-          border-top: 1px solid var(--rule);
-          display: grid;
-          gap: 6px;
-        }
-        .rail-pager-link {
-          display: block;
-          padding: 6px 10px;
-          border: 1px solid var(--rule);
-          border-radius: var(--radius-xs);
-          background: var(--paper);
-          text-decoration: none;
-          transition:
-            border-color 0.15s var(--ease-snappy),
-            color 0.15s var(--ease-snappy);
-        }
-        .rail-pager-link:hover {
-          border-color: var(--rule-strong);
-        }
-        .rail-pager-dir {
-          display: block;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          color: var(--subtle);
-        }
-        .rail-pager-title {
-          display: block;
-          margin-top: 1px;
-          font-size: 12.5px;
-          color: var(--muted);
-        }
-        .rail-pager-link:hover .rail-pager-title {
-          color: var(--ink);
-        }
-
-        .rail-toc-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-        .rail-toc-list a {
-          display: block;
-          padding: 4px 10px;
-          border-radius: var(--radius-xs);
-          font-size: 12.5px;
-          color: var(--muted);
-          text-decoration: none;
-          transition:
-            background-color 0.15s var(--ease-snappy),
-            color 0.15s var(--ease-snappy);
-        }
-        .rail-toc-list li.lv3 a {
-          padding-left: 24px;
-          font-size: 12px;
-          color: var(--subtle);
-        }
-        .rail-toc-list a:hover {
-          color: var(--ink);
-          background: var(--paper);
-        }
-        .rail-toc-list a.on {
-          background: var(--accent-tint);
-          color: var(--ink);
-          box-shadow: inset 2px 0 0 var(--accent);
-        }
-
-        /* 顶栏按钮组：窄屏出现，与 .theme 切换器同语言 */
-        .rail-toggles {
-          display: none;
-          align-items: stretch;
-          border: 1px solid var(--rule-strong);
-          background: var(--paper);
-        }
-        .rail-toggle {
-          min-height: 36px;
-          padding: 6px 12px;
+      }
+      @media (max-width: 1239.98px) {
+        body.rail-on .rail-toggles {
           display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-family: var(--font-mono);
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          color: var(--muted);
-          transition:
-            background-color 0.2s var(--ease-snappy),
-            color 0.2s var(--ease-snappy);
         }
-        .rail-toggle + .rail-toggle {
-          border-left: 1px solid var(--rule-strong);
-        }
-        .rail-toggle:hover {
-          color: var(--ink);
-        }
-        .rail-toggle .ic {
-          width: 14px;
-          height: 14px;
-        }
-
-        /* 抽屉：窄屏承载两侧内容 */
-        .rail-drawer {
-          position: fixed;
-          inset: 0;
-          z-index: 80;
-          display: none;
-        }
-        .rail-drawer.open {
-          display: block;
-        }
-        .rail-drawer-scrim {
-          position: absolute;
-          inset: 0;
-          background: color-mix(in srgb, var(--ink) 32%, transparent);
-        }
-        .rail-drawer-panel {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          width: min(340px, 88vw);
-          display: flex;
-          flex-direction: column;
-          background: var(--paper);
-          border-right: 1px solid var(--rule-strong);
-          box-shadow: var(--shadow);
-          transform: translateX(-14px);
-          opacity: 0;
-          transition:
-            transform 0.22s var(--ease-snappy),
-            opacity 0.22s var(--ease-snappy);
-        }
-        .rail-drawer[data-side="toc"] .rail-drawer-panel {
-          left: auto;
-          right: 0;
-          border-right: 0;
-          border-left: 1px solid var(--rule-strong);
-          transform: translateX(14px);
-        }
-        .rail-drawer.in .rail-drawer-panel {
-          transform: none;
-          opacity: 1;
-        }
-        .rail-drawer-head {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 18px 18px 12px;
-          margin-bottom: 12px;
-          border-bottom: 1px solid var(--rule);
-        }
-        .rail-drawer-head .rail-title {
-          margin: 0;
-          flex: 1;
-          min-width: 0;
-        }
-        .rail-drawer-close {
-          min-width: 36px;
-          min-height: 36px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: var(--radius-pill);
-          color: var(--muted);
-        }
-        .rail-drawer-close:hover {
-          color: var(--ink);
-          background: var(--bg);
-        }
-        .rail-drawer-close .ic {
-          width: 16px;
-          height: 16px;
-        }
-        .rail-drawer-body {
-          flex: 1;
-          padding: 0 14px 28px;
-          overflow-y: auto;
-          overscroll-behavior: contain;
-          font-size: 13px;
-        }
-        .rail-drawer-body::-webkit-scrollbar {
-          width: 6px;
-        }
-        .rail-drawer-body::-webkit-scrollbar-thumb {
-          background: var(--rule-strong);
-          border-radius: 3px;
-        }
-        body.rail-drawer-lock {
-          overflow: hidden;
-        }
-
-        /* 断点：≥1240px 双侧栏常驻、正文两侧留白；以下收进按钮与抽屉 */
-        @media (min-width: 1240px) {
-          .rail:not([hidden]) {
-            display: block;
-          }
-          body.rail-nav-on {
-            padding-left: var(--rail-nav-w);
-          }
-          body.rail-toc-on {
-            padding-right: var(--rail-toc-w);
-          }
-        }
-        @media (max-width: 1239.98px) {
-          body.rail-on .rail-toggles {
-            display: inline-flex;
-          }
-        }
+      }
 
       /* example 侧等效覆盖：打印隐藏、减动效、640px 触控目标 */
       @media print {
@@ -4242,7 +4306,9 @@
       }
       @media (prefers-reduced-motion: reduce) {
         .rail-link,
-        .rail-toc-list a,
+        .rail-toc-link,
+        .rail-toc-no,
+        .rail-toc-link::before,
         .rail-toggle,
         .rail-drawer-panel {
           transition: none !important;
@@ -4254,7 +4320,6 @@
           padding: 8px 14px;
         }
       }
-
     </style>
   </head>
   <body>
@@ -4310,6 +4375,7 @@
           </div>
         </div>
 
+        <div class="sheet-body">
         <main>
           <!-- ==========================================
              01. 封面与刊头结构变体 (Hero Variants)
@@ -8087,11 +8153,82 @@ flowchart LR
             </section>
           </section>
         </main>
+          <aside class="rail rail-toc" aria-label="本文目录" hidden></aside>
+        </div>
       </div>
       <footer>
         完整组件参考模板 (64 类全量组件) · 复制 shell.html 后按事实取舍 ·
         不要投递本页占位内容
       </footer>
+    </div>
+    <!-- SLOT:report-nav 文档集导航快照：单篇报告保持 {}；合集成员页由 scripts/sync-nav.mjs 注入 report-nav.json 全文并回填 data-src -->
+    <script
+      type="application/json"
+      id="report-nav-data"
+      data-src="report-nav.json"
+    >
+      {
+        "name": "组件参考 · 示例合集",
+        "updated": "2026-10-19",
+        "groups": [
+          {
+            "label": "本页",
+            "items": [
+              {
+                "file": "example.html",
+                "title": "全部组件与状态变体",
+                "desc": "左侧导航由共享 report-nav.json 渲染，当前页自动高亮并带上下篇",
+                "tag": "DEMO"
+              }
+            ]
+          },
+          {
+            "label": "配套规范",
+            "items": [
+              {
+                "file": "../references/report-nav.md",
+                "title": "report-nav.json 结构与同步工作流"
+              },
+              {
+                "file": "../references/html-design.md",
+                "title": "视觉规范与模块清单"
+              },
+              {
+                "file": "../references/components/README.md",
+                "title": "组件片段索引"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <aside class="rail rail-nav" aria-label="文档导航" hidden></aside>
+    <div class="rail-drawer" hidden>
+      <div class="rail-drawer-scrim" data-rail-close></div>
+      <div class="rail-drawer-panel" role="dialog" aria-modal="true">
+        <div class="rail-drawer-head">
+          <p class="rail-title"></p>
+          <button
+            type="button"
+            class="rail-drawer-close"
+            data-rail-close
+            aria-label="关闭侧栏"
+          >
+            <svg
+              class="ic"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="rail-drawer-body"></div>
+      </div>
     </div>
     <script>
       (function () {
@@ -8154,7 +8291,7 @@ flowchart LR
         });
       })();
     </script>
-  <script>
+    <script>
       /* 双侧栏运行时：左侧文档集导航（#report-nav-data 快照，HTTP 下热刷新）、右侧本文目录 */
       (function () {
         "use strict";
@@ -8404,37 +8541,132 @@ flowchart LR
           return slug;
         }
 
+        function extractH2Meta(h, idx) {
+          var num = "";
+          var headWrap = h.closest(".block-head");
+          var noEl = headWrap ? headWrap.querySelector(".block-no") : null;
+          if (noEl) {
+            var noMatch = (noEl.textContent || "")
+              .trim()
+              .match(/^#?(\d{1,3})\b/);
+            if (noMatch) num = noMatch[1].padStart(2, "0");
+          }
+          var raw = (h.textContent || "").trim().replace(/\s+/g, " ");
+          var leadMatch = raw.match(/^#?(\d{1,3})\s*(?:[·.、/]|—|-)\s*(.+)$/);
+          if (leadMatch) {
+            if (!num) num = leadMatch[1].padStart(2, "0");
+            raw = leadMatch[2].trim();
+          }
+          if (!num) num = String(idx).padStart(2, "0");
+          return { num: num, text: raw };
+        }
+
+        function cleanH3Text(h, hasGroups) {
+          var raw = (h.textContent || "").trim().replace(/\s+/g, " ");
+          if (hasGroups) {
+            var m = raw.match(/^\d{1,3}\s*·\s*(.+)$/);
+            if (m) return m[1].trim();
+          }
+          return raw;
+        }
+
+        function isTocExcluded(h) {
+          if (
+            h.closest(
+              ".rail, .rail-drawer, .hero, .system-map, .callout, .compare-card, .stat-card, [data-toc-ignore]",
+            )
+          )
+            return true;
+          if (h.tagName === "H2") {
+            var blk = h.closest(".block, .open");
+            if (blk && blk.parentElement && blk.parentElement.closest(".block"))
+              return true;
+          }
+          return false;
+        }
+
         function buildTocDom() {
           var heads = [].slice
             .call(document.querySelectorAll(".sheet :is(h2, h3)"))
             .filter(function (h) {
-              return (
-                !h.closest(".rail, .rail-drawer") &&
-                (h.textContent || "").trim()
-              );
+              return !isTocExcluded(h) && (h.textContent || "").trim();
             });
           if (heads.length < 3) return null;
           var used = {};
+          var hasH2 = heads.some(function (h) {
+            return h.tagName === "H2";
+          });
           var frag = document.createDocumentFragment();
-          var title = el("p", "rail-title", "本文目录");
-          title.appendChild(el("small", null, heads.length + " 节"));
-          frag.appendChild(title);
-          var ul = el("ul", "rail-toc-list");
+          var ol = el("ol", "rail-toc-list");
+          var currentGroup = null;
+          var groupCount = 0;
+
           heads.forEach(function (h) {
             if (!h.id) h.id = slugify(h.textContent, used);
             tocEntries.push({ id: h.id, el: h });
-            var a = el("a", null, h.textContent.trim());
-            a.href = "#" + h.id;
-            var li = el("li", h.tagName === "H3" ? "lv3" : "lv2");
-            li.appendChild(a);
-            ul.appendChild(li);
+            if (h.tagName === "H2" || !hasH2) {
+              groupCount += 1;
+              var meta = extractH2Meta(h, groupCount);
+              var groupLi = el("li", "rail-toc-group");
+              var a = el("a", "rail-toc-link lv2");
+              a.href = "#" + h.id;
+              a.title = meta.text;
+              a.appendChild(el("span", "rail-toc-no", meta.num));
+              a.appendChild(el("span", "rail-toc-text", meta.text));
+              groupLi.appendChild(a);
+              ol.appendChild(groupLi);
+              currentGroup = { li: groupLi, sub: null };
+            } else {
+              var label = cleanH3Text(h, hasH2);
+              var subA = el("a", "rail-toc-link lv3");
+              subA.href = "#" + h.id;
+              subA.title = label;
+              subA.appendChild(el("span", "rail-toc-text", label));
+              var subLi = el("li");
+              subLi.appendChild(subA);
+              if (currentGroup) {
+                if (!currentGroup.sub) {
+                  currentGroup.sub = el("ul", "rail-toc-sub");
+                  currentGroup.li.appendChild(currentGroup.sub);
+                }
+                currentGroup.sub.appendChild(subLi);
+              } else {
+                var orphanLi = el("li", "rail-toc-group");
+                orphanLi.appendChild(subA);
+                ol.appendChild(orphanLi);
+              }
+            }
           });
-          frag.appendChild(ul);
+
+          var title = el("p", "rail-title", "本文目录");
+          title.appendChild(
+            el("small", null, (groupCount || heads.length) + " 节"),
+          );
+          frag.appendChild(title);
+          frag.appendChild(ol);
           return frag;
+        }
+
+        function ensureTocMounted() {
+          if (!railToc) return;
+          var mainEl = document.querySelector(
+            ".sheet-body > main, .sheet > main, main",
+          );
+          if (!mainEl) return;
+          var bodyWrap = mainEl.parentElement;
+          if (!bodyWrap.classList.contains("sheet-body")) {
+            bodyWrap = el("div", "sheet-body");
+            mainEl.parentNode.insertBefore(bodyWrap, mainEl);
+            bodyWrap.appendChild(mainEl);
+          }
+          if (railToc.parentElement !== bodyWrap) {
+            bodyWrap.appendChild(railToc);
+          }
         }
 
         function renderToc() {
           if (!railToc) return;
+          ensureTocMounted();
           tocEntries = [];
           var frag = buildTocDom();
           if (!frag) return;
@@ -8442,39 +8674,69 @@ flowchart LR
           tocContentEl.appendChild(frag);
           railToc.replaceChildren(tocContentEl.cloneNode(true));
           railToc.hidden = false;
-          tocLinks = [].slice.call(railToc.querySelectorAll("a"));
+          tocLinks = [].slice.call(railToc.querySelectorAll("a.rail-toc-link"));
           document.body.classList.add("rail-toc-on");
           spy();
         }
 
         /* ---------- 滚动高亮 ---------- */
 
+        function syncTocState(rootEl, activeIdx) {
+          if (!rootEl) return null;
+          var links = [].slice.call(rootEl.querySelectorAll("a.rail-toc-link"));
+          var groups = [].slice.call(
+            rootEl.querySelectorAll(".rail-toc-group"),
+          );
+          groups.forEach(function (g) {
+            g.classList.remove("in-view");
+          });
+          var activeLink = null;
+          links.forEach(function (a, i) {
+            var on = i === activeIdx;
+            a.classList.toggle("on", on);
+            if (on) {
+              a.setAttribute("aria-current", "true");
+              activeLink = a;
+            } else {
+              a.removeAttribute("aria-current");
+            }
+          });
+          if (activeLink) {
+            var grp = activeLink.closest(".rail-toc-group");
+            if (grp) grp.classList.add("in-view");
+          }
+          return activeLink;
+        }
+
         function spy() {
           if (!tocEntries.length) return;
-          var mark = null;
+          var mark = tocEntries[0];
           for (var i = 0; i < tocEntries.length; i++) {
-            if (tocEntries[i].el.getBoundingClientRect().top <= 110)
+            if (tocEntries[i].el.getBoundingClientRect().top <= 120)
               mark = tocEntries[i];
             else break;
           }
           if (mark === spyMark) return;
           spyMark = mark;
-          tocLinks.forEach(function (a, i) {
-            var on = !!mark && tocEntries[i] === mark;
-            a.classList.toggle("on", on);
-            if (on) a.setAttribute("aria-current", "true");
-            else a.removeAttribute("aria-current");
-          });
+          var activeIdx = mark ? tocEntries.indexOf(mark) : -1;
+          var active = syncTocState(railToc, activeIdx);
           if (
-            mark &&
+            active &&
+            railToc &&
             window.matchMedia &&
             window.matchMedia("(min-width: 1240px)").matches
           ) {
-            var active = tocLinks[tocEntries.indexOf(mark)];
-            if (active && active.scrollIntoView) {
-              try {
-                active.scrollIntoView({ block: "nearest" });
-              } catch (e) {}
+            var navRect = railToc.getBoundingClientRect();
+            var titleEl = railToc.querySelector(".rail-title");
+            var topBound =
+              (titleEl ? titleEl.getBoundingClientRect().bottom : navRect.top) +
+              14;
+            var botBound = navRect.bottom - 24;
+            var linkRect = active.getBoundingClientRect();
+            if (linkRect.top < topBound) {
+              railToc.scrollTop -= topBound - linkRect.top;
+            } else if (linkRect.bottom > botBound) {
+              railToc.scrollTop += linkRect.bottom - botBound;
             }
           }
         }
@@ -8531,9 +8793,20 @@ flowchart LR
           drawer.setAttribute("data-side", kind);
           var heading =
             kind === "toc" ? "本文目录" : (navModel && navModel.name) || "文档";
-          drawerTitle.textContent = heading;
+          var srcTitle = sourceEl.querySelector(".rail-title");
+          if (srcTitle) {
+            drawerTitle.replaceChildren();
+            [].slice.call(srcTitle.childNodes).forEach(function (node) {
+              drawerTitle.appendChild(node.cloneNode(true));
+            });
+          } else {
+            drawerTitle.textContent = heading;
+          }
           if (drawerPanel) drawerPanel.setAttribute("aria-label", heading);
           drawerBody.replaceChildren(sourceEl.cloneNode(true));
+          if (kind === "toc" && spyMark) {
+            syncTocState(drawerBody, tocEntries.indexOf(spyMark));
+          }
           drawer.hidden = false;
           document.body.classList.add("rail-drawer-lock");
           requestAnimationFrame(function () {
