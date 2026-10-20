@@ -1,7 +1,7 @@
 {
   "name": "html",
   "description": "HTML 视觉、图表与报告套件：高保真系统架构拓扑图、Excalidraw 手绘白板流程图，以及从大纲到文案再到单文件 HTML 的报告特刊（双侧栏：合集导航与本文目录），双主题跟随系统，告别 AI 模板腔",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": {
     "name": "xiao_lfeng",
     "url": "https://www.x-lf.com"

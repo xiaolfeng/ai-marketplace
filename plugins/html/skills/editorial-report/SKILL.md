@@ -3,7 +3,7 @@ name: editorial-report
 description: 把周报、日报、月报、项目进展、复盘简报、指标简报等报告，从大纲、文案写到单文件 HTML 报告特刊（纸白墨蓝、深浅主题跟随系统，内置 60 余类组件）。用户说「写个报告」「出个周报 / 日报 / 月报」「进展汇报」「复盘简报」「HTML 报表」「做成报告页面」时使用。正文口吻沿用用户设定的角色，没有设定时用中性同事口吻。系统架构拓扑图走 architecture-diagram，手绘流程图走 excalidraw-diagram，会话逆向复盘走 replay。
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Editorial Report
@@ -55,7 +55,7 @@ reports/
 2. **收事实**：只用来源里有的。缺读者、时段或「这篇要回答什么」时一次最多问三个问题；能从上下文安全确定的不再问。
 3. **出大纲**：按 `outline.md` 写 `outline.md`。用户没说「直接写」时，先把大纲给用户看一眼再写文案；用户给了完整大纲或明确跳过，也要把大纲落盘。
 4. **写文案**：按 `copy.md` 从大纲写 `copy.md`。未确认的内容单独成节，不编进度。
-5. **套壳**：复制 `template.html` 为 `index.html`，按 `html-design.md` 的模块表填槽；拿不准结构或状态 class 时参考 `examples/example.html`。example 只是全量目录，正式报告按事实删减，不要整页照搬。不写 `data-theme` 让页面跟随系统；用户说投屏、深色展示时才写 `data-theme="dark"`。不要另起 `<style>`。双侧栏自动工作：右栏从 h2/h3 生成本文目录；单篇报告的 `#report-nav-data` 槽位保持 `{}`，合集成员页在写好 `report-nav.json` 后运行 `node scripts/sync-nav.mjs <report-nav.json>` 注入快照，不手抄。
+5. **套壳**：复制 `template.html` 为 `index.html`，按 `html-design.md` 的模块表填槽；拿不准结构或状态 class 时参考 `examples/example.html`。example 只是全量目录，正式报告按事实删减，不要整页照搬。不写 `data-theme` 让页面跟随系统；用户说投屏、深色展示时才写 `data-theme="dark"`。不要另起 `<style>`。双侧栏自动工作：右栏嵌套在 `<main>` 正文旁随滚动 sticky 浮动，从 h2/h3 自动生成无框页边导轨目录；单篇报告的 `#report-nav-data` 槽位保持 `{}`，合集成员页在写好 `report-nav.json` 后运行 `node scripts/sync-nav.mjs <report-nav.json>` 注入快照，不手抄。
 6. **验证并交付**：在浏览器里打开 `index.html`，确认深浅主题、约 `390px` 移动宽度无横向溢出、没有残留的 `<!-- SLOT -->` 与 `【替换：…】`；然后把本地路径交给用户。
 
 ## 完成标准
