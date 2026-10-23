@@ -47,8 +47,8 @@
     {
       "name": "engineering-design",
       "source": "./plugins/engineering-design",
-      "description": "工程文档与实施计划管理：research/design/spec/runbook/plan 五模式技能分管调研、工程设计（draft→rfc→adr）、技术规范（draft→rfc→adr）、运维手册与顶层实施计划（含 archive 归档），docs-init 初始化目录与 MAINTENANCE.md，doc-clean 巡检编号/引用/状态机",
-      "version": "0.1.0",
+      "description": "工程文档与实施计划管理：research/design/spec/runbook 与同级 docs/plan 五模式写作技能，docs-init 基础初始化，docs-adventure-init 增量扩展 reader（直读 HTML）与 develop（无状态 AI 工程记录），docs-clean 卫生巡检，docs-move 旧文档迁移整理",
+      "version": "0.2.0",
       "category": "developer-tools",
       "tags": [
         "docs",

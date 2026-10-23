@@ -1,9 +1,9 @@
-<!-- 成品样例：活动态平铺于 plan/NNNN-<scope>-<title>.md；终态移入 plan/archive/NNNN-<scope>-<title>.md -->
+<!-- 成品样例：活动态平铺于 docs/plan/NNNN-<scope>-<title>.md；终态移入 docs/plan/archive/NNNN-<scope>-<title>.md -->
 
 # 构建产物收敛与 Cursor 清单导出实施计划
 
 > 状态：ready · 日期：2025-06-15 · Scope：build
-> 承接：[Cursor 清单单向导出与校验设计](../docs/engineering/design/0001-build-cursor-manifest-export.md) · [构建产物与源清单单一事实源规范](../docs/engineering/spec/0001-build-manifest-single-source.md)
+> 承接：[Cursor 清单单向导出与校验设计](../engineering/design/0001-build-cursor-manifest-export.md) · [构建产物与源清单单一事实源规范](../engineering/spec/0001-build-manifest-single-source.md)
 
 ## 目标与范围
 
@@ -31,4 +31,4 @@
 ## 验收与归档标准
 
 - [ ] 阶段 1 与阶段 2 准出条件全部达成；
-- [ ] 变更合并后，将本文状态改为 `done`，从 `plan/` 移入 `plan/archive/`（并将文首 `../docs/` 链接更新为 `../../docs/`），在 `plan/README.md` 移入「已归档计划」表。
+- [ ] 变更合并后，将本文状态改为 `done`，从 `docs/plan/` 移入 `docs/plan/archive/`（并将文首 `../engineering/` 链接更新为 `../../engineering/`），在 `docs/plan/README.md` 移入「已归档计划」表。

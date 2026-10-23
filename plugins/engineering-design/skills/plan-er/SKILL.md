@@ -1,28 +1,28 @@
 ---
 name: plan-er
 description: >
-  编写、推进与归档顶层 plan/ 目录下的工程实施与迁移计划，覆盖活动态（draft → ready → in-progress，
-  平铺于 plan/）与终态归档（done / cancelled / superseded，移入 plan/archive/）。当需要规划分阶段改造路线、
+  编写、推进与归档 docs/plan/ 目录下的工程实施与迁移计划，覆盖活动态（draft → ready → in-progress，
+  平铺于 docs/plan/）与终态归档（done / cancelled / superseded，移入 docs/plan/archive/）。当需要规划分阶段改造路线、
   存量兼容迁移、切流回滚步骤与任务拆解，或用户说「写个实施计划」「迁移方案」「演进路线图」
   「把计划归档」「/plan-er」时使用。
 ---
 
-# plan-er · 实施计划模式（顶层 `plan/` 与 `plan/archive/`）
+# plan-er · 实施计划模式（`docs/plan/` 与 `docs/plan/archive/`）
 
 公共约定：[../_shared/conventions.md](../_shared/conventions.md) ·
 Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 流转与状态：[../_shared/lifecycle.md](../_shared/lifecycle.md) ·
 语言纪律：[../_shared/writing-style.md](../_shared/writing-style.md)
 
-## 模式定位：与 `docs/` 同级的动态推进与迁移资产
+## 模式定位：与 `docs/engineering/` 同级的动态推进与迁移资产
 
-- **为什么 `plan/` 独立于 `docs/engineering/`**：
+- **为什么 `docs/plan/` 独立于 `docs/engineering/`**：
   - `docs/engineering/` 存放「系统长什么样、守什么规矩、怎么运维」的**长期静态资产**；
-  - `plan/`（与 `docs/` 同级）存放「**怎么从现状一步步改到目标态、分几期推进、存量怎么平滑迁移、做完即归档**」的**时间维动态计划**，避免已完结的历史排期污染长期设计文档。
+  - `docs/plan/`（位于 `docs/` 下、与 `engineering/` 同级）存放「**怎么从现状一步步改到目标态、分几期推进、存量怎么平滑迁移、做完即归档**」的**时间维动态计划**，避免已完结的历史排期污染长期设计文档。
 - **目录与状态流转规则**：
-  - **活动态（直接平铺于 `plan/NNNN-<scope>-<title>.md`，不设 `active/` 子目录）**：
+  - **活动态（直接平铺于 `docs/plan/NNNN-<scope>-<title>.md`，不设 `active/` 子目录）**：
     - `draft`（起草计划与阶段划分）→ `ready`（评审就绪待执行）→ `in-progress`（正在推进中）
-  - **终态（移入 `plan/archive/NNNN-<scope>-<title>.md`）**：
+  - **终态（移入 `docs/plan/archive/NNNN-<scope>-<title>.md`）**：
     - `done`（全部阶段验收完成） / `cancelled`（计划取消） / `superseded`（被新计划替代）
 
 ## 操作流程
@@ -31,11 +31,11 @@ Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 
 ```
 实施计划进度：
-- [ ] 1. 判定动作：新建计划（平铺于 plan/，初始状态 draft）、推进活动状态（ready / in-progress）或完结归档（改状态为 done/cancelled/superseded 并移入 plan/archive/）
+- [ ] 1. 判定动作：新建计划（平铺于 docs/plan/，初始状态 draft）、推进活动状态（ready / in-progress）或完结归档（改状态为 done/cancelled/superseded 并移入 docs/plan/archive/）
 - [ ] 2. 核对承接的 design / spec，明确起点现状、目标终态、前置条件与兼容风险
 - [ ] 3. 按骨架拆解「分阶段计划」（每阶段含具体动作、交付物与阶段检查点）及「迁移与回滚」预案
-- [ ] 4. 新建取号时，必须同时扫描 plan/ 根与 plan/archive/ 取合并最大编号 +1（防归档撞号），命名 NNNN-<scope>-<title>.md
-- [ ] 5. 同步更新 plan/README.md 的「进行中计划」或「已归档计划」分表（若迁入 archive/，同时修正指向该文件的相对链接），回报路径与当前状态
+- [ ] 4. 新建取号时，必须同时扫描 docs/plan/ 根与 docs/plan/archive/ 取合并最大编号 +1（防归档撞号），命名 NNNN-<scope>-<title>.md
+- [ ] 5. 同步更新 docs/plan/README.md 的「进行中计划」或「已归档计划」分表（若迁入 archive/，同时修正指向该文件的相对链接），回报路径与当前状态
 ```
 
 ## 文档骨架
@@ -44,7 +44,7 @@ Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 # 标题
 
 > 状态：draft | ready | in-progress | done | cancelled | superseded · 日期：YYYY-MM-DD · Scope：<scope>
-> 承接：[工程设计/规范标题](../docs/engineering/design/NNNN-scope-title.md)（归档至 plan/archive/ 后相对路径多一层 `../`）
+> 承接：[工程设计/规范标题](../engineering/design/NNNN-scope-title.md)（归档至 docs/plan/archive/ 后相对路径多一层 `../`）
 
 ## 目标与范围
 
@@ -68,14 +68,14 @@ Scope 词表：[../_shared/scope-manage.md](../_shared/scope-manage.md) ·
 
 ## 验收与归档标准
 
-全部阶段完成后的总体验收命令与核对项；全部打勾后将文首状态改为 `done`，文件移入 `plan/archive/` 并更新 `plan/README.md`。
+全部阶段完成后的总体验收命令与核对项；全部打勾后将文首状态改为 `done`，文件移入 `docs/plan/archive/` 并更新 `docs/plan/README.md`。
 ```
 
 ## 计划纪律
 
-1. **取号必扫两处**：新建计划时必须同时读取 `plan/` 与 `plan/archive/` 的编号取最大值 +1，绝不复用已归档编号；
+1. **取号必扫两处**：新建计划时必须同时读取 `docs/plan/` 与 `docs/plan/archive/` 的编号取最大值 +1，绝不复用已归档编号；
 2. **阶段必带准出条件**：禁止写「第一阶段：完成开发；第二阶段：完成测试」这种无准出标准的空洞排期；
-3. **归档必搬目录且更新链接**：状态进入 `done` / `cancelled` / `superseded` 时，文件不能继续留在 `plan/` 根目录，必须移入 `plan/archive/`，并同步将文内指向 `../docs/` 的相对链接调整为 `../../docs/`。
+3. **归档必搬目录且更新链接**：状态进入 `done` / `cancelled` / `superseded` 时，文件不能继续留在 `docs/plan/` 根目录，必须移入 `docs/plan/archive/`，并同步将文内指向 `../engineering/` 的相对链接调整为 `../../engineering/`。
 
 ## 好坏对照
 

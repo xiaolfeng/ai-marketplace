@@ -5,14 +5,14 @@
 
 ## 模式导航
 
-| 顶层模式                                | 子模式 / 入口                                                                             | 定位与职责                                                                   | 状态流转                             |
-| --------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------ |
-| **工程研发模式**（`docs/engineering/`） | [调研模式 `research/`](./engineering/research/)                                           | 记录「现状是什么」——外部标准、竞品拆解与实测证据                             | 无状态（仅记调研日期）               |
-| **工程研发模式**（`docs/engineering/`） | [设计模式 `design/`](./engineering/design/)                                               | 记录「怎样工作与实现」——模块职责、数据接口、异常与验证                       | `draft → rfc → adr`                  |
-| **工程研发模式**（`docs/engineering/`） | [规范模式 `spec/`](./engineering/spec/)                                                   | 记录「必须遵守什么规则」——跨模块标准、协议契约与长期红线                     | `draft → rfc → adr`                  |
-| **工程研发模式**（`docs/engineering/`） | [手册模式 `runbook/`](./engineering/runbook/)                                             | 记录「线上怎么操作与救火」——部署发布、告警排查与止血回滚 SOP                 | `draft → active → deprecated`        |
-| **实施计划模式**（`../plan/`）          | [计划看板 `../plan/README.md`](../plan/README.md)                                         | 记录「怎么分步推进与迁移」——活动计划平铺于 `plan/`，完结归入 `plan/archive/` | `draft → ready → in-progress → done` |
-| **项目基建模式**（`docs/` 根级）        | [`scope-manage.md`](./scope-manage.md) · [`MAINTENANCE.md`](./engineering/MAINTENANCE.md) | Git 提交与工程文档共用的业务域词表总账、工程文档维护器公约                   | 持续维护                             |
+| 顶层模式                                | 子模式 / 入口                                                                             | 定位与职责                                                                             | 状态流转                             |
+| --------------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------ |
+| **工程研发模式**（`docs/engineering/`） | [调研模式 `research/`](./engineering/research/)                                           | 记录「现状是什么」——外部标准、竞品拆解与实测证据                                       | 无状态（仅记调研日期）               |
+| **工程研发模式**（`docs/engineering/`） | [设计模式 `design/`](./engineering/design/)                                               | 记录「怎样工作与实现」——模块职责、数据接口、异常与验证                                 | `draft → rfc → adr`                  |
+| **工程研发模式**（`docs/engineering/`） | [规范模式 `spec/`](./engineering/spec/)                                                   | 记录「必须遵守什么规则」——跨模块标准、协议契约与长期红线                               | `draft → rfc → adr`                  |
+| **工程研发模式**（`docs/engineering/`） | [手册模式 `runbook/`](./engineering/runbook/)                                             | 记录「线上怎么操作与救火」——部署发布、告警排查与止血回滚 SOP                           | `draft → active → deprecated`        |
+| **实施计划模式**（`docs/plan/`）        | [计划看板 `./plan/README.md`](./plan/README.md)                                           | 记录「怎么分步推进与迁移」——活动计划平铺于 `docs/plan/`，完结归入 `docs/plan/archive/` | `draft → ready → in-progress → done` |
+| **项目基建模式**（`docs/` 根级）        | [`scope-manage.md`](./scope-manage.md) · [`MAINTENANCE.md`](./engineering/MAINTENANCE.md) | Git 提交与工程文档共用的业务域词表总账、工程文档维护器公约                             | 持续维护                             |
 
 ---
 
@@ -51,6 +51,6 @@
 
 ## 项目基建与实施计划入口
 
-- **实施计划看板**：[../plan/README.md](../plan/README.md) — 跨阶段演进与迁移实施计划（由 `plan-er` 维护）
+- **实施计划看板**：[./plan/README.md](./plan/README.md) — 跨阶段演进与迁移实施计划（由 `plan-er` 维护）
 - **工程文档维护器公约**：[./engineering/MAINTENANCE.md](./engineering/MAINTENANCE.md) — 命名、独立取号、状态流转与卫生检查规则
 - **项目 Scope 总账**：[./scope-manage.md](./scope-manage.md) — Git 提交与工程文档共用的业务域词表

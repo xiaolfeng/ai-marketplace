@@ -1,6 +1,6 @@
 # 二期推进
 
-> 状态：in-progress · 日期：2026-09-04 · Scope：plugin · 承接 [0001](../docs/engineering/design/0001-plugin-single-source.md)
+> 状态：in-progress · 日期：2026-09-04 · Scope：plugin · 承接 [0001](../engineering/design/0001-plugin-single-source.md)
 
 ## 目标与范围
 

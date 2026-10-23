@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 扫描 docs/engineering/、docs/README.md 与顶层 plan/ 的文档卫生问题（只读）。
+ * 扫描 docs/engineering/、docs/plan/、docs/README.md 及可选 docs/{reader,develop}/ 的文档卫生问题（只读）。
  *
  * 检查项与 fix 分级以 ../references/checks.md 为准，编号/状态规则
  * 分别读目标仓 docs/scope-manage.md 与本插件 _shared/lifecycle.md。
@@ -17,8 +17,10 @@ import { exit } from "node:process";
 import { fileURLToPath } from "node:url";
 
 const ENG_STAGES = ["research", "design", "spec", "runbook"];
-const ALL_STAGES = ["research", "design", "spec", "runbook", "plan"];
+const ALLOWED_DOCS_DIRS = new Set(["engineering", "plan", "reader", "develop"]);
 const FILE_RE = /^(\d{4})-([a-z][a-z0-9]*)-([a-z0-9]+(?:-[a-z0-9]+)*)\.md$/;
+const KEBAB_MD_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
+const KEBAB_READER_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:html|svg)$/;
 const SKIP_HTTP_HOSTS = new Set([
   "localhost",
   "127.0.0.1",
@@ -85,7 +87,7 @@ function parseAllowedStatus(md) {
   if (!md) return allowed;
   for (const line of md.split("\n")) {
     const m = line.match(
-      /^\|\s*(research|design|spec|runbook|plan)\s*\|([^|]+)\|/,
+      /^\|\s*(research|design|spec|runbook|plan|develop|reader)\s*\|([^|]+)\|/,
     );
     if (!m) continue;
     const stage = m[1];
@@ -216,7 +218,7 @@ async function checkEngineeringStructure(root, engAbs, findings) {
         finding("LOC-WRONG", "ask", {
           path,
           message: `工程文档落在 engineering/ 根下，应进入 ${ENG_STAGES.join("/")} 之一`,
-          suggest: "搬进对应模式目录并按该目录序列取号",
+          suggest: "搬进对应模式目录并按该目录序列取号（可用 docs-move 整理）",
         }),
       );
     } else if (ent.isDirectory() && !ENG_STAGES.includes(ent.name)) {
@@ -224,14 +226,29 @@ async function checkEngineeringStructure(root, engAbs, findings) {
         finding("LOC-WRONG", "ask", {
           path,
           message: `engineering/ 下出现未登记或已废弃的目录 ${ent.name}/`,
-          suggest: `只允许 ${ENG_STAGES.join("、")}（draft/rfc/adr 已收敛为内部阶段状态，计划请放顶层 plan/）`,
+          suggest: `只允许 ${ENG_STAGES.join("、")}（draft/rfc/adr 已收敛为内部阶段状态，计划请放 docs/plan/）`,
         }),
       );
     }
   }
 }
 
-async function checkPlanStructure(root, planAbs, findings) {
+async function checkPlanStructure(root, planAbs, legacyPlanAbs, findings) {
+  const legacyInfo = await stat(legacyPlanAbs).catch(() => null);
+  if (legacyInfo?.isDirectory()) {
+    findings.push(
+      finding("LOC-WRONG", "ask", {
+        path: "plan/",
+        stage: "plan",
+        message:
+          "项目根目录存在旧版顶层 plan/，实施计划应放在 docs/plan/（与 docs/engineering/ 同级）",
+        suggest:
+          "将顶层 plan/ 迁移至 docs/plan/ 并更新文内相对链接（可用 docs-move 整理）",
+        target: "docs/plan/",
+      }),
+    );
+  }
+
   const info = await stat(planAbs).catch(() => null);
   if (!info?.isDirectory()) return;
   const entries = await readdir(planAbs, { withFileTypes: true });
@@ -243,10 +260,92 @@ async function checkPlanStructure(root, planAbs, findings) {
       finding("LOC-WRONG", "ask", {
         path: toPosix(root, abs),
         stage: "plan",
-        message: `plan/ 下出现未登记子目录 ${ent.name}/（活动计划应直接平铺在 plan/ 根下）`,
-        suggest: "活动计划平铺于 plan/，已完结计划放入 plan/archive/",
+        message: `docs/plan/ 下出现未登记子目录 ${ent.name}/（活动计划应直接平铺在 docs/plan/ 根下）`,
+        suggest: "活动计划平铺于 docs/plan/，已完结计划放入 docs/plan/archive/",
       }),
     );
+  }
+}
+
+async function checkAdventureDirs(root, docsAbs, findings) {
+  const developAbs = join(docsAbs, "develop");
+  const developInfo = await stat(developAbs).catch(() => null);
+  if (developInfo?.isDirectory()) {
+    const entries = await listFiles(developAbs);
+    for (const { name, abs } of entries) {
+      if (name === "README.md") continue;
+      const path = toPosix(root, abs);
+      if (extname(name) !== ".md") {
+        findings.push(
+          finding("LOC-WRONG", "ask", {
+            path,
+            stage: "develop",
+            message: `docs/develop/ 目录出现非 Markdown 文件：${name}`,
+            suggest:
+              "docs/develop/ 只存放无状态 .md 工程记录；HTML/渲染图请移入 docs/reader/",
+          }),
+        );
+        continue;
+      }
+      if (!KEBAB_MD_RE.test(name)) {
+        findings.push(
+          finding("NAME-FORMAT", "ask", {
+            path,
+            stage: "develop",
+            message: `docs/develop/ 文件名非 kebab-case.md：${name}`,
+            suggest: "改用小写 kebab-case.md 命名",
+          }),
+        );
+      }
+      const md = await loadText(abs);
+      if (md) {
+        const status = parseStatus(md);
+        if (status) {
+          findings.push(
+            finding("STATUS-ILLEGAL", "report", {
+              path,
+              stage: "develop",
+              message: `docs/develop/ 文档不需要保留记录状态，文首却写了状态「${status}」`,
+              suggest:
+                "删除文首状态字段；如需正式阶段流转请迁入 docs/engineering/{design,spec,runbook}/",
+            }),
+          );
+        }
+      }
+    }
+  }
+
+  const readerAbs = join(docsAbs, "reader");
+  const readerInfo = await stat(readerAbs).catch(() => null);
+  if (readerInfo?.isDirectory()) {
+    const entries = await listFiles(readerAbs);
+    for (const { name, abs } of entries) {
+      if (name === "README.md") continue;
+      const path = toPosix(root, abs);
+      const ext = extname(name).toLowerCase();
+      if (ext === ".md") {
+        findings.push(
+          finding("LOC-WRONG", "ask", {
+            path,
+            stage: "reader",
+            message: `docs/reader/ 中出现 Markdown 文档：${name}`,
+            suggest:
+              "docs/reader/ 仅放置面向用户直读的 .html 界面或高级渲染图；工程文档请移入 docs/engineering/ 或 docs/develop/",
+          }),
+        );
+        continue;
+      }
+      if ((ext === ".html" || ext === ".svg") && !KEBAB_READER_RE.test(name)) {
+        findings.push(
+          finding("NAME-FORMAT", "ask", {
+            path,
+            stage: "reader",
+            message: `docs/reader/ 文件名非 kebab-case：${name}`,
+            suggest: "改用小写 kebab-case.html 或 kebab-case.svg 命名",
+          }),
+        );
+      }
+    }
   }
 }
 
@@ -258,7 +357,8 @@ function registerDocFile(root, stage, name, abs, vocab, findings, extra = {}) {
         path,
         stage,
         message: `${stage} 目录里出现非 Markdown 文件`,
-        suggest: "受控文档只放 .md；其它文件移出",
+        suggest:
+          "受控文档只放 .md；.html 渲染物移入 docs/reader/，其它文件移出",
       }),
     );
     return null;
@@ -346,15 +446,43 @@ async function collectStageFiles(root, docsAbs, planAbs, vocab, findings) {
 }
 
 async function collectMisplaced(root, docsAbs, findings) {
-  const top = await listFiles(docsAbs);
-  for (const { name, abs } of top) {
+  const entries = await readdir(docsAbs, { withFileTypes: true }).catch(
+    () => [],
+  );
+  for (const ent of entries) {
+    const abs = join(docsAbs, ent.name);
+    if (ent.isDirectory()) {
+      if (!ALLOWED_DOCS_DIRS.has(ent.name)) {
+        findings.push(
+          finding("LOC-WRONG", "ask", {
+            path: toPosix(root, abs),
+            message: `docs/ 下出现未登记或旧版目录 ${ent.name}/`,
+            suggest:
+              "docs/ 下仅允许 engineering/、plan/ 及可选 reader/、develop/（旧版目录可用 docs-move 整理迁移）",
+          }),
+        );
+      }
+      continue;
+    }
+    if (!ent.isFile()) continue;
+    const name = ent.name;
+    if (extname(name).toLowerCase() === ".html") {
+      findings.push(
+        finding("LOC-WRONG", "ask", {
+          path: toPosix(root, abs),
+          message: `HTML 文件落在 docs/ 根：${name}`,
+          suggest: "启用 docs-adventure-init 后移入 docs/reader/",
+        }),
+      );
+      continue;
+    }
     if (!/^\d{4}-/.test(name) || extname(name) !== ".md") continue;
     findings.push(
       finding("LOC-WRONG", "ask", {
         path: toPosix(root, abs),
         message: `编号文档落在 docs/ 根：${name}`,
         suggest:
-          "搬进 docs/engineering/<模式>/ 或顶层 plan/，docs/ 根只留 README 与词表",
+          "搬进 docs/engineering/<模式>/ 或 docs/plan/，docs/ 根只留 README 与词表",
       }),
     );
   }
@@ -368,7 +496,8 @@ function checkNumbers(files, findings) {
     byStage.get(f.stage).push(f);
   }
   for (const [stage, list] of byStage) {
-    const stagePath = stage === "plan" ? "plan/" : `docs/engineering/${stage}/`;
+    const stagePath =
+      stage === "plan" ? "docs/plan/" : `docs/engineering/${stage}/`;
     const byNum = new Map();
     for (const f of list) {
       if (!byNum.has(f.n)) byNum.set(f.n, []);
@@ -382,7 +511,7 @@ function checkNumbers(files, findings) {
           path: stagePath,
           message: `${stage} 模式编号 ${pad4(n)} 重复：${group.map((g) => g.path).join("、")}`,
           suggest:
-            "同模式（含 plan/ 与 plan/archive/）不复用旧号；留下一篇，其余另取新号并改承接链接",
+            "同模式（含 docs/plan/ 与 docs/plan/archive/）不复用旧号；留下一篇，其余另取新号并改承接链接",
         }),
       );
     }
@@ -553,15 +682,15 @@ async function checkIndex(
   const planDirInfo = await stat(planAbs).catch(() => null);
   if (!planDirInfo?.isDirectory()) return;
 
-  const planReadmePath = "plan/README.md";
+  const planReadmePath = "docs/plan/README.md";
   if (planReadmeMd == null) {
     if (planFiles.length > 0) {
       findings.push(
         finding("INDEX-MISSING", "safe", {
           path: planReadmePath,
           severity: "warning",
-          message: "没有 plan/README.md，实施计划未登记",
-          suggest: "运行 docs-init 生成 plan/README.md 并登记计划",
+          message: "没有 docs/plan/README.md，实施计划未登记",
+          suggest: "运行 docs-init 生成 docs/plan/README.md 并登记计划",
         }),
       );
     }
@@ -588,7 +717,7 @@ async function checkIndex(
       finding("INDEX-STALE", "safe", {
         path: planReadmePath,
         stage: "plan",
-        message: `plan/README.md 索引指向不存在的文件：${entry.href}`,
+        message: `docs/plan/README.md 索引指向不存在的文件：${entry.href}`,
         suggest: unique ? `改成指向 ${candidates[0].path}` : "删掉这一行",
         target: unique ? candidates[0].path : undefined,
         href: entry.href,
@@ -602,10 +731,10 @@ async function checkIndex(
       finding("INDEX-MISSING", "safe", {
         path: f.path,
         stage: "plan",
-        message: `${f.path} 未在 plan/README.md 登记`,
+        message: `${f.path} 未在 docs/plan/README.md 登记`,
         suggest: f.archived
-          ? "在 plan/README.md 的「已归档计划」表补一行链接"
-          : "在 plan/README.md 的「进行中计划」表补一行链接",
+          ? "在 docs/plan/README.md 的「已归档计划」表补一行链接"
+          : "在 docs/plan/README.md 的「进行中计划」表补一行链接",
       }),
     );
   }
@@ -671,9 +800,9 @@ function checkStatusAndLocation(files, allowed, findings) {
           finding("LOC-WRONG", "ask", {
             path: f.path,
             stage: "plan",
-            message: `计划状态已为终态「${status}」，但文件仍平铺在 plan/ 根下`,
-            suggest: `移入 plan/archive/${f.name} 并更新 plan/README.md`,
-            target: `plan/archive/${f.name}`,
+            message: `计划状态已为终态「${status}」，但文件仍平铺在 docs/plan/ 根下`,
+            suggest: `移入 docs/plan/archive/${f.name} 并更新 docs/plan/README.md`,
+            target: `docs/plan/archive/${f.name}`,
           }),
         );
       } else if (f.archived && PLAN_ACTIVE_STATUS.has(status)) {
@@ -681,9 +810,9 @@ function checkStatusAndLocation(files, allowed, findings) {
           finding("LOC-WRONG", "ask", {
             path: f.path,
             stage: "plan",
-            message: `计划状态为活动态「${status}」，却放在归档目录 plan/archive/ 中`,
-            suggest: `移回 plan/${f.name} 或将状态更新为终态（done / cancelled / superseded）`,
-            target: `plan/${f.name}`,
+            message: `计划状态为活动态「${status}」，却放在归档目录 docs/plan/archive/ 中`,
+            suggest: `移回 docs/plan/${f.name} 或将状态更新为终态（done / cancelled / superseded）`,
+            target: `docs/plan/${f.name}`,
           }),
         );
       }
@@ -785,7 +914,7 @@ async function checkHttpLinks(files, readmeMd, planReadmeMd, findings) {
   }
   if (planReadmeMd) {
     for (const link of extractLinks(stripIgnored(planReadmeMd))) {
-      if (isHttp(link.href)) addUrl(httpUrl(link.href), "plan/README.md");
+      if (isHttp(link.href)) addUrl(httpUrl(link.href), "docs/plan/README.md");
     }
   }
 
@@ -829,7 +958,7 @@ async function pingOnce(url, method) {
       method,
       redirect: "follow",
       signal: ctrl.signal,
-      headers: { "user-agent": "doc-clean (engineering-design)" },
+      headers: { "user-agent": "docs-clean (engineering-design)" },
     });
     return res.status;
   } catch (err) {
@@ -871,7 +1000,8 @@ async function main() {
   }
 
   const docsAbs = join(root, "docs");
-  const planAbs = join(root, "plan");
+  const planAbs = join(docsAbs, "plan");
+  const legacyPlanAbs = join(root, "plan");
   const findings = [];
   const docsInfo = await stat(docsAbs).catch(() => null);
   if (!docsInfo?.isDirectory()) {
@@ -906,7 +1036,8 @@ async function main() {
 
   const allowed = parseAllowedStatus(await loadText(lifecyclePath));
   await checkEngineeringStructure(root, join(docsAbs, "engineering"), findings);
-  await checkPlanStructure(root, planAbs, findings);
+  await checkPlanStructure(root, planAbs, legacyPlanAbs, findings);
+  await checkAdventureDirs(root, docsAbs, findings);
   await collectMisplaced(root, docsAbs, findings);
   const files = await collectStageFiles(
     root,

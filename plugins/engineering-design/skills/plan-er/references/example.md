@@ -29,7 +29,7 @@
 # Cursor 清单单向导出与 CI 门禁接入计划
 
 > 状态：in-progress · 日期：2026-08-25 · Scope：build
-> 承接：[Cursor 清单单向导出与校验设计](../docs/engineering/design/0001-build-cursor-manifest-export.md)
+> 承接：[Cursor 清单单向导出与校验设计](../engineering/design/0001-build-cursor-manifest-export.md)
 
 ## 目标与范围
 
@@ -60,5 +60,5 @@
 
 - [x] `npm run build && npm run check` 本地零报错通过；
 - [x] `claude plugin validate . && npx skills add . --list` 全部通过；
-- [ ] 主分支 CI 连续跑通后，将本计划状态改为 `done` 并移入 `plan/archive/`。
+- [ ] 主分支 CI 连续跑通后，将本计划状态改为 `done` 并移入 `docs/plan/archive/`。
 ```

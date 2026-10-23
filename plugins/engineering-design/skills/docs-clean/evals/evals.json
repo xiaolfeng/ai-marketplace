@@ -1,0 +1,23 @@
+{
+  "skill_name": "docs-clean",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "请整理 plugins/engineering-design/skills/docs-clean/evals/files/messy 这个小项目的工程文档与计划卫生：编号、引用、放错位置都要看。",
+      "expected_output": "跑 scan_docs.mjs 后报告含 MAINT-MISSING（缺 MAINTENANCE.md）、NUM-GAP（research 缺 0002、design 从 0006 起像串号）、LOC-WRONG（docs 根下的编号文档、docs/plan 根下状态为 done 未移入 archive/）、LINK-EMPTY / LINK-BROKEN、INDEX-STALE / INDEX-MISSING、STATUS-ILLEGAL（design 写成 open、spec 写成 proposed）、STAGE-MISMATCH（design 里像 spec）、SUPERSEDE-ONEWAY、SCOPE-UNKNOWN（treehole）。安全项可直接修；重编号/搬文件列入待确认。不把 spec/0001、research/0001 与 docs/plan/0001 当成互相撞号。",
+      "files": ["evals/files/messy"]
+    },
+    {
+      "id": 2,
+      "prompt": "扫一下 plugins/engineering-design/skills/docs-clean/evals/files/clean。research、design、spec 都有 0001，docs/plan/archive 下也有 0001，这算串号吗？",
+      "expected_output": "不算串号。五大模式（research / design / spec / runbook / plan）序列各自独立，research/0001、design/0001、spec/0001 与 docs/plan/archive/0001 可以同时存在，且 docs/plan/0002 与 docs/plan/archive/0001 连续无撞号。findings 为空。回报里写清扫了 5 篇受控文档、撞号与归档位置检查是干净的。",
+      "files": ["evals/files/clean"]
+    },
+    {
+      "id": 3,
+      "prompt": "整理本仓库（ai-marketplace）的工程文档，检查编号有没有串、引用有没有打空。",
+      "expected_output": "research 0001–0005、design 0001–0002、spec 0001 连续且已在 docs/README.md 对应模式分表登记，docs/engineering/MAINTENANCE.md 就位。不把跨模式同号当成撞号。结构检查应干净。",
+      "files": []
+    }
+  ]
+}

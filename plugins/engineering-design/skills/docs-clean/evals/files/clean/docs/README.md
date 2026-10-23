@@ -1,6 +1,6 @@
 # 文档中心
 
-维护规则见 [`engineering/MAINTENANCE.md`](./engineering/MAINTENANCE.md)，实施计划见 [`../plan/README.md`](../plan/README.md)。
+维护规则见 [`engineering/MAINTENANCE.md`](./engineering/MAINTENANCE.md)，实施计划见 [`./plan/README.md`](./plan/README.md)。
 
 ### 调研模式（`research/`）
 

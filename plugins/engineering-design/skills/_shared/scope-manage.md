@@ -1,6 +1,6 @@
 # Scope 管理：业务域词表（工程文档与计划侧）
 
-五个写作技能与 `doc-clean` 共用。
+五个写作技能、`docs-clean` 与 `docs-move` 共用。
 本文与 git-manage 的同名文件共用同一套定义：**Scope 就是业务域**——
 从项目业务里分析出的一类业务环境，如养成系软件的 用户(user)、树洞(treehole)。
 目录落点见 [conventions.md](./conventions.md)，流转与状态见 [lifecycle.md](./lifecycle.md)。
@@ -17,7 +17,7 @@
 示例：
 
 - 养成系软件的树洞匿名设计 → `docs/engineering/design/0003-treehole-anonymous.md`
-- 对应的分阶段迁移计划 → `plan/0001-treehole-anonymous-migration.md`
+- 对应的分阶段迁移计划 → `docs/plan/0001-treehole-anonymous-migration.md`
 
 ## 权威词表
 
@@ -30,7 +30,7 @@
 1. 动笔前先查台账：要写的主题属于哪个既有业务域？取其英文单词列；
 2. 找不到贴切业务域时不要硬套：为新域同时起三个名字
    （2 字中文 / 4 字中文 / 英文单词），请用户确认后登记进台账，再回来取英文列；
-3. 编号按 conventions：工程四模式在各自目录内取最大值 +1，`plan` 同时扫描 `plan/` 与 `plan/archive/` 取最大值 +1。
+3. 编号按 conventions：工程四模式在各自目录内取最大值 +1，`plan` 同时扫描 `docs/plan/` 与 `docs/plan/archive/` 取最大值 +1。
 
 ## 防同义词纪律
 
