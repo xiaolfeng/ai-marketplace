@@ -16,26 +16,26 @@
 
 ### 2. 图表组件（[`charts/`](./charts/) 子目录）
 
-| 文件                                                                       | 模块名称                 | 适用场景                              |
-| -------------------------------------------------------------------------- | ------------------------ | ------------------------------------- |
-| [`charts/chart-bar.html`](./charts/chart-bar.html)                         | **SVG 柱状与分组条形图** | 耗时分布、调用量对比、资源占用分析    |
-| [`charts/chart-line.html`](./charts/chart-line.html)                       | **SVG 趋势折线与面积图** | QPS 变化曲线、错误率趋势、极值标注    |
-| [`charts/chart-donut.html`](./charts/chart-donut.html)                     | **SVG 环形占比分布图**   | 流量来源构成、错误分类占比            |
-| [`charts/chart-gauge.html`](./charts/chart-gauge.html)                     | **SVG 仪表盘**           | 单一指标水位、健康度、达成率          |
-| [`charts/chart-heatmap.html`](./charts/chart-heatmap.html)                 | **热力格矩阵**           | 时段×维度密度、发布日历、故障频次     |
-| [`charts/chart-scatter.html`](./charts/chart-scatter.html)                 | **散点分布图**           | 双变量相关性、耗时散点、离群标注      |
-| [`charts/chart-stacked-bar.html`](./charts/chart-stacked-bar.html)         | **堆叠条形图**           | 构成随时间变化、多段占比对比          |
-| [`charts/chart-sparkline-table.html`](./charts/chart-sparkline-table.html) | **迷你趋势表格**         | 表格行内 sparkline 走势               |
-| [`charts/gantt-roadmap.html`](./charts/gantt-roadmap.html)                 | **甘特与路线图**         | 里程碑排期、并行任务、关键路径        |
-| [`charts/matrix-quadrant.html`](./charts/matrix-quadrant.html)             | **2x2 四象限决策矩阵**   | 收益/代价分析、风险与紧急度优先级排序 |
-| [`charts/pele-diagram.html`](./charts/pele-diagram.html)                   | **Pele 图表容器**        | Mermaid 语法文本由 Pele 渲染成 SVG    |
+| 文件                                                                       | 模块名称                 | 适用场景                                                                      |
+| -------------------------------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------- |
+| [`charts/chart-bar.html`](./charts/chart-bar.html)                         | **SVG 柱状与分组条形图** | 耗时分布、调用量对比、资源占用分析                                            |
+| [`charts/chart-line.html`](./charts/chart-line.html)                       | **SVG 趋势折线与面积图** | QPS 变化曲线、错误率趋势、极值标注                                            |
+| [`charts/chart-donut.html`](./charts/chart-donut.html)                     | **SVG 环形占比分布图**   | 流量来源构成、错误分类占比                                                    |
+| [`charts/chart-gauge.html`](./charts/chart-gauge.html)                     | **SVG 仪表盘**           | 单一指标水位、健康度、达成率                                                  |
+| [`charts/chart-heatmap.html`](./charts/chart-heatmap.html)                 | **热力格矩阵**           | 时段×维度密度、发布日历、故障频次                                             |
+| [`charts/chart-scatter.html`](./charts/chart-scatter.html)                 | **散点分布图**           | 双变量相关性、耗时散点、离群标注                                              |
+| [`charts/chart-stacked-bar.html`](./charts/chart-stacked-bar.html)         | **堆叠条形图**           | 构成随时间变化、多段占比对比                                                  |
+| [`charts/chart-sparkline-table.html`](./charts/chart-sparkline-table.html) | **迷你趋势表格**         | 表格行内 sparkline 走势                                                       |
+| [`charts/gantt-roadmap.html`](./charts/gantt-roadmap.html)                 | **甘特与路线图**         | Mermaid `gantt`（Pele 渲染）：双时间标尺、阶段泳道框、`vert` 竖线标记与里程碑 |
+| [`charts/matrix-quadrant.html`](./charts/matrix-quadrant.html)             | **2x2 四象限决策矩阵**   | 收益/代价分析、风险与紧急度优先级排序                                         |
+| [`charts/pele-diagram.html`](./charts/pele-diagram.html)                   | **Pele 图表容器**        | Mermaid 语法文本由 Pele 渲染成 SVG                                            |
 
 ### 3. 指标与进度
 
-| 文件                                 | 模块名称             | 适用场景                   |
-| ------------------------------------ | -------------------- | -------------------------- |
-| [`stat-grid.html`](./stat-grid.html) | **KPI 指标网格**     | 大数字、涨跌徽章、进度条   |
-| [`meter.html`](./meter.html)         | **进度条与议题强度** | 完成度、水位、议题强度分析 |
+| 文件                                 | 模块名称                 | 适用场景                                               |
+| ------------------------------------ | ------------------------ | ------------------------------------------------------ |
+| [`stat-grid.html`](./stat-grid.html) | **KPI 与范围状态验收卡** | 大数字 KPI 看板，以及带状态顶条与徽章的 2×2 范围验收卡 |
+| [`meter.html`](./meter.html)         | **进度条与议题强度**     | 完成度、水位、议题强度分析                             |
 
 ### 4. 对比与决策
 

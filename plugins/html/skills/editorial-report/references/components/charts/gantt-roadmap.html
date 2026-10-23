@@ -1,34 +1,70 @@
-<!-- 模块：季度路线图与甘特排期 (Roadmap & Gantt Bar) -->
-<!-- 适用场景：季度规划、多团队并行排期、大项目里程碑进度甘特图 -->
+<!-- 模块：季度路线图与甘特排期 (Roadmap & Gantt Chart · Mermaid / Pele) -->
+<!-- 适用场景：季度规划、多团队并行排期、里程碑与封版基准线甘特图。写 Mermaid gantt 语法，由 Pele 渲染成 SVG，自动配齐顶部与底部时间标尺框、section 阶段分组泳道框、vert 贯穿竖线标记与胶囊标签框 -->
 <div class="gantt-box" data-component="gantt-roadmap">
   <div class="gantt-head">
-    <span class="gantt-title">QUARTERLY ROADMAP / 季度工程排期路线图</span>
-    <span class="gantt-meta">2026 Q3 · MONTHLY TRACKS</span>
-  </div>
-  <div class="gantt-grid">
-    <div class="gantt-timeline-header">
-      <span class="gantt-task-col">任务项目</span>
-      <span class="gantt-month">7月 (July)</span>
-      <span class="gantt-month">8月 (Aug)</span>
-      <span class="gantt-month">9月 (Sept)</span>
-    </div>
-    <div class="gantt-row">
-      <div class="gantt-task-title">01 · 插件市场架构拆分</div>
-      <div class="gantt-track-area">
-        <div class="gantt-bar done" style="left:0%; width:66%;">已完成 100%</div>
+    <div>
+      <span class="gantt-title">QUARTERLY ROADMAP / 季度工程排期路线图</span>
+      <div class="gantt-sub">
+        2026 Q3 · MILESTONES, PHASES &amp; FREEZE GATES
       </div>
     </div>
-    <div class="gantt-row">
-      <div class="gantt-task-title">02 · 研究特刊壳与组件库</div>
-      <div class="gantt-track-area">
-        <div class="gantt-bar active" style="left:33%; width:66%;">进行中 85%</div>
-      </div>
-    </div>
-    <div class="gantt-row">
-      <div class="gantt-task-title">03 · 全量业务服务推广</div>
-      <div class="gantt-track-area">
-        <div class="gantt-bar plan" style="left:66%; width:34%;">规划中</div>
-      </div>
+    <div class="gantt-legend">
+      <span class="gantt-legend-item"
+        ><span class="gantt-swatch done"></span>已完成</span
+      >
+      <span class="gantt-legend-item"
+        ><span class="gantt-swatch active"></span>进行中</span
+      >
+      <span class="gantt-legend-item"
+        ><span class="gantt-swatch crit"></span>关键路径</span
+      >
+      <span class="gantt-legend-item"
+        ><span class="gantt-swatch plan"></span>规划中</span
+      >
+      <span class="gantt-legend-item"
+        ><span class="gantt-swatch vert"></span>基准竖线</span
+      >
     </div>
   </div>
+  <div class="pele-view gantt-view">
+    <pre class="pele">
+gantt
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+    tickInterval 2week
+    topAxis
+    section 01 · 架构与契约底座
+    插件市场架构拆分         :done, t1, 2026-07-01, 2026-07-28
+    共享事实源与 Schema 冻结 :done, crit, t2, 2026-07-20, 2026-08-10
+    M1 契约冻结评审          :milestone, m1, 2026-08-10, 0d
+    section 02 · 特刊壳与组件库
+    双主题报告壳与双侧栏     :done, t3, 2026-08-05, 2026-08-26
+    64 类组件与 Pele 图表    :active, crit, t4, 2026-08-18, 2026-09-14
+    灰度封版基线             :vert, v1, 2026-09-01, 0d
+    section 03 · 推广与验收归档
+    移动端视口与打印巡检     :active, t5, 2026-09-05, 2026-09-22
+    全量业务线推广交付       :t6, 2026-09-15, 2026-09-30
+    Q3 正式发版              :vert, v2, 2026-09-28, 0d
+    </pre>
+  </div>
+  <details class="pele-source">
+    <summary>查看甘特图 Mermaid 源码</summary>
+    <pre><code>gantt
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+    tickInterval 2week
+    topAxis
+    section 01 · 架构与契约底座
+    插件市场架构拆分         :done, t1, 2026-07-01, 2026-07-28
+    共享事实源与 Schema 冻结 :done, crit, t2, 2026-07-20, 2026-08-10
+    M1 契约冻结评审          :milestone, m1, 2026-08-10, 0d
+    section 02 · 特刊壳与组件库
+    双主题报告壳与双侧栏     :done, t3, 2026-08-05, 2026-08-26
+    64 类组件与 Pele 图表    :active, crit, t4, 2026-08-18, 2026-09-14
+    灰度封版基线             :vert, v1, 2026-09-01, 0d
+    section 03 · 推广与验收归档
+    移动端视口与打印巡检     :active, t5, 2026-09-05, 2026-09-22
+    全量业务线推广交付       :t6, 2026-09-15, 2026-09-30
+    Q3 正式发版              :vert, v2, 2026-09-28, 0d</code></pre>
+  </details>
 </div>

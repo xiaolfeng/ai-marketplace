@@ -3,7 +3,7 @@ name: editorial-report
 description: 把周报、日报、月报、项目进展、复盘简报、指标简报等报告，从大纲、文案写到单文件 HTML 报告特刊（纸白墨蓝、深浅主题跟随系统，内置 60 余类组件）。用户说「写个报告」「出个周报 / 日报 / 月报」「进展汇报」「复盘简报」「HTML 报表」「做成报告页面」时使用。正文口吻沿用用户设定的角色，没有设定时用中性同事口吻。系统架构拓扑图走 architecture-diagram，手绘流程图走 excalidraw-diagram，会话逆向复盘走 replay。
 license: MIT
 metadata:
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # Editorial Report

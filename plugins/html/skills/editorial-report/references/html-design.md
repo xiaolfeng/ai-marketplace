@@ -114,41 +114,41 @@ UI 图标统一用内联 Lucide 线性图标：`<svg class="ic" viewBox="0 0 24 
 
 套壳时按内容取用。所有 class 与结构都由 `template.html` 原生支持。
 
-| 模块名称                     | HTML 结构 / 类名                                         | 适用场景                                                       |
-| ---------------------------- | -------------------------------------------------------- | -------------------------------------------------------------- |
-| **1. 封面**                  | `.hero` + `h1 .title-copy`                               | 刊头眉题、大标题、导语                                         |
-| **2. 大题图/横幅封面**       | `.hero.hero-banner`                                      | 年度大刊、技术调研、重大故障复盘顶部展板                       |
-| **3. 数据焦点型封面**        | `.hero.hero-metric`                                      | 以单一突破性大数字（99.99%、1.2M QPS）主导的汇报               |
-| **4. 核心判断匣**            | `.takeaway` / `.verdict`                                 | 一句话定调。放进 `.hero` 做封面右侧深色匣，或作通栏判断        |
-| **5. 事实条**                | `.glance` + `.glance-item`                               | 周报首屏（做成 / 卡住 / 下一步）                               |
-| **6. 章节头**                | `.block-head` + `.block-no`                              | `03 / 生产` 编号 + 大标题                                      |
-| **7. 多维指标看板**          | `.stat-grid` + `.stat-card`                              | KPI，含 `.stat-delta` 与 `.progress-track`                     |
-| **8. 进度与议题强度**        | `.meter-row` + `.meter`                                  | 议题强度、完成度分析（胶囊进度条）                             |
-| **9. SVG 柱状与条形图**      | `.chart-box` + `svg` (rect)                              | 耗时分布、调用量对比、资源占用分析                             |
-| **10. SVG 趋势折线与面积图** | `.chart-box` + `svg` (polyline/polygon)                  | QPS 变化曲线、错误率趋势、极值标注                             |
-| **11. SVG 环形占比分布图**   | `.donut-wrap` + `svg` (circle stroke)                    | 流量来源构成、错误分类占比                                     |
-| **12. 双栏方案对比**         | `.compare-grid` + `.compare-card`                        | A vs B，`.target` / `.after` 高亮推荐                          |
-| **13. 维度对比矩阵**         | `table.compare-table`                                    | 多方案表，`th.highlight` / `td.highlight`                      |
-| **14. 代码/配置 Diff 对照**  | `.diff-box` + `.diff-line.add/.del`                      | 配置文件变更、SQL 迁移、字段前后对比                           |
-| **15. 多维加权评分卡**       | `.scorecard-box` + `.scorecard-row`                      | 方案选型量化打分、技术评审矩阵                                 |
-| **16. 2x2 四象限决策矩阵**   | `.matrix-box` + `.quadrant-grid`                         | 收益/代价分析、风险与紧急度优先级排序                          |
-| **17. 状态提示框**           | `.callout`（`-info` / `-warn` / `-danger` / `-success`） | 发丝线圆角框 + 左侧 4px 色条；两栏说明用 `.callout.split-note` |
-| **18. 证据口径标签**         | `.label.confirmed/.reported/.inferred/.unknown`          | 已确认 / 媒体转述 / 技术反推 / 未知                            |
-| **19. 任务状态徽章**         | `.badge.badge-done/.badge-progress/...`                  | done / progress / warn / blocked / plan                        |
-| **20. 时间线与里程碑**       | `.timeline` + `.timeline-item`                           | 日期在左，圆点与标题首行共用 32px 中轴                         |
-| **21. 深底系统流程图**       | `.system-map` + `.flow` + `.node`                        | 最小可行流程推断、阶段与反馈回路                               |
-| **22. Pele 图表容器**        | `.pele-box` + `pre.pele`                                 | Mermaid 语法文本由 Pele 渲染成 SVG，源码折叠                   |
-| **23. 目录拓扑与架构树**     | `.file-tree-box` + `pre`                                 | 等宽字符目录树、增删改注释                                     |
-| **24. 左右分栏**             | `.split` + 2 个 `.block`                                 | 1.2fr 主叙述 + 0.8fr 侧注                                      |
-| **25. 引述**                 | `.quote`                                                 | 左侧色条金句                                                   |
-| **26. 干系人职责卡**         | `.personnel-grid` + `.personnel-card`                    | 负责人、Reviewer、SRE 团队职责卡                               |
-| **27. 物料与截图画廊**       | `.gallery-wrap` + `.gallery-grid`                        | 2 列 / 3 列截图展位与说明                                      |
-| **28. 圆点事实清单**         | `ul.bits`                                                | 并列事实要点                                                   |
-| **29. 等宽序号步骤**         | `ol.steps`                                               | 有依赖的有序行动计划                                           |
-| **30. 自适应数据表**         | `.table-wrap` + `table.data`                             | 手机端用 `data-label` 叠成卡片                                 |
-| **31. 代码块**               | `.code-block`                                            | 配置、命令调用示例                                             |
-| **32. 可折叠技术附录**       | `details.details-collapse`                               | 详细日志、DDL、排障记录折叠                                    |
-| **33. 未决事项**             | `.open`                                                  | 虚线框收录待决（没有未决就整段省略）                           |
+| 模块名称                     | HTML 结构 / 类名                                           | 适用场景                                                       |
+| ---------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------- |
+| **1. 封面**                  | `.hero` + `h1 .title-copy`                                 | 刊头眉题、大标题、导语                                         |
+| **2. 大题图/横幅封面**       | `.hero.hero-banner`                                        | 年度大刊、技术调研、重大故障复盘顶部展板                       |
+| **3. 数据焦点型封面**        | `.hero.hero-metric`                                        | 以单一突破性大数字（99.99%、1.2M QPS）主导的汇报               |
+| **4. 核心判断匣**            | `.takeaway` / `.verdict`                                   | 一句话定调。放进 `.hero` 做封面右侧深色匣，或作通栏判断        |
+| **5. 事实条**                | `.glance` + `.glance-item`                                 | 周报首屏（做成 / 卡住 / 下一步）                               |
+| **6. 章节头**                | `.block-head` + `.block-no`                                | `03 / 生产` 编号 + 大标题                                      |
+| **7. 多维指标与范围验收卡**  | `.stat-grid` + `.stat-card`（`.card-pass/.card-warn/...`） | KPI 大数字看板，或带 `Tag + 标题 + 状态 Badge` 的范围验收矩阵  |
+| **8. 进度与议题强度**        | `.meter-row` + `.meter`                                    | 议题强度、完成度分析（胶囊进度条）                             |
+| **9. SVG 柱状与条形图**      | `.chart-box` + `svg` (rect)                                | 耗时分布、调用量对比、资源占用分析                             |
+| **10. SVG 趋势折线与面积图** | `.chart-box` + `svg` (polyline/polygon)                    | QPS 变化曲线、错误率趋势、极值标注                             |
+| **11. SVG 环形占比分布图**   | `.donut-wrap` + `svg` (circle stroke)                      | 流量来源构成、错误分类占比                                     |
+| **12. 双栏方案对比**         | `.compare-grid` + `.compare-card`                          | A vs B，`.target` / `.after` 高亮推荐                          |
+| **13. 维度对比矩阵**         | `table.compare-table`                                      | 多方案表，`th.highlight` / `td.highlight`                      |
+| **14. 代码/配置 Diff 对照**  | `.diff-box` + `.diff-line.add/.del`                        | 配置文件变更、SQL 迁移、字段前后对比                           |
+| **15. 多维加权评分卡**       | `.scorecard-box` + `.scorecard-row`                        | 方案选型量化打分、技术评审矩阵                                 |
+| **16. 2x2 四象限决策矩阵**   | `.matrix-box` + `.quadrant-grid`                           | 收益/代价分析、风险与紧急度优先级排序                          |
+| **17. 状态提示框**           | `.callout`（`-info` / `-warn` / `-danger` / `-success`）   | 发丝线圆角框 + 左侧 4px 色条；两栏说明用 `.callout.split-note` |
+| **18. 证据口径标签**         | `.label.confirmed/.reported/.inferred/.unknown`            | 已确认 / 媒体转述 / 技术反推 / 未知                            |
+| **19. 任务状态徽章**         | `.badge.badge-done/.badge-progress/...`                    | done / progress / warn / blocked / plan                        |
+| **20. 时间线与里程碑**       | `.timeline` + `.timeline-item`                             | 日期在左，圆点与标题首行共用 32px 中轴                         |
+| **21. 深底系统流程图**       | `.system-map` + `.flow` + `.node`                          | 最小可行流程推断、阶段与反馈回路                               |
+| **22. Pele 图表容器**        | `.pele-box` + `pre.pele`                                   | Mermaid 语法文本由 Pele 渲染成 SVG，源码折叠                   |
+| **23. 目录拓扑与架构树**     | `.file-tree-box` + `pre`                                   | 等宽字符目录树、增删改注释                                     |
+| **24. 左右分栏**             | `.split` + 2 个 `.block`                                   | 1.2fr 主叙述 + 0.8fr 侧注                                      |
+| **25. 引述**                 | `.quote`                                                   | 左侧色条金句                                                   |
+| **26. 干系人职责卡**         | `.personnel-grid` + `.personnel-card`                      | 负责人、Reviewer、SRE 团队职责卡                               |
+| **27. 物料与截图画廊**       | `.gallery-wrap` + `.gallery-grid`                          | 2 列 / 3 列截图展位与说明                                      |
+| **28. 圆点事实清单**         | `ul.bits`                                                  | 并列事实要点                                                   |
+| **29. 等宽序号步骤**         | `ol.steps`                                                 | 有依赖的有序行动计划                                           |
+| **30. 自适应数据表**         | `.table-wrap` + `table.data`                               | 手机端用 `data-label` 叠成卡片                                 |
+| **31. 代码块**               | `.code-block`                                              | 配置、命令调用示例                                             |
+| **32. 可折叠技术附录**       | `details.details-collapse`                                 | 详细日志、DDL、排障记录折叠                                    |
+| **33. 未决事项**             | `.open`                                                    | 虚线框收录待决（没有未决就整段省略）                           |
 
 另外 30 余类扩展组件（故障头、5 Whys、看板、风险登记、FAQ 等）见 [`components/README.md`](./components/README.md)；图表类组件（含甘特、2x2 矩阵、Pele 容器）统一在 [`components/charts/`](./components/charts/)。
 
