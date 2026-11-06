@@ -47,10 +47,10 @@ ai-marketplace/
 | [engineering-design](./plugins/engineering-design/) | 工程文档与实施计划管理：`docs/engineering/` 四模式 + 同级 `docs/plan/` 实施计划 + `docs-init` / `docs-adventure-init`（`reader` + `develop`）+ `docs-clean` + `docs-move`        | 0.2.0 |
 | [research](./plugins/research/)                     | 双模式调研工作流：常规收集对比 + 对抗性辩论终审产出三要素报告                                                                                                                    | 0.0.2 |
 | [charm](./plugins/charm/)                           | 魅力文学：书面文本去 AI 腔 + 对话语感活人化的双技能人文风格改造                                                                                                                  | 0.0.1 |
-| [html](./plugins/html/)                             | HTML 视觉、图表与报告套件：高保真系统架构拓扑图、Excalidraw 手绘白板图表，以及大纲到文案到单文件 HTML 的报告特刊（双侧栏合集导航与本文目录，图表类组件独立归组），双主题跟随系统 | 0.3.2 |
+| [html](./plugins/html/) | 系统架构拓扑、Excalidraw 手绘白板与受限 XSU 报告特刊：先大纲和文案，再固定渲染 HTML；默认离线、双主题与双侧栏 | 0.4.0 |
 | [bug](./plugins/bug/)                               | 缺陷工作流：质量缺陷发现、授权范围内的安全审查、按根因落地最小修复                                                                                                               | 0.0.1 |
 | [agent-studio](./plugins/agent-studio/)             | 个人全局 Agent 体系构建：分支问答、真实模型选择与用途记录，生成可独立使用的 Agent/Workflow                                                                                       | 0.0.2 |
-| [replay](./plugins/replay/)                         | 逆向复盘与因果走读：从终局倒推「先看什么→为什么看→做了什么→引申到哪」，自己看的大白话版与对外发布的正式版各提供 Markdown 与 HTML 两种格式，两套 HTML 模板组件化并支持 Pele 图表  | 0.2.0 |
+| [replay](./plugins/replay/) | 逆向复盘与因果走读：Self/Public 各有 Markdown 与 HTML；HTML 采用受限 XSU 固定渲染，默认离线，Markdown 保持直接写作入口 | 0.3.0 |
 
 ## ➕ 如何添加插件
 

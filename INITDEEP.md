@@ -22,6 +22,7 @@ ai-marketplace/
 ├── .claude-plugin/marketplace.json   # 市场清单（单一事实源）
 ├── plugins/<plugin-name>/            # 插件源码（manifest 位于各自 .claude-plugin/plugin.json）
 ├── scripts/build-cursor-manifest.mjs # Cursor 清单导出器（--check 供 CI 校验）
+├── scripts/xsu/                      # XSU 编译器、三个预设、独立分发构建与回归测试
 ├── dist/cursor/                      # Cursor 清单导出产物，随仓库分发（dist/ 其余内容不入库）
 ├── docs/                             # 工程研发文档（engineering/ 四模式 + MAINTENANCE.md）、实施计划（plan/）+ scope 词表
 └── .github/workflows/validate.yml    # CI：三道门校验（validate / 发现检查 / 导出核对）
@@ -44,6 +45,7 @@ ai-marketplace/
 | 清单源 | `.claude-plugin/marketplace.json`                    | 唯一手写的市场索引                   |
 | 插件层 | `plugins/<name>/`                                    | 九个独立插件，互不依赖代码           |
 | 导出层 | `scripts/build-cursor-manifest.mjs` → `dist/cursor/` | 源清单字段透传为 Cursor 格式         |
+| 渲染层 | `scripts/xsu/` → 三技能内 `scripts/xsu.mjs` | 受限 `.xsu` 编译、组件装配与受控分发 |
 | 文档层 | `docs/`（`engineering/` + `plan/`）                  | scope 总账、工程四模式文档与实施计划 |
 
 ## 代码地图
@@ -51,13 +53,15 @@ ai-marketplace/
 | 符号               | 类型 | 位置                                | 作用                                      |
 | ------------------ | ---- | ----------------------------------- | ----------------------------------------- |
 | `toCursorManifest` | 函数 | `scripts/build-cursor-manifest.mjs` | Claude 条目按白名单字段透传为 Cursor 清单 |
+| `compileFile` / `writeHtmlAtomic` | 函数 | `scripts/xsu/compiler.mjs` | 确定性装配、资源保护与原子输出；开发说明见 [`scripts/xsu/README.md`](./scripts/xsu/README.md) |
 
 ## 独特风格
 
 - **分发兼容统一清单**：支持新安装平台时优先扩展导出脚本，不新增第二份手写清单；
   Agent Studio 的原生代理生成另有宿主适配契约，见插件目录。
-- **`dist/cursor/` 是唯一入库的生成物**：让无 Node 环境的消费方也能读到最新清单，
+- **受控生成物随分发入库**：让无 Node 环境的消费方也能读到最新清单，
   因此改动清单后必须重新构建并随同提交，否则仓库分发的就是过期数据。
+- **XSU 技能内分发例外**：`scripts/xsu/` 是编译器开发源；三个 HTML 技能内的 `scripts/xsu.mjs` 和本地参考副本是构建生成的独立安装资源，随插件入库，禁止手改，由 `npm run build` / `npm run check` 检查漂移。
 
 ## 约定
 

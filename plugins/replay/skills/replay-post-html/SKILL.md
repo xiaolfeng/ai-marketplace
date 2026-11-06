@@ -1,70 +1,56 @@
 ---
 name: replay-post-html
 description: >
-  对外发布的正式版 HTML 翻页复盘报告（/replay-post-html）。当用户说「做一个能发出去的复盘页面」「对外版复盘网页」
-  「写成正式报告那样可以翻页的复盘」「Postmortem 网页」「给团队/老板/其他组看的复盘页」「replay-post-html」，
-  或需要把一段长会话、跨仓变更、排障演练整理成可直接分享链接或打印成 PDF 的正式复盘页时使用。
-  产出单文件离线 HTML，一页一节翻页阅读：封面（标题导语、TL;DR、影响数字）→ 背景 → 时间线 → 过程详述（每阶段一页）
-  → 关键决策（含备选方案）→ 常见问题 → 现状、后续与经验，附目录抽屉、键盘翻页、深浅主题、本页链接、Markdown 导出与打印，
-  发布前按脱敏清单处理人名与内部信息。
-  自己看的交互式步进页转交 replay-html；只要 Markdown 正式报告转交 replay-post-md；事前方案设计走 engineering-design。
+  对外发布的正式版 HTML 翻页复盘报告（/replay-post-html）。当用户说「做一个能发出去的复盘页面」「对外版复盘网页」「给团队/老板看的复盘页」「Postmortem 网页」「replay-post-html」时使用。
+  从长会话、跨仓变更或复杂排障材料逆向提炼因果链，AI 写受限 XSU，脚本渲染单文件 HTML，默认离线。
+  一页一节，封面即结论，含摘要、影响、时间线、决策、FAQ、后续与经验，发布前必须确认受众、署名与脱敏。自己看的步进页转 replay-html；只要 Markdown 转 replay-post-md。
+metadata:
+  version: "0.3.0"
 ---
 
 # Replay Post HTML —— 对外发布的翻页复盘报告
 
-自己看的复盘重在「带我走出迷雾」，对外的复盘重在「让没参与的人快速看懂结论，并相信这些结论」。本技能复用同一套逆向拆解结果，把它排成一份**可以一页一页翻看的单文件 HTML 正式报告**：交互骨架与自己看的 `replay-html` 一致（一页一节、底栏翻页、目录抽屉、键盘 `←` / `→`），视觉与口吻换成克制的报告风格。读者在封面就能读完 TL;DR 与影响数字，再按需往后翻到时间线、过程与决策。
-
-口吻与脱敏按 [../_shared/audience-voice.md](../_shared/audience-voice.md) 的 Post 一节执行：团队视角、结论先行、不渲染情绪、决策写出备选方案。
-
-四个复盘技能的分工：
-
-| 读者 \ 格式 | Markdown                                     | HTML                                   |
-| ----------- | -------------------------------------------- | -------------------------------------- |
-| 自己看      | [replay-md](../replay-md/SKILL.md)           | [replay-html](../replay-html/SKILL.md) |
-| 对外发布    | [replay-post-md](../replay-post-md/SKILL.md) | **replay-post-html（本技能）**         |
+让没参与的人快速看懂结论与证据：团队视角、结论先行、决策写清备选方案。先事实与因果大纲，再写文案，最后由 AI 写 `replay.xsu`，技能自带编译器装配固定页面。AI 不手写或修改生成的 HTML、CSS、JS，也不手工替换 #replay-data JSON。
 
 ## 资源地图
 
-| 资源                                | 位置                                                                   |
-| ----------------------------------- | ---------------------------------------------------------------------- |
-| 逆向拆解与噪音折叠方法论            | [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md) |
-| 步进数据契约与 `publication` 发布块 | [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md)     |
-| 对外口吻与发布前脱敏清单            | [../_shared/audience-voice.md](../_shared/audience-voice.md)           |
-| 翻页版式、交互与视觉规范            | [references/post-html-spec.md](references/post-html-spec.md)           |
-| 单文件 HTML 起手模板（数据驱动）    | [references/template.html](references/template.html)                   |
-| 完整示例（订单服务对外复盘报告）    | [examples/example.html](examples/example.html)                         |
+必读内容全部在本技能内；独立安装不依赖兄弟目录。正常创作无需全文读取数千行模板。
 
-## 铁律
+| 资源                         | 位置                                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 逆向拆解与噪音折叠           | [reverse-methodology.md](references/xsu-shared/reverse-methodology.md)                                                          |
+| 五要素与领域契约             | [step-chain-schema.md](references/xsu-shared/step-chain-schema.md)                                                              |
+| Post 口吻与脱敏清单          | [audience-voice.md](references/xsu-shared/audience-voice.md)                                                                    |
+| XSU 语法、当前预设组件与 CLI | [xsu.md](references/xsu.md)、[可编译示例](examples/example.xsu)；运行 `components --preset replay-public` 查精确属性            |
+| 页面结构与交互验收           | [post-html-spec.md](references/post-html-spec.md)                                                                               |
+| 旧视觉组件目录               | [components/README.md](references/components/README.md)、[example.html](examples/example.html)，只作 catalog 参考，不是每篇正文 |
 
-1. **先逆向收敛，再改写口吻。** 拆解阶段与自己看的版本完全一致；落笔时所有字段改为第三人称或团队视角，不出现「你拍板」「我懵了」以及 AI 与用户之间的对话细节。
-2. **结论先行。** `publication.tldr` 最多 3 条，每条都能单独转发；`publication.headline` 写「结果 + 关键转折」，不写成流水标题。
-3. **数字与事实为准。** `publication.impact` 只放有真实数据的指标；未完成项照实写进 `endState.pendingHandoffs`，不写成「已就绪」。
-4. **决策要有备选。** `publication.decisions` 每条必须给出 `options`、`choice` 与 `rationale`，`choice` 与其中一个选项一字不差，页面据此标记「采纳 / 未采纳」。
-5. **发布前必须脱敏。** 逐条执行 [../_shared/audience-voice.md](../_shared/audience-voice.md) 的脱敏清单，并把处理结果写进 `publication.redactionNote`；作者署名由用户确认，不擅自写真实姓名。
-6. **单文件离线可用。** 只替换模板中的 `#replay-data` JSON 与 `<title>`，不引用外部字体、脚本或数据。
+兄弟技能仅为可选路由跳转，不是本技能必读依赖：[自己看 Markdown](../replay-md/SKILL.md)、[自己看 HTML](../replay-html/SKILL.md)、[对外 Markdown](../replay-post-md/SKILL.md)、[对外 HTML](../replay-post-html/SKILL.md)。两份 Markdown 技能保持直接写作入口，不要求先写 XSU 或安装 Node。
 
 ## 执行步骤
 
-### 1. 拆解与确认读者
+1. **收材料与倒推因果**：按本地方法论盘点终局账单、初始目标、追问与撤回；折叠试错噪音，形成有首尾咬合的因果大纲，而非工具日志摘要。通常 5–9 步，但不为凑数虚构事实。
+2. **确认发布边界并写文案**：先确认受众（组内 / 跨组 / 管理者 / 公开）、可公开范围与署名，按 Post 脱敏清单改写全部字段。记录 redactionNote，不擅自声明署名已获确认；影响数字须有证据，未完成项留在待办。大纲与文案可落盘留审阅记录，不能跳过事实核验直接拼网页。
+3. **编写 XSU**：参照本地语法、当前预设组件目录与 example.xsu，根使用 `Replay`，preset 固定为 `replay-public`。后续以 XSU 为可编译事实源；重新评审文案时同步源文件后重渲染。每步恰好一个 LookAt、Why、Actions、Insight、Handoff，按需追加 Evidence。只使用 Replay 领域组件，不混入 Report/Section/Grid/Markdown 等 editorial 通用组件。
+4. **校验与渲染**：`<skill-dir>` 替换为本技能安装目录；从任意目录可运行，输入输出路径相对当前工作目录，产物不写进技能目录。
 
-1. 按 [../_shared/reverse-methodology.md](../_shared/reverse-methodology.md) 盘点终局、逆向追因、折叠噪音，得到 5–9 个阶段；
-2. 向用户确认两件事：**读者是谁**（团队内部其他组 / 管理者 / 公开社区），以及**署名与可公开范围**；读者越外部，脱敏越严格。
+   ```bash
+   node <skill-dir>/scripts/xsu.mjs components --preset replay-public
+   node <skill-dir>/scripts/xsu.mjs validate replay.xsu
+   node <skill-dir>/scripts/xsu.mjs render replay.xsu --out index.html
+   node <skill-dir>/scripts/xsu.mjs render replay.xsu --out index.html --check
+   ```
 
-### 2. 组织数据
+5. **实际验收并交付**：核对每步事实与 Handoff 因果，打开 HTML 检查主题、390px 宽度、键盘与按钮、目录、hash 定位、证据、Markdown 与打印导出。逐条检查 TL;DR、影响数字出处、决策 choice 精确命中 options，全文脱敏；编译成功不等于获得发布授权。交付 XSU 与 HTML 路径，并如实列出执行过和未执行的验证。
 
-1. 按 [../_shared/step-chain-schema.md](../_shared/step-chain-schema.md) 写核心字段，`steps` 用正式口吻；`confusionMatrix` 作为「常见问题」；
-2. 追加 `publication`：`headline`、`dek`、`authors`、`readingTime`、`tldr`、`impact`、`timeline`（`stepRef` 指向步骤）、`decisions`、`lessons`、`redactionNote`；
-3. 跑一遍脱敏清单，把人名改成角色、内部域名改成占位、删除凭据与群聊原文。
+## 领域与运行边界
 
-### 3. 注入模板
-
-1. 复制 [references/template.html](references/template.html)，把 JSON 写入 `#replay-data`（`</script>` 写成 `<\/script>`）；
-2. `<title>` 改为「〈headline〉 · 工程复盘」。
-
-### 4. 交付检查
-
-- [ ] 打开后封面、TL;DR 与影响数字正常渲染，控制台无报错？
-- [ ] 底栏翻页、每页末尾「继续：…」按钮、键盘 `←` / `→`、目录抽屉都能切换；时间线条目能翻到对应章节页？
-- [ ] 全文没有「你」「我懵了」「猛猛」「铁证」等 Self 口吻，没有真实人名、内部域名与凭据？
-- [ ] 每个决策都有备选方案与理由，影响数字都能在过程章节中找到出处？
-- [ ] 深浅主题、复制本页链接（`#cover`、`#step-3`、`#decisions` 等）、导出 Markdown 与打印（每页一张、证据完整展开）均可用？
+- `Handoff.next` 必须精确等于紧接下一步的稳定 ID，末步为保留终点 `end`；hook 解释「发现 X，所以必须看 Y」。编译器检查引用，不证明因果叙事真实。
+- 根下 Context、Actors、Questions、EndState 各一份；Questions 的 items 可空。Publication 必须有受众、已确认署名标志与脱敏记录，禁止带 Glossary 或私人笔记字段。不能只改 preset 就把私稿当发布稿。
+- 渲染需 **Node >=18**，零第三方 npm 运行依赖；浏览器看生成页无需 Node、本地服务或外部 JSON。
+- 默认 `--network offline`，不加载外部字体、脚本或数据。Evidence(kind: "diagram") 的 Pele/Mermaid 图表需显式 `--network connected`；否则拒绝，不静默联网或丢图。
+- connected 按需加载锁定版本的远程 Pele，不等于全离线或供应链安全证明；不支持任意 Mermaid、HTML 标签、交互链接或初始化指令，详见 xsu.md。加载失败保留可读源码与失败状态。
+- 主题根 props 用 `theme: "system" | "light" | "dark"`（默认 system），不手改生成页 data-theme。
+- validate/render 支持 `--warnings-as-errors` 与 `--diagnostics-json <new-file>`（只新建，不覆盖报告）；`render --check` 只比对，`--force` 仅放开人工输出覆盖、不绕过输入或安全保护。
+- 旧 Replay JSON 用 `migrate-replay legacy.json --out replay.xsu` 显式迁移，再审阅、validate、render；不扫描或执行旧 HTML，也不把迁移当作自动脱敏。
+- 视觉组件不足先报告能力缺口；禁止复制片段、改模板或追加样式适配单篇文案。未执行的截图、安全、覆盖与交互测试不能写成已通过。

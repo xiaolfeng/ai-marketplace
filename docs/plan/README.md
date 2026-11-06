@@ -6,6 +6,7 @@
 
 | 编号 | 计划 | Scope | 状态（`draft` / `ready` / `in-progress`） |
 | ---- | ---- | ----- | ----------------------------------------- |
+| 0001 | [XSU 编译器与三预设实施计划](./0001-skill-xsu-compiler.md) | `skill` | `in-progress` |
 
 ## 已归档计划（`docs/plan/archive/`）
 

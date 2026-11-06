@@ -1,0 +1,26 @@
+// 协议演示，不是本仓库的开发事实或运行结果。可在 offline 模式独立编译。
+Replay({ xsuVersion: 1, id: "sample-self", preset: "replay-self", title: "示例：配置与运行结果为什么不同", date: "2026-11-06", theme: "system", subtitle: "虚构的练习材料，只说明阅读方法。", status: "示例 · 未连接实际系统" }, [
+  Context({ originGoal: "在虚构练习中确认开关为什么没有生效。", whyConfusing: "示例提交记录与部署配置描述了不同层面的状态。", readingGuide: "先看示例配置，再看隔离测试；不要把示例当作项目结论。" }),
+  Actors({ items: [{ name: "练习服务", role: "虚构模块", detail: "只用于演示，没有访问任何真实环境。" }] }),
+  ReplayStep({ id: "inspect-config", title: "核对示例配置", phase: "定位", summary: "先区分代码默认值与部署值。", status: "completed" }, [
+    LookAt({ target: "练习配置", anchors: ["example/config.env:1"] }),
+    Why("只有知道进程读取哪个开关，才能解释示例现象。"),
+    Actions({ items: [{ type: "discovery", label: "区分两个来源", detail: "练习配置写着关闭，与代码默认值不同。" }] }),
+    Insight({ myth: "默认值开启就代表部署一定开启。", reality: "部署配置可以覆盖默认值。" }),
+    Handoff({ next: "check-result", hook: "配置来源已明确，接着需要隔离测试验证覆盖规则。" }),
+    Evidence({ kind: "code", title: "示例配置，不是实际配置", content: "FEATURE_ENABLED=false" }),
+    Evidence({ kind: "quote", title: "虚构问题", content: "默认值不是已经开启了吗？" })
+  ]),
+  ReplayStep({ id: "check-result", title: "检查隔离测试", phase: "验证", summary: "用练习输入说明覆盖关系，不声称运行真实回归。", status: "decision" }, [
+    LookAt({ target: "练习测试结果", anchors: ["example/config.test:8"] }),
+    Why("配置值与最终行为之间还需要可重复的验证。"),
+    Actions({ items: [{ type: "action", label: "给出练习断言", detail: "示例断言要求显式 false 覆盖默认 true；这里仅展示数据。" }, { type: "sync", label: "标明边界", detail: "实际环境验证留给维护者，不把示例输出冒充实测。" }] }),
+    Insight({ myth: "看懂示例等于真实环境已经验证。", reality: "真实验证仍需要在对应版本与环境执行。" }),
+    Handoff({ next: "end", hook: "练习因果链已说明，终点保留真实验证的待办。" }),
+    Evidence({ kind: "command", title: "示例命令文本，未执行", content: "node example/config.test.mjs" }),
+    Evidence({ kind: "table", title: "练习输入输出", content: "default=true | override=false | expected=false" })
+  ]),
+  EndState({ completedItems: [{ item: "说明配置覆盖关系", ref: "示例材料", note: "仅完成叙事演示" }], pendingHandoffs: [{ task: "核对实际部署与回归", owner: "使用本示例的维护者", when: "有真实环境与授权后" }] }),
+  Questions({ items: [{ question: "这是不是项目已经修复？", shortAnswer: "不是，这是协议示例。", deepExplanation: "示例没有访问系统、执行命令或修改部署，不能据此推断项目状态。" }] }),
+  Glossary({ items: [{ term: "部署配置", plain: "服务启动时实际读取的一组设置。" }, { term: "默认值", plain: "没有显式设置时采用的预设。" }, { term: "覆盖", plain: "让更具体的设置替换预设。" }, { term: "隔离测试", plain: "不连接真实系统、只验证一小段行为的练习。" }, { term: "断言", plain: "明确写出预期结果，再检查是否一致。" }, { term: "回归", plain: "修改后重查原有行为有没有被破坏。" }] })
+])

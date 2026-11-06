@@ -117,8 +117,8 @@
     {
       "name": "html",
       "source": "./plugins/html",
-      "description": "HTML 视觉、图表与报告套件：高保真系统架构拓扑图、Excalidraw 手绘白板流程图，以及从大纲到文案再到单文件 HTML 的报告特刊（双侧栏：合集导航与本文目录），双主题跟随系统，告别 AI 模板腔",
-      "version": "0.3.2",
+      "description": "HTML 视觉、图表与报告套件：系统架构拓扑图、Excalidraw 手绘白板，以及先大纲和文案、再以受限 XSU 确定性渲染的单文件报告特刊；固定双主题与双侧栏，默认离线，Pele 图表须显式联网",
+      "version": "0.4.0",
       "keywords": [
         "architecture",
         "diagram",
@@ -195,8 +195,8 @@
     {
       "name": "replay",
       "source": "./plugins/replay",
-      "description": "复盘工作流：当 AI 在长对话或多轮自动执行中产出了大量动作而用户陷入信息过载时，逆向拆解「先看什么 → 为什么看 → 做了什么 → 引申到哪里」的因果链路，按读者与格式提供四个技能——自己看的大白话版 replay-md（Markdown 走读手册）与 replay-html（暖纸笔记本式步进页），对外发布的正式版 replay-post-md（Markdown 复盘报告）与 replay-post-html（翻页式正式报告）",
-      "version": "0.2.0",
+      "description": "逆向复盘与因果走读：自己看与对外发布各提供 Markdown/HTML；HTML 先事实、大纲、文案再写受限 XSU，由独立脚本渲染固定步进页或翻页报告，默认离线，Pele 图表须显式联网；Markdown 保持直接写作入口",
+      "version": "0.3.0",
       "keywords": [
         "replay",
         "retrospective",

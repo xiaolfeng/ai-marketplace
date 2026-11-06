@@ -1,6 +1,6 @@
 # 报告视觉规范
 
-报告视觉只有这一个入口。正式报告复制 [`template.html`](./template.html)，要看全部组件、状态变体和响应式结构就打开 [`../examples/example.html`](../examples/example.html)。改颜色、字体、间距和组件只改这两处，改完同步 example，不要在单篇报告里另写一套皮肤。
+报告视觉由受版本管理的模板与组件渲染器提供。默认作者入口为 [XSU 语法](xsu.md) → [example.xsu](../examples/example.xsu) → `validate/render`；无需全文读取模板，禁止复制模板填槽或手改生成的 HTML/CSS/JS。下文 token、class 和 HTML 骨架用于视觉选型与维护者参考，不是单篇报告的手写 API。[旧 example.html](../examples/example.html) 仍是全量视觉组件目录，不等于每篇正文或全部 XSU API。
 
 ## 这是什么
 
@@ -10,13 +10,7 @@
 
 ## 主题
 
-| 情况                                       | 结果                                |
-| ------------------------------------------ | ----------------------------------- |
-| 页面没写 `data-theme`（模板默认）          | 跟随系统深浅色，系统切换时实时同步  |
-| 用户点了右上角「浅色 / 深色」              | 以手动选择为准，写入 `localStorage` |
-| 作者在 `<html>` 上写了 `data-theme="dark"` | 用这个值作默认，用户仍可手动切换    |
-
-只有用户说投屏、深色展示时，才在 `<html>` 上写 `data-theme="dark"`；其余情况一律不写，让页面跟随系统。主题在首帧前由 `<head>` 里的内联脚本确定，不会闪烁。演示页加 `data-demo`，不读写 `localStorage`。主题颜色必须一次切完，不要给 `body` 的背景或正文颜色加 transition，否则切换途中会出现灰底浅字。
+XSU 根 props 用 `theme: "system"`（默认）、`"light"` 或 `"dark"`。除用户明确要求外保持 system；读者手动选择由固定运行时持久化。不手改 HTML 的 data-theme。维护者保证主题首帧、存储失败降级与深浅色对比；不要用背景色过渡制造短暂低对比。
 
 ## 颜色
 
@@ -78,7 +72,7 @@
 - 封面标题 `clamp(2.35rem … 4.6rem)`，字距 -0.03em，行高 1.08；
 - 开启 `font-synthesis: none` 与 `line-break: strict`，标题 `text-wrap: balance`，正文 `pretty`。
 
-不引用任何外部 Web 字体。唯一的外部脚本是 Pele（obsidianmd/pele，锁定 `pele@1.6.0` 的 `pele.global.js`），页面里出现 `pre.pele` 才按需加载；图表文本用 Mermaid 语法，渲染同步、零依赖，主题全部走 `--pele-*` CSS 变量（绑定模板 token），深浅切换即时生效。
+不引用外部 Web 字体。XSU 默认 `--network offline`，禁止外部字体、脚本、JSON 请求与导航热刷新，图表优先原生 SVG 组件。Pele/Mermaid 仅显式 `--network connected` 时按需加载锁定的 Pele 1.6.0，离线遇到该能力应报错，不静默丢图。connected 不宣称全离线、完整 Mermaid 兼容或供应链安全保证；拒绝 HTML、交互链接与初始化指令，失败保留可读源码，详见 [XSU 参考](xsu.md)。
 
 ## 二次元点缀
 
@@ -105,14 +99,14 @@ UI 图标统一用内联 Lucide 线性图标：`<svg class="ic" viewBox="0 0 24 
 - 基于 `template.html`，包含封面、判断匣、事实条和下表全部组件；
 - 业务正文全部是 `【替换：…】` 占位，不代表任何项目事实；
 - 同时展示状态变体、移动端 `data-label`、进度宽度和双主题切换；
-- 正式产物仍然从 `template.html` 复制，按事实删掉用不到的模块，不要把 example 整页当成每篇报告的固定结构；
-- 模板或组件样式有变化时，同步更新并验证 example，避免参考模板跑偏。
+- 正式产物由 `report.xsu` 经技能自带编译器生成，按事实选择组件，不把 example 整页当成固定正文；
+- 模板、组件样式与旧 catalog 由维护者同步验证；作者不为单篇报告修改这些资源。
 
 单个组件的最小片段在 [`components/`](./components/README.md)。
 
 ## 模块清单
 
-套壳时按内容取用。所有 class 与结构都由 `template.html` 原生支持。
+以下是旧模板视觉模块目录，供按内容选型和维护参考。作者只使用 `components --preset editorial` 当前注册的 XSU 组件；未映射的变体不能凭本表手写 HTML 绕过。
 
 | 模块名称                     | HTML 结构 / 类名                                           | 适用场景                                                       |
 | ---------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------- |
@@ -154,7 +148,7 @@ UI 图标统一用内联 Lucide 线性图标：`<svg class="ic" viewBox="0 0 24 
 
 ## 封面结构
 
-默认封面是单栏标题。要做「左侧大标题 + 右侧核心判断」，把 `.takeaway` 放进 `.hero`：
+默认封面是单栏标题。作者使用 Cover 与允许的子组件组合；以下为维护者理解旧视觉结构的示意，不复制到生成页：
 
 ```html
 <header class="hero">
@@ -174,7 +168,7 @@ UI 图标统一用内联 Lucide 线性图标：`<svg class="ic" viewBox="0 0 24 
 
 模板自带左右两条侧栏，都是「有数据才出现」的渐进增强，不需要在报告里写任何触发代码：
 
-- **左侧 `.rail-nav` 文档集导航**：同一目录下多篇报告组成合集时互相跳转。数据源是合集根目录共享的 `report-nav.json`（结构、层级与同步工作流见 [`report-nav.md`](./report-nav.md)）：页面内嵌一份快照（`#report-nav-data`），由 `scripts/sync-nav.mjs` 注入并回填 `data-src`；经 `http(s)` 访问时页面会按 `data-src` 热刷新，快照滞后也能自动追平。当前页自动高亮并生成「上一篇 / 下一篇」。单篇报告的槽位保持 `{}`，左栏不出现；
+- **左侧 `.rail-nav` 文档集导航**：新 XSU 页面用 `render source.xsu --out index.html --nav <report-nav.json>` 派生内嵌快照，导航修改后重渲染；默认 offline 不热刷新，双击仍可使用快照。仅旧 HTML 用 sync-nav 注入，旧页面经 HTTP 的刷新行为不代表新页允许默认联网。当前页与上下篇由同一导航源计算，单篇不传 --nav；
 - **右侧 `.rail-toc` 本文目录**：嵌套在 `.sheet-body` 内与 `<main>` 正文并排（刊头 `.top`、封面 `.hero` 与事实条 `.glance` 保持通栏），采用无框页边导轨边注样式（连续左侧发丝线 + 2px 蓝色激活滑块 + 章节编号与 h2/h3 树状嵌套缩进），不足 3 条不出现；随页面滚动 `sticky` 吸附并支持内部独立滑动，随正文结束自然滚走，点击后如目标在折叠的 `details` 里会自动展开；
 - **断点**：≥1240px 左栏固定常驻、右栏在 `<main>` 旁 Sticky 浮动嵌套；以下收进刊头按钮组（与主题切换器同语言），点开为抽屉，Esc / 遮罩 / 跳转链接均可关闭；打印时侧栏与抽屉隐藏。
 

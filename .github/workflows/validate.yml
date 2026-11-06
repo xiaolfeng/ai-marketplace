@@ -26,8 +26,18 @@ jobs:
           DISABLE_TELEMETRY: "1"
         run: npx -y skills add . --list
 
-      - name: Ensure Cursor manifest is up to date
-        run: node scripts/build-cursor-manifest.mjs --check
+      - name: Ensure all generated distributions are up to date
+        run: npm run check
 
-      - name: Test Agent Studio scripts
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test Agent Studio and XSU compiler
         run: npm test

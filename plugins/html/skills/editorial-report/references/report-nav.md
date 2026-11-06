@@ -1,6 +1,6 @@
 # report-nav.json · 文档集导航
 
-同一目录下的多份报告组成合集时，导航只写一份 `report-nav.json`：所有成员页面的左栏都由脚本从这份 JSON 渲染，不在任何页面里手写链接列表。新增、改名或调整顺序只改 JSON，再跑一次 [`scripts/sync-nav.mjs`](../scripts/sync-nav.mjs)，全部页面的左栏一起更新，不会随文档增多而失真。
+同一目录下多份报告组成合集时，导航只写一份 `report-nav.json`，不在页面手写链接。新 XSU 页面通过 `render source.xsu --out index.html --nav <report-nav.json>` 内嵌快照；导航变动后逐篇重建。旧手写 HTML 才使用 [sync-nav.mjs](../scripts/sync-nav.mjs)。两条链路不混用，不用 sync-nav 改写 XSU 生成页。
 
 ## 放置与命名
 
@@ -54,7 +54,7 @@
 
 - 层级**最高两级**：`groups` → `items`，条目内不允许再嵌套 `items`；
 - 顶层也可以直接放 `items`（一级平铺、不分组）；`groups` 与 `items` 同时出现时只认 `groups`；
-- 同一个 `file` 不要出现两次；条目为空或缺 `file`/`title` 的会被静默丢弃；
+- 同一个 file 不要出现两次；条目必须有非空 file/title，构建校验出错应修导航源，不依赖浏览器静默丢弃。
 - 不往 JSON 里写密钥、绝对路径或 `file://` 地址。
 
 ## 页面如何消费
@@ -72,20 +72,28 @@
 ```
 
 - **内嵌快照是渲染数据源**：页面双击用 `file://` 打开也完整可用（本地 `fetch` 会被浏览器拦截，所以不依赖它）；
-- `data-src` 指向本页相对的 JSON 文件，仅当页面经 `http(s)` 访问时会按需热刷新，JSON 有更新而快照滞后时左栏自动重渲染；
+- XSU 默认 offline 禁用运行时 fetch/导航热刷新，只消费内嵌快照；旧 HTML 或显式 connected 的 HTTP 行为不代表新页默认允许联网。导航变动后必须重新 render --nav。
 - **当前页自动识别**：页面 URL 与条目 `file` 归一比对（`index.html` 等价于目录），命中的条目高亮，并自动生成「上一篇 / 下一篇」；
 - 页面没被 JSON 收录时左栏照常渲染，只是没有高亮与上下篇。
 
-## 同步工作流
+## 新 XSU 页面工作流
 
 ```bash
-# 1. 新建/修改合集导航后，把快照注入所有成员页并回填 data-src
-node plugins/html/skills/editorial-report/scripts/sync-nav.mjs reports/report-nav.json
-
-# 2. 只校验不写入：JSON 结构、成员文件存在性、快照是否与 JSON 一致
-node plugins/html/skills/editorial-report/scripts/sync-nav.mjs reports/report-nav.json --check
+# 每篇成员使用各自 XSU 源与相同导航输入重建
+node <skill-dir>/scripts/xsu.mjs render reports/2026-11-06-weekly/report.xsu --out reports/2026-11-06-weekly/index.html --nav reports/report-nav.json
+# 用完全相同输入核对漂移，不写 HTML 或导航
+node <skill-dir>/scripts/xsu.mjs render reports/2026-11-06-weekly/report.xsu --out reports/2026-11-06-weekly/index.html --nav reports/report-nav.json --check
 ```
 
-- 脚本按 `file` 清单逐个打开成员页，替换其 `#report-nav-data` 快照并回填 `data-src`，幂等可重复运行；
-- 成员页缺 `#report-nav-data` 槽、`file` 不存在、结构超过两级都会报错退出；
-- 手工把 JSON 全文粘进页面也可以，但合集超过两篇后一律用脚本，避免手抄漂移。
+- --nav 路径按当前工作目录解析，file 仍相对导航 JSON 所在目录；编译器负责路径校验、相对链接与快照转义，不手抄 #report-nav-data。
+- 改标题、顺序、链接时先改 JSON，然后逐篇重渲染；--check 比较完整输出，不能只核对导航槽。输出不能覆盖导航、XSU、分片或资源文件。
+- 默认 offline 不热刷新导航；普通点击相对 HTML 链接不等于自动网络资源加载。部署时保留相同目录结构。
+
+## 仅旧手写 HTML 的同步工作流
+
+```bash
+node <skill-dir>/scripts/sync-nav.mjs reports/report-nav.json
+node <skill-dir>/scripts/sync-nav.mjs reports/report-nav.json --check
+```
+
+该工具仅服务旧 HTML，按 file 打开成员页、注入 #report-nav-data 并回填 data-src；成员缺槽、文件不存在或超过两级应报错。含新 XSU 页面时不要用它批量改写；新页归编译器重建。禁止手工粘贴导航全文绕过一致性检查。

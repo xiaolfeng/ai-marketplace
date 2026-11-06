@@ -1,0 +1,4289 @@
+{
+  "version": 1,
+  "preset": "editorial",
+  "visualStatus": "browser-old-shell-compared",
+  "representativeFixture": "scripts/xsu/fixtures/editorial.xsu",
+  "notes": [
+    "All 64 legacy HTML fragments have executable literal AST fixtures below; tests assert actual text, structural classes, immutable inputs and deterministic output.",
+    "The offline .xsu fixture is representative; image and connected Mermaid cases are literal nodes in this manifest and use an injected reader.",
+    "All 90 registered variants were compared in Chrome at desktop/mobile and light/dark against the immutable pre-XSU shell revision; generated component HTML is shared between both sides, so this proves shell preservation rather than independent legacy-fragment DOM equivalence.",
+    "Legacy badge-info and badge-danger have no template CSS; info uses existing badge-progress styling with data-status=info, and danger maps to blocked."
+  ],
+  "entries": [
+    {
+      "snippet": "hero-banner.html",
+      "component": "Cover",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Cover",
+            "args": [
+              {
+                "variant": "banner",
+                "kicker": "工程特刊",
+                "lead": "先检查事实，再给出结论。",
+                "author": "维护者",
+                "reviewer": "审查者",
+                "publication": "技术编辑部",
+                "documentId": "RFC-42",
+                "readingTime": "8分钟",
+                "status": "done"
+              },
+              [
+                {
+                  "type": "Image",
+                  "args": [
+                    {
+                      "src": "fixture.png",
+                      "alt": "封面图"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Badge",
+                  "args": [
+                    {
+                      "text": "已核对",
+                      "status": "done"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "EvidenceLabel",
+                  "args": [
+                    {
+                      "kind": "confirmed"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "hero",
+            "hero-banner"
+          ],
+          "expectText": [
+            "工程特刊",
+            "先检查事实，再给出结论。"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "hero-metric.html",
+      "component": "Cover",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Cover",
+            "args": [
+              {
+                "variant": "metric",
+                "kicker": "工程特刊",
+                "lead": "先检查事实，再给出结论。",
+                "author": "维护者",
+                "reviewer": "审查者",
+                "publication": "技术编辑部",
+                "documentId": "RFC-42",
+                "readingTime": "8分钟",
+                "status": "done",
+                "metric": {
+                  "label": "可用率",
+                  "value": 99.95,
+                  "unit": "%",
+                  "delta": "+0.1%",
+                  "tone": "good"
+                }
+              },
+              []
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "hero",
+            "hero-metric"
+          ],
+          "expectText": [
+            "工程特刊",
+            "先检查事实，再给出结论。"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "hero-minimal.html",
+      "component": "Cover",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Cover",
+            "args": [
+              {
+                "variant": "minimal",
+                "kicker": "工程特刊",
+                "lead": "先检查事实，再给出结论。",
+                "author": "维护者",
+                "reviewer": "审查者",
+                "publication": "技术编辑部",
+                "documentId": "RFC-42",
+                "readingTime": "8分钟",
+                "status": "done"
+              },
+              []
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "hero",
+            "hero-minimal"
+          ],
+          "expectText": [
+            "工程特刊",
+            "先检查事实，再给出结论。"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "hero-split-lead.html",
+      "component": "Cover",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Cover",
+            "args": [
+              {
+                "variant": "split-lead",
+                "kicker": "工程特刊",
+                "lead": "先检查事实，再给出结论。",
+                "author": "维护者",
+                "reviewer": "审查者",
+                "publication": "技术编辑部",
+                "documentId": "RFC-42",
+                "readingTime": "8分钟",
+                "status": "done"
+              },
+              []
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "hero",
+            "hero-split-lead"
+          ],
+          "expectText": [
+            "工程特刊",
+            "先检查事实，再给出结论。"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "takeaway.html",
+      "component": "Takeaway",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Takeaway",
+            "args": [
+              {
+                "text": "已完成协议，页面验证仍待执行。"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "takeaway",
+            "takeaway-title"
+          ],
+          "expectText": [
+            "已完成协议，页面验证仍待执行。"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "glance.html",
+      "component": "Glance",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Glance",
+            "args": [
+              {
+                "items": [
+                  {
+                    "label": "成果",
+                    "value": "协议落地",
+                    "note": "已运行测试"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "glance",
+            "glance-item"
+          ],
+          "expectText": [
+            "协议落地"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "block-head.html",
+      "component": "Section",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Section",
+            "args": [
+              {
+                "id": "coverage-section",
+                "title": "测试覆盖",
+                "number": "01 / 生产",
+                "intro": "逐条检查"
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "段落"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "block",
+            "block-head",
+            "block-no",
+            "section-intro"
+          ],
+          "expectText": [
+            "测试覆盖"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "stat-grid.html",
+      "component": "Metrics",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "kpi",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "label": "延迟",
+                      "value": 42,
+                      "unit": "ms",
+                      "delta": "-35%",
+                      "tone": "good",
+                      "progress": 85
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "label": "吞吐",
+                      "value": 12000,
+                      "tone": "neutral",
+                      "delta": "持平",
+                      "progress": 38
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "label": "阻塞",
+                      "value": 2,
+                      "tone": "warn",
+                      "delta": "2项",
+                      "progress": 20
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-grid",
+            "stat-card",
+            "stat-val",
+            "delta-up",
+            "delta-neutral",
+            "delta-warn",
+            "progress-fill",
+            "success",
+            "warn"
+          ],
+          "expectText": [
+            "延迟",
+            "吞吐",
+            "阻塞"
+          ]
+        },
+        {
+          "name": "scope-good",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "variant": "scope",
+                      "tone": "good",
+                      "label": "模块0",
+                      "value": "PASS",
+                      "tag": "P00",
+                      "note": "已核对范围"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-grid",
+            "stat-card",
+            "card-pass",
+            "card-title-group",
+            "stat-desc"
+          ],
+          "expectText": [
+            "模块0"
+          ]
+        },
+        {
+          "name": "scope-warn",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "variant": "scope",
+                      "tone": "warn",
+                      "label": "模块1",
+                      "value": "PARTIAL",
+                      "tag": "P01",
+                      "note": "已核对范围"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-grid",
+            "stat-card",
+            "card-warn",
+            "card-title-group",
+            "stat-desc"
+          ],
+          "expectText": [
+            "模块1"
+          ]
+        },
+        {
+          "name": "scope-bad",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "variant": "scope",
+                      "tone": "bad",
+                      "label": "模块2",
+                      "value": "FAIL",
+                      "tag": "P02",
+                      "note": "已核对范围"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-grid",
+            "stat-card",
+            "card-fail",
+            "card-title-group",
+            "stat-desc"
+          ],
+          "expectText": [
+            "模块2"
+          ]
+        },
+        {
+          "name": "scope-info",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "variant": "scope",
+                      "tone": "info",
+                      "label": "模块3",
+                      "value": "NOTE",
+                      "tag": "P03",
+                      "note": "已核对范围"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-grid",
+            "stat-card",
+            "card-info",
+            "card-title-group",
+            "stat-desc"
+          ],
+          "expectText": [
+            "模块3"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "meter.html",
+      "component": "Progress",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "normal",
+          "node": {
+            "type": "Progress",
+            "args": [
+              {
+                "value": 92,
+                "label": "完成度"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "meter-row",
+            "meter"
+          ],
+          "expectText": [
+            "完成度"
+          ]
+        },
+        {
+          "name": "warn",
+          "node": {
+            "type": "Progress",
+            "args": [
+              {
+                "value": 38,
+                "tone": "warn",
+                "note": "待完成"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "meter",
+            "warn"
+          ],
+          "expectText": [
+            "待完成"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "callout.html",
+      "component": "Callout",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "warn",
+          "node": {
+            "type": "Callout",
+            "args": [
+              {
+                "tone": "warn",
+                "title": "状态说明"
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "说明正文"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "callout",
+            "callout-warn"
+          ],
+          "expectText": [
+            "状态说明"
+          ]
+        },
+        {
+          "name": "bad",
+          "node": {
+            "type": "Callout",
+            "args": [
+              {
+                "tone": "bad",
+                "title": "状态说明"
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "说明正文"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "callout",
+            "callout-danger"
+          ],
+          "expectText": [
+            "状态说明"
+          ]
+        },
+        {
+          "name": "info",
+          "node": {
+            "type": "Callout",
+            "args": [
+              {
+                "tone": "info",
+                "title": "状态说明"
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "说明正文"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "callout",
+            "callout-info"
+          ],
+          "expectText": [
+            "状态说明"
+          ]
+        },
+        {
+          "name": "good",
+          "node": {
+            "type": "Callout",
+            "args": [
+              {
+                "tone": "good",
+                "title": "状态说明"
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "说明正文"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "callout",
+            "callout-success"
+          ],
+          "expectText": [
+            "状态说明"
+          ]
+        },
+        {
+          "name": "split-note",
+          "node": {
+            "type": "Callout",
+            "args": [
+              {
+                "variant": "split-note"
+              },
+              [
+                {
+                  "type": "Stack",
+                  "args": [
+                    {},
+                    [
+                      {
+                        "type": "EvidenceLabel",
+                        "args": [
+                          {
+                            "kind": "confirmed"
+                          }
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      },
+                      {
+                        "type": "Markdown",
+                        "args": [
+                          "已确认"
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      }
+                    ]
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Stack",
+                  "args": [
+                    {},
+                    [
+                      {
+                        "type": "EvidenceLabel",
+                        "args": [
+                          {
+                            "kind": "unknown"
+                          }
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      },
+                      {
+                        "type": "Markdown",
+                        "args": [
+                          "缺证据"
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      }
+                    ]
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "callout",
+            "split-note"
+          ],
+          "expectText": []
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "labels.html",
+      "component": "EvidenceLabel",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "confirmed",
+          "node": {
+            "type": "EvidenceLabel",
+            "args": [
+              {
+                "kind": "confirmed"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "label",
+            "confirmed"
+          ],
+          "expectText": [
+            "已确认"
+          ]
+        },
+        {
+          "name": "reported",
+          "node": {
+            "type": "EvidenceLabel",
+            "args": [
+              {
+                "kind": "reported"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "label",
+            "reported"
+          ],
+          "expectText": [
+            "媒体转述"
+          ]
+        },
+        {
+          "name": "inferred",
+          "node": {
+            "type": "EvidenceLabel",
+            "args": [
+              {
+                "kind": "inferred"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "label",
+            "inferred"
+          ],
+          "expectText": [
+            "技术反推"
+          ]
+        },
+        {
+          "name": "unknown",
+          "node": {
+            "type": "EvidenceLabel",
+            "args": [
+              {
+                "kind": "unknown"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "label",
+            "unknown"
+          ],
+          "expectText": [
+            "未知"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "badges.html",
+      "component": "Badge",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "done",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "done",
+                "text": "done"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-done"
+          ],
+          "expectText": [
+            "done"
+          ]
+        },
+        {
+          "name": "progress",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "progress",
+                "text": "progress"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-progress"
+          ],
+          "expectText": [
+            "progress"
+          ]
+        },
+        {
+          "name": "warn",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "warn",
+                "text": "warn"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-warn"
+          ],
+          "expectText": [
+            "warn"
+          ]
+        },
+        {
+          "name": "blocked",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "blocked",
+                "text": "blocked"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-blocked"
+          ],
+          "expectText": [
+            "blocked"
+          ]
+        },
+        {
+          "name": "plan",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "plan",
+                "text": "plan"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-plan"
+          ],
+          "expectText": [
+            "plan"
+          ]
+        },
+        {
+          "name": "info",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "info",
+                "text": "info"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-progress"
+          ],
+          "expectText": [
+            "info"
+          ]
+        },
+        {
+          "name": "danger",
+          "node": {
+            "type": "Badge",
+            "args": [
+              {
+                "status": "blocked",
+                "text": "danger"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "badge",
+            "badge-blocked"
+          ],
+          "expectText": [
+            "danger"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "split.html",
+      "component": "Split",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Split",
+            "args": [
+              {},
+              [
+                {
+                  "type": "Section",
+                  "args": [
+                    {
+                      "id": "left",
+                      "title": "主叙述"
+                    },
+                    [
+                      {
+                        "type": "Markdown",
+                        "args": [
+                          "主文"
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      }
+                    ]
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Section",
+                  "args": [
+                    {
+                      "id": "right",
+                      "title": "侧注"
+                    },
+                    [
+                      {
+                        "type": "Markdown",
+                        "args": [
+                          "补充"
+                        ],
+                        "loc": {
+                          "file": "coverage.xsu",
+                          "line": 1,
+                          "column": 1
+                        }
+                      }
+                    ]
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "split"
+          ],
+          "expectText": [
+            "主叙述",
+            "侧注"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "quote.html",
+      "component": "Quote",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Quote",
+            "args": [
+              {
+                "text": "状态必须可回溯。",
+                "source": "技术审查"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "quote"
+          ],
+          "expectText": [
+            "状态必须可回溯。",
+            "技术审查"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "bits.html",
+      "component": "List",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "List",
+            "args": [
+              {
+                "items": [
+                  "已完成",
+                  "待核对"
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "bits"
+          ],
+          "expectText": [
+            "已完成"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "steps.html",
+      "component": "List",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "List",
+            "args": [
+              {
+                "ordered": true,
+                "items": [
+                  {
+                    "title": "策划",
+                    "detail": "先写大纲"
+                  },
+                  {
+                    "title": "交付",
+                    "detail": "核对结果"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "steps"
+          ],
+          "expectText": [
+            "策划",
+            "先写大纲"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "data-table.html",
+      "component": "Table",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Table",
+            "args": [
+              {
+                "columns": [
+                  "服务",
+                  "状态"
+                ],
+                "rows": [
+                  [
+                    "api",
+                    {
+                      "type": "Badge",
+                      "args": [
+                        {
+                          "text": "就绪",
+                          "status": "done"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "table-wrap",
+            "data",
+            "badge"
+          ],
+          "expectText": [
+            "服务"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "compare-cards.html",
+      "component": "Compare",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Compare",
+            "args": [
+              {
+                "items": [
+                  {
+                    "title": "旧方案",
+                    "tag": "before",
+                    "items": [
+                      "耦合"
+                    ]
+                  },
+                  {
+                    "title": "新方案",
+                    "tag": "after",
+                    "items": [
+                      "隔离"
+                    ],
+                    "target": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "compare-grid",
+            "compare-card",
+            "target"
+          ],
+          "expectText": [
+            "旧方案"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "compare-table.html",
+      "component": "CompareTable",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "CompareTable",
+            "args": [
+              {
+                "columns": [
+                  "维度",
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  [
+                    "维护",
+                    "中",
+                    "低"
+                  ]
+                ],
+                "highlight": 2
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "compare-table",
+            "highlight"
+          ],
+          "expectText": [
+            "维度"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "compare-diff.html",
+      "component": "Diff",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Diff",
+            "args": [
+              {
+                "title": "config.yaml",
+                "before": "port: 80\nmode: old\nlogging: true",
+                "after": "port: 80\nmode: new\nworkers: 4\nlogging: true"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "diff-box",
+            "diff-head",
+            "diff-line",
+            "ctx",
+            "del",
+            "add"
+          ],
+          "expectText": [
+            "config.yaml"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "scorecard.html",
+      "component": "Scorecard",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Scorecard",
+            "args": [
+              {
+                "title": "选型",
+                "criteria": [
+                  {
+                    "name": "可靠性",
+                    "weight": 3
+                  },
+                  {
+                    "name": "成本",
+                    "weight": 1
+                  }
+                ],
+                "options": [
+                  {
+                    "name": "方案A",
+                    "scores": [
+                      9,
+                      4
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "scorecard-box",
+            "scorecard-total-num",
+            "scorecard-row",
+            "scorecard-bar",
+            "warn"
+          ],
+          "expectText": [
+            "方案A"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "code-block.html",
+      "component": "Code",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Code",
+            "args": [
+              {
+                "language": "json"
+              },
+              "{\"safe\":\"<script>\"}"
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "code-block"
+          ],
+          "expectText": [
+            "{\"safe\":\"<script>\"}"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "details-collapse.html",
+      "component": "Details",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Details",
+            "args": [
+              {
+                "title": "技术附录",
+                "tag": "APPENDIX",
+                "open": true
+              },
+              [
+                {
+                  "type": "Markdown",
+                  "args": [
+                    "日志采集说明"
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "details-collapse",
+            "details-summary",
+            "details-tag",
+            "details-content"
+          ],
+          "expectText": [
+            "技术附录"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "open.html",
+      "component": "OpenQuestions",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "OpenQuestions",
+            "args": [
+              {
+                "items": [
+                  {
+                    "title": "谁负责",
+                    "detail": "等待维护者确认"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "open"
+          ],
+          "expectText": [
+            "谁负责"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "action-items.html",
+      "component": "Table",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Table",
+            "args": [
+              {
+                "variant": "actions",
+                "title": "改进措施",
+                "columns": [
+                  "编号",
+                  "措施",
+                  "状态"
+                ],
+                "rows": [
+                  [
+                    "ACT-1",
+                    "补齐回归",
+                    {
+                      "type": "Badge",
+                      "args": [
+                        {
+                          "text": "进行中",
+                          "status": "progress"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "action-box",
+            "action-head",
+            "action-table"
+          ],
+          "expectText": [
+            "编号"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "architecture-layer.html",
+      "component": "Architecture",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Architecture",
+            "args": [
+              {
+                "layers": [
+                  {
+                    "title": "接入层",
+                    "connector": "↓ gRPC ↓",
+                    "nodes": [
+                      {
+                        "title": "Gateway",
+                        "detail": "鉴权"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "核心层",
+                    "highlight": true,
+                    "nodes": [
+                      {
+                        "title": "Worker",
+                        "accent": true,
+                        "detail": "批处理"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "arch-stack-box",
+            "arch-layer",
+            "highlight-layer",
+            "layer-node",
+            "accent",
+            "layer-connector"
+          ],
+          "expectText": [
+            "Gateway"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "benchmark-table.html",
+      "component": "Table",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Table",
+            "args": [
+              {
+                "variant": "benchmark",
+                "title": "压测",
+                "meta": "并发500",
+                "columns": [
+                  "方案",
+                  "RPS"
+                ],
+                "rows": [
+                  [
+                    "旧",
+                    3420
+                  ],
+                  [
+                    "新",
+                    14890
+                  ]
+                ],
+                "highlightRow": 1
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "benchmark-box",
+            "benchmark-table",
+            "highlight-row"
+          ],
+          "expectText": [
+            "方案"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "citation-references.html",
+      "component": "Sources",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Sources",
+            "args": [
+              {
+                "title": "来源",
+                "items": [
+                  {
+                    "id": "ref-1",
+                    "title": "HTTP Semantics",
+                    "url": "https://www.rfc-editor.org/rfc/rfc9110",
+                    "note": "IETF"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "citation-box",
+            "citation-list",
+            "cite-body"
+          ],
+          "expectText": [
+            "HTTP Semantics"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "decision-log.html",
+      "component": "DecisionLog",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "DecisionLog",
+            "args": [
+              {
+                "items": [
+                  {
+                    "id": "ADR-1",
+                    "title": "使用统一协议",
+                    "status": "done",
+                    "detail": "避免双写",
+                    "owner": "维护者",
+                    "date": "2026-11-06",
+                    "alternative": "手写HTML"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "decision-box",
+            "decision-top",
+            "decision-footer"
+          ],
+          "expectText": [
+            "使用统一协议"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "faq-accordion.html",
+      "component": "FAQ",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "open",
+          "node": {
+            "type": "FAQ",
+            "args": [
+              {
+                "items": [
+                  {
+                    "question": "可离线吗",
+                    "answer": "原生组件可以",
+                    "open": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "faq-box",
+            "faq-item",
+            "faq-q",
+            "faq-a"
+          ],
+          "expectText": [
+            "可离线吗",
+            "原生组件可以"
+          ]
+        },
+        {
+          "name": "closed",
+          "node": {
+            "type": "FAQ",
+            "args": [
+              {
+                "items": [
+                  {
+                    "question": "需要Node吗",
+                    "answer": "编译时需要"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "faq-box",
+            "faq-item"
+          ],
+          "expectText": [
+            "需要Node吗",
+            "编译时需要"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "file-tree.html",
+      "component": "Tree",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Tree",
+            "args": [
+              {
+                "items": [
+                  {
+                    "name": "plugins",
+                    "note": "技能",
+                    "children": [
+                      {
+                        "name": "html"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "file-tree-box",
+            "file-tree-body",
+            "tree-comment"
+          ],
+          "expectText": [
+            "plugins"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "gallery-grid.html",
+      "component": "Gallery",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "col-2",
+          "node": {
+            "type": "Gallery",
+            "args": [
+              {
+                "columns": 2,
+                "items": [
+                  {
+                    "src": "fixture.png",
+                    "alt": "测试截图",
+                    "title": "图1",
+                    "caption": "本地夹具"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "gallery-wrap",
+            "gallery-grid",
+            "col-2",
+            "gallery-frame",
+            "gallery-caption"
+          ],
+          "expectText": [
+            "测试截图",
+            "本地夹具"
+          ]
+        },
+        {
+          "name": "col-3",
+          "node": {
+            "type": "Gallery",
+            "args": [
+              {
+                "columns": 3,
+                "items": [
+                  {
+                    "src": "fixture.png",
+                    "alt": "测试截图",
+                    "title": "图1",
+                    "caption": "本地夹具"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "gallery-wrap",
+            "gallery-grid",
+            "col-3",
+            "gallery-frame",
+            "gallery-caption"
+          ],
+          "expectText": [
+            "测试截图",
+            "本地夹具"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "glossary-terms.html",
+      "component": "Glossary",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Glossary",
+            "args": [
+              {
+                "items": [
+                  {
+                    "term": "ADR",
+                    "definition": "长期架构决策记录"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "glossary-box",
+            "glossary-entry"
+          ],
+          "expectText": [
+            "ADR",
+            "长期架构决策记录"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "incident-header.html",
+      "component": "Incident",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Incident",
+            "args": [
+              {
+                "title": "存储故障",
+                "level": "p1",
+                "cause": "连接池耗尽",
+                "status": "done",
+                "impact": [
+                  {
+                    "label": "影响",
+                    "value": 42,
+                    "note": "分钟"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "incident-header-box",
+            "level-p1",
+            "incident-impact-stats"
+          ],
+          "expectText": [
+            "存储故障",
+            "连接池耗尽"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "incident-timeline.html",
+      "component": "Timeline",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "bad",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "variant": "incident",
+                "items": [
+                  {
+                    "time": "14:22",
+                    "title": "应急处置",
+                    "detail": "核对运行时",
+                    "tone": "bad"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "incident-timeline-box",
+            "inc-time-row",
+            "danger"
+          ],
+          "expectText": [
+            "应急处置",
+            "核对运行时"
+          ]
+        },
+        {
+          "name": "warn",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "variant": "incident",
+                "items": [
+                  {
+                    "time": "14:22",
+                    "title": "应急处置",
+                    "detail": "核对运行时",
+                    "tone": "warn"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "incident-timeline-box",
+            "inc-time-row",
+            "warn"
+          ],
+          "expectText": [
+            "应急处置",
+            "核对运行时"
+          ]
+        },
+        {
+          "name": "neutral",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "variant": "incident",
+                "items": [
+                  {
+                    "time": "14:22",
+                    "title": "应急处置",
+                    "detail": "核对运行时",
+                    "tone": "neutral"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "incident-timeline-box",
+            "inc-time-row"
+          ],
+          "expectText": [
+            "应急处置",
+            "核对运行时"
+          ]
+        },
+        {
+          "name": "good",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "variant": "incident",
+                "items": [
+                  {
+                    "time": "14:22",
+                    "title": "应急处置",
+                    "detail": "核对运行时",
+                    "tone": "good"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "incident-timeline-box",
+            "inc-time-row",
+            "success"
+          ],
+          "expectText": [
+            "应急处置",
+            "核对运行时"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "interview-dialogue.html",
+      "component": "Interview",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Interview",
+            "args": [
+              {
+                "items": [
+                  {
+                    "speaker": "评审",
+                    "text": "为什么改",
+                    "role": "question"
+                  },
+                  {
+                    "speaker": "作者",
+                    "text": "为避免漂移",
+                    "role": "answer"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "interview-box",
+            "q-item",
+            "a-item",
+            "q-tag",
+            "a-tag"
+          ],
+          "expectText": [
+            "评审",
+            "为什么改"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "json-viewer.html",
+      "component": "Json",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Json",
+            "args": [
+              {
+                "value": {
+                  "ok": true,
+                  "code": 200,
+                  "name": "demo"
+                }
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "json-viewer-box",
+            "j-key",
+            "j-num",
+            "j-bool",
+            "j-str"
+          ],
+          "expectText": [
+            "demo",
+            "200"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "kanban-board.html",
+      "component": "Kanban",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Kanban",
+            "args": [
+              {
+                "columns": [
+                  {
+                    "title": "todo",
+                    "status": "todo",
+                    "items": [
+                      {
+                        "title": "事项todo",
+                        "owner": "维护者",
+                        "priority": "P1"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "active",
+                    "status": "active",
+                    "items": [
+                      {
+                        "title": "事项active",
+                        "owner": "维护者",
+                        "priority": "P1"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "review",
+                    "status": "review",
+                    "items": [
+                      {
+                        "title": "事项review",
+                        "owner": "维护者",
+                        "priority": "P1"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "done",
+                    "status": "done",
+                    "items": [
+                      {
+                        "title": "事项done",
+                        "owner": "维护者",
+                        "priority": "P1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "kanban-box",
+            "kanban-col",
+            "col-dot",
+            "active",
+            "review",
+            "done",
+            "kanban-card"
+          ],
+          "expectText": [
+            "事项todo"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "key-takeaway-cards.html",
+      "component": "Takeaways",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Takeaways",
+            "args": [
+              {
+                "items": [
+                  {
+                    "title": "统一协议"
+                  },
+                  {
+                    "title": "固定样式",
+                    "active": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "takeaways-wrap",
+            "takeaway-card",
+            "active-card"
+          ],
+          "expectText": [
+            "统一协议"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "newsletter-footer.html",
+      "component": "Colophon",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Colophon",
+            "args": [
+              {
+                "editorial": "维护者",
+                "publication": "仅测试",
+                "seal": "VERIFIED",
+                "issuer": "编辑部"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "colophon-box",
+            "colophon-grid",
+            "colophon-seal"
+          ],
+          "expectText": [
+            "维护者",
+            "仅测试"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "personnel-grid.html",
+      "component": "People",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "People",
+            "args": [
+              {
+                "items": [
+                  {
+                    "name": "作者",
+                    "department": "工程",
+                    "role": "OWNER",
+                    "status": "done",
+                    "detail": "负责实现"
+                  },
+                  {
+                    "name": "审查者",
+                    "role": "REVIEWER",
+                    "status": "progress"
+                  },
+                  {
+                    "name": "运维",
+                    "role": "SRE",
+                    "status": "plan"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "personnel-grid",
+            "personnel-avatar",
+            "personnel-role",
+            "badge-done",
+            "badge-progress",
+            "badge-plan"
+          ],
+          "expectText": [
+            "作者"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "pros-cons.html",
+      "component": "ProsCons",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "ProsCons",
+            "args": [
+              {
+                "pros": [
+                  "隔离清晰"
+                ],
+                "cons": [
+                  "需维护协议"
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "pros-cons-box",
+            "pros-col",
+            "cons-col",
+            "pros-list",
+            "cons-list"
+          ],
+          "expectText": [
+            "隔离清晰",
+            "需维护协议"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "release-notes.html",
+      "component": "ReleaseNotes",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "ReleaseNotes",
+            "args": [
+              {
+                "version": "1.0.0",
+                "date": "2026-11-06",
+                "status": "done",
+                "sections": [
+                  {
+                    "kind": "feat",
+                    "title": "feat",
+                    "items": [
+                      "已核对"
+                    ]
+                  },
+                  {
+                    "kind": "fix",
+                    "title": "fix",
+                    "items": [
+                      "已核对"
+                    ]
+                  },
+                  {
+                    "kind": "break",
+                    "title": "break",
+                    "items": [
+                      "已核对"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "release-box",
+            "release-version",
+            "sec-title",
+            "feat",
+            "fix",
+            "break"
+          ],
+          "expectText": [
+            "1.0.0",
+            "feat"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "risk-register.html",
+      "component": "Table",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Table",
+            "args": [
+              {
+                "variant": "risk",
+                "columns": [
+                  "风险",
+                  "等级"
+                ],
+                "rows": [
+                  [
+                    "丢图",
+                    {
+                      "type": "Badge",
+                      "args": [
+                        {
+                          "text": "高",
+                          "status": "blocked"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "risk-box",
+            "risk-table",
+            "badge-blocked"
+          ],
+          "expectText": [
+            "风险"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "root-cause-5whys.html",
+      "component": "RootCause",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "RootCause",
+            "args": [
+              {
+                "items": [
+                  {
+                    "question": "为何失败",
+                    "answer": "检查缺失"
+                  },
+                  {
+                    "question": "根因",
+                    "answer": "缺少门禁",
+                    "root": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "why-box",
+            "why-chain",
+            "root-why",
+            "root-badge"
+          ],
+          "expectText": [
+            "为何失败",
+            "检查缺失"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "sequence-flow.html",
+      "component": "Sequence",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Sequence",
+            "args": [
+              {
+                "actors": [
+                  "客户端",
+                  "网关",
+                  "服务",
+                  "数据库"
+                ],
+                "steps": [
+                  {
+                    "from": 1,
+                    "to": 2,
+                    "text": "请求"
+                  },
+                  {
+                    "from": 2,
+                    "to": 3,
+                    "text": "转发"
+                  },
+                  {
+                    "from": 3,
+                    "to": 4,
+                    "text": "写入"
+                  },
+                  {
+                    "from": 4,
+                    "to": 3,
+                    "text": "回执",
+                    "return": true
+                  },
+                  {
+                    "from": 3,
+                    "to": 1,
+                    "text": "返回",
+                    "return": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "seq-box",
+            "seq-actors",
+            "from-1",
+            "to-2",
+            "from-2",
+            "to-3",
+            "from-3",
+            "to-4",
+            "from-4",
+            "return-step",
+            "to-1"
+          ],
+          "expectText": [
+            "请求"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "service-mesh.html",
+      "component": "ServiceMesh",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "ServiceMesh",
+            "args": [
+              {
+                "columns": [
+                  {
+                    "title": "上游",
+                    "items": [
+                      {
+                        "title": "Portal",
+                        "badge": "HTTP",
+                        "status": "done"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "核心",
+                    "center": true,
+                    "items": [
+                      {
+                        "title": "order-api",
+                        "detail": "v1",
+                        "pills": [
+                          "QPS: 1k"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "title": "下游",
+                    "items": [
+                      {
+                        "title": "DB",
+                        "badge": "强依赖",
+                        "status": "blocked",
+                        "detail": "需高可用"
+                      },
+                      {
+                        "title": "Cache",
+                        "badge": "弱依赖",
+                        "status": "warn"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "mesh-box",
+            "mesh-col",
+            "center-col",
+            "center-card",
+            "mesh-target-name",
+            "mesh-pills"
+          ],
+          "expectText": [
+            "order-api"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "slider-compare.html",
+      "component": "VisualCompare",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "VisualCompare",
+            "args": [
+              {
+                "before": {
+                  "title": "旧页面",
+                  "text": "旧版视觉"
+                },
+                "after": {
+                  "title": "新页面",
+                  "text": "固定模板"
+                }
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "slider-box",
+            "before-pane",
+            "after-pane",
+            "legacy-mockup",
+            "editorial-mockup",
+            "active"
+          ],
+          "expectText": [
+            "旧页面",
+            "新页面"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "stat-counter-tape.html",
+      "component": "Metrics",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Metrics",
+            "args": [
+              {
+                "variant": "tape"
+              },
+              [
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "label": "请求",
+                      "value": 128,
+                      "unit": "M",
+                      "delta": "+8%",
+                      "tone": "good"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "Metric",
+                  "args": [
+                    {
+                      "label": "节点",
+                      "value": 64,
+                      "delta": "稳定",
+                      "tone": "neutral"
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "stat-tape-wrap",
+            "stat-tape-item",
+            "delta-up",
+            "delta-neutral"
+          ],
+          "expectText": [
+            "请求",
+            "节点"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "state-machine.html",
+      "component": "StateMachine",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "StateMachine",
+            "args": [
+              {
+                "nodes": [
+                  {
+                    "id": "s0",
+                    "title": "状态0",
+                    "state": "initial"
+                  },
+                  {
+                    "id": "s1",
+                    "title": "状态1",
+                    "state": "in-progress"
+                  },
+                  {
+                    "id": "s2",
+                    "title": "状态2",
+                    "state": "active"
+                  },
+                  {
+                    "id": "s3",
+                    "title": "状态3",
+                    "state": "terminal-success"
+                  },
+                  {
+                    "id": "s4",
+                    "title": "状态4",
+                    "state": "terminal-fail"
+                  }
+                ],
+                "transitions": [
+                  {
+                    "from": "s0",
+                    "to": "s1",
+                    "label": "提交"
+                  },
+                  {
+                    "from": "s1",
+                    "to": "s2",
+                    "label": "派发",
+                    "guard": "配额足够"
+                  },
+                  {
+                    "from": "s2",
+                    "to": "s3",
+                    "label": "完成"
+                  },
+                  {
+                    "from": "s2",
+                    "to": "s4",
+                    "label": "失败"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "state-box",
+            "initial",
+            "in-progress",
+            "active",
+            "terminal-success",
+            "terminal-fail",
+            "state-rules-table"
+          ],
+          "expectText": [
+            "状态0"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "system-map.html",
+      "component": "Flow",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Flow",
+            "args": [
+              {
+                "title": "任务流程",
+                "nodes": [
+                  {
+                    "id": "a",
+                    "title": "读取",
+                    "detail": "原始材料"
+                  },
+                  {
+                    "id": "b",
+                    "title": "核对",
+                    "accent": true
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "a",
+                    "to": "b",
+                    "label": "传递事实"
+                  }
+                ],
+                "loop": "复核后回写",
+                "note": "不宣称自动核实"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "system-map",
+            "flow",
+            "node",
+            "accent",
+            "loop",
+            "map-note"
+          ],
+          "expectText": [
+            "读取",
+            "传递事实"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "terminal-session.html",
+      "component": "Terminal",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "states",
+          "node": {
+            "type": "Terminal",
+            "args": [
+              {
+                "title": "zsh",
+                "shell": "zsh 5.9",
+                "lines": [
+                  {
+                    "kind": "command",
+                    "text": "记录command"
+                  },
+                  {
+                    "kind": "output",
+                    "text": "记录output"
+                  },
+                  {
+                    "kind": "info",
+                    "text": "记录info"
+                  },
+                  {
+                    "kind": "good",
+                    "text": "记录good"
+                  },
+                  {
+                    "kind": "warn",
+                    "text": "记录warn"
+                  },
+                  {
+                    "kind": "bad",
+                    "text": "记录bad"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "term-window",
+            "term-header",
+            "prompt",
+            "term-out",
+            "info",
+            "success",
+            "warn",
+            "danger"
+          ],
+          "expectText": [
+            "记录command"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "timeline.html",
+      "component": "Timeline",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "done",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "items": [
+                  {
+                    "time": "2026-11-06",
+                    "title": "里程碑",
+                    "status": "done",
+                    "detail": "事实记录"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "timeline-item",
+            "timeline-header",
+            "badge-done",
+            "done"
+          ],
+          "expectText": [
+            "里程碑",
+            "事实记录"
+          ]
+        },
+        {
+          "name": "progress",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "items": [
+                  {
+                    "time": "2026-11-06",
+                    "title": "里程碑",
+                    "status": "progress",
+                    "detail": "事实记录"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "timeline-item",
+            "timeline-header",
+            "badge-progress",
+            "current"
+          ],
+          "expectText": [
+            "里程碑",
+            "事实记录"
+          ]
+        },
+        {
+          "name": "plan",
+          "node": {
+            "type": "Timeline",
+            "args": [
+              {
+                "items": [
+                  {
+                    "time": "2026-11-06",
+                    "title": "里程碑",
+                    "status": "plan",
+                    "detail": "事实记录"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "timeline-item",
+            "timeline-header",
+            "badge-plan"
+          ],
+          "expectText": [
+            "里程碑",
+            "事实记录"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-bar.html",
+      "component": "Chart",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "bar",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "请求",
+                    "values": [
+                      3,
+                      8
+                    ]
+                  },
+                  {
+                    "name": "后台",
+                    "values": [
+                      2,
+                      5
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-box",
+            "chart-svg"
+          ],
+          "expectText": [
+            "甲"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-line.html",
+      "component": "Chart",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "line",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "line",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "请求",
+                    "values": [
+                      3,
+                      8
+                    ]
+                  },
+                  {
+                    "name": "后台",
+                    "values": [
+                      2,
+                      5
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-box",
+            "chart-svg"
+          ],
+          "expectText": [
+            "甲"
+          ]
+        },
+        {
+          "name": "area",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "area",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "请求",
+                    "values": [
+                      3,
+                      8
+                    ]
+                  },
+                  {
+                    "name": "后台",
+                    "values": [
+                      2,
+                      5
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-box",
+            "chart-svg"
+          ],
+          "expectText": [
+            "甲"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-donut.html",
+      "component": "Chart",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "donut",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "来源",
+                    "values": [
+                      45,
+                      55
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "donut-wrap",
+            "donut-svg",
+            "donut-center",
+            "donut-legend-list"
+          ],
+          "expectText": [
+            "甲"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-gauge.html",
+      "component": "Gauge",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Gauge",
+            "args": [
+              {
+                "value": 99.95,
+                "unit": "%",
+                "label": "AVAILABILITY",
+                "details": [
+                  {
+                    "label": "预算剩余",
+                    "value": 84.2,
+                    "note": "%"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-box",
+            "gauge-svg",
+            "gauge-readout",
+            "gauge-stat-row"
+          ],
+          "expectText": [
+            "AVAILABILITY"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-heatmap.html",
+      "component": "Heatmap",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Heatmap",
+            "args": [
+              {
+                "columns": [
+                  "00",
+                  "04",
+                  "08",
+                  "12",
+                  "16",
+                  "20"
+                ],
+                "rows": [
+                  "周一"
+                ],
+                "values": [
+                  [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "heatmap-grid",
+            "heatmap-row",
+            "hm-c",
+            "l0",
+            "l1",
+            "l2",
+            "l3",
+            "l4",
+            "l5"
+          ],
+          "expectText": []
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-scatter.html",
+      "component": "Chart",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "scatter",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "请求",
+                    "values": [
+                      {
+                        "x": 10,
+                        "y": 18
+                      },
+                      {
+                        "x": 200,
+                        "y": 238,
+                        "outlier": true,
+                        "label": "大包"
+                      }
+                    ]
+                  }
+                ],
+                "threshold": 200
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-svg"
+          ],
+          "expectText": [
+            "大包"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-stacked-bar.html",
+      "component": "Chart",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Chart",
+            "args": [
+              {
+                "kind": "stacked-bar",
+                "labels": [
+                  "甲",
+                  "乙"
+                ],
+                "series": [
+                  {
+                    "name": "请求",
+                    "values": [
+                      3,
+                      8
+                    ]
+                  },
+                  {
+                    "name": "后台",
+                    "values": [
+                      2,
+                      5
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "chart-box",
+            "chart-legend",
+            "chart-svg"
+          ],
+          "expectText": [
+            "甲"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/chart-sparkline-table.html",
+      "component": "Table",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Table",
+            "args": [
+              {
+                "variant": "sparkline",
+                "columns": [
+                  "服务",
+                  "趋势",
+                  "健康"
+                ],
+                "rows": [
+                  [
+                    "api",
+                    {
+                      "type": "Sparkline",
+                      "args": [
+                        {
+                          "values": [
+                            3,
+                            4,
+                            2,
+                            8
+                          ],
+                          "tone": "good"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    },
+                    {
+                      "type": "Badge",
+                      "args": [
+                        {
+                          "text": "健康",
+                          "status": "done"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    }
+                  ],
+                  [
+                    "worker",
+                    {
+                      "type": "Sparkline",
+                      "args": [
+                        {
+                          "values": [
+                            8,
+                            7,
+                            2
+                          ],
+                          "tone": "bad"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    },
+                    {
+                      "type": "Badge",
+                      "args": [
+                        {
+                          "text": "告警",
+                          "status": "warn"
+                        }
+                      ],
+                      "loc": {
+                        "file": "coverage.xsu",
+                        "line": 1,
+                        "column": 1
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "sparkline-table",
+            "spark-cell",
+            "sparkline-svg"
+          ],
+          "expectText": [
+            "服务"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/matrix-quadrant.html",
+      "component": "Quadrant",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Quadrant",
+            "args": [
+              {
+                "labels": [
+                  "战略",
+                  "速赢",
+                  "搁置",
+                  "按需"
+                ],
+                "items": [
+                  {
+                    "title": "重构",
+                    "x": 0.8,
+                    "y": 0.9,
+                    "status": "progress"
+                  },
+                  {
+                    "title": "缓存",
+                    "x": 0.2,
+                    "y": 0.9,
+                    "status": "done"
+                  },
+                  {
+                    "title": "自研",
+                    "x": 0.8,
+                    "y": 0.2,
+                    "status": "blocked"
+                  },
+                  {
+                    "title": "校验",
+                    "x": 0.1,
+                    "y": 0.1,
+                    "status": "plan"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "matrix-box",
+            "q-high-high",
+            "q-high-low",
+            "q-low-high",
+            "q-low-low"
+          ],
+          "expectText": [
+            "重构"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/gantt-roadmap.html",
+      "component": "Diagram",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "mermaid",
+          "node": {
+            "type": "Diagram",
+            "args": [
+              {
+                "variant": "gantt",
+                "title": "工程排期",
+                "source": "gantt\n  dateFormat YYYY-MM-DD\n  section 底座\n  协议 :done, a, 2026-11-01, 3d\n  开发 :active, crit, b, 2026-11-04, 3d\n  发版 :milestone, c, 2026-11-07, 0d\n  封版 :vert, d, 2026-11-06, 0d"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "gantt-box",
+            "pele-view",
+            "gantt-view",
+            "pele",
+            "pele-source"
+          ],
+          "expectText": [
+            "gantt\n  dateFormat YYYY-MM-DD\n  section 底座\n  协议 :done, a, 2026-11-01, 3d\n  开发 :active, crit, b, 2026-11-04, 3d\n  发版 :milestone, c, 2026-11-07, 0d\n  封版 :vert, d, 2026-11-06, 0d"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "charts/pele-diagram.html",
+      "component": "Diagram",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Diagram",
+            "args": [
+              {
+                "source": "flowchart LR\n  A[客户端] --- B[网关]"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "pele-box",
+            "pele-view",
+            "pele",
+            "pele-source"
+          ],
+          "expectText": [
+            "flowchart LR\n  A[客户端] --- B[网关]"
+          ]
+        }
+      ],
+      "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    }
+  ]
+}

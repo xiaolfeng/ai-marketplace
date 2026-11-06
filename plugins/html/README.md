@@ -35,14 +35,16 @@ HTML+SVG 技术可视化、手绘白板图表与报告特刊插件套件。
 
 把周报、日报、月报、项目进展、复盘简报和指标简报写成单文件 HTML 报告。
 
+默认写作只需 [XSU 作者参考](skills/editorial-report/references/xsu.md)、当前预设组件输出与 [example.xsu](skills/editorial-report/examples/example.xsu)，不要求全文读模板。[旧 example.html](skills/editorial-report/examples/example.html) 保留为视觉 catalog。html 插件版本 **0.4.0**，editorial-report 技能版本 **0.3.0**；另外两个图表技能不在本次 XSU 升级范围。
+
 主要能力：
 
-- 先大纲、再文案、后套壳，三步分别落盘到 `reports/<日期>-<slug>/`，用户指定位置时听用户的；
+- 先核验事实、策划大纲与文案，再由 AI 写受限 report.xsu，经技能自带 scripts/xsu.mjs 校验和渲染；outline.md、copy.md、XSU 与 HTML 落盘到 `reports/<日期>-<slug>/` 或用户指定位置，后续只编辑 XSU，不手改生成 HTML/CSS/JS；
 - 正文口吻沿用用户设定的角色（如 `CLAUDE.md` 里的人设），没有设定时用中性同事口吻；
 - 纸白墨蓝配色与系统字体栈，圆角层级与 replay 一致，深浅主题跟随系统并可手动切换；
-- 内置 60 余类组件：判断匣、事实条、KPI、SVG 图表、对比与评分、时间线、故障复盘、甘特、看板、风险登记等；
-- 单文件零构建，图标统一为内联 Lucide，不引入外部字体；
-- 双侧栏：右栏嵌套在 `<main>` 正文旁随滚动 sticky 浮动，自动生成无框页边导轨式 h2/h3 嵌套目录并滚动跟随高亮；同目录多篇报告组成合集时，左栏由共享 `report-nav.json`（最高两级）驱动，`scripts/sync-nav.mjs` 一键注入快照并校验漂移。
+- 旧视觉库保留 60 余类组件与状态参考；当前 XSU 可用组件与字段以 components --preset editorial 为准，不把旧 catalog 等同于全量 XSU 覆盖，也不把全部组件铺进每篇正文；
+- 渲染需 Node >=18，零第三方 npm 运行依赖；浏览器打开生成的单文件 HTML 无需 Node 或本地服务。默认 offline 禁止外部字体、脚本和 JSON；Pele 图表需显式 --network connected，此模式有图表能力与供应链限制，不宣称全离线；
+- 双侧栏：右栏自动生成 h2/h3 本文目录，左栏由共享 report-nav.json（最高两级）驱动；新页用 render --nav 编译快照，改导航后重建并 --check，offline 不热刷新；sync-nav.mjs 仅维护旧 HTML，不修改 XSU 生成页。
 
 ## 安装
 

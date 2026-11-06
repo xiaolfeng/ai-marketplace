@@ -34,6 +34,7 @@
 | ---- | -------------------------------------------------------------------------------------------------- | -------- | ---------------------- |
 | 0001 | [Agent Studio：宿主感知的工作组与工作流构建插件](./engineering/design/0001-plugin-agent-studio.md) | `plugin` | `superseded`（→ 0002） |
 | 0002 | [Agent Studio：本地全局 Agent 体系构建](./engineering/design/0002-plugin-agent-studio-global.md)   | `plugin` | `draft`                |
+| 0003 | [XSU：报告与复盘的声明式内容及确定性 HTML 渲染设计](./engineering/design/0003-skill-xsu-rendering.md) | `skill` | `draft` |
 
 ### 规范模式（`spec/`）
 

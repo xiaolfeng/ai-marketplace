@@ -1460,6 +1460,7 @@
           command: "命令",
           quote: "原话",
           table: "表格",
+          diagram: "图表",
         };
 
         /* ---------------------------- 文本工具 ---------------------------- */
@@ -1536,10 +1537,16 @@
         function rich(str) {
           var html = esc(str).replace(/`([^`]+)`/g, "<code>$1</code>");
           if (!termRe) return html;
+          var inCode = false;
           return html
             .split(/(<[^>]+>)/)
             .map(function (seg) {
-              if (seg.charAt(0) === "<") return seg;
+              if (seg.charAt(0) === "<") {
+                if (seg === "<code>") inCode = true;
+                if (seg === "</code>") inCode = false;
+                return seg;
+              }
+              if (inCode) return seg;
               return seg.replace(termRe, function (m) {
                 return (
                   '<span class="term" tabindex="0" data-term="' +
@@ -1696,9 +1703,10 @@
             .join("");
           var evs = (s.evidence || [])
             .map(function (ev) {
-              var body =
-                ev.kind === "quote"
-                  ? "<blockquote>" + esc(ev.content) + "</blockquote>"
+              var body = ev.kind === "quote"
+                ? "<blockquote>" + esc(ev.content) + "</blockquote>"
+                : ev.kind === "diagram"
+                  ? '<div class="pele-box"><div class="pele-view"><pre class="pele">' + esc(ev.content) + "</pre></div></div>"
                   : "<pre>" + esc(ev.content) + "</pre>";
               return (
                 '<details class="ev"' +
@@ -1942,8 +1950,8 @@
         function loadState() {
           try {
             var saved = JSON.parse(localStorage.getItem(storeKey) || "{}");
-            visited = saved.visited || {};
-            return typeof saved.current === "number" ? saved.current : 0;
+            visited = saved && saved.visited && typeof saved.visited === "object" && !Array.isArray(saved.visited) ? saved.visited : {};
+            return saved && Number.isInteger(saved.current) && saved.current >= 0 ? saved.current : 0;
           } catch (e) {
             return 0;
           }
@@ -1960,12 +1968,17 @@
         }
 
         function hashFor(i) {
-          return i === 0 ? "#start" : i === LAST ? "#end" : "#step-" + i;
+          if (i === 0) return "#start";
+          if (i === LAST) return "#end";
+          return "#step-" + (window.__XSU_CONFIG__ && steps[i - 1].anchor ? steps[i - 1].anchor : i);
         }
         function parseHash() {
           var h = location.hash;
           if (h === "#start") return 0;
           if (h === "#end") return LAST;
+          for (var i = 0; i < steps.length; i++) {
+            if (steps[i].anchor && h === "#step-" + steps[i].anchor) return i + 1;
+          }
           var m = /^#step-(\d+)$/.exec(h);
           return m
             ? Math.min(Math.max(parseInt(m[1], 10), 1), steps.length)
@@ -2058,7 +2071,7 @@
           renderDots();
           renderToc();
           saveState();
-          if (!fromHash && location.hash !== hashFor(i)) {
+          if ((!fromHash || window.__XSU_CONFIG__) && location.hash !== hashFor(i)) {
             history.replaceState(null, "", hashFor(i));
           }
           window.scrollTo({ top: 0, behavior: "auto" });
@@ -2135,6 +2148,11 @@
         }
 
         /* ---------------------------- 导出与打印 ---------------------------- */
+        function evidenceFence(content) {
+          var runs = String(content).match(/`+/g) || [];
+          var width = runs.reduce(function (max, run) { return Math.max(max, run.length + 1); }, 3);
+          return "`".repeat(width);
+        }
         function toMarkdown() {
           var L = [];
           L.push("# " + meta.title + " · 复盘笔记", "");
@@ -2191,9 +2209,9 @@
                 "<details>",
                 "<summary>证据：" + ev.title + "</summary>",
                 "",
-                "```text",
+                evidenceFence(ev.content) + (ev.kind === "diagram" ? "mermaid" : "text"),
                 ev.content,
-                "```",
+                evidenceFence(ev.content),
                 "",
                 "</details>",
                 "",
@@ -2265,6 +2283,7 @@
         var PELE_CDN =
           "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js";
         var peleAsked = false;
+        var peleError = "";
 
         function peleFail(pre, msg) {
           // 失败只在容器内以既有 note 样式提示，不抛页面级异常
@@ -2282,9 +2301,11 @@
           var s = document.createElement("script");
           s.src = PELE_CDN;
           s.onload = function () {
+            if (!window.pele) peleError = "渲染器加载失败（缺少 Pele API），保留源文";
             peleMountAll();
           };
           s.onerror = function () {
+            peleError = "渲染器加载失败（CDN 不可达），保留源文";
             var nodes = document.querySelectorAll("pre.pele");
             for (var i = 0; i < nodes.length; i++) {
               if (!nodes[i].getAttribute("data-pele-state"))
@@ -2299,14 +2320,24 @@
           for (var i = 0; i < nodes.length; i++) {
             var el = nodes[i];
             if (el.getAttribute("data-pele-state")) continue; // 已处理过，避免重复挂载
+            if (peleError) {
+              peleFail(el, peleError);
+              continue;
+            }
+            if (window.__XSU_CONFIG__ && window.__XSU_CONFIG__.network !== "connected") {
+              peleFail(el, "离线模式不加载图表渲染器，以下保留源文");
+              continue;
+            }
             if (!window.pele) {
               peleLoad(); // 首次遇到图表才拉取渲染器，onload 后统一挂载
               return;
             }
-            el.setAttribute("data-pele-state", "done");
+            var source = el.textContent;
             try {
-              window.pele.mount(el, el.textContent.trim());
+              window.pele.mount(el, source.trim());
+              el.setAttribute("data-pele-state", "done");
             } catch (err) {
+              el.textContent = source;
               peleFail(el, String((err && err.message) || err));
             }
           }

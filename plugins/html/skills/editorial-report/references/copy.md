@@ -44,7 +44,7 @@
 <完整角色口吻，收在下一步。下一步是动作，不是口号。>
 ```
 
-章节名必须和 `outline.md` 一致。HTML 按这里的节顺序填槽，不在套壳时改结构。套壳用 `template.html` 的 class，对照 `html-design.md` 的组件表。
+章节名必须和 `outline.md` 一致。将文案按既定顺序写入 `.xsu`，按 [XSU 组件契约](xsu.md) 选择组件，再由 `scripts/xsu.mjs render` 装配模板；不在编译时改写事实，不手动填 HTML 槽位或指定 CSS class。
 
 ## 句子
 

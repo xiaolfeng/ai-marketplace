@@ -1,6 +1,6 @@
 # 对外发布的翻页复盘报告规范（Post HTML Spec）
 
-本规范定义 `replay-post-html` 单文件 HTML 的页面结构、交互与视觉约束。交互骨架与自己看的 [replay-html](../../replay-html/references/html-interaction-spec.md) 保持一致，差别在于内容组织（报告骨架）与视觉口吻（克制、正式）。
+本规范定义 replay-post-html 的页面结构、视觉与交互验收目标。默认作者入口为 [XSU](xsu.md) 与 [构建示例](../examples/example.xsu)，AI 不必全文读取模板，禁止手改生成 HTML/CSS/JS。下文 publication/#replay-data 是编译器降低后的内部模型，不是手工注入入口。[Self 兄弟规范](../../replay-html/references/html-interaction-spec.md)仅用于可选比较，不是独立安装必读依赖。
 
 ---
 
@@ -19,7 +19,7 @@
 | ---- | ------------- | ----------------- | -------- | -------- |
 | 1    | `#cover`      | 封面与摘要        | `publication.headline/dek/authors/readingTime/tldr/impact`、`meta.date/repo/status` | `headline` 缺省用 `meta.title`，`dek` 缺省用 `meta.subtitle` |
 | 2    | `#background` | 背景              | `background.originGoal`、`background.whyConfusing`（自动拆分「1) 2)」）、`actorsAndRepos` 表 | — |
-| 3    | `#timeline`   | 时间线            | `publication.timeline`，带 `stepRef` 的条目可点击翻到对应步骤页，无 `stepRef` 的视为计划项（虚线圆点） | 无数据时不生成此页 |
+| 3 | `#timeline` | 时间线 | Publication.timeline；XSU 的每项 stepRef 引用稳定步骤 ID，编译器转换为旧数字定位；未关联步骤的计划不要伪造引用 | 无数据时不生成此页 |
 | 4…   | `#step-<id>`  | 过程详述，每阶段一页 | `steps[]`：标题、summary、切入点（`lookAt`）、背景（`whyLookHere`）、发现与行动、常见误解（误解 / 实际情况并排）、证据图（图 k-n） | `status` 为 `decision` / `blocked` 时页眉显示「关键决策」「受阻」 |
 | …    | `#decisions`  | 关键决策          | `publication.decisions`，选项与 `choice` 一字匹配时标「采纳」，其余标「未采纳」 | 无数据时不生成此页 |
 | …    | `#faq`        | 常见问题          | `confusionMatrix` | 无数据时不生成此页 |
@@ -48,18 +48,18 @@
 - **响应式**：640px 以下纸张边距收窄，「误解 / 实际情况」改为上下排列，时间线改为左侧单轴，宽表格在容器内横向滚动，保证 390px 宽度页面本身不出现横向滚动；
 - **动效**：翻页 0.36s 上浮淡入，遵守 `prefers-reduced-motion`。
 
-## 五、 组件片段
+## 五、领域组件与旧组件目录
 
-套壳与扩写时从 [`components/`](./components/) 取片段：每组件一个 kebab-case HTML 文件，顶部一行注释写组件名与适用场景，索引见 [`components/README.md`](./components/README.md)。
+默认内容入口是 Replay(preset: "replay-public")：Context、Actors、ReplayStep、五要素、Evidence、EndState、Questions、Publication。Publication 保留摘要、真实影响、时间线、带备选方案的决策、经验与脱敏记录；必须确认 audience、authors 和 authorsConfirmed，不能只把 self 的 preset 改名，不允许 Glossary 或私人笔记隐藏字段混入。
 
-- `references/template.html` 仍是视觉唯一事实源：片段不带 `<style>`，生成页里不要另写 `<style>` 或内联样式，颜色、字体、圆角一律落回模板 token；
-- 片段给的是结构与 `data-*` 契约（`data-go` 翻页、`data-act` 菜单动作、`data-component` 组件标识），占位文案用真实事实替换；
-- 常规报告直接替换 `replay-data` JSON 即可由渲染器自动生成全部结构，只在扩写或定制区块时才需要手取片段。
+具体签名查 [XSU](xsu.md) 与 components --preset replay-public。不混排 editorial 的 Section/Grid/Markdown 等通用组件。主题用根 props theme: system/light/dark，默认 system。
 
-## 六、 图表（Pele）
+[template.html](template.html) 是维护者管理的固定视觉；[components/README.md](components/README.md) 和 [旧 example.html](../examples/example.html) 保留为 catalog，不是每篇正文。缺少组件能力应报告，不手取 HTML 片段或加 CSS/JS 定制生成页。发布前仍须独立核验事实、受众与脱敏，结构校验不代表获得授权。
 
-- **语法与渲染器**：图表文本用 Mermaid 语法，渲染器是 Pele 1.6.0（obsidianmd/pele，MIT），兼容 Mermaid 12.1.0 语法；
-- **容器约定**：外层 `.pele-box`、文本节点 `pre.pele`（内容为 Mermaid 源码）。数据侧给步骤证据加 `evidence[].kind: "diagram"`，渲染器自动套用该结构；
-- **按需加载**：页面出现 `pre.pele` 才注入 CDN（`https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js`，全局 `window.pele`）；加载完成后对每个 `pre.pele` 执行 `pele.mount(el, el.textContent.trim())`，解析错误由 mount 自行展示，外层 `try/catch` 不抛页面级异常；
-- **主题**：`--pele-*` 变量在模板 token 区映射到既有 token（如 `--pele-fg: var(--ink)`），深浅切换自动生效、无需重渲染；渲染后源码可用 `<details class="pele-src">` 折叠留底（克制使用）；
-- **导出与打印**：导出 Markdown 时 diagram 证据以 mermaid 代码块输出；打印时若 CDN 尚未加载完成会退化为源码文本（建议先翻阅过图表页再打印）。
+## 六、Pele 图表与网络模式
+
+- 默认 --network offline，不引用外部字体、脚本、JSON，不自动联网。编译使用 Node >=18 且零第三方 npm 运行依赖，浏览器阅读无需 Node。
+- 图表通过 Evidence({kind: "diagram", title, content: "Mermaid 源码"}) 表达；需要显式 --network connected，否则报 XSU_NETWORK_REQUIRED，不静默联网或丢图。
+- connected 仅实际用图时按需加载锁定的远程 Pele 1.6.0（obsidianmd/pele，MIT），容器、--pele-* 主题绑定与源码展示由渲染器提供，不手拼 DOM。
+- 不承诺完整 Mermaid 12.1.0 支持，拒绝 HTML、交互链接与初始化指令等能力。远程脚本有页面执行权限，版本锁定不是供应链安全证明；该模式不宣称全离线。
+- 解析或加载失败保留源码和失败状态。Markdown 导出保留 mermaid 代码块；打印前应确认图表已实际渲染，失败回退源码不等于图表验收通过。未执行的截图、安全、交互或覆盖检查标为待验证。

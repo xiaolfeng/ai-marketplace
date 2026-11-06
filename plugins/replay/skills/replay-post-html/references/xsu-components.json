@@ -1,0 +1,818 @@
+{
+  "preset": "replay-public",
+  "components": {
+    "Replay": {
+      "name": "Replay",
+      "signatures": [
+        "Replay(props, children)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "xsuVersion": {
+            "enum": [
+              1
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preset": {
+            "enum": [
+              "replay-self",
+              "replay-public"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "minLength": 1
+          },
+          "theme": {
+            "enum": [
+              "system",
+              "light",
+              "dark"
+            ]
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "sessionName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "totalRawTurns": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "xsuVersion",
+          "id",
+          "preset",
+          "title",
+          "date"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [],
+      "allowedChildren": [
+        "Context",
+        "Actors",
+        "ReplayStep",
+        "EndState",
+        "Glossary",
+        "Questions",
+        "Publication"
+      ],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Context": {
+      "name": "Context",
+      "signatures": [
+        "Context(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "originGoal": {
+            "type": "string",
+            "minLength": 1
+          },
+          "whyConfusing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "readingGuide": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "originGoal",
+          "whyConfusing",
+          "readingGuide"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Actors": {
+      "name": "Actors",
+      "signatures": [
+        "Actors(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "detail": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "name",
+                "role",
+                "detail"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "ReplayStep": {
+      "name": "ReplayStep",
+      "signatures": [
+        "ReplayStep(props, children)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "decision",
+              "blocked"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "phase",
+          "summary",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [
+        "LookAt",
+        "Why",
+        "Actions",
+        "Insight",
+        "Handoff",
+        "Evidence"
+      ],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "LookAt": {
+      "name": "LookAt",
+      "signatures": [
+        "LookAt(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "target",
+          "anchors"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Why": {
+      "name": "Why",
+      "signatures": [
+        "Why(text)"
+      ],
+      "propsSchema": {
+        "type": "string",
+        "minLength": 1
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Actions": {
+      "name": "Actions",
+      "signatures": [
+        "Actions(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "discovery",
+                    "action",
+                    "fix",
+                    "sync"
+                  ]
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "detail": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "type",
+                "label",
+                "detail"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Insight": {
+      "name": "Insight",
+      "signatures": [
+        "Insight(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "myth": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reality": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "myth",
+          "reality"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Handoff": {
+      "name": "Handoff",
+      "signatures": [
+        "Handoff(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hook": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "next",
+          "hook"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Evidence": {
+      "name": "Evidence",
+      "signatures": [
+        "Evidence(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "code",
+              "command",
+              "quote",
+              "table",
+              "diagram"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "kind",
+          "title",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "ReplayStep"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": [
+        "diagram-requires-connected"
+      ]
+    },
+    "EndState": {
+      "name": "EndState",
+      "signatures": [
+        "EndState(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "completedItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "item": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "item",
+                "ref",
+                "note"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "pendingHandoffs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "owner": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "when": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "task",
+                "owner",
+                "when"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "completedItems",
+          "pendingHandoffs"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Glossary": {
+      "name": "Glossary",
+      "signatures": [
+        "Glossary(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "term": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "plain": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "term",
+                "plain"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self"
+      ],
+      "features": []
+    },
+    "Questions": {
+      "name": "Questions",
+      "signatures": [
+        "Questions(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "question": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "shortAnswer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "deepExplanation": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "question",
+                "shortAnswer",
+                "deepExplanation"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-self",
+        "replay-public"
+      ],
+      "features": []
+    },
+    "Publication": {
+      "name": "Publication",
+      "signatures": [
+        "Publication(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "kicker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "headline": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dek": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "readingTime": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tldr": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "impact": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {
+                  "type": [
+                    "string",
+                    "number"
+                  ],
+                  "minLength": 1
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label",
+                "value",
+                "note"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "timeline": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "event": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "stepRef": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "time",
+                "event",
+                "stepRef"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          },
+          "decisions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "context": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 2
+                },
+                "choice": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "title",
+                "context",
+                "options",
+                "choice",
+                "rationale"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "lessons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "redactionNote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "audience": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorsConfirmed": {
+            "enum": [
+              true
+            ]
+          }
+        },
+        "required": [
+          "kicker",
+          "headline",
+          "dek",
+          "authors",
+          "readingTime",
+          "tldr",
+          "impact",
+          "timeline",
+          "decisions",
+          "lessons",
+          "redactionNote",
+          "audience",
+          "authorsConfirmed"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Replay"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "replay-public"
+      ],
+      "features": []
+    }
+  }
+}

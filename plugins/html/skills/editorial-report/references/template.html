@@ -4817,6 +4817,15 @@
         (function () {
           var nodes = document.querySelectorAll("pre.pele");
           if (!nodes.length) return;
+          if (window.__XSU_CONFIG__?.network === "offline") return;
+          function diagramFailure(el) {
+            if (el.nextElementSibling?.classList.contains("xsu-diagram-error")) return;
+            var message = document.createElement("p");
+            message.className = "xsu-diagram-error";
+            message.setAttribute("role", "alert");
+            message.textContent = "图表未能渲染；已保留源文本。请检查网络或图表语法。";
+            el.after(message);
+          }
           var SVG_NS = "http://www.w3.org/2000/svg";
           function svgEl(tag, attrs) {
             var n = document.createElementNS(SVG_NS, tag);
@@ -5098,7 +5107,7 @@
           script.src =
             "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js";
           script.onload = function () {
-            if (!window.pele || typeof window.pele.mount !== "function") return;
+            if (!window.pele || typeof window.pele.mount !== "function") { nodes.forEach(diagramFailure); return; }
             nodes.forEach(function (el) {
               try {
                 var src = el.textContent.trim();
@@ -5126,9 +5135,11 @@
                     }
                   : {};
                 window.pele.mount(el, src, opts);
-              } catch (e) {}
+                setTimeout(function () { if (!el.querySelector("svg")) diagramFailure(el); }, 1000);
+              } catch (e) { diagramFailure(el); }
             });
           };
+          script.onerror = function () { nodes.forEach(diagramFailure); };
           document.head.appendChild(script);
         })();
 
@@ -5740,7 +5751,7 @@
         mountToggles();
 
         /* HTTP 下按 data-src 热刷新导航快照（file:// 双击打开时静默跳过） */
-        if (navSlot && /^https?:$/.test(location.protocol)) {
+        if (navSlot && window.__XSU_CONFIG__?.network !== "offline" && /^https?:$/.test(location.protocol)) {
           var src = navSlot.getAttribute("data-src");
           if (src) {
             fetch(src, { cache: "no-store" })

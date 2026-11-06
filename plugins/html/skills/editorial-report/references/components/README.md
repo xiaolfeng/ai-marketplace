@@ -84,4 +84,4 @@
 
 ## 使用方式
 
-复制 [`../template.html`](../template.html) 作为正式报告起点，在槽位里按需插入片段并填事实。需要查看全部组件、状态变体和组合顺序时打开 [`../../examples/example.html`](../../examples/example.html)；example 是参考目录，不是每篇报告都必须保留的固定结构。封面要右侧判断匣时，把 `takeaway.html` 放进 `.hero`。
+新报告先写 [XSU 源文件](../xsu.md)，由技能内 `scripts/xsu.mjs render` 生成正式 HTML；这些 HTML 片段是可信渲染器的视觉事实源，不是让 AI 复制到生成页的编辑入口。需要查看全部组件、状态变体和组合顺序时打开 [`../../examples/example.html`](../../examples/example.html)；example 是参考目录，不是每篇报告都必须保留的固定结构。封面判断匣由 Cover/Takeaway 契约装配，不能手改 `.hero`。旧手写报告的维护仍可参照片段，不向 XSU 生成物直接回填。

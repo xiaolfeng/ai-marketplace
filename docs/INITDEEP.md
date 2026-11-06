@@ -17,7 +17,7 @@ docs/
 ├── engineering/
 │   ├── MAINTENANCE.md               # 工程文档维护器公约：命名、取号、状态机、演进与归档铁律
 │   ├── research/                    # 调研模式（0001~0005：无状态，直接记录现状与证据）
-│   ├── design/                      # 设计模式（0001~0002：单文件演进 draft → rfc → adr）
+│   ├── design/                      # 设计模式（0001~0003：单文件演进 draft → rfc → adr）
 │   ├── spec/                        # 规范模式（0001 插件编写与上架规范：draft → rfc → adr）
 │   └── runbook/                     # 手册模式（运行与排障 SOP：draft → active → deprecated）
 └── plan/                            # 实施与迁移计划（与 engineering/ 同级）
@@ -62,3 +62,4 @@ docs/
 - [engineering-design](../plugins/engineering-design/INITDEEP.md) — 本目录写作、迁移与卫生巡检技能的宿主插件
 - [插件编写与上架规范](engineering/spec/0001-plugin-guidelines.md) — 向本市场提交插件的唯一标准（`adr`）
 - [Agent Studio 全局体系设计](engineering/design/0002-plugin-agent-studio-global.md) — 本地全局 Agent 与独立工作流构建设计（`draft`）
+- [XSU 声明式内容与 HTML 渲染设计](engineering/design/0003-skill-xsu-rendering.md) — 报告特刊与两种复盘 HTML 的编译链路、组件协议、保真与独立安装方案（`draft`）

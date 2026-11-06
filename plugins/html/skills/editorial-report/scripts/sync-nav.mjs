@@ -203,6 +203,11 @@ function main() {
   for (const entry of entries) {
     const htmlPath = path.resolve(navDir, entry.file);
     const html = fs.readFileSync(htmlPath, "utf8");
+    if (/<!-- XSU_GENERATED /.test(html)) {
+      console.error(`✗ ${entry.file}: XSU 生成页请使用 xsu.mjs render --nav，禁止直接同步 HTML`);
+      failures += 1;
+      continue;
+    }
     const match = html.match(slotPattern);
     if (!match) {
       console.error(
