@@ -35,15 +35,15 @@ HTML+SVG 技术可视化、手绘白板图表与报告特刊插件套件。
 
 把周报、日报、月报、项目进展、复盘简报和指标简报写成单文件 HTML 报告。
 
-默认写作只需 [XSU 作者参考](skills/editorial-report/references/xsu.md)、当前预设组件输出与 [example.xsu](skills/editorial-report/examples/example.xsu)，不要求全文读模板。[旧 example.html](skills/editorial-report/examples/example.html) 保留为视觉 catalog。html 插件版本 **0.4.0**，editorial-report 技能版本 **0.3.0**；另外两个图表技能不在本次 XSU 升级范围。
+默认写作只需 [XSU 作者参考](skills/editorial-report/references/xsu.md)、当前预设组件输出与 [example.xsu](skills/editorial-report/examples/example.xsu)，不要求全文读模板。[example.html](skills/editorial-report/examples/example.html) 为完整渲染参考页。html 插件版本 **0.5.0**，editorial-report 技能版本 **2.0.0**。
 
 主要能力：
 
 - 先核验事实、策划大纲与文案，再由 AI 写受限 report.xsu，经技能自带 scripts/xsu.mjs 校验和渲染；outline.md、copy.md、XSU 与 HTML 落盘到 `reports/<日期>-<slug>/` 或用户指定位置，后续只编辑 XSU，不手改生成 HTML/CSS/JS；
 - 正文口吻沿用用户设定的角色（如 `CLAUDE.md` 里的人设），没有设定时用中性同事口吻；
-- 纸白墨蓝配色与系统字体栈，圆角层级与 replay 一致，深浅主题跟随系统并可手动切换；
-- 旧视觉库保留 60 余类组件与状态参考；当前 XSU 可用组件与字段以 components --preset editorial 为准，不把旧 catalog 等同于全量 XSU 覆盖，也不把全部组件铺进每篇正文；
-- 渲染需 Node >=18，零第三方 npm 运行依赖；浏览器打开生成的单文件 HTML 无需 Node 或本地服务。默认 offline 禁止外部字体、脚本和 JSON；Pele 图表需显式 --network connected，此模式有图表能力与供应链限制，不宣称全离线；
+- v2 淡雅无衬线主题与统一设计令牌，支持 `teal`（默认）/ `slate` / `indigo` 主色切换，深浅主题跟随系统并可手动切换，全量对比度满足 WCAG AA（≥ 4.5:1）；
+- 内置 70 余类组件，新增泳道时序图（`Swimlane`）、分层容量流（`CapacityFlow`）、双区状态机（`QueueZones`）、预算条（`BudgetBars`）、编号原则卡（`Principles`）、评审进度卡（`ReviewProgress`）、图示容器（`FigureBox`）、左键右文双栏表（`KeyValueTable`）以及受安全清洗保护的 `CustomHtml`；
+- 渲染需 Node >=18，零第三方 npm 运行依赖；页面内置国内优先多级兜底加载器异步引入锁定版 Tailwind CSS v4 与 Lucide UMD，全部 CDN 失败时核心内联 CSS 仍保证完整版式可读；Pele 图表需显式 `--network connected`；
 - 双侧栏：右栏自动生成 h2/h3 本文目录，左栏由共享 report-nav.json（最高两级）驱动；新页用 render --nav 编译快照，改导航后重建并 --check，offline 不热刷新；sync-nav.mjs 仅维护旧 HTML，不修改 XSU 生成页。
 
 ## 安装

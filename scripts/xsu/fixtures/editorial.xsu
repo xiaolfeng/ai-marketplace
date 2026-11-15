@@ -1,62 +1,404 @@
-// Offline representative fixture. Per-fragment state cases live in component-coverage.json.
-Report({ xsuVersion: 1, preset: "editorial", id: "editorial-fixture", title: "测试特刊", date: "2026-11-06", brand: "XSU CONTRACT FIXTURE" }, [
-  Cover({kicker: "测试特刊", lead: "此页仅为固定夹具，不代表实际交付进度。"}),
-  Takeaway({text: "已完成协议，页面验证仍待执行。"}),
-  Glance({items: [{label: "成果", value: "协议落地", note: "已运行测试"}]}),
-  Section({id: "coverage-section", title: "测试覆盖", number: "01 / 生产", intro: "逐条检查"}, [Markdown("段落")]),
-  Metrics({}, [Metric({label: "延迟", value: 42, unit: "ms", delta: "-35%", tone: "good", progress: 85}), Metric({label: "吞吐", value: 12000, tone: "neutral", delta: "持平", progress: 38}), Metric({label: "阻塞", value: 2, tone: "warn", delta: "2项", progress: 20})]),
-  Progress({value: 92, label: "完成度"}),
-  Callout({tone: "warn", title: "状态说明"}, [Markdown("说明正文")]),
-  EvidenceLabel({kind: "confirmed"}),
-  Badge({status: "done", text: "done"}),
-  Split({}, [Section({id: "left", title: "主叙述"}, [Markdown("主文")]), Section({id: "right", title: "侧注"}, [Markdown("补充")])]),
-  Quote({text: "状态必须可回溯。", source: "技术审查"}),
-  List({items: ["已完成", "待核对"]}),
-  List({ordered: true, items: [{title: "策划", detail: "先写大纲"}, {title: "交付", detail: "核对结果"}]}),
-  Table({columns: ["服务", "状态"], rows: [["api", Badge({text: "就绪", status: "done"})]]}),
-  Compare({items: [{title: "旧方案", tag: "before", items: ["耦合"]}, {title: "新方案", tag: "after", items: ["隔离"], target: true}]}),
-  CompareTable({columns: ["维度", "A", "B"], rows: [["维护", "中", "低"]], highlight: 2}),
-  Diff({title: "config.yaml", before: "port: 80\nmode: old\nlogging: true", after: "port: 80\nmode: new\nworkers: 4\nlogging: true"}),
-  Scorecard({title: "选型", criteria: [{name: "可靠性", weight: 3}, {name: "成本", weight: 1}], options: [{name: "方案A", scores: [9, 4]}]}),
-  Code({language: "json"}, "{\"safe\":\"<script>\"}"),
-  Details({title: "技术附录", tag: "APPENDIX", open: true}, [Markdown("日志采集说明")]),
-  OpenQuestions({items: [{title: "谁负责", detail: "等待维护者确认"}]}),
-  Table({variant: "actions", title: "改进措施", columns: ["编号", "措施", "状态"], rows: [["ACT-1", "补齐回归", Badge({text: "进行中", status: "progress"})]]}),
-  Architecture({layers: [{title: "接入层", connector: "↓ gRPC ↓", nodes: [{title: "Gateway", detail: "鉴权"}]}, {title: "核心层", highlight: true, nodes: [{title: "Worker", accent: true, detail: "批处理"}]}]}),
-  Table({variant: "benchmark", title: "压测", meta: "并发500", columns: ["方案", "RPS"], rows: [["旧", 3420], ["新", 14890]], highlightRow: 1}),
-  Sources({title: "来源", items: [{id: "ref-1", title: "HTTP Semantics", url: "https://www.rfc-editor.org/rfc/rfc9110", note: "IETF"}]}),
-  DecisionLog({items: [{id: "ADR-1", title: "使用统一协议", status: "done", detail: "避免双写", owner: "维护者", date: "2026-11-06", alternative: "手写HTML"}]}),
-  FAQ({items: [{question: "可离线吗", answer: "原生组件可以", open: true}]}),
-  Tree({items: [{name: "plugins", note: "技能", children: [{name: "html"}]}]}),
-  Glossary({items: [{term: "ADR", definition: "长期架构决策记录"}]}),
-  Incident({title: "存储故障", level: "p1", cause: "连接池耗尽", status: "done", impact: [{label: "影响", value: 42, note: "分钟"}]}),
-  Timeline({variant: "incident", items: [{time: "14:22", title: "应急处置", detail: "核对运行时", tone: "bad"}]}),
-  Interview({items: [{speaker: "评审", text: "为什么改", role: "question"}, {speaker: "作者", text: "为避免漂移", role: "answer"}]}),
-  Json({value: {ok: true, code: 200, name: "demo"}}),
-  Kanban({columns: [{title: "todo", status: "todo", items: [{title: "事项todo", owner: "维护者", priority: "P1"}]}, {title: "active", status: "active", items: [{title: "事项active", owner: "维护者", priority: "P1"}]}, {title: "review", status: "review", items: [{title: "事项review", owner: "维护者", priority: "P1"}]}, {title: "done", status: "done", items: [{title: "事项done", owner: "维护者", priority: "P1"}]}]}),
-  Takeaways({items: [{title: "统一协议"}, {title: "固定样式", active: true}]}),
-  Colophon({editorial: "维护者", publication: "仅测试", seal: "VERIFIED", issuer: "编辑部"}),
-  People({items: [{name: "作者", department: "工程", role: "OWNER", status: "done", detail: "负责实现"}, {name: "审查者", role: "REVIEWER", status: "progress"}, {name: "运维", role: "SRE", status: "plan"}]}),
-  ProsCons({pros: ["隔离清晰"], cons: ["需维护协议"]}),
-  ReleaseNotes({version: "1.0.0", date: "2026-11-06", status: "done", sections: [{kind: "feat", title: "feat", items: ["已核对"]}, {kind: "fix", title: "fix", items: ["已核对"]}, {kind: "break", title: "break", items: ["已核对"]}]}),
-  Table({variant: "risk", columns: ["风险", "等级"], rows: [["丢图", Badge({text: "高", status: "blocked"})]]}),
-  RootCause({items: [{question: "为何失败", answer: "检查缺失"}, {question: "根因", answer: "缺少门禁", root: true}]}),
-  Sequence({actors: ["客户端", "网关", "服务", "数据库"], steps: [{from: 1, to: 2, text: "请求"}, {from: 2, to: 3, text: "转发"}, {from: 3, to: 4, text: "写入"}, {from: 4, to: 3, text: "回执", return: true}, {from: 3, to: 1, text: "返回", return: true}]}),
-  ServiceMesh({columns: [{title: "上游", items: [{title: "Portal", badge: "HTTP", status: "done"}]}, {title: "核心", center: true, items: [{title: "order-api", detail: "v1", pills: ["QPS: 1k"]}]}, {title: "下游", items: [{title: "DB", badge: "强依赖", status: "blocked", detail: "需高可用"}, {title: "Cache", badge: "弱依赖", status: "warn"}]}]}),
-  VisualCompare({before: {title: "旧页面", text: "旧版视觉"}, after: {title: "新页面", text: "固定模板"}}),
-  Metrics({variant: "tape"}, [Metric({label: "请求", value: 128, unit: "M", delta: "+8%", tone: "good"}), Metric({label: "节点", value: 64, delta: "稳定", tone: "neutral"})]),
-  StateMachine({nodes: [{id: "s0", title: "状态0", state: "initial"}, {id: "s1", title: "状态1", state: "in-progress"}, {id: "s2", title: "状态2", state: "active"}, {id: "s3", title: "状态3", state: "terminal-success"}, {id: "s4", title: "状态4", state: "terminal-fail"}], transitions: [{from: "s0", to: "s1", label: "提交"}, {from: "s1", to: "s2", label: "派发", guard: "配额足够"}, {from: "s2", to: "s3", label: "完成"}, {from: "s2", to: "s4", label: "失败"}]}),
-  Flow({title: "任务流程", nodes: [{id: "a", title: "读取", detail: "原始材料"}, {id: "b", title: "核对", accent: true}], edges: [{from: "a", to: "b", label: "传递事实"}], loop: "复核后回写", note: "不宣称自动核实"}),
-  Terminal({title: "zsh", shell: "zsh 5.9", lines: [{kind: "command", text: "记录command"}, {kind: "output", text: "记录output"}, {kind: "info", text: "记录info"}, {kind: "good", text: "记录good"}, {kind: "warn", text: "记录warn"}, {kind: "bad", text: "记录bad"}]}),
-  Timeline({items: [{time: "2026-11-06", title: "里程碑", status: "done", detail: "事实记录"}]}),
-  Chart({kind: "bar", labels: ["甲", "乙"], series: [{name: "请求", values: [3, 8]}, {name: "后台", values: [2, 5]}]}),
-  Chart({kind: "line", labels: ["甲", "乙"], series: [{name: "请求", values: [3, 8]}, {name: "后台", values: [2, 5]}]}),
-  Chart({kind: "donut", labels: ["甲", "乙"], series: [{name: "来源", values: [45, 55]}]}),
-  Gauge({value: 99.95, unit: "%", label: "AVAILABILITY", details: [{label: "预算剩余", value: 84.2, note: "%"}]}),
-  Heatmap({columns: ["00", "04", "08", "12", "16", "20"], rows: ["周一"], values: [[0, 1, 2, 3, 4, 5]]}),
-  Chart({kind: "scatter", labels: ["甲", "乙"], series: [{name: "请求", values: [{x: 10, y: 18}, {x: 200, y: 238, outlier: true, label: "大包"}]}], threshold: 200}),
-  Chart({kind: "stacked-bar", labels: ["甲", "乙"], series: [{name: "请求", values: [3, 8]}, {name: "后台", values: [2, 5]}]}),
-  Table({variant: "sparkline", columns: ["服务", "趋势", "健康"], rows: [["api", Sparkline({values: [3, 4, 2, 8], tone: "good"}), Badge({text: "健康", status: "done"})], ["worker", Sparkline({values: [8, 7, 2], tone: "bad"}), Badge({text: "告警", status: "warn"})]]}),
-  Quadrant({labels: ["战略", "速赢", "搁置", "按需"], items: [{title: "重构", x: 0.8, y: 0.9, status: "progress"}, {title: "缓存", x: 0.2, y: 0.9, status: "done"}, {title: "自研", x: 0.8, y: 0.2, status: "blocked"}, {title: "校验", x: 0.1, y: 0.1, status: "plan"}]}),
-  Roadmap({title: "原生离线路线图", items: [{title: "核对契约", start: "2026-11-01", end: "2026-11-03", status: "done"}, {title: "人工验收", start: "2026-11-07", end: "2026-11-07", milestone: true, status: "plan"}]})
+// Offline representative fixture covering all v1 + v2 components and CustomHtml.
+Report({
+  xsuVersion: 1,
+  preset: "editorial",
+  id: "editorial-fixture",
+  title: "分布式异步导出网关与队列改造测试特刊",
+  date: "2026-11-06",
+  accent: "teal",
+  brand: "OPEN INFRASTRUCTURE · 架构设计特刊",
+  author: "开源基础设施组",
+  footer: "测试特刊 · 面向单文件 HTML 报告渲染与组件回归验证"
+}, [
+  Cover({
+    kicker: "测试特刊 · 全链路容量治理与单点公平队列",
+    lead: "本报告演示 Editorial Report v2 淡雅无衬线主题、主色令牌切换、九类架构治理组件以及 Tailwind + Lucide 自定义 HTML 增强渲染；所有数据均为中性示例场景。"
+  }),
+  Takeaway({
+    text: "全链路收敛为单一持久等待队列：接入层只做幂等准入与快速回执，调度层按租户配额平滑放行，未知超时统一进入后台对账而不盲目重发。"
+  }),
+  Glance({
+    items: [
+      { label: "现状瓶颈", value: "多级限流割裂", note: "峰值并发下外部配额打满即直接失败" },
+      { label: "一阶段目标", value: "持久受理与引用传递", note: "控制面不再流转大体积原始载荷" },
+      { label: "二阶段终态", value: "单点公平排队", note: "按租户与目标池平滑削峰，默认等待不丢单" }
+    ]
+  }),
+
+  Section({
+    id: "v2-architecture",
+    number: "01 / 容量与时序",
+    title: "分层容量流、泳道时序图与双区状态机",
+    intro: "通过结构化组件直观呈现各层并发边界、跨节点异步调用链路及等待区与执行区的状态转换红线。"
+  }, [
+    Principles({
+      items: [
+        { title: "全链路单一排队点", detail: "只在离配额最近的一层持有等待队列，上下游全部改为**持久受理**与异步回执。" },
+        { title: "未知状态绝不重发", detail: "连接中断或超时统一转入后台对账单，严禁对有副作用任务做自动盲目重试。" },
+        { title: "大载荷走引用传递", detail: "控制面仅传递对象摘要与短效只读签名地址，原始二进制不落业务数据库。" }
+      ]
+    }),
+    FigureBox({
+      tag: "AS-IS & TO-BE CAPACITY / 四层容量与超出行为",
+      meta: "青色 = 幂等准入 · 绿色 = 持久缓冲 · 琥珀/红色 = 配额受限",
+      caption: "将突发等待集中到任务调度队列后，下游外部归档接口不再被瞬时流量击穿。"
+    }, [
+      CapacityFlow({
+        items: [
+          {
+            role: "INGRESS · 接入层",
+            title: "API 边缘网关",
+            detail: "单实例 200 并发连接，读取报文前核对内存水位与签名。",
+            tone: "accent",
+            pill: { text: "超出：返回退避窗口", kind: "admit" }
+          },
+          {
+            role: "QUEUE · 缓冲层",
+            title: "持久调度队列",
+            detail: "按租户与目标池公平轮询，支持幂等键去重与队首唤醒。",
+            tone: "ok",
+            pill: { text: "超出：进入等待队列", kind: "wait" }
+          },
+          {
+            role: "WORKER · 执行层",
+            title: "沙箱渲染节点",
+            detail: "每实例固定 8 槽位，长任务由独立心跳协程续期租约。",
+            tone: "warn",
+            pill: { text: "超出：留在队列等待", kind: "queue" }
+          },
+          {
+            role: "STORAGE · 外部配额",
+            title: "归档存储接口",
+            detail: "共享每分钟 120 次写入配额，明确限流时返回标准 429。",
+            tone: "bad",
+            pill: { text: "超出：整队短暂退避", kind: "reject" }
+          }
+        ],
+        secondary: {
+          card: {
+            role: "AUDIT · 旁路核验",
+            title: "异步摘要对账器",
+            bullets: [
+              "消费完成事件核对产物 SHA-256 与字节大小",
+              "扫描超时未决记录并拉取远端真实终态"
+            ],
+            tone: "ink",
+            pills: [
+              { text: "旁路异步消费", kind: "pass" },
+              { text: "独立限速保护", kind: "queue" }
+            ]
+          },
+          note: "近 14 日压测显示：当瞬时提交达到每分钟 **360 笔**时，前置持久队列可将端到端成功率稳定在 **99.94%**，仅平均等待时长平滑上升。"
+        }
+      })
+    ]),
+    Swimlane({
+      title: "SEQUENCE / 异步导出全链路时序（卡片式）",
+      meta: "实线 = 同步请求 · 虚线 = 回执与通知",
+      caption: "客户端提交后毫秒级拿到受理编号，后续渲染与归档全部在后台受控推进。",
+      actors: [
+        { name: "Web 客户端", subtitle: "发起导出与订阅" },
+        { name: "调度网关", subtitle: "持久受理 · 公平放行", tone: "accent" },
+        { name: "渲染工作池", subtitle: "流式生成报表" },
+        { name: "归档对象存储", subtitle: "持久化产物", tone: "ok" }
+      ],
+      rows: [
+        { kind: "band", title: "阶段 A · 持久受理", subtitle: "落库即回，不占同步连接", tone: "accent" },
+        { kind: "step", number: "1", from: 1, to: 2, text: "提交导出请求（携带 `idempotency_key`）", detail: "仅传筛选条件与数据源引用", tone: "ink" },
+        { kind: "step", number: "2", from: 2, to: 1, text: "写入任务表并返回受理编号 `job_8492`", tone: "accent", dashed: true },
+        { kind: "note", from: 2, text: "按租户配额排队；分钟窗口恢复时自动唤醒队首", tone: "warn" },
+        { kind: "band", title: "阶段 B · 异步渲染与交付", subtitle: "工作池流式上传并回报摘要", tone: "ok" },
+        { kind: "step", number: "3", from: 2, to: 3, text: "派发任务并授予 90s 执行租约", tone: "ink" },
+        { kind: "step", number: "4", from: 3, to: 4, text: "分块写入压缩归档包并校验摘要", tone: "ok" },
+        { kind: "step", number: "5", from: 3, to: 2, text: "回报完成终态与产物位置", tone: "ok", dashed: true },
+        { kind: "step", number: "6", from: 2, to: 1, text: "推送完成事件与短效下载链接", tone: "accent", dashed: true }
+      ],
+      legend: [
+        { label: "同步请求 / 派发", tone: "ink" },
+        { label: "受理回执 / 事件通知", tone: "accent", dashed: true },
+        { label: "归档写入与完成回报", tone: "ok", dashed: true }
+      ]
+    }),
+    Swimlane({
+      title: "COMPACT SEQUENCE / 限流退回与对账分支（紧凑式）",
+      meta: "variant = compact",
+      variant: "compact",
+      actors: [
+        { name: "调度网关", subtitle: "队列控制", tone: "accent" },
+        { name: "渲染工作池", subtitle: "执行尝试" },
+        { name: "归档存储接口", subtitle: "配额守卫", tone: "warn" }
+      ],
+      rows: [
+        { kind: "band", title: "明确限流未受理", subtitle: "安全退回队首", tone: "warn" },
+        { kind: "step", number: "1a", from: 1, to: 3, text: "发起预检写入请求", tone: "ink" },
+        { kind: "step", number: "2a", from: 3, to: 1, text: "返回 429 Too Many Requests（未接单）", detail: "携带退避秒数", tone: "bad", dashed: true },
+        { kind: "note", from: 1, text: "原任务保留序号退回队首，同配额队列暂停至窗口恢复", tone: "warn" },
+        { kind: "band", title: "连接中断或超时", subtitle: "严禁盲目重发", tone: "bad" },
+        { kind: "step", number: "1b", from: 2, to: 3, text: "流式上传分片期间连接超时", tone: "bad" },
+        { kind: "note", from: 1, to: 2, text: "标记 RESULT_UNKNOWN，保留在途名额并交由旁路对账器核实", tone: "bad" }
+      ],
+      legend: [
+        { label: "请求调用", tone: "ink" },
+        { label: "明确限流 / 超时", tone: "bad", dashed: true }
+      ]
+    }),
+    QueueZones({
+      title: "QUEUE STATE MACHINE / 等待区与执行区双层边界",
+      meta: "状态胶囊 + 双向流转守卫",
+      caption: "严格区分「尚未外发」与「已发起尝试」两类状态，杜绝重复扣减配额。",
+      states: [
+        { label: "QUEUED", tone: "warn", event: "配额与槽位就绪" },
+        { label: "DISPATCHED", tone: "accent" },
+        { label: "SUCCEEDED", tone: "ok", divider: "slash" },
+        { label: "FAILED", tone: "bad", divider: "slash" },
+        { label: "RESULT_UNKNOWN", tone: "ink" }
+      ],
+      left: {
+        title: "等待区 · 尚未占用下游配额",
+        subtitle: "支持随时取消 · 未受理限流可无损退回",
+        tone: "accent",
+        cards: [
+          {
+            step: "1",
+            title: "幂等准入",
+            items: [
+              "写入唯一幂等键与租户分队路由键",
+              "仅登记数据源引用，不在队列中缓存大报文"
+            ]
+          },
+          {
+            step: "2",
+            title: "配额放行控制",
+            items: [
+              "同时核对每分钟请求数与最大在途槽位",
+              "**队首唤醒**：配额窗口刷新后主动触发派发"
+            ],
+            tone: "warn"
+          }
+        ]
+      },
+      transfer: {
+        forward: "领取租约并创建尝试记录",
+        backward: "429 未接单退回队首"
+      },
+      right: {
+        title: "执行区 · 每次外发独立审计",
+        subtitle: "超时或断连绝不自动重发",
+        tone: "ok",
+        cards: [
+          {
+            step: "3",
+            title: "受控执行",
+            items: [
+              "记录本次尝试编号与上下游追踪标识",
+              "后台协程按 30s 周期续期执行租约"
+            ]
+          },
+          {
+            title: "终态收敛规则",
+            items: [
+              "**成功**：写入产物摘要，释放槽位并通知订阅方",
+              "**参数拒绝**：标记终态失败并立即释放槽位",
+              "**超时未知**：转入后台对账，对账完成前保留槽位"
+            ],
+            tone: "ok"
+          }
+        ]
+      },
+      rule: {
+        label: "设计红线",
+        text: "只有下游明确返回「未受理且未产生副作用」的限流响应才允许退回等待区；任何网络断连或超时一律进入对账流程。"
+      }
+    })
+  ]),
+
+  Section({
+    id: "v2-governance",
+    number: "02 / 预算与评审",
+    title: "耗时预算拆分、架构评审进度与分层职责表",
+    intro: "把端到端耗时账本、跨组评审结论及各模块改造前后边界收敛在同一套阅读节奏中。"
+  }, [
+    BudgetBars({
+      title: "BUDGET / 端到端耗时与配额预算拆分",
+      meta: "单位：毫秒占比",
+      rows: [
+        {
+          label: "实时小报表（≤5MB）",
+          segments: [
+            { label: "网关鉴权 40ms", share: 40, tone: "accent" },
+            { label: "查询聚合 260ms", share: 260, tone: "ok" },
+            { label: "流式压缩 100ms", share: 100, tone: "warn" }
+          ]
+        },
+        {
+          label: "离线大报表（≤2GB）",
+          segments: [
+            { label: "队列等待 ≤5s", share: 15, tone: "warn" },
+            { label: "分片扫描与渲染 ≤60s", share: 65, tone: "accent" },
+            { label: "归档校验 ≤15s", share: 20, tone: "ok" }
+          ]
+        }
+      ],
+      note: "离线大报表采用异步回执模式，客户端轮询或事件订阅超时与后台执行租约完全解耦。"
+    }),
+    ReviewProgress({
+      stats: [
+        { label: "已达成共识", count: 5, status: "done" },
+        { label: "待补充压测", count: 2, status: "warn" },
+        { label: "二期演进", count: 1, status: "info" }
+      ],
+      items: [
+        {
+          title: "单点持久队列模型",
+          status: "done",
+          badgeText: "已达成共识",
+          summary: "所有异步导出请求统一在调度层排队，上下游不再各自维护内存等待池。",
+          impactLabel: "对本方案",
+          impact: "锁定任务表与尝试表双层结构，直接进入第一批迁移。"
+        },
+        {
+          title: "内存预算替代固定连接槽",
+          status: "warn",
+          badgeText: "待补充压测",
+          summary: "按请求体预估字节数动态准入，避免大查询与轻量状态查询互相挤占。",
+          impactLabel: "对本方案",
+          impact: "保留可热更新的字节阈值参数，压测验证后再切换默认开关。"
+        },
+        {
+          title: "跨地域归档双写容灾",
+          status: "info",
+          badgeText: "二期演进",
+          summary: "首期优先保障单地域归档闭环，异地异步复制留待二期独立立项。",
+          impactLabel: "对本方案",
+          impact: "存储接口预留桶别名字段，本期不阻塞主干上线。"
+        }
+      ]
+    }),
+    KeyValueTable({
+      title: "LAYER MATRIX / 各模块现状、改造目标与超限策略",
+      meta: "左键右文双栏表",
+      headers: ["模块 / 层级", "现状、目标与边界"],
+      rows: [
+        {
+          key: "API 边缘网关",
+          badges: [{ text: "已达成共识", status: "done" }],
+          owner: "归属：接入基础组",
+          sections: [
+            { label: "现状", text: "固定连接上限，峰值超限时直接断开且缺少标准退避头。" },
+            { label: "目标", text: "读取请求体前先检查内存预算，超限时携带 `Retry-After` 平滑提示。" },
+            { label: "超出时", text: "轻量状态查询走独立快速通道，不受大体积导出任务影响。" }
+          ]
+        },
+        {
+          key: "任务调度队列",
+          badges: [{ text: "核心改造", status: "progress" }],
+          owner: "归属：调度引擎组",
+          sections: [
+            { label: "现状", text: "无持久化排队，外部接口返回 429 时直接标记整笔任务失败。" },
+            { label: "目标", text: "按租户与目标池分队公平放行，明确未受理限流自动退回队首等待。" }
+          ]
+        },
+        {
+          key: "异步摘要对账器",
+          badges: [{ text: "新增模块", status: "warn" }],
+          owner: "归属：存储可靠性组",
+          sections: [
+            { label: "现状", text: "网络超时记录依赖人工脚本排查，恢复周期长。" },
+            { label: "目标", text: "每 60 秒自动核查 `RESULT_UNKNOWN` 记录并回填真实终态。" }
+          ]
+        }
+      ]
+    }),
+    CustomHtml({
+      title: "CUSTOM HTML / Tailwind CSS v4 + Lucide 实时指标速览",
+      meta: "支持主题色自适应与离线降级可读",
+      caption: "作者可在 XSU 中直接书写受安全清洗保护的 Tailwind + Lucide 片段，颜色自动跟随当前主题与主色。"
+    }, "<div class=\"grid grid-cols-1 md:grid-cols-3 gap-4\"><div class=\"flex items-start gap-3 p-4 rounded-xl bg-paper border border-line\"><span class=\"inline-flex items-center justify-center w-9 h-9 rounded-lg bg-accent-tint text-accent\"><i data-lucide=\"layers\"></i></span><div><div class=\"text-xs font-mono text-muted\">QUEUE DEPTH</div><div class=\"text-base font-semibold text-ink\">峰值积压 ≤ 420 笔</div><div class=\"text-xs text-muted mt-1\">单实例内存占用稳定在 180MiB 以内</div></div></div><div class=\"flex items-start gap-3 p-4 rounded-xl bg-paper border border-line\"><span class=\"inline-flex items-center justify-center w-9 h-9 rounded-lg bg-success-bg text-success\"><i data-lucide=\"shield-check\"></i></span><div><div class=\"text-xs font-mono text-muted\">SAFE SANITIZER</div><div class=\"text-base font-semibold text-ink\">100% 静态清洗隔离</div><div class=\"text-xs text-muted mt-1\">自动剥离脚本标签、内联事件与危险协议</div></div></div><div class=\"flex items-start gap-3 p-4 rounded-xl bg-paper border border-line\"><span class=\"inline-flex items-center justify-center w-9 h-9 rounded-lg bg-warn-bg text-warn\"><i data-lucide=\"zap\"></i></span><div><div class=\"text-xs font-mono text-muted\">TAIL LATENCY</div><div class=\"text-base font-semibold text-ink\">受理 P99 38ms</div><div class=\"text-xs text-muted mt-1\">较同步阻塞架构下降 89%</div></div></div></div>")
+  ]),
+
+  Section({
+    id: "coverage-section",
+    title: "存量组件全量兼容回归",
+    number: "03 / 向后兼容",
+    intro: "验证全部既有 XSU 组件在 v2 淡雅无衬线主题下无需改动源码即可正常渲染。"
+  }, [
+    Markdown("既有 XSU 文档升级至 v2 模板时，指标卡、对比表、时间线、路线图与代码差异对比均保持完整向后兼容。"),
+    Metrics({}, [
+      Metric({ label: "延迟", value: 42, unit: "ms", delta: "-35%", tone: "good", progress: 85 }),
+      Metric({ label: "吞吐", value: 12000, tone: "neutral", delta: "持平", progress: 38 }),
+      Metric({ label: "阻塞", value: 2, tone: "warn", delta: "2项", progress: 20 })
+    ]),
+    Progress({ value: 92, label: "回归用例覆盖率" }),
+    Callout({ tone: "warn", title: "灰度切换须知" }, [
+      Markdown("先在影子流量环境核对队列唤醒指标，确认零积压饥饿后再切全量。")
+    ]),
+    Row({ variant: "split-note" }, [
+      Stack({}, [EvidenceLabel({ kind: "confirmed" }), Markdown("**明确纳入范围**：持久队列、租约续期与旁路对账。")]),
+      Stack({}, [EvidenceLabel({ kind: "unknown" }), Markdown("**本期暂不涉及**：跨地域多活复制与动态弹性扩缩容。")])
+    ]),
+    Split({}, [
+      Section({ id: "left", title: "主叙述" }, [Markdown("主干改造聚焦单地域高可靠闭环。")]),
+      Section({ id: "right", title: "侧注" }, [Markdown("配置项全部支持热加载回滚。")])
+    ]),
+    Quote({ text: "可观测与幂等边界必须先于吞吐优化落地。", source: "架构评审纪要" }),
+    List({ items: ["已完成协议契约核对", "待补充混合载荷压测"] }),
+    List({ ordered: true, items: [{ title: "契约冻结", detail: "统一状态码与错误分类" }, { title: "灰度验证", detail: "核对双主题与窄屏布局" }] }),
+    Table({ columns: ["服务", "状态"], rows: [["export-gateway", Badge({ text: "就绪", status: "done" })]] }),
+    Compare({ items: [{ title: "旧方案", tag: "before", items: ["同步阻塞等待"] }, { title: "新方案", tag: "after", items: ["持久受理排队"], target: true }] }),
+    CompareTable({ columns: ["维度", "同步直连", "持久队列"], rows: [["峰值抗压", "弱", "强"]], highlight: 2 }),
+    Diff({ title: "gateway.yaml", before: "mode: sync\nmax_slots: 4\nretry: blind", after: "mode: persistent_queue\nmemory_budget_mb: 256\nretry: idempotent_only" }),
+    Scorecard({ title: "队列存储选型", criteria: [{ name: "事务一致性", weight: 3 }, { name: "运维复杂度", weight: 2 }], options: [{ name: "关系型持久表", scores: [9, 8] }, { name: "内存消息中间件", scores: [6, 5] }] }),
+    Code({ language: "json" }, "{\"safe\":\"<script>\"}"),
+    Details({ title: "技术附录", tag: "APPENDIX", open: true }, [Markdown("采样日志按每分钟窗口聚合上报。")]),
+    Table({ variant: "actions", title: "改进措施", columns: ["编号", "措施", "状态"], rows: [["ACT-1", "补齐对账回归测试", Badge({ text: "进行中", status: "progress" })]] }),
+    Architecture({ layers: [{ title: "接入层", connector: "↓ HTTP / RPC ↓", nodes: [{ title: "Gateway", detail: "鉴权与限速" }] }, { title: "核心层", highlight: true, nodes: [{ title: "Scheduler", accent: true, detail: "公平队列" }] }] }),
+    Table({ variant: "benchmark", title: "基准压测", meta: "并发 500", columns: ["方案", "RPS"], rows: [["改造前", 3420], ["改造后", 14890]], highlightRow: 1 }),
+    Sources({ title: "参考标准", items: [{ id: "ref-1", title: "HTTP Semantics (RFC 9110)", url: "https://www.rfc-editor.org/rfc/rfc9110", note: "IETF" }] }),
+    DecisionLog({ items: [{ id: "ADR-01", title: "采用单点持久等待队列", status: "done", detail: "消除跨层重复排队与超时错配", owner: "基础设施组", date: "2026-11-06", alternative: "多级内存限流" }] }),
+    FAQ({ items: [{ question: "CDN 不可达时页面还能正常阅读吗？", answer: "可以，核心版式与全部内置组件均由内联 CSS 驱动。", open: true }] }),
+    Tree({ items: [{ name: "gateway", note: "主目录", children: [{ name: "scheduler" }, { name: "reconciler" }] }] }),
+    Glossary({ items: [{ term: "幂等键", definition: "客户端生成的唯一请求标识，用于保障重试不重复创建任务。" }] }),
+    Incident({ title: "历史突发限流复盘", level: "p1", cause: "突发导出打满下游每分钟配额", status: "done", impact: [{ label: "持续时长", value: 18, note: "分钟" }] }),
+    Timeline({ variant: "incident", items: [{ time: "14:22", title: "触发限流告警", detail: "启动降级开关", tone: "bad" }] }),
+    Interview({ items: [{ speaker: "评审人", text: "为何不在客户端直接轮询重试？", role: "question" }, { speaker: "设计人", text: "客户端重试会放大惊群效应，服务端持久队列才能按配额精确放行。", role: "answer" }] }),
+    Json({ value: { ok: true, code: 200, queue: "export-default" } }),
+    Kanban({ columns: [{ title: "待办", status: "todo", items: [{ title: "压测脚本", owner: "测试组", priority: "P1" }] }, { title: "进行中", status: "active", items: [{ title: "队列调度器", owner: "引擎组", priority: "P1" }] }, { title: "评审中", status: "review", items: [{ title: "对账任务", owner: "存储组", priority: "P1" }] }, { title: "已完成", status: "done", items: [{ title: "协议定稿", owner: "架构组", priority: "P1" }] }] }),
+    Takeaways({ items: [{ title: "统一受限语法" }, { title: "淡雅双主题自适应", active: true }] }),
+    People({ items: [{ name: "林澈", department: "基础架构", role: "OWNER", status: "done", detail: "负责队列状态机" }, { name: "苏航", department: "质量工程", role: "REVIEWER", status: "progress", detail: "负责故障注入压测" }, { name: "周予", department: "平台运维", role: "SRE", status: "plan", detail: "负责灰度监控" }] }),
+    ProsCons({ pros: ["故障边界清晰，零盲目重试"], cons: ["需要维护独立对账任务"] }),
+    ReleaseNotes({ version: "2.0.0", date: "2026-11-06", status: "done", sections: [{ kind: "feat", title: "feat", items: ["新增九类架构与治理正式组件", "新增 CustomHtml 安全增强组件"] }, { kind: "fix", title: "fix", items: ["提升浅色与深色全量文本对比度至 WCAG AA"] }, { kind: "break", title: "change", items: ["默认主题升级为淡雅无衬线青色特刊风格"] }] }),
+    Table({ variant: "risk", columns: ["潜在风险", "等级"], rows: [["对账周期过长占用槽位", Badge({ text: "中", status: "warn" })]] }),
+    RootCause({ items: [{ question: "为何高峰期任务失败率骤增？", answer: "下游每分钟配额耗尽后网关直接返回错误" }, { question: "根本原因是什么？", answer: "全链路缺少与配额模型对齐的持久等待层", root: true }] }),
+    Sequence({ actors: ["客户端", "网关", "调度器", "存储"], steps: [{ from: 1, to: 2, text: "提交请求" }, { from: 2, to: 3, text: "持久化入队" }, { from: 3, to: 4, text: "异步归档" }, { from: 4, to: 3, text: "返回摘要", return: true }, { from: 3, to: 1, text: "完成通知", return: true }] }),
+    ServiceMesh({ columns: [{ title: "上游调用", items: [{ title: "Web 控制台", badge: "HTTPS", status: "done" }] }, { title: "核心调度", center: true, items: [{ title: "export-scheduler", detail: "v2.0", pills: ["QPS: 1.2k", "P99: 38ms"] }] }, { title: "下游存储", items: [{ title: "PostgreSQL", badge: "强依赖", status: "done", detail: "任务与租约表" }, { title: "Object Store", badge: "归档桶", status: "warn" }] }] }),
+    VisualCompare({ before: { title: "v1 纸白衬线深匣", text: "高反差深色判断框与荧光笔标题底纹" }, after: { title: "v2 淡雅无衬线特刊", text: "柔和描边、马卡龙语义色与高对比清晰排版" } }),
+    Metrics({ variant: "tape" }, [Metric({ label: "日均任务", value: 128, unit: "K", delta: "+18%", tone: "good" }), Metric({ label: "工作节点", value: 32, delta: "稳定", tone: "neutral" })]),
+    StateMachine({ nodes: [{ id: "s0", title: "待受理", state: "initial" }, { id: "s1", title: "排队中", state: "in-progress" }, { id: "s2", title: "执行中", state: "active" }, { id: "s3", title: "已归档", state: "terminal-success" }, { id: "s4", title: "已失败", state: "terminal-fail" }], transitions: [{ from: "s0", to: "s1", label: "落库回执" }, { from: "s1", to: "s2", label: "配额放行", guard: "分钟额度富余" }, { from: "s2", to: "s3", label: "校验通过" }, { from: "s2", to: "s4", label: "参数错误" }] }),
+    Flow({ title: "编译与渲染流水线", nodes: [{ id: "a", title: "解析 XSU", detail: "受限 AST" }, { id: "b", title: "契约校验", accent: true, detail: "Schema + 安全门禁" }], edges: [{ from: "a", to: "b", label: "静态检查" }], loop: "确定性装配单文件 HTML", note: "不执行任意脚本" }),
+    Terminal({ title: "verify-xsu", shell: "zsh 5.9", lines: [{ kind: "command", text: "node scripts/xsu.mjs validate examples/example.xsu" }, { kind: "good", text: "✓ Validated editorial-fixture (0 errors)" }, { kind: "info", text: "Rendered examples/example.html deterministically" }] }),
+    Timeline({ items: [{ time: "2026-11-06", title: "v2 视觉与组件升级", status: "done", detail: "完成淡雅主题与九类正式组件" }] }),
+    Chart({ kind: "bar", title: "分阶段吞吐对比", labels: ["阶段一", "阶段二"], series: [{ name: "直连模式", values: [3.4, 3.6] }, { name: "持久队列", values: [11.2, 14.8] }], unit: "k RPS" }),
+    Chart({ kind: "line", title: "排队等待趋势", labels: ["10:00", "10:15", "10:30"], series: [{ name: "P50", values: [0.4, 0.9, 0.5] }, { name: "P99", values: [1.2, 2.1, 1.4] }], unit: "s" }),
+    Chart({ kind: "donut", title: "任务结果分布", labels: ["一次成功", "退避后成功"], series: [{ name: "占比", values: [94, 6] }], unit: "%" }),
+    Gauge({ value: 99.94, unit: "%", label: "SUCCESS RATE", details: [{ label: "错误预算剩余", value: 88.5, note: "%" }] }),
+    Heatmap({ title: "分时段任务密度", columns: ["00", "04", "08", "12", "16", "20"], rows: ["周一", "周三"], values: [[1, 1, 3, 5, 4, 2], [1, 2, 4, 5, 5, 3]] }),
+    Chart({ kind: "scatter", title: "报表体积与耗时分布", labels: ["体积", "耗时"], series: [{ name: "样本", values: [{ x: 12, y: 18 }, { x: 180, y: 215, outlier: true, label: "超大归档" }] }], threshold: 200 }),
+    Chart({ kind: "stacked-bar", title: "各阶段耗时构成", labels: ["小报表", "大报表"], series: [{ name: "鉴权", values: [15, 5] }, { name: "执行", values: [85, 95] }], unit: "%" }),
+    Table({ variant: "sparkline", columns: ["工作池", "吞吐趋势", "状态"], rows: [["pool-alpha", Sparkline({ values: [3, 5, 6, 8], tone: "good" }), Badge({ text: "健康", status: "done" })], ["pool-beta", Sparkline({ values: [7, 6, 4, 5], tone: "warn" }), Badge({ text: "观察", status: "warn" })]] }),
+    Quadrant({ title: "治理事项优先级矩阵", labels: ["优先落地", "速赢优化", "长期演进", "按需观察"], items: [{ title: "单点持久队列", x: 0.85, y: 0.9, status: "done" }, { title: "退避响应头", x: 0.25, y: 0.85, status: "done" }, { title: "异地双写", x: 0.8, y: 0.2, status: "plan" }, { title: "冷备压缩率调优", x: 0.2, y: 0.2, status: "plan" }] }),
+    Roadmap({ title: "改造实施路线图", items: [{ title: "契约与表结构冻结", start: "2026-11-01", end: "2026-11-04", status: "done" }, { title: "灰度切流验收", start: "2026-11-08", end: "2026-11-08", milestone: true, status: "plan" }] })
+  ]),
+
+  OpenQuestions({
+    items: [
+      { title: "超大报表的分片并发上限", detail: "待结合混合载荷压测数据确认单节点最优槽位数。" },
+      { title: "归档链接默认有效时长", detail: "当前默认 2 小时只读有效，待确认是否需按租户策略配置。" }
+    ]
+  }),
+  Colophon({
+    editorial: "开源基础设施架构组",
+    publication: "Editorial Report v2 · 组件与视觉基准页",
+    seal: "V2 VERIFIED",
+    issuer: "EDITORIAL ENGINE"
+  })
 ])

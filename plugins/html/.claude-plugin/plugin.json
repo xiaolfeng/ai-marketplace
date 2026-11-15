@@ -1,7 +1,7 @@
 {
   "name": "html",
-  "description": "HTML 视觉、图表与报告套件：系统架构拓扑图、Excalidraw 手绘白板，以及先大纲和文案、再以受限 XSU 确定性渲染的单文件报告特刊；固定双主题与双侧栏，默认离线，Pele 图表须显式联网",
-  "version": "0.4.0",
+  "description": "HTML 视觉、图表与报告套件：系统架构拓扑图、Excalidraw 手绘白板，以及先大纲和文案、再以受限 XSU 确定性渲染的单文件报告特刊（v2 淡雅无衬线主题、三主色切换、扩展架构治理组件与 Tailwind+Lucide 增强）",
+  "version": "0.5.0",
   "author": {
     "name": "xiao_lfeng",
     "url": "https://www.x-lf.com"

@@ -1,0 +1,16 @@
+<!-- 模块：编号原则卡 (Principles) -->
+<!-- 适用场景：架构原则、治理铁律、设计公理的自动编号三栏卡片 -->
+<div class="principles" data-component="principles">
+  <div class="principle">
+    <b>全链路单一排队点</b>
+    <span>只在离配额最近的一层持有等待队列，上下游全部改为持久受理与异步回执。</span>
+  </div>
+  <div class="principle">
+    <b>未知状态绝不盲目重发</b>
+    <span>连接超时或回执丢失统一进入后台对账，避免有副作用任务发生重复执行。</span>
+  </div>
+  <div class="principle">
+    <b>大体积载荷走引用传递</b>
+    <span>控制面只流转对象摘要与短效签名地址，禁止原始二进制进入数据库或日志。</span>
+  </div>
+</div>

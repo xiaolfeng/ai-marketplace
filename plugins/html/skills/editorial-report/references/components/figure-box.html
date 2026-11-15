@@ -1,0 +1,18 @@
+<!-- 模块：图示容器 (FigureBox / pele-box) -->
+<!-- 适用场景：为自定义结构图、容量流、状态机或表格提供统一顶栏标签、元信息与底部图注 -->
+<div class="pele-box" data-component="figure-box">
+  <div class="pele-head">
+    <span class="pele-tag">TOPOLOGY / 边缘网关分级限流拓扑</span>
+    <span class="pele-meta">浅绿 = 本地缓冲 · 琥珀 = 降级旁路</span>
+  </div>
+  <div class="pele-view">
+    <figure class="sw-fig" role="group" aria-label="边缘网关分级限流拓扑">
+      <div class="principles">
+        <div class="principle"><b>接入鉴权</b><span>校验令牌与租户速率配额，毫秒级拦截异常突发。</span></div>
+        <div class="principle"><b>本地令牌桶</b><span>按工作区与路由键隔离突发流量，避免单租户挤占。</span></div>
+        <div class="principle"><b>异步回写</b><span>审计指标走内存环形队列批量落盘，不阻塞主链路。</span></div>
+      </div>
+      <figcaption><strong>图示：</strong>三段式流量削峰路径，所有拒绝均携带明确重试窗口。</figcaption>
+    </figure>
+  </div>
+</div>

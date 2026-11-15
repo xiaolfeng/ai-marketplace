@@ -78,9 +78,23 @@
 | 文件                                               | 模块名称           | 适用场景                               |
 | -------------------------------------------------- | ------------------ | -------------------------------------- |
 | [`data-table.html`](./data-table.html)             | **自适应数据表**   | 桌面整齐表格，移动端 `data-label` 叠卡 |
+| [`key-value-table.html`](./key-value-table.html)   | **左键右文双栏表** | 左列模块+徽章+归属，右列现状/目标/边界 |
 | [`code-block.html`](./code-block.html)             | **代码与配置块**   | 配置文件、命令调用示例                 |
 | [`details-collapse.html`](./details-collapse.html) | **可折叠技术附录** | 详细日志、DDL、排障记录折叠            |
 | [`open.html`](./open.html)                         | **未决事项**       | 待拍板开放问题（无未决时整段省略）     |
+
+### 9. v2 架构治理与增强组件
+
+| 文件                                               | 模块名称             | 适用场景                                           |
+| -------------------------------------------------- | -------------------- | -------------------------------------------------- |
+| [`figure-box.html`](./figure-box.html)             | **图示容器**         | 顶栏标签、元信息、图示画布与 `figcaption`          |
+| [`swimlane-diagram.html`](./swimlane-diagram.html) | **泳道时序图**       | 参与者、阶段分组框、正反向实虚线箭头、自注释、图例 |
+| [`capacity-flow.html`](./capacity-flow.html)       | **分层容量流**       | 多层容量卡片、串联箭头、超出反应胶囊与旁路补充行   |
+| [`queue-zones.html`](./queue-zones.html)           | **双区状态机**       | 等待区/执行区双栏卡片、双向流转、状态胶囊与红线    |
+| [`budget-bars.html`](./budget-bars.html)           | **预算条**           | 多行分段比例预算条与底部注释                       |
+| [`principles.html`](./principles.html)             | **编号原则卡**       | 自动编号三栏原则卡片                               |
+| [`review-progress.html`](./review-progress.html)   | **评审进度与影响卡** | 顶部计数、彩色比例条与带影响说明的双列评审卡       |
+| [`custom-html.html`](./custom-html.html)           | **自定义 HTML 视图** | Tailwind v4 工具类 + Lucide 图标安全清洗定制片段   |
 
 ## 使用方式
 

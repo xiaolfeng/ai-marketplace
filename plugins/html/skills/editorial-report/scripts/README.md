@@ -18,8 +18,8 @@ node <skill-dir>/scripts/xsu.mjs render report.xsu --out legacy.html --force
 - `<skill-dir>` 为本技能安装目录；参数路径相对当前工作目录，bundle 不依赖仓库 cwd/node_modules，禁止手改分发脚本。
 - validate/render 均支持 --warnings-as-errors 与 --diagnostics-json；诊断只创建新文件，拒绝覆盖已有报告或任何输入资源。
 - render --check 不写文件；--force 只放开人工输出覆盖，不跳过组件、安全或输入保护。
-- 默认 --network offline，禁止外部字体/脚本/JSON 和导航热刷新；Pele 图表需显式 --network connected，不宣称全离线、完整 Mermaid 兼容或供应链安全已验证。
-- 根 theme props 为 system/light/dark。editorial 不支持 migrate-replay；该命令仅在 Replay HTML 技能内可用。
+- 默认 `--network offline` 不加载 Pele 远程脚本（Pele 图表需显式 `--network connected`）；页面内置国内优先多级兜底加载器异步引入锁定版 `@tailwindcss/browser@4.3.5` 与 `lucide@1.72.0`，断网时核心内联 CSS 完整保底可读。
+- 根 props 支持 `theme`（`system/light/dark`）与 `accent`（`teal/slate/indigo`，默认 `teal`）。editorial 不支持 migrate-replay；该命令仅在 Replay HTML 技能内可用。
 
 ## sync-nav.mjs（仅旧 HTML 的导航同步）
 

@@ -107,6 +107,7 @@ register(
     title: nonempty,
     date: nonempty,
     theme: en("system", "light", "dark"),
+    accent: en("teal", "slate", "indigo"),
     brand: str,
     subtitle: str,
     author: str,
@@ -680,6 +681,287 @@ register(
   { title: str, nodes: arr(flowNode), transitions: arr(edge) },
   ["nodes", "transitions"],
 );
+const diagramTone = en(
+  "neutral",
+  "ink",
+  "accent",
+  "info",
+  "good",
+  "ok",
+  "warn",
+  "bad",
+);
+const laneInt = { type: "integer", minimum: 1, maximum: 8 };
+const swimActor = obj({ name: nonempty, subtitle: str, tone: diagramTone }, [
+  "name",
+]);
+const swimRow = {
+  anyOf: [
+    obj(
+      {
+        kind: en("band"),
+        title: nonempty,
+        subtitle: str,
+        tone: diagramTone,
+      },
+      ["kind", "title"],
+    ),
+    obj(
+      {
+        kind: en("step"),
+        number: str,
+        from: laneInt,
+        to: laneInt,
+        text: nonempty,
+        detail: str,
+        tone: diagramTone,
+        dashed: bool,
+      },
+      ["kind", "from", "to", "text"],
+    ),
+    obj(
+      {
+        kind: en("note"),
+        from: laneInt,
+        to: laneInt,
+        text: nonempty,
+        tone: diagramTone,
+      },
+      ["kind", "from", "text"],
+    ),
+  ],
+};
+const swimLegend = obj({ label: nonempty, tone: diagramTone, dashed: bool }, [
+  "label",
+]);
+const capPill = obj(
+  {
+    text: nonempty,
+    kind: en("queue", "reject", "wait", "admit", "pass"),
+  },
+  ["text"],
+);
+const capCard = obj(
+  {
+    role: str,
+    title: nonempty,
+    detail: str,
+    bullets: arr(nonempty, 20),
+    tone: diagramTone,
+    pill: capPill,
+    pills: arr(capPill, 8),
+  },
+  ["title"],
+);
+const qaCard = obj(
+  {
+    step: str,
+    title: nonempty,
+    items: arr(nonempty, 20),
+    tone: diagramTone,
+  },
+  ["title", "items"],
+);
+const qaZone = obj(
+  {
+    title: nonempty,
+    subtitle: str,
+    tone: diagramTone,
+    cards: arr(qaCard, 20),
+  },
+  ["title", "cards"],
+);
+register(
+  "FigureBox",
+  {
+    id: nonempty,
+    tag: nonempty,
+    meta: str,
+    label: str,
+    caption: str,
+  },
+  ["tag"],
+  "children",
+  "layout",
+);
+register(
+  "Swimlane",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    caption: str,
+    variant: en("default", "compact"),
+    hint: str,
+    actors: arr(swimActor, 8),
+    rows: arr(swimRow, 500),
+    legend: arr(swimLegend, 20),
+  },
+  ["actors", "rows"],
+  "props",
+  "diagram",
+);
+register(
+  "CapacityFlow",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    caption: str,
+    columns: en(2, 3, 4, 5, 6),
+    arrows: bool,
+    items: arr(capCard, 24),
+    secondary: obj({ card: capCard, note: str }),
+  },
+  ["items"],
+  "props",
+  "diagram",
+);
+register(
+  "QueueZones",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    caption: str,
+    states: arr(
+      obj(
+        {
+          label: nonempty,
+          tone: diagramTone,
+          event: str,
+          divider: en("arrow", "slash", "none"),
+        },
+        ["label"],
+      ),
+      20,
+    ),
+    left: qaZone,
+    transfer: obj({ forward: nonempty, backward: str }, ["forward"]),
+    right: qaZone,
+    rule: obj({ label: str, text: nonempty }, ["text"]),
+  },
+  ["left", "transfer", "right"],
+  "props",
+  "diagram",
+);
+register(
+  "BudgetBars",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    rows: arr(
+      obj(
+        {
+          label: nonempty,
+          segments: arr(
+            obj(
+              {
+                label: nonempty,
+                share: { ...num, exclusiveMinimum: 0 },
+                tone: diagramTone,
+              },
+              ["label", "share"],
+            ),
+            16,
+          ),
+        },
+        ["label", "segments"],
+      ),
+      40,
+    ),
+    note: str,
+  },
+  ["rows"],
+  "props",
+  "chart",
+);
+register(
+  "Principles",
+  {
+    id: nonempty,
+    columns: en(1, 2, 3),
+    items: arr(
+      obj({ title: nonempty, detail: nonempty }, ["title", "detail"]),
+      24,
+    ),
+  },
+  ["items"],
+  "props",
+  "content",
+);
+register(
+  "ReviewProgress",
+  {
+    id: nonempty,
+    stats: arr(
+      obj(
+        {
+          label: nonempty,
+          count: { type: "integer", minimum: 0, maximum: 100000 },
+          status,
+        },
+        ["label", "count"],
+      ),
+      8,
+    ),
+    items: arr(
+      obj(
+        {
+          title: nonempty,
+          status,
+          badgeText: str,
+          summary: nonempty,
+          impactLabel: str,
+          impact: str,
+        },
+        ["title", "status", "summary"],
+      ),
+      100,
+    ),
+  },
+  ["items"],
+  "props",
+  "content",
+);
+register(
+  "KeyValueTable",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    headers: arr(nonempty, 2),
+    rows: arr(
+      obj(
+        {
+          key: nonempty,
+          badges: arr(obj({ text: nonempty, status }, ["text"]), 8),
+          owner: str,
+          sections: arr(obj({ label: str, text: nonempty }, ["text"]), 12),
+        },
+        ["key", "sections"],
+      ),
+      200,
+    ),
+  },
+  ["rows"],
+  "props",
+  "table",
+);
+register(
+  "CustomHtml",
+  {
+    id: nonempty,
+    title: str,
+    meta: str,
+    caption: str,
+    html: str,
+  },
+  [],
+  "code",
+  "content",
+);
 register(
   "Colophon",
   { editorial: nonempty, publication: nonempty, seal: str, issuer: str },
@@ -693,6 +975,7 @@ const layouts = [
   "Split",
   "Details",
   "Callout",
+  "FigureBox",
 ];
 const content = Object.keys(properties).filter(
   (name) => !["Report", "Cover", "Metric"].includes(name),
@@ -721,6 +1004,7 @@ for (const [name, entry] of Object.entries(properties)) {
     entry.allowedParents.push("TableCell");
 }
 properties.Cover.signatures = ["(props)", "(props, children)"];
+properties.CustomHtml.signatures = ["(props, text)", "(props)"];
 export const EDITORIAL_COMPONENTS = Object.freeze(properties);
 
 function ensure(condition, node, message, code = "XSU_PROP") {
@@ -934,13 +1218,15 @@ function validateNode(node, parent, context, ids, depth = 0) {
   check(p, entry.propsSchema, node, node.type, context);
   ensure(
     (node.type === "Cover" && node.args.length === 1) ||
+      (node.type === "CustomHtml" &&
+        (node.args.length === 1 || node.args.length === 2)) ||
       node.args.length ===
         (signature === "code" ? 2 : signature === "children" ? 2 : 1),
     node,
     `${node.type}: expected ${entry.signatures[0]}`,
     "XSU_SIGNATURE",
   );
-  if (signature === "code")
+  if (signature === "code" && node.args.length === 2)
     ensure(
       typeof node.args[1] === "string",
       node,
@@ -1171,6 +1457,162 @@ function validateNode(node, parent, context, ids, depth = 0) {
     case "ReleaseNotes":
       date(p.date, node);
       break;
+    case "FigureBox":
+      ensure(
+        children(node).length >= 1,
+        node,
+        "FigureBox requires at least one child component",
+        "XSU_REQUIRED",
+      );
+      if (p.caption) inline(p.caption, node);
+      break;
+    case "Swimlane":
+      ensure(
+        p.actors.length >= 2 && p.actors.length <= 8,
+        node,
+        "Swimlane requires 2..8 actors",
+      );
+      ensure(p.rows.length >= 1, node, "Swimlane requires at least one row");
+      p.rows.forEach((r) => {
+        if (r.kind === "step") {
+          ensure(
+            r.from <= p.actors.length && r.to <= p.actors.length,
+            node,
+            "Swimlane step actor index exceeds actors length",
+            "XSU_REFERENCE",
+          );
+          ensure(
+            r.from !== r.to,
+            node,
+            "Swimlane step endpoints must differ (use note for single-lane annotation)",
+          );
+          inline(r.text, node);
+          if (r.detail) inline(r.detail, node);
+        } else if (r.kind === "note") {
+          const to = r.to ?? r.from;
+          ensure(
+            r.from <= p.actors.length && to <= p.actors.length,
+            node,
+            "Swimlane note actor index exceeds actors length",
+            "XSU_REFERENCE",
+          );
+          inline(r.text, node);
+        }
+      });
+      if (p.caption) inline(p.caption, node);
+      break;
+    case "CapacityFlow":
+      ensure(
+        p.items.length >= 1,
+        node,
+        "CapacityFlow requires at least one item",
+        "XSU_REQUIRED",
+      );
+      p.items.forEach((c) => {
+        if (c.detail) inline(c.detail, node);
+        (c.bullets || []).forEach((b) => inline(b, node));
+      });
+      if (p.secondary?.card) {
+        if (p.secondary.card.detail) inline(p.secondary.card.detail, node);
+        (p.secondary.card.bullets || []).forEach((b) => inline(b, node));
+      }
+      if (p.secondary?.note) inline(p.secondary.note, node);
+      if (p.caption) inline(p.caption, node);
+      break;
+    case "QueueZones":
+      ensure(
+        p.left.cards.length >= 1 && p.right.cards.length >= 1,
+        node,
+        "QueueZones left and right zones each require at least one card",
+        "XSU_REQUIRED",
+      );
+      [...p.left.cards, ...p.right.cards].forEach((c) => {
+        ensure(c.items.length >= 1, node, "QueueZones card requires items");
+        c.items.forEach((it) => inline(it, node));
+      });
+      if (p.rule) inline(p.rule.text, node);
+      if (p.caption) inline(p.caption, node);
+      break;
+    case "BudgetBars":
+      ensure(
+        p.rows.length >= 1,
+        node,
+        "BudgetBars requires at least one row",
+        "XSU_REQUIRED",
+      );
+      p.rows.forEach((r) =>
+        ensure(
+          r.segments.length >= 1,
+          node,
+          "BudgetBars row requires at least one segment",
+          "XSU_REQUIRED",
+        ),
+      );
+      if (p.note) inline(p.note, node);
+      break;
+    case "Principles":
+      ensure(
+        p.items.length >= 1,
+        node,
+        "Principles requires at least one item",
+        "XSU_REQUIRED",
+      );
+      p.items.forEach((it) => inline(it.detail, node));
+      break;
+    case "ReviewProgress":
+      ensure(
+        p.items.length >= 1,
+        node,
+        "ReviewProgress requires at least one item",
+        "XSU_REQUIRED",
+      );
+      p.items.forEach((it) => {
+        inline(it.summary, node);
+        if (it.impact) inline(it.impact, node);
+      });
+      break;
+    case "KeyValueTable":
+      ensure(
+        p.rows.length >= 1,
+        node,
+        "KeyValueTable requires at least one row",
+        "XSU_REQUIRED",
+      );
+      if (p.headers !== undefined)
+        ensure(
+          p.headers.length === 2,
+          node,
+          "KeyValueTable headers must contain exactly two column titles",
+          "XSU_DIMENSION",
+        );
+      p.rows.forEach((r) => {
+        ensure(
+          r.sections.length >= 1,
+          node,
+          "KeyValueTable row requires at least one section",
+          "XSU_REQUIRED",
+        );
+        r.sections.forEach((s) => inline(s.text, node));
+      });
+      break;
+    case "CustomHtml": {
+      const argHtml = node.args.length === 2 ? node.args[1] : undefined;
+      ensure(
+        !(p.html !== undefined && argHtml !== undefined),
+        node,
+        "Supply HTML either in CustomHtml(props, html) or props.html, not both",
+        "XSU_SIGNATURE",
+      );
+      const rawHtml = argHtml ?? p.html ?? "";
+      ensure(
+        typeof rawHtml === "string" && rawHtml.trim().length > 0,
+        node,
+        "CustomHtml requires non-empty HTML content",
+        "XSU_REQUIRED",
+      );
+      if (p.caption) inline(p.caption, node);
+      break;
+    }
   }
   if (signature === "children")
     children(node).forEach((child) =>
@@ -1801,6 +2243,7 @@ function renderRoadmap(p) {
 }
 function renderNode(node, context) {
   const p = node.type === "Markdown" ? {} : props(node),
+    idAttr = p.id ? `id="${esc(p.id)}" ` : "",
     kids = () =>
       children(node)
         .map((n) => renderNode(n, context))
@@ -2946,9 +3389,813 @@ function renderNode(node, context) {
               ),
           ),
       );
+    case "FigureBox":
+      return div(
+        "pele-box",
+        div(
+          "pele-head",
+          span("pele-tag", p.tag) + span("pele-meta", p.meta || ""),
+        ) +
+          div(
+            "pele-view",
+            h(
+              "figure",
+              "sw-fig",
+              kids() +
+                (p.caption
+                  ? h(
+                      "figcaption",
+                      "",
+                      h("strong", "", "图示：") + inline(p.caption, node),
+                    )
+                  : ""),
+              `role="group" aria-label="${esc(p.label || p.tag)}"`,
+            ),
+          ),
+        `${idAttr}data-component="figure-box"`.trim(),
+      );
+    case "Swimlane":
+      return renderSwimlane(p, node, idAttr);
+    case "CapacityFlow":
+      return renderCapacityFlow(p, node, idAttr);
+    case "QueueZones":
+      return renderQueueZones(p, node, idAttr);
+    case "BudgetBars":
+      return renderBudgetBars(p, node, idAttr);
+    case "Principles":
+      return div(
+        "principles",
+        p.items
+          .map((it) =>
+            div(
+              "principle",
+              h("b", "", esc(it.title)) +
+                h("span", "", inline(it.detail, node)),
+            ),
+          )
+          .join(""),
+        `${idAttr}${p.columns ? `style="--pr-cols:${p.columns}" ` : ""}data-component="principles"`.trim(),
+      );
+    case "ReviewProgress":
+      return renderReviewProgress(p, node, idAttr);
+    case "KeyValueTable":
+      return renderKeyValueTable(p, node, idAttr);
+    case "CustomHtml":
+      return renderCustomHtml(p, node, idAttr);
     default:
       fail(node, "XSU_INTERNAL", `Missing renderer for ${node.type}`);
   }
+}
+const DIAGRAM_TONE_KEY = {
+  neutral: "ink",
+  ink: "ink",
+  accent: "accent",
+  info: "accent",
+  good: "ok",
+  ok: "ok",
+  warn: "warn",
+  bad: "bad",
+};
+const dTone = (value, fallback = "ink") => DIAGRAM_TONE_KEY[value] || fallback;
+const STATUS_CSS_COLOR = {
+  done: "var(--color-success)",
+  progress: "var(--accent)",
+  info: "var(--accent)",
+  warn: "var(--mark)",
+  blocked: "var(--rose)",
+  plan: "var(--read-muted)",
+};
+function wrapOptionalFigure(p, node, inner, idAttr, componentName) {
+  if (!p.title && !p.meta && !p.caption) return inner;
+  const fig = p.caption
+    ? h(
+        "figure",
+        "sw-fig",
+        inner +
+          h(
+            "figcaption",
+            "",
+            h("strong", "", "图示：") + inline(p.caption, node),
+          ),
+        `role="group" aria-label="${esc(p.title || componentName)}"`,
+      )
+    : inner;
+  if (!p.title && !p.meta) return fig;
+  return div(
+    "pele-box",
+    div(
+      "pele-head",
+      span("pele-tag", p.title || componentName.toUpperCase()) +
+        span("pele-meta", p.meta || ""),
+    ) + div("pele-view", fig),
+    `${idAttr}data-component="${componentName}"`.trim(),
+  );
+}
+function renderSwimlane(p, node, idAttr) {
+  const n = p.actors.length;
+  const compact = p.variant === "compact";
+  const hint = esc(p.hint || "图较宽，窄屏可左右滑动查看");
+  const outerAttr =
+    !p.title && !p.meta ? `${idAttr}data-component="swimlane"`.trim() : "";
+  if (compact) {
+    const head = div(
+      "sq-head",
+      p.actors
+        .map((a) => {
+          const t = a.tone ? dTone(a.tone, "") : "";
+          return div(
+            `sq-actor${t && t !== "ink" ? ` ${t}` : ""}`,
+            h("b", "", esc(a.name)) + (a.subtitle ? span("", a.subtitle) : ""),
+          );
+        })
+        .join(""),
+    );
+    let body = '<i class="sq-life"></i>'.repeat(n);
+    let openFrag = false;
+    for (const r of p.rows) {
+      if (r.kind === "band") {
+        if (openFrag) body += "</div>";
+        body += `<div class="sq-frag t-${dTone(r.tone, "accent")}">${div(
+          "sq-tag",
+          h("b", "", esc(r.title)) +
+            (r.subtitle ? h("em", "", esc(r.subtitle)) : ""),
+        )}`;
+        openFrag = true;
+      } else if (r.kind === "step") {
+        const lo = Math.min(r.from, r.to),
+          hi = Math.max(r.from, r.to),
+          cls = `${r.dashed ? " dash" : ""}${r.from > r.to ? " rev" : ""}`;
+        body += div(
+          `sq-msg t-${dTone(r.tone, "ink")}`,
+          div(
+            "sq-txt",
+            (r.number ? span("sq-no", r.number) : "") +
+              inline(r.text, node) +
+              (r.detail ? h("em", "", inline(r.detail, node)) : ""),
+          ) + div(`sq-arrow${cls}`, ""),
+          `style="--lo:${lo};--hi:${hi}"`,
+        );
+      } else {
+        const to = r.to ?? r.from,
+          lo = Math.min(r.from, to),
+          hi = Math.max(r.from, to);
+        body += div(
+          `sq-note t-${dTone(r.tone, "ink")}`,
+          h("span", "", inline(r.text, node)),
+          `style="--lo:${lo};--hi:${hi}"`,
+        );
+      }
+    }
+    if (openFrag) body += "</div>";
+    const legend = p.legend?.length
+      ? div(
+          "sq-legend",
+          p.legend
+            .map((l) =>
+              h(
+                "span",
+                `t-${dTone(l.tone, "ink")}`,
+                `<i class="${l.dashed ? "dash" : ""}"></i>${esc(l.label)}`,
+              ),
+            )
+            .join(""),
+        )
+      : "";
+    const core = div(
+      "sq-wrap",
+      h("p", "sq-hint", hint) +
+        div("sq", head + div("sq-body", body) + legend, `style="--n:${n}"`),
+      outerAttr,
+    );
+    return wrapOptionalFigure(p, node, core, idAttr, "swimlane");
+  }
+
+  const actorsHtml = div(
+    "sw-actors",
+    p.actors
+      .map((a) => {
+        const t = a.tone ? dTone(a.tone, "") : "";
+        return div(
+          `sw-actor${t && t !== "ink" ? ` ${t}` : ""}`,
+          h("b", "", esc(a.name)) + (a.subtitle ? span("", a.subtitle) : ""),
+        );
+      })
+      .join(""),
+  );
+  const lifelines = "<i></i>".repeat(n);
+  let rowsHtml = "";
+  let openFrag = false;
+  for (const r of p.rows) {
+    if (r.kind === "band") {
+      if (openFrag) rowsHtml += "</div>";
+      rowsHtml += `<div class="sw-frag t-${dTone(r.tone, "accent")}">${div(
+        "sw-tab",
+        h("b", "", esc(r.title)) +
+          (r.subtitle ? h("small", "", esc(r.subtitle)) : ""),
+      )}`;
+      openFrag = true;
+    } else if (r.kind === "step") {
+      const lo = Math.min(r.from, r.to),
+        hi = Math.max(r.from, r.to),
+        cls = `${r.dashed ? " dash" : ""}${r.from > r.to ? " rev" : ""}`;
+      rowsHtml += div(
+        `sw-row t-${dTone(r.tone, "ink")}`,
+        lifelines +
+          div(
+            "sw-text",
+            div(
+              "sw-label",
+              (r.number ? span("no", r.number) : "") +
+                inline(r.text, node) +
+                (r.detail ? h("small", "", inline(r.detail, node)) : ""),
+            ),
+          ) +
+          div(`sw-arrow${cls}`, ""),
+        `style="--lo:${lo};--hi:${hi}"`,
+      );
+    } else {
+      const to = r.to ?? r.from,
+        lo = Math.min(r.from, to),
+        hi = Math.max(r.from, to);
+      rowsHtml += div(
+        `sw-row self t-${dTone(r.tone, "ink")}`,
+        lifelines + div("sw-text", div("sw-label chip", inline(r.text, node))),
+        `style="--lo:${lo};--hi:${hi}"`,
+      );
+    }
+  }
+  if (openFrag) rowsHtml += "</div>";
+  const legend = p.legend?.length
+    ? div(
+        "sw-legend",
+        p.legend
+          .map((l) =>
+            h(
+              "span",
+              `t-${dTone(l.tone, "ink")}`,
+              `<em class="${l.dashed ? "dash" : ""}"></em>${esc(l.label)}`,
+            ),
+          )
+          .join(""),
+      )
+    : "";
+  const core = div(
+    "sw-wrap",
+    h("p", "sw-hint", hint) +
+      div("sw", actorsHtml + rowsHtml + legend, `style="--n:${n}"`),
+    outerAttr,
+  );
+  return wrapOptionalFigure(p, node, core, idAttr, "swimlane");
+}
+function renderCapCard(c, node, extraCls = "") {
+  const t = dTone(c.tone, "accent");
+  const allPills = [...(c.pill ? [c.pill] : []), ...(c.pills || [])];
+  const pillsHtml =
+    allPills.length > 1
+      ? div(
+          "pill-row",
+          allPills
+            .map((pl) => span(`pill ${pl.kind || "admit"}`, pl.text))
+            .join(""),
+        )
+      : allPills.length === 1
+        ? span(`pill ${allPills[0].kind || "admit"}`, allPills[0].text)
+        : "";
+  return div(
+    `cap-card t-${t}${extraCls ? ` ${extraCls}` : ""}`,
+    (c.role ? span("role", c.role) : "") +
+      h("h4", "", esc(c.title)) +
+      (c.detail ? h("p", "", inline(c.detail, node)) : "") +
+      (c.bullets?.length
+        ? h(
+            "ul",
+            "",
+            c.bullets.map((b) => h("li", "", inline(b, node))).join(""),
+          )
+        : "") +
+      pillsHtml,
+  );
+}
+function renderCapacityFlow(p, node, idAttr) {
+  const cols =
+    p.columns ??
+    (p.items.length >= 6 ? 3 : Math.min(5, Math.max(2, p.items.length)));
+  const showArrows =
+    p.arrows ?? (p.items.length <= 5 && cols === p.items.length);
+  const outerAttr =
+    !p.title && !p.meta ? `${idAttr}data-component="capacity-flow"`.trim() : "";
+  const grid = div(
+    `cap-flow${showArrows ? "" : " no-arrows"}`,
+    p.items
+      .map((c, idx) =>
+        renderCapCard(c, node, idx === p.items.length - 1 ? "cap-last" : ""),
+      )
+      .join(""),
+    `style="--cap-cols:${cols}"`,
+  );
+  const second =
+    p.secondary && (p.secondary.card || p.secondary.note)
+      ? div(
+          "cap-second",
+          (p.secondary.card
+            ? renderCapCard(p.secondary.card, node, "cap-last")
+            : "") +
+            (p.secondary.note
+              ? div("cap-note", inline(p.secondary.note, node))
+              : ""),
+        )
+      : "";
+  const core = div("cap-flow-wrap", grid + second, outerAttr);
+  return wrapOptionalFigure(p, node, core, idAttr, "capacity-flow");
+}
+function renderQaZone(z, node) {
+  const zt = dTone(z.tone, "accent");
+  return div(
+    `qa-zone t-${zt}`,
+    h(
+      "h4",
+      "",
+      esc(z.title) + (z.subtitle ? h("small", "", esc(z.subtitle)) : ""),
+    ) +
+      z.cards
+        .map((c) => {
+          const ct = c.tone ? dTone(c.tone, zt) : zt;
+          const cardToneCls =
+            ct === "warn"
+              ? "warn"
+              : ct === "bad"
+                ? "bad"
+                : ct === "ok" && !c.step
+                  ? "ok"
+                  : `t-${ct}`;
+          return div(
+            `qa-card ${cardToneCls}`,
+            h("h5", "", (c.step ? span("n", c.step) : "") + esc(c.title)) +
+              h(
+                "ul",
+                "",
+                c.items.map((it) => h("li", "", inline(it, node))).join(""),
+              ),
+          );
+        })
+        .join(""),
+  );
+}
+function renderQueueZones(p, node, idAttr) {
+  const toneVar = {
+    ink: "var(--ink)",
+    accent: "var(--accent)",
+    ok: "var(--color-success)",
+    warn: "var(--mark)",
+    bad: "var(--rose)",
+  };
+  const statesHtml = p.states?.length
+    ? div(
+        "qa-states",
+        p.states
+          .map((s, idx) => {
+            const c = toneVar[dTone(s.tone, "accent")];
+            const last = idx === p.states.length - 1;
+            const divKind = s.divider ?? (last ? "none" : "arrow");
+            return (
+              h("span", "st", esc(s.label), `style="--c:${c}"`) +
+              (s.event ? span("ev", s.event) : "") +
+              (divKind === "arrow"
+                ? span("ar", "→")
+                : divKind === "slash"
+                  ? span("ev", "/")
+                  : "")
+            );
+          })
+          .join(""),
+      )
+    : "";
+  const mid = div(
+    "qa-mid",
+    div("go", h("b", "", "→") + span("", p.transfer.forward)) +
+      (p.transfer.backward
+        ? div("back", h("b", "", "←") + span("", p.transfer.backward))
+        : ""),
+  );
+  const rule = p.rule
+    ? div(
+        "qa-rule",
+        h("strong", "", `${esc(p.rule.label || "设计红线")}：`) +
+          inline(p.rule.text, node),
+      )
+    : "";
+  const outerAttr =
+    !p.title && !p.meta ? `${idAttr}data-component="queue-zones"`.trim() : "";
+  const core = div(
+    "qa-wrap",
+    statesHtml +
+      div(
+        "qa",
+        renderQaZone(p.left, node) + mid + renderQaZone(p.right, node),
+      ) +
+      rule,
+    outerAttr,
+  );
+  return wrapOptionalFigure(p, node, core, idAttr, "queue-zones");
+}
+function renderBudgetBars(p, node, idAttr) {
+  const toneVar = {
+    ink: "var(--ink)",
+    accent: "var(--accent)",
+    ok: "var(--color-success)",
+    warn: "var(--mark)",
+    bad: "var(--rose)",
+  };
+  const head =
+    p.title || p.meta
+      ? div(
+          "dl-head",
+          span("dl-title", p.title || "") + span("dl-meta", p.meta || ""),
+        )
+      : "";
+  const rows = p.rows
+    .map((r) => {
+      const sum = r.segments.reduce((acc, s) => acc + s.share, 0) || 1;
+      const segs = r.segments
+        .map((s) => {
+          const pct = fmt((s.share / sum) * 100);
+          const c = toneVar[dTone(s.tone, "accent")];
+          return h(
+            "span",
+            "",
+            esc(s.label),
+            `style="width:${pct}%;--c:${c}" title="${esc(s.label)}"`,
+          );
+        })
+        .join("");
+      return div("dl-row", h("b", "", esc(r.label)) + div("dl-bar", segs));
+    })
+    .join("");
+  return div(
+    "dl",
+    head + rows + (p.note ? h("p", "dl-note", inline(p.note, node)) : ""),
+    `${idAttr}data-component="budget-bars"`.trim(),
+  );
+}
+function renderReviewProgress(p, node, idAttr) {
+  const defaultLabel = {
+    done: "已确认",
+    progress: "推进中",
+    info: "信息项",
+    warn: "待确认",
+    blocked: "阻塞项",
+    plan: "待排期",
+  };
+  const stats =
+    p.stats ??
+    (() => {
+      const map = new Map();
+      for (const it of p.items) {
+        const key = `${it.status}:${it.badgeText || defaultLabel[it.status]}`;
+        const prev = map.get(key) || {
+          label: it.badgeText || defaultLabel[it.status],
+          count: 0,
+          status: it.status,
+        };
+        prev.count += 1;
+        map.set(key, prev);
+      }
+      return [...map.values()];
+    })();
+  const total = stats.reduce((acc, s) => acc + s.count, 0) || 1;
+  const summaryHtml = div(
+    "rv-summary",
+    stats
+      .map((s) => {
+        const c = STATUS_CSS_COLOR[s.status || "info"];
+        return div(
+          "rv-stat",
+          h("b", "", esc(s.count)) + span("", s.label),
+          `style="--c:${c}"`,
+        );
+      })
+      .join(""),
+  );
+  const barHtml = div(
+    "rv-bar",
+    stats
+      .filter((s) => s.count > 0)
+      .map((s) => {
+        const c = STATUS_CSS_COLOR[s.status || "info"];
+        return `<i style="--c:${c};width:${fmt((s.count / total) * 100)}%"></i>`;
+      })
+      .join(""),
+  );
+  const cardsHtml = div(
+    "rv-grid",
+    p.items
+      .map((it) => {
+        const c = STATUS_CSS_COLOR[it.status];
+        return h(
+          "article",
+          "rv-card",
+          h(
+            "header",
+            "",
+            h("b", "", esc(it.title)) +
+              badge(it.badgeText || defaultLabel[it.status], it.status),
+          ) +
+            h("p", "", inline(it.summary, node)) +
+            (it.impact
+              ? div(
+                  "rv-impact",
+                  h("b", "", `${esc(it.impactLabel || "影响说明")}：`) +
+                    inline(it.impact, node),
+                )
+              : ""),
+          `style="--c:${c}"`,
+        );
+      })
+      .join(""),
+  );
+  return div(
+    "rv-wrap",
+    summaryHtml + barHtml + cardsHtml,
+    `${idAttr}data-component="review-progress"`.trim(),
+  );
+}
+function renderKeyValueTable(p, node, idAttr) {
+  const [leftCol, rightCol] = p.headers || ["模块 / 层级", "现状、目标与边界"];
+  const bodyRows = p.rows
+    .map((r) => {
+      const left =
+        h("strong", "", esc(r.key)) +
+        (r.badges?.length
+          ? div(
+              "cell-meta",
+              r.badges.map((b) => badge(b.text, b.status || "info")).join(""),
+            )
+          : "") +
+        (r.owner ? div("cell-owner", esc(r.owner)) : "");
+      const right = r.sections
+        .map((s) =>
+          h(
+            "p",
+            "",
+            (s.label ? h("strong", "", `${esc(s.label)}：`) : "") +
+              inline(s.text, node),
+          ),
+        )
+        .join("");
+      return h(
+        "tr",
+        "",
+        h("td", "", left, `data-label="${esc(leftCol)}"`) +
+          h("td", "", right, `data-label="${esc(rightCol)}"`),
+      );
+    })
+    .join("");
+  const tableHtml = div(
+    "table-wrap",
+    h(
+      "table",
+      "data kv-table",
+      `<colgroup><col class="col-key"/><col/></colgroup>` +
+        h(
+          "thead",
+          "",
+          h("tr", "", h("th", "", esc(leftCol)) + h("th", "", esc(rightCol))),
+        ) +
+        h("tbody", "", bodyRows),
+    ),
+    !p.title ? `${idAttr}data-component="key-value-table"`.trim() : "",
+  );
+  return p.title
+    ? div(
+        "pele-box",
+        div(
+          "pele-head",
+          span("pele-tag", p.title) + span("pele-meta", p.meta || ""),
+        ) + tableHtml,
+        `${idAttr}data-component="key-value-table"`.trim(),
+      )
+    : tableHtml;
+}
+function decodeHtmlEntities(input) {
+  return String(input)
+    .replace(/&#x([0-9a-f]+);?/gi, (_, hex) => {
+      const code = Number.parseInt(hex, 16);
+      return Number.isFinite(code) && code >= 0 && code <= 0x10ffff
+        ? String.fromCodePoint(code)
+        : "";
+    })
+    .replace(/&#([0-9]+);?/g, (_, dec) => {
+      const code = Number.parseInt(dec, 10);
+      return Number.isFinite(code) && code >= 0 && code <= 0x10ffff
+        ? String.fromCodePoint(code)
+        : "";
+    })
+    .replace(/&(colon|tab|newline);?/gi, (_, name) =>
+      name.toLowerCase() === "colon" ? ":" : " ",
+    );
+}
+export function sanitizeCustomHtml(raw) {
+  const FORBIDDEN_DROP_CONTENT = new Set([
+    "script",
+    "iframe",
+    "object",
+    "embed",
+    "applet",
+    "style",
+  ]);
+  const FORBIDDEN_VOID = new Set(["base", "meta", "link"]);
+  const URL_ATTRS = new Set([
+    "href",
+    "src",
+    "xlink:href",
+    "action",
+    "formaction",
+    "poster",
+    "data",
+  ]);
+  const src = String(raw ?? "");
+  const len = src.length;
+  let out = "";
+  let i = 0;
+
+  while (i < len) {
+    const lt = src.indexOf("<", i);
+    if (lt < 0) {
+      out += src.slice(i);
+      break;
+    }
+    out += src.slice(i, lt);
+    i = lt;
+
+    if (src.startsWith("<!--", i)) {
+      const endComment = src.indexOf("-->", i + 4);
+      i = endComment < 0 ? len : endComment + 3;
+      continue;
+    }
+    if (src[i + 1] === "!" || src[i + 1] === "?") {
+      const gt = src.indexOf(">", i + 2);
+      i = gt < 0 ? len : gt + 1;
+      continue;
+    }
+
+    let p = i + 1;
+    let closing = false;
+    if (src[p] === "/") {
+      closing = true;
+      p++;
+    }
+    const nameMatch = /^[A-Za-z][\w:-]*/.exec(src.slice(p));
+    if (!nameMatch) {
+      out += "&lt;";
+      i += 1;
+      continue;
+    }
+    const tagName = nameMatch[0];
+    const lowerTag = tagName.toLowerCase();
+    p += tagName.length;
+
+    const attrs = [];
+    let selfClose = false;
+    let closed = false;
+    while (p < len) {
+      while (p < len && /\s/.test(src[p])) p++;
+      if (p >= len) break;
+      if (src[p] === ">") {
+        closed = true;
+        p++;
+        break;
+      }
+      if (src[p] === "/" && src[p + 1] === ">") {
+        selfClose = true;
+        closed = true;
+        p += 2;
+        break;
+      }
+      const aStart = p;
+      while (p < len && !/[\s=/>"'<>]/.test(src[p])) p++;
+      const attrName = src.slice(aStart, p);
+      if (!attrName) {
+        p++;
+        continue;
+      }
+      while (p < len && /\s/.test(src[p])) p++;
+      let hasVal = false;
+      let val = "";
+      if (src[p] === "=") {
+        hasVal = true;
+        p++;
+        while (p < len && /\s/.test(src[p])) p++;
+        if (src[p] === '"' || src[p] === "'") {
+          const quote = src[p++];
+          const vStart = p;
+          while (p < len && src[p] !== quote) p++;
+          val = src.slice(vStart, p);
+          if (p < len && src[p] === quote) p++;
+        } else {
+          const vStart = p;
+          while (p < len && !/[\s>]/.test(src[p])) p++;
+          val = src.slice(vStart, p);
+        }
+      }
+      attrs.push({ attrName, hasVal, val });
+    }
+    if (!closed) break;
+    i = p;
+
+    if (FORBIDDEN_DROP_CONTENT.has(lowerTag)) {
+      if (!closing && !selfClose) {
+        const closeRe = new RegExp(`<\\/${lowerTag}\\s*>`, "gi");
+        closeRe.lastIndex = i;
+        const m = closeRe.exec(src);
+        i = m ? m.index + m[0].length : len;
+      }
+      continue;
+    }
+    if (FORBIDDEN_VOID.has(lowerTag)) continue;
+    if (closing) {
+      out += `</${tagName}>`;
+      continue;
+    }
+
+    const safeAttrs = [];
+    for (const { attrName, hasVal, val } of attrs) {
+      const cleanName = attrName.replace(/[\u0000-\u0020\u007f]+/g, "");
+      const lowerAttr = cleanName.toLowerCase();
+      if (
+        !/^[A-Za-z_:][\w:.-]*$/.test(cleanName) ||
+        /^on/i.test(lowerAttr) ||
+        lowerAttr === "srcdoc"
+      )
+        continue;
+      if (URL_ATTRS.has(lowerAttr)) {
+        const normalized = decodeHtmlEntities(val).replace(
+          /[\u0000-\u0020\u007f]+/g,
+          "",
+        );
+        if (
+          /^(?:javascript|vbscript):/i.test(normalized) ||
+          /^data:\s*(?:text\/html|application\/xhtml|image\/svg)/i.test(
+            normalized,
+          )
+        )
+          continue;
+      }
+      if (lowerAttr === "style") {
+        const normStyle = decodeHtmlEntities(val).replace(
+          /\/\*[\s\S]*?\*\//g,
+          "",
+        );
+        if (
+          /expression\s*\(|(?:javascript|vbscript)\s*:|@import/i.test(normStyle)
+        )
+          continue;
+      }
+      safeAttrs.push(hasVal ? `${cleanName}="${esc(val)}"` : cleanName);
+    }
+    out += `<${tagName}${safeAttrs.length ? ` ${safeAttrs.join(" ")}` : ""}${selfClose ? " /" : ""}>`;
+  }
+  return out;
+}
+function renderCustomHtml(p, node, idAttr) {
+  const raw = node.args.length === 2 ? node.args[1] : p.html;
+  const sanitized = sanitizeCustomHtml(raw);
+  const inner = div(
+    "custom-html",
+    sanitized,
+    !p.title && !p.meta && !p.caption
+      ? `${idAttr}data-component="custom-html"`.trim()
+      : "",
+  );
+  if (!p.title && !p.meta && !p.caption) return inner;
+  const fig = p.caption
+    ? h(
+        "figure",
+        "sw-fig",
+        inner +
+          h(
+            "figcaption",
+            "",
+            h("strong", "", "图示：") + inline(p.caption, node),
+          ),
+        `role="group" aria-label="${esc(p.title || "自定义视图")}"`,
+      )
+    : inner;
+  if (!p.title && !p.meta) {
+    return div(
+      "custom-html-box",
+      fig,
+      `${idAttr}data-component="custom-html"`.trim(),
+    );
+  }
+  return div(
+    "pele-box custom-html-box",
+    div(
+      "pele-head",
+      span("pele-tag", p.title || "CUSTOM VIEW") +
+        span("pele-meta", p.meta || ""),
+    ) + div("pele-view", fig),
+    `${idAttr}data-component="custom-html"`.trim(),
+  );
 }
 function renderDiagram(source, title = "", variant = "default") {
   const prefix = variant === "gantt" ? "gantt" : "pele";

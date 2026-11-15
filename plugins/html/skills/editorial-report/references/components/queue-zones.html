@@ -1,0 +1,55 @@
+<!-- 模块：双区状态机 (QueueZones) -->
+<!-- 适用场景：展示等待区与执行区边界、双向流转条件、状态胶囊链及红线约束 -->
+<div class="qa-wrap" data-component="queue-zones">
+  <div class="qa-states">
+    <span class="st" style="--c:var(--mark)">QUEUED</span>
+    <span class="ev">配额可用</span>
+    <span class="ar">→</span>
+    <span class="st" style="--c:var(--accent)">DISPATCHED</span>
+    <span class="ar">→</span>
+    <span class="st" style="--c:var(--color-success)">SUCCEEDED</span>
+    <span class="ev">/</span>
+    <span class="st" style="--c:var(--rose)">FAILED</span>
+  </div>
+  <div class="qa">
+    <div class="qa-zone t-accent">
+      <h4>等待区 · 尚未占用下游配额<small>支持随时取消 · 明确未受理限流可退回队首</small></h4>
+      <div class="qa-card t-accent">
+        <h5><span class="n">1</span>幂等入队</h5>
+        <ul>
+          <li>校验请求签名并写入唯一幂等键</li>
+          <li>仅保存对象引用，不提前拉取大体积载荷</li>
+        </ul>
+      </div>
+      <div class="qa-card warn">
+        <h5>放行前预检</h5>
+        <ul>
+          <li>确认租户分钟配额与并发槽位同时富余</li>
+          <li>生成短效只读拉取凭证</li>
+        </ul>
+      </div>
+    </div>
+    <div class="qa-mid">
+      <div class="go"><b>→</b><span>领取租约并派发</span></div>
+      <div class="back"><b>←</b><span>429 未受理退回</span></div>
+    </div>
+    <div class="qa-zone t-ok">
+      <h4>执行区 · 每次尝试独立审计<small>网络超时或未知状态严禁盲目重发</small></h4>
+      <div class="qa-card t-ok">
+        <h5><span class="n">2</span>受控外发</h5>
+        <ul>
+          <li>记录本次尝试编号与开始时间戳</li>
+          <li>心跳续期租约，防止长任务被误判超时</li>
+        </ul>
+      </div>
+      <div class="qa-card ok">
+        <h5>终态收敛</h5>
+        <ul>
+          <li><strong>成功</strong>：持久化产物摘要并释放并发槽位</li>
+          <li><strong>未知超时</strong>：转入后台对账单，锁死自动重试</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="qa-rule"><strong>设计红线：</strong>只有下游明确返回「未接单且未计费」的限流响应才允许退回等待区；任何连接中断或超时一律留在对账态。</div>
+</div>

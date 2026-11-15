@@ -38,6 +38,13 @@
               "dark"
             ]
           },
+          "accent": {
+            "enum": [
+              "teal",
+              "slate",
+              "indigo"
+            ]
+          },
           "brand": {
             "type": "string"
           },
@@ -119,6 +126,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -169,7 +185,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -228,6 +245,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -264,7 +290,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -323,6 +350,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -352,7 +388,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -411,6 +448,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -449,7 +495,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -508,6 +555,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -545,7 +601,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -604,6 +661,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -646,7 +712,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -705,6 +772,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -859,7 +935,8 @@
         "Split",
         "Details",
         "Cover",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -917,7 +994,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -947,7 +1025,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -987,7 +1066,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1050,7 +1130,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1117,7 +1198,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1151,7 +1233,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1188,7 +1271,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Metric"
@@ -1335,7 +1419,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1385,6 +1470,7 @@
         "Details",
         "Cover",
         "Callout",
+        "FigureBox",
         "TableCell"
       ],
       "allowedChildren": [],
@@ -1431,6 +1517,7 @@
         "Details",
         "Cover",
         "Callout",
+        "FigureBox",
         "TableCell"
       ],
       "allowedChildren": [],
@@ -1496,7 +1583,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1600,7 +1688,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1704,7 +1793,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1750,7 +1840,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1843,7 +1934,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -1897,7 +1989,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2032,7 +2125,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2087,6 +2181,7 @@
         "Split",
         "Details",
         "Callout",
+        "FigureBox",
         "TableCell"
       ],
       "allowedChildren": [],
@@ -2190,7 +2285,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2260,7 +2356,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2346,7 +2443,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2448,7 +2546,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2537,7 +2636,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2648,7 +2748,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2707,7 +2808,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2759,7 +2861,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2830,7 +2933,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2897,7 +3001,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -2948,7 +3053,8 @@
         "Split",
         "Details",
         "Cover",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3014,7 +3120,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3063,7 +3170,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [
         "Section",
@@ -3122,6 +3230,15 @@
         "ServiceMesh",
         "VisualCompare",
         "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
         "Colophon"
       ],
       "presets": [
@@ -3173,7 +3290,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3231,7 +3349,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3295,7 +3414,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3353,7 +3473,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3421,7 +3542,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3463,7 +3585,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3528,7 +3651,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3627,7 +3751,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3680,7 +3805,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3761,7 +3887,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3848,7 +3975,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -3941,7 +4069,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4005,7 +4134,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4088,7 +4218,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4165,7 +4296,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4263,7 +4395,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4380,7 +4513,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4487,7 +4621,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [
@@ -4495,6 +4630,1338 @@
       ],
       "features": [],
       "render": "StateMachine",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "FigureBox": {
+      "name": "FigureBox",
+      "signatures": [
+        "(props, children)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tag": {
+            "type": "string",
+            "minLength": 1
+          },
+          "meta": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tag"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Takeaway",
+        "Glance",
+        "Markdown",
+        "Quote",
+        "List",
+        "Sources",
+        "Code",
+        "Metrics",
+        "Progress",
+        "Badge",
+        "EvidenceLabel",
+        "Compare",
+        "Table",
+        "CompareTable",
+        "Diff",
+        "Scorecard",
+        "Decision",
+        "Chart",
+        "Sparkline",
+        "Gauge",
+        "Heatmap",
+        "Quadrant",
+        "Roadmap",
+        "Timeline",
+        "Flow",
+        "Tree",
+        "Diagram",
+        "People",
+        "Gallery",
+        "Image",
+        "OpenQuestions",
+        "Callout",
+        "Evidence",
+        "Takeaways",
+        "FAQ",
+        "Glossary",
+        "Interview",
+        "Json",
+        "Terminal",
+        "Kanban",
+        "ProsCons",
+        "DecisionLog",
+        "ReleaseNotes",
+        "Incident",
+        "RootCause",
+        "Architecture",
+        "Sequence",
+        "ServiceMesh",
+        "VisualCompare",
+        "StateMachine",
+        "FigureBox",
+        "Swimlane",
+        "CapacityFlow",
+        "QueueZones",
+        "BudgetBars",
+        "Principles",
+        "ReviewProgress",
+        "KeyValueTable",
+        "CustomHtml",
+        "Colophon"
+      ],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "FigureBox",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "Swimlane": {
+      "name": "Swimlane",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "variant": {
+            "enum": [
+              "default",
+              "compact"
+            ]
+          },
+          "hint": {
+            "type": "string"
+          },
+          "actors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subtitle": {
+                  "type": "string"
+                },
+                "tone": {
+                  "enum": [
+                    "neutral",
+                    "ink",
+                    "accent",
+                    "info",
+                    "good",
+                    "ok",
+                    "warn",
+                    "bad"
+                  ]
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 8
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "band"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "subtitle": {
+                      "type": "string"
+                    },
+                    "tone": {
+                      "enum": [
+                        "neutral",
+                        "ink",
+                        "accent",
+                        "info",
+                        "good",
+                        "ok",
+                        "warn",
+                        "bad"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "title"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "step"
+                      ]
+                    },
+                    "number": {
+                      "type": "string"
+                    },
+                    "from": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8
+                    },
+                    "to": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "tone": {
+                      "enum": [
+                        "neutral",
+                        "ink",
+                        "accent",
+                        "info",
+                        "good",
+                        "ok",
+                        "warn",
+                        "bad"
+                      ]
+                    },
+                    "dashed": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "from",
+                    "to",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "note"
+                      ]
+                    },
+                    "from": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8
+                    },
+                    "to": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "tone": {
+                      "enum": [
+                        "neutral",
+                        "ink",
+                        "accent",
+                        "info",
+                        "good",
+                        "ok",
+                        "warn",
+                        "bad"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "from",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "maxItems": 500
+          },
+          "legend": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tone": {
+                  "enum": [
+                    "neutral",
+                    "ink",
+                    "accent",
+                    "info",
+                    "good",
+                    "ok",
+                    "warn",
+                    "bad"
+                  ]
+                },
+                "dashed": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 20
+          }
+        },
+        "required": [
+          "actors",
+          "rows"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "Swimlane",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "CapacityFlow": {
+      "name": "CapacityFlow",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "columns": {
+            "enum": [
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "arrows": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "bullets": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "maxItems": 20
+                },
+                "tone": {
+                  "enum": [
+                    "neutral",
+                    "ink",
+                    "accent",
+                    "info",
+                    "good",
+                    "ok",
+                    "warn",
+                    "bad"
+                  ]
+                },
+                "pill": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "enum": [
+                        "queue",
+                        "reject",
+                        "wait",
+                        "admit",
+                        "pass"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ],
+                  "additionalProperties": false
+                },
+                "pills": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "kind": {
+                        "enum": [
+                          "queue",
+                          "reject",
+                          "wait",
+                          "admit",
+                          "pass"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 8
+                }
+              },
+              "required": [
+                "title"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 24
+          },
+          "secondary": {
+            "type": "object",
+            "properties": {
+              "card": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "detail": {
+                    "type": "string"
+                  },
+                  "bullets": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "maxItems": 20
+                  },
+                  "tone": {
+                    "enum": [
+                      "neutral",
+                      "ink",
+                      "accent",
+                      "info",
+                      "good",
+                      "ok",
+                      "warn",
+                      "bad"
+                    ]
+                  },
+                  "pill": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "kind": {
+                        "enum": [
+                          "queue",
+                          "reject",
+                          "wait",
+                          "admit",
+                          "pass"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "pills": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "kind": {
+                          "enum": [
+                            "queue",
+                            "reject",
+                            "wait",
+                            "admit",
+                            "pass"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 8
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "additionalProperties": false
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "CapacityFlow",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "QueueZones": {
+      "name": "QueueZones",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tone": {
+                  "enum": [
+                    "neutral",
+                    "ink",
+                    "accent",
+                    "info",
+                    "good",
+                    "ok",
+                    "warn",
+                    "bad"
+                  ]
+                },
+                "event": {
+                  "type": "string"
+                },
+                "divider": {
+                  "enum": [
+                    "arrow",
+                    "slash",
+                    "none"
+                  ]
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 20
+          },
+          "left": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "subtitle": {
+                "type": "string"
+              },
+              "tone": {
+                "enum": [
+                  "neutral",
+                  "ink",
+                  "accent",
+                  "info",
+                  "good",
+                  "ok",
+                  "warn",
+                  "bad"
+                ]
+              },
+              "cards": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "step": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "maxItems": 20
+                    },
+                    "tone": {
+                      "enum": [
+                        "neutral",
+                        "ink",
+                        "accent",
+                        "info",
+                        "good",
+                        "ok",
+                        "warn",
+                        "bad"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
+              }
+            },
+            "required": [
+              "title",
+              "cards"
+            ],
+            "additionalProperties": false
+          },
+          "transfer": {
+            "type": "object",
+            "properties": {
+              "forward": {
+                "type": "string",
+                "minLength": 1
+              },
+              "backward": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "forward"
+            ],
+            "additionalProperties": false
+          },
+          "right": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "subtitle": {
+                "type": "string"
+              },
+              "tone": {
+                "enum": [
+                  "neutral",
+                  "ink",
+                  "accent",
+                  "info",
+                  "good",
+                  "ok",
+                  "warn",
+                  "bad"
+                ]
+              },
+              "cards": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "step": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "maxItems": 20
+                    },
+                    "tone": {
+                      "enum": [
+                        "neutral",
+                        "ink",
+                        "accent",
+                        "info",
+                        "good",
+                        "ok",
+                        "warn",
+                        "bad"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
+              }
+            },
+            "required": [
+              "title",
+              "cards"
+            ],
+            "additionalProperties": false
+          },
+          "rule": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "left",
+          "transfer",
+          "right"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "QueueZones",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "BudgetBars": {
+      "name": "BudgetBars",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "segments": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "share": {
+                        "type": "number",
+                        "minimum": -1e+100,
+                        "maximum": 1e+100,
+                        "exclusiveMinimum": 0
+                      },
+                      "tone": {
+                        "enum": [
+                          "neutral",
+                          "ink",
+                          "accent",
+                          "info",
+                          "good",
+                          "ok",
+                          "warn",
+                          "bad"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "share"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 16
+                }
+              },
+              "required": [
+                "label",
+                "segments"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 40
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "BudgetBars",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "Principles": {
+      "name": "Principles",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "columns": {
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "detail": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "title",
+                "detail"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 24
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "Principles",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "ReviewProgress": {
+      "name": "ReviewProgress",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100000
+                },
+                "status": {
+                  "enum": [
+                    "done",
+                    "progress",
+                    "warn",
+                    "blocked",
+                    "plan",
+                    "info"
+                  ]
+                }
+              },
+              "required": [
+                "label",
+                "count"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 8
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "enum": [
+                    "done",
+                    "progress",
+                    "warn",
+                    "blocked",
+                    "plan",
+                    "info"
+                  ]
+                },
+                "badgeText": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "impactLabel": {
+                  "type": "string"
+                },
+                "impact": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "status",
+                "summary"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "ReviewProgress",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "KeyValueTable": {
+      "name": "KeyValueTable",
+      "signatures": [
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "maxItems": 2
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "badges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "status": {
+                        "enum": [
+                          "done",
+                          "progress",
+                          "warn",
+                          "blocked",
+                          "plan",
+                          "info"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 8
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "sections": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 12
+                }
+              },
+              "required": [
+                "key",
+                "sections"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 200
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "KeyValueTable",
+      "lowerToReplay": null,
+      "toMarkdown": null
+    },
+    "CustomHtml": {
+      "name": "CustomHtml",
+      "signatures": [
+        "(props, text)",
+        "(props)"
+      ],
+      "propsSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "allowedParents": [
+        "Report",
+        "Section",
+        "Row",
+        "Stack",
+        "Grid",
+        "Split",
+        "Details",
+        "Callout",
+        "FigureBox"
+      ],
+      "allowedChildren": [],
+      "presets": [
+        "editorial"
+      ],
+      "features": [],
+      "render": "CustomHtml",
       "lowerToReplay": null,
       "toMarkdown": null
     },
@@ -4535,7 +6002,8 @@
         "Grid",
         "Split",
         "Details",
-        "Callout"
+        "Callout",
+        "FigureBox"
       ],
       "allowedChildren": [],
       "presets": [

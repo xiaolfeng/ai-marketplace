@@ -1,0 +1,38 @@
+<!-- 模块：左键右文双栏表 (KeyValueTable) -->
+<!-- 适用场景：左列展示模块名、状态徽章与归属团队，右列分段阐述「现状 / 目标 / 超出时」 -->
+<div class="table-wrap" data-component="key-value-table">
+  <table class="data kv-table">
+    <colgroup><col class="col-key" /><col /></colgroup>
+    <thead>
+      <tr>
+        <th>模块 / 层级</th>
+        <th>现状、目标与边界</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="模块 / 层级">
+          <strong>接入网关</strong>
+          <div class="cell-meta"><span class="badge badge-done">已就绪</span></div>
+          <div class="cell-owner">归属：流量基础组</div>
+        </td>
+        <td data-label="现状、目标与边界">
+          <p><strong>现状：</strong>固定连接池上限，突发流量直接返回 503 且缺少重试指引。</p>
+          <p><strong>目标：</strong>读取报文前先核对内存预算，携带标准退避头平滑削峰。</p>
+          <p><strong>超出时：</strong>同步返回明确限流码与建议等待秒数，不在网关堆积连接。</p>
+        </td>
+      </tr>
+      <tr>
+        <td data-label="模块 / 层级">
+          <strong>异步调度器</strong>
+          <div class="cell-meta"><span class="badge badge-warn">改造中</span></div>
+          <div class="cell-owner">归属：任务引擎组</div>
+        </td>
+        <td data-label="现状、目标与边界">
+          <p><strong>现状：</strong>轮询间隔固定 30 秒，任务完成后感知延迟偏高。</p>
+          <p><strong>目标：</strong>事件通知与自适应退避轮询双通道收敛，P95 感知降至 2 秒内。</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

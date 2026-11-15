@@ -1,0 +1,39 @@
+<!-- 模块：分层容量流 (CapacityFlow) -->
+<!-- 适用场景：展示端到端各层并发上限、队列缓冲策略、超出反应及旁路补充说明 -->
+<div class="cap-flow-wrap" data-component="capacity-flow">
+  <div class="cap-flow" style="--cap-cols:4">
+    <div class="cap-card t-accent">
+      <span class="role">INGRESS · 接入网关</span>
+      <h4>API 边缘节点</h4>
+      <p>单实例 200 并发连接，按租户令牌桶平滑限速。</p>
+      <span class="pill admit">超出：返回 Retry-After</span>
+    </div>
+    <div class="cap-card t-ok">
+      <span class="role">QUEUE · 持久缓冲</span>
+      <h4>任务调度队列</h4>
+      <p>按工作区公平轮询，支持优先级插队与幂等去重。</p>
+      <span class="pill wait">超出：进入等待队列</span>
+    </div>
+    <div class="cap-card t-warn">
+      <span class="role">WORKER · 计算池</span>
+      <h4>沙箱执行器</h4>
+      <p>每节点固定 8 槽位，受内存水位保护自动摘流。</p>
+      <span class="pill queue">超出：保留在队列</span>
+    </div>
+    <div class="cap-card cap-last t-bad">
+      <span class="role">UPSTREAM · 外部依赖</span>
+      <h4>第三方归档接口</h4>
+      <p>共享每分钟 120 次配额，未做前置削峰时易触发限流。</p>
+      <span class="pill reject">超出：429 退避重试</span>
+    </div>
+  </div>
+  <div class="cap-second">
+    <div class="cap-card cap-last t-ink">
+      <span class="role">AUDIT · 旁路落盘</span>
+      <h4>归档校验器</h4>
+      <p>独立消费完成事件，异步核对文件哈希与账单计量。</p>
+      <span class="pill pass">旁路异步，不阻塞主链路</span>
+    </div>
+    <div class="cap-note">压测表明全链路瓶颈集中在第三方每分钟配额；将等待收敛至持久队列后，峰值成功率由 91.4% 提升至 99.92%。</div>
+  </div>
+</div>

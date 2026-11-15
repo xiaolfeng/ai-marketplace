@@ -1,0 +1,24 @@
+<!-- 模块：预算条 (BudgetBars) -->
+<!-- 适用场景：展示端到端延迟预算拆分、内存/配额占比对比及底部注释 -->
+<div class="dl" data-component="budget-bars">
+  <div class="dl-head">
+    <span class="dl-title">LATENCY BUDGET / 端到端耗时预算拆分</span>
+    <span class="dl-meta">总预算 P99 ≤ 800ms</span>
+  </div>
+  <div class="dl-row">
+    <b>同步检索链路</b>
+    <div class="dl-bar">
+      <span style="width:15%;--c:var(--accent)" title="鉴权与路由 120ms">鉴权 120ms</span>
+      <span style="width:55%;--c:var(--color-success)" title="向量召回 440ms">向量召回 440ms</span>
+      <span style="width:30%;--c:var(--mark)" title="重排与聚合 240ms">重排 240ms</span>
+    </div>
+  </div>
+  <div class="dl-row">
+    <b>缓存命中链路</b>
+    <div class="dl-bar">
+      <span style="width:25%;--c:var(--accent)" title="鉴权 40ms">鉴权 40ms</span>
+      <span style="width:75%;--c:var(--color-success)" title="边缘缓存读取 120ms">边缘缓存 120ms</span>
+    </div>
+  </div>
+  <p class="dl-note">重排阶段若超过 240ms 自动降级为粗排结果返回，确保尾延迟不击穿调用方超时上限。</p>
+</div>

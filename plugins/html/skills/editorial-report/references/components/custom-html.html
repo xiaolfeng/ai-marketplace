@@ -1,0 +1,41 @@
+<!-- 模块：自定义 Tailwind + Lucide 视图 (CustomHtml) -->
+<!-- 适用场景：利用 Tailwind CSS 工具类与 Lucide 图标快速拼装定制卡片、微缩看板或复合图示；编译期自动剥离 script、on* 事件与 javascript: URL -->
+<div class="pele-box custom-html-box" data-component="custom-html">
+  <div class="pele-head">
+    <span class="pele-tag">CUSTOM VIEW / 实时健康度速览</span>
+    <span class="pele-meta">Tailwind v4 + Lucide 增强渲染</span>
+  </div>
+  <div class="pele-view">
+    <figure class="sw-fig" role="group" aria-label="实时健康度速览">
+      <div class="custom-html">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-paper border border-line">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-accent-tint text-accent"><i data-lucide="activity"></i></span>
+            <div>
+              <div class="text-xs font-mono text-muted">INGESTION</div>
+              <div class="text-base font-semibold text-ink">99.98% 准入成功率</div>
+              <div class="text-xs text-muted mt-1">近 7 日零丢包记录</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-paper border border-line">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-success-bg text-success"><i data-lucide="shield-check"></i></span>
+            <div>
+              <div class="text-xs font-mono text-muted">IDEMPOTENCY</div>
+              <div class="text-base font-semibold text-ink">100% 幂等去重</div>
+              <div class="text-xs text-muted mt-1">拦截 1,420 次重复提交</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-paper border border-line">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-warn-bg text-warn"><i data-lucide="clock"></i></span>
+            <div>
+              <div class="text-xs font-mono text-muted">P99 QUEUE WAIT</div>
+              <div class="text-base font-semibold text-ink">1.8s 排队等待</div>
+              <div class="text-xs text-muted mt-1">较改造前下降 64%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><strong>图示：</strong>自定义 HTML 模块自动继承当前主题色令牌，断网时仍保持基础排版可读。</figcaption>
+    </figure>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import {
   EDITORIAL_COMPONENTS,
   validateEditorial,
   renderEditorial,
+  sanitizeCustomHtml,
 } from "../editorial.mjs";
 import { XsuError, esc } from "../contracts.mjs";
 
@@ -757,4 +758,100 @@ test("Grid uses only existing responsive classes for all allowed column counts",
     assert.match(rendered, /class="gallery-grid/);
     if (columns === 4) assert.match(rendered, /compare-grid/);
   }
+});
+
+test("Report accent prop accepts teal, slate and indigo and rejects unknown palettes", () => {
+  for (const accent of ["teal", "slate", "indigo"]) {
+    const root = n(
+      "Report",
+      {
+        xsuVersion: 1,
+        preset: "editorial",
+        id: `accent-${accent}`,
+        title: "主色测试",
+        date: "2026-11-06",
+        accent,
+      },
+      [md("正文")],
+    );
+    assert.doesNotThrow(() => validateEditorial(root, context()));
+  }
+  assert.throws(
+    () =>
+      validateEditorial(
+        n(
+          "Report",
+          {
+            xsuVersion: 1,
+            preset: "editorial",
+            id: "bad-accent",
+            title: "主色测试",
+            date: "2026-11-06",
+            accent: "pink",
+          },
+          [md("正文")],
+        ),
+        context(),
+      ),
+    (err) => err instanceof XsuError && err.diagnostic.code === "XSU_PROP",
+  );
+});
+
+test("v2 Swimlane and BudgetBars validate actor references and positive shares", () => {
+  rejects(
+    n("Swimlane", {
+      actors: [{ name: "A" }, { name: "B" }],
+      rows: [{ kind: "step", from: 1, to: 3, text: "越界" }],
+    }),
+    "XSU_REFERENCE",
+  );
+  rejects(
+    n("Swimlane", {
+      actors: [{ name: "A" }, { name: "B" }],
+      rows: [{ kind: "step", from: 2, to: 2, text: "同列必须用 note" }],
+    }),
+    "XSU_PROP",
+  );
+  rejects(
+    n("BudgetBars", {
+      rows: [{ label: "行", segments: [{ label: "零宽", share: 0 }] }],
+    }),
+    "XSU_PROP",
+  );
+});
+
+test("CustomHtml strips script tags, on* handlers, quote traps and javascript: URLs while keeping Tailwind and Lucide", () => {
+  const dirty = [
+    '<div class="grid grid-cols-2 gap-3 p-4 rounded-xl bg-accent-tint text-accent" title="a > b" onclick="evil()" onmouseover=\'evil2()\'>',
+    '<i data-lucide="shield-check" onload="bad()"></i>',
+    "<script>window.__pwned = 1;</script>",
+    '<script src="https://evil.example/x.js"></script>',
+    '<iframe src="https://evil.example">frame</iframe>',
+    '<a href="javascript:alert(1)" class="underline">bad-link</a>',
+    '<a href="&#106;av&#x61;script&#58;alert(2)">entity-link</a>',
+    '<a href="https://example.org/docs" target="_blank">safe-link</a>',
+    '<span style="color:expression(alert(1))">styled</span>',
+    "</div>",
+  ].join("");
+  const cleaned = sanitizeCustomHtml(dirty);
+  assert.doesNotMatch(cleaned, /<script/i);
+  assert.doesNotMatch(cleaned, /<iframe/i);
+  assert.doesNotMatch(cleaned, /\bon[a-z]+\s*=/i);
+  assert.doesNotMatch(cleaned, /javascript:/i);
+  assert.doesNotMatch(cleaned, /expression\s*\(/i);
+  assert.match(cleaned, /data-lucide="shield-check"/);
+  assert.match(cleaned, /bg-accent-tint text-accent/);
+  assert.match(cleaned, /title="a &gt; b"/);
+  assert.match(cleaned, /href="https:\/\/example\.org\/docs"/);
+
+  const rendered = html(
+    n(
+      "CustomHtml",
+      { title: "定制卡片", meta: "Tailwind", caption: "图注说明" },
+      dirty,
+    ),
+  );
+  assert.match(rendered, /custom-html-box/);
+  assert.doesNotMatch(rendered, /<script/i);
+  assert.doesNotMatch(rendered, /onclick/i);
 });

@@ -16,7 +16,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -102,7 +111,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -153,7 +171,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -197,7 +224,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -241,7 +277,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -275,7 +320,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -315,7 +369,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -367,7 +430,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "kpi",
@@ -638,7 +710,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "normal",
@@ -698,7 +779,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "warn",
@@ -954,7 +1044,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "confirmed",
@@ -1057,7 +1156,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "done",
@@ -1236,7 +1344,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1324,7 +1441,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1359,7 +1485,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1395,7 +1530,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1439,7 +1583,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1496,7 +1649,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1547,7 +1709,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1593,7 +1764,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1633,7 +1813,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1689,7 +1878,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1723,7 +1921,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1774,7 +1981,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1812,7 +2028,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1873,7 +2098,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1933,7 +2167,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -1985,7 +2228,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2028,7 +2280,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2073,7 +2334,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "open",
@@ -2145,7 +2415,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2190,7 +2469,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "col-2",
@@ -2271,7 +2559,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2311,7 +2608,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2357,7 +2663,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "bad",
@@ -2499,7 +2814,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2548,7 +2872,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2590,7 +2923,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2674,7 +3016,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2717,7 +3068,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2756,7 +3116,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2812,7 +3181,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2855,7 +3233,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2919,7 +3306,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -2977,7 +3373,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3024,7 +3429,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3101,7 +3515,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3179,7 +3602,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3225,7 +3657,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3297,7 +3738,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3385,7 +3835,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3445,7 +3904,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "states",
@@ -3512,7 +3980,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "done",
@@ -3621,7 +4098,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3675,7 +4161,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "line",
@@ -3772,7 +4267,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3821,7 +4325,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3866,7 +4379,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3925,7 +4447,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -3980,7 +4511,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -4035,7 +4575,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -4148,7 +4697,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -4216,7 +4774,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "mermaid",
@@ -4255,7 +4822,16 @@
       "status": "implemented-browser-compared",
       "fixture": "scripts/xsu/component-coverage.json",
       "test": "scripts/xsu/tests/editorial.test.mjs",
-      "visualBaseline": {"revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313", "runner": "scripts/xsu/browser-smoke.mjs", "matrix": ["desktop/light", "desktop/dark", "mobile/light", "mobile/dark"]},
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
       "variants": [
         {
           "name": "default",
@@ -4284,6 +4860,790 @@
         }
       ],
       "variantAudit": "Explicit legacy status classes mapped to semantic props; browser equivalence pending."
+    },
+    {
+      "snippet": "figure-box.html",
+      "component": "FigureBox",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "FigureBox",
+            "args": [
+              {
+                "tag": "TOPOLOGY / 分级限流拓扑",
+                "meta": "浅绿 = 缓冲",
+                "caption": "三段式削峰路径"
+              },
+              [
+                {
+                  "type": "Principles",
+                  "args": [
+                    {
+                      "items": [
+                        {
+                          "title": "接入鉴权",
+                          "detail": "毫秒级拦截"
+                        }
+                      ]
+                    }
+                  ],
+                  "loc": {
+                    "file": "coverage.xsu",
+                    "line": 1,
+                    "column": 1
+                  }
+                }
+              ]
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "pele-box",
+            "pele-head",
+            "pele-tag",
+            "sw-fig"
+          ],
+          "expectText": [
+            "TOPOLOGY / 分级限流拓扑",
+            "三段式削峰路径",
+            "接入鉴权"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal FigureBox container."
+    },
+    {
+      "snippet": "swimlane-diagram.html",
+      "component": "Swimlane",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Swimlane",
+            "args": [
+              {
+                "title": "SEQUENCE / 异步导出时序",
+                "meta": "默认卡片泳道",
+                "caption": "写入任务记录后立即返回回执",
+                "actors": [
+                  {
+                    "name": "客户端",
+                    "subtitle": "发起请求"
+                  },
+                  {
+                    "name": "调度网关",
+                    "subtitle": "持久受理",
+                    "tone": "accent"
+                  },
+                  {
+                    "name": "对象存储",
+                    "subtitle": "归档产物",
+                    "tone": "good"
+                  }
+                ],
+                "rows": [
+                  {
+                    "kind": "band",
+                    "title": "阶段 A · 受理",
+                    "subtitle": "落库即回",
+                    "tone": "accent"
+                  },
+                  {
+                    "kind": "step",
+                    "number": "1",
+                    "from": 1,
+                    "to": 2,
+                    "text": "提交导出请求",
+                    "detail": "携带幂等键",
+                    "tone": "ink"
+                  },
+                  {
+                    "kind": "step",
+                    "number": "2",
+                    "from": 2,
+                    "to": 1,
+                    "text": "返回受理编号",
+                    "tone": "accent",
+                    "dashed": true
+                  },
+                  {
+                    "kind": "note",
+                    "from": 2,
+                    "text": "按配额排队，不占客户端连接",
+                    "tone": "warn"
+                  },
+                  {
+                    "kind": "step",
+                    "number": "3",
+                    "from": 2,
+                    "to": 3,
+                    "text": "上传归档包",
+                    "tone": "good"
+                  }
+                ],
+                "legend": [
+                  {
+                    "label": "同步调用",
+                    "tone": "ink"
+                  },
+                  {
+                    "label": "异步回执",
+                    "tone": "accent",
+                    "dashed": true
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "pele-box",
+            "sw-wrap",
+            "sw-actors",
+            "sw-frag",
+            "sw-row",
+            "sw-arrow",
+            "sw-legend"
+          ],
+          "expectText": [
+            "客户端",
+            "调度网关",
+            "提交导出请求",
+            "按配额排队，不占客户端连接"
+          ]
+        },
+        {
+          "name": "compact",
+          "node": {
+            "type": "Swimlane",
+            "args": [
+              {
+                "variant": "compact",
+                "actors": [
+                  {
+                    "name": "网关",
+                    "tone": "accent"
+                  },
+                  {
+                    "name": "存储",
+                    "tone": "ok"
+                  }
+                ],
+                "rows": [
+                  {
+                    "kind": "band",
+                    "title": "快速同步",
+                    "tone": "ok"
+                  },
+                  {
+                    "kind": "step",
+                    "number": "1",
+                    "from": 1,
+                    "to": 2,
+                    "text": "写入元数据",
+                    "tone": "ok"
+                  },
+                  {
+                    "kind": "note",
+                    "from": 1,
+                    "to": 2,
+                    "text": "全程幂等校验",
+                    "tone": "warn"
+                  }
+                ],
+                "legend": [
+                  {
+                    "label": "写入",
+                    "tone": "ok"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "sq-wrap",
+            "sq-head",
+            "sq-frag",
+            "sq-msg",
+            "sq-note",
+            "sq-legend"
+          ],
+          "expectText": [
+            "网关",
+            "写入元数据",
+            "全程幂等校验"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal Swimlane diagram (default card-pill and compact sequence)."
+    },
+    {
+      "snippet": "capacity-flow.html",
+      "component": "CapacityFlow",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "CapacityFlow",
+            "args": [
+              {
+                "items": [
+                  {
+                    "role": "INGRESS",
+                    "title": "接入网关",
+                    "detail": "单实例 200 并发",
+                    "tone": "accent",
+                    "pill": {
+                      "text": "超出：退避提示",
+                      "kind": "admit"
+                    }
+                  },
+                  {
+                    "role": "QUEUE",
+                    "title": "持久队列",
+                    "detail": "按租户公平轮询",
+                    "tone": "ok",
+                    "pill": {
+                      "text": "超出：排队等待",
+                      "kind": "wait"
+                    }
+                  },
+                  {
+                    "role": "UPSTREAM",
+                    "title": "外部接口",
+                    "detail": "每分钟 120 次配额",
+                    "tone": "bad",
+                    "pill": {
+                      "text": "超出：429 拒绝",
+                      "kind": "reject"
+                    }
+                  }
+                ],
+                "secondary": {
+                  "card": {
+                    "role": "AUDIT",
+                    "title": "旁路校验",
+                    "detail": "异步核对摘要",
+                    "tone": "warn",
+                    "pills": [
+                      {
+                        "text": "异步消费",
+                        "kind": "pass"
+                      },
+                      {
+                        "text": "限速保护",
+                        "kind": "queue"
+                      }
+                    ]
+                  },
+                  "note": "瓶颈集中在外部每分钟配额，收敛至队列后成功率达 99.92%。"
+                }
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "cap-flow",
+            "cap-card",
+            "pill",
+            "cap-second",
+            "cap-note"
+          ],
+          "expectText": [
+            "接入网关",
+            "持久队列",
+            "旁路校验"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal CapacityFlow component."
+    },
+    {
+      "snippet": "queue-zones.html",
+      "component": "QueueZones",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "QueueZones",
+            "args": [
+              {
+                "states": [
+                  {
+                    "label": "QUEUED",
+                    "tone": "warn",
+                    "event": "配额可用"
+                  },
+                  {
+                    "label": "DISPATCHED",
+                    "tone": "accent"
+                  },
+                  {
+                    "label": "SUCCEEDED",
+                    "tone": "ok",
+                    "divider": "slash"
+                  },
+                  {
+                    "label": "FAILED",
+                    "tone": "bad"
+                  }
+                ],
+                "left": {
+                  "title": "等待区 · 尚未占用下游配额",
+                  "subtitle": "支持取消与限流退回",
+                  "tone": "accent",
+                  "cards": [
+                    {
+                      "step": "1",
+                      "title": "幂等入队",
+                      "items": [
+                        "写入唯一幂等键",
+                        "仅保存对象引用"
+                      ]
+                    }
+                  ]
+                },
+                "transfer": {
+                  "forward": "领取租约并派发",
+                  "backward": "明确未受理退回"
+                },
+                "right": {
+                  "title": "执行区 · 独立审计记录",
+                  "subtitle": "未知超时严禁盲目重发",
+                  "tone": "ok",
+                  "cards": [
+                    {
+                      "step": "2",
+                      "title": "受控外发",
+                      "items": [
+                        "记录尝试编号",
+                        "心跳续期租约"
+                      ]
+                    }
+                  ]
+                },
+                "rule": {
+                  "label": "设计红线",
+                  "text": "连接中断或超时一律转入后台对账，严禁自动重发。"
+                }
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "qa-states",
+            "qa",
+            "qa-zone",
+            "qa-card",
+            "qa-mid",
+            "qa-rule"
+          ],
+          "expectText": [
+            "QUEUED",
+            "幂等入队",
+            "受控外发"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal QueueZones state machine."
+    },
+    {
+      "snippet": "budget-bars.html",
+      "component": "BudgetBars",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "BudgetBars",
+            "args": [
+              {
+                "title": "LATENCY BUDGET / 端到端耗时预算",
+                "meta": "P99 ≤ 800ms",
+                "rows": [
+                  {
+                    "label": "同步检索链路",
+                    "segments": [
+                      {
+                        "label": "鉴权 120ms",
+                        "share": 120,
+                        "tone": "accent"
+                      },
+                      {
+                        "label": "召回 440ms",
+                        "share": 440,
+                        "tone": "ok"
+                      },
+                      {
+                        "label": "重排 240ms",
+                        "share": 240,
+                        "tone": "warn"
+                      }
+                    ]
+                  }
+                ],
+                "note": "重排超时自动降级为粗排结果。"
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "dl",
+            "dl-head",
+            "dl-row",
+            "dl-bar",
+            "dl-note"
+          ],
+          "expectText": [
+            "同步检索链路",
+            "鉴权 120ms",
+            "重排超时自动降级为粗排结果。"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal BudgetBars component."
+    },
+    {
+      "snippet": "principles.html",
+      "component": "Principles",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "Principles",
+            "args": [
+              {
+                "items": [
+                  {
+                    "title": "全链路单一排队点",
+                    "detail": "只在离配额最近的一层持有队列。"
+                  },
+                  {
+                    "title": "未知状态绝不重发",
+                    "detail": "连接超时统一进入后台对账。"
+                  },
+                  {
+                    "title": "大载荷走引用传递",
+                    "detail": "控制面只流转对象摘要与短效签名。"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "principles",
+            "principle"
+          ],
+          "expectText": [
+            "全链路单一排队点",
+            "未知状态绝不重发"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal Principles numbered cards."
+    },
+    {
+      "snippet": "review-progress.html",
+      "component": "ReviewProgress",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "ReviewProgress",
+            "args": [
+              {
+                "stats": [
+                  {
+                    "label": "已达成共识",
+                    "count": 6,
+                    "status": "done"
+                  },
+                  {
+                    "label": "待补充压测",
+                    "count": 2,
+                    "status": "warn"
+                  }
+                ],
+                "items": [
+                  {
+                    "title": "单点公平队列模型",
+                    "status": "done",
+                    "badgeText": "已达成共识",
+                    "summary": "按租户与目标池组合分队，消除跨层重复排队。",
+                    "impactLabel": "对本方案",
+                    "impact": "直接锁定调度表索引结构。"
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "rv-wrap",
+            "rv-summary",
+            "rv-stat",
+            "rv-bar",
+            "rv-grid",
+            "rv-card",
+            "rv-impact"
+          ],
+          "expectText": [
+            "已达成共识",
+            "单点公平队列模型",
+            "直接锁定调度表索引结构。"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal ReviewProgress summary + bar + impact cards."
+    },
+    {
+      "snippet": "key-value-table.html",
+      "component": "KeyValueTable",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "KeyValueTable",
+            "args": [
+              {
+                "headers": [
+                  "模块 / 层级",
+                  "现状、目标与边界"
+                ],
+                "rows": [
+                  {
+                    "key": "接入网关",
+                    "badges": [
+                      {
+                        "text": "已就绪",
+                        "status": "done"
+                      }
+                    ],
+                    "owner": "归属：流量基础组",
+                    "sections": [
+                      {
+                        "label": "现状",
+                        "text": "固定连接池上限，突发流量直接返回 503。"
+                      },
+                      {
+                        "label": "目标",
+                        "text": "按内存预算平滑准入并返回明确退避窗口。"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "table-wrap",
+            "data",
+            "kv-table",
+            "col-key",
+            "cell-meta",
+            "cell-owner"
+          ],
+          "expectText": [
+            "接入网关",
+            "归属：流量基础组",
+            "按内存预算平滑准入并返回明确退避窗口。"
+          ]
+        }
+      ],
+      "variantAudit": "v2 formal KeyValueTable dual-column component."
+    },
+    {
+      "snippet": "custom-html.html",
+      "component": "CustomHtml",
+      "status": "implemented-browser-compared",
+      "fixture": "scripts/xsu/component-coverage.json",
+      "test": "scripts/xsu/tests/editorial.test.mjs",
+      "visualBaseline": {
+        "revision": "2335a4f7bdee70834cb876770d7f8e7a6a85a313",
+        "runner": "scripts/xsu/browser-smoke.mjs",
+        "matrix": [
+          "desktop/light",
+          "desktop/dark",
+          "mobile/light",
+          "mobile/dark"
+        ]
+      },
+      "variants": [
+        {
+          "name": "default",
+          "node": {
+            "type": "CustomHtml",
+            "args": [
+              {
+                "title": "CUSTOM VIEW / 实时健康度",
+                "meta": "Tailwind + Lucide",
+                "caption": "支持离线可读降级"
+              },
+              "<div class=\"flex items-center gap-3 p-4 rounded-xl bg-accent-tint text-accent\"><i data-lucide=\"shield-check\"></i><span>99.98% 准入成功率</span></div>"
+            ],
+            "loc": {
+              "file": "coverage.xsu",
+              "line": 1,
+              "column": 1
+            }
+          },
+          "expectClasses": [
+            "pele-box",
+            "custom-html-box",
+            "custom-html",
+            "sw-fig"
+          ],
+          "expectText": [
+            "CUSTOM VIEW / 实时健康度",
+            "99.98% 准入成功率",
+            "支持离线可读降级"
+          ]
+        }
+      ],
+      "variantAudit": "v2 CustomHtml with sanitizer and optional pele-box frame."
     }
   ]
 }

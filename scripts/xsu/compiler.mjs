@@ -147,6 +147,16 @@ export function compileFile(entry, assets, adapter, options = {}) {
     fail(root, "XSU_DATE", "Date must be a valid YYYY-MM-DD calendar date");
   if (meta.theme && !["system", "light", "dark"].includes(meta.theme))
     fail(root, "XSU_PROP", "Theme must be system, light or dark");
+  if (
+    meta.accent !== undefined &&
+    (assets.preset !== "editorial" ||
+      !["teal", "slate", "indigo"].includes(meta.accent))
+  )
+    fail(
+      root,
+      "XSU_PROP",
+      "Accent must be teal, slate or indigo on editorial reports",
+    );
   validateIds(root);
   const warnings = [];
   const context = { network, warnings, readImage: resolved.readImage };
@@ -198,22 +208,27 @@ export function compileFile(entry, assets, adapter, options = {}) {
         `<script type="application/json" id="replay-data">${scriptJson(rendered)}</script>`,
     );
   }
+  const accent = assets.preset === "editorial" ? meta.accent || "teal" : null;
   const config = {
     network,
     theme: meta.theme || "system",
+    ...(accent ? { accent } : {}),
     documentId: meta.id,
   };
   html = html.replace(
     /<head>/i,
     () =>
-      `<head>\n<script>window.__XSU_CONFIG__=${scriptJson(config)};${meta.theme && meta.theme !== "system" ? `document.documentElement.setAttribute("data-theme",${scriptJson(meta.theme)});` : ""}</script>`,
+      `<head>\n<script>window.__XSU_CONFIG__=${scriptJson(config)};${meta.theme && meta.theme !== "system" ? `document.documentElement.setAttribute("data-theme",${scriptJson(meta.theme)});` : ""}${accent ? `document.documentElement.setAttribute("data-accent",${scriptJson(accent)});` : ""}</script>`,
   );
   if (network === "offline") {
-    // A compiled offline page must not retain a remotely loadable script URL.
-    html = html.replaceAll(
+    // A compiled offline page must not retain a remotely loadable Pele diagram script URL.
+    for (const url of [
+      "https://fastly.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js",
       "https://cdn.jsdelivr.net/npm/pele@1.6.0/dist/pele.global.js",
-      "",
-    );
+      "https://unpkg.com/pele@1.6.0/dist/pele.global.js",
+    ]) {
+      html = html.replaceAll(url, "");
+    }
   }
   const hash = crypto.createHash("sha256");
   for (const [file, bytes] of [...resolved.files].sort(([a], [b]) =>

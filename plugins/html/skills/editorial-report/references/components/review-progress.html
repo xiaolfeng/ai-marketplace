@@ -1,0 +1,26 @@
+<!-- 模块：评审进度与影响卡 (ReviewProgress) -->
+<!-- 适用场景：展示架构评审/验收结论计数、比例条与每条结论对方案的具体影响 -->
+<div class="rv-wrap" data-component="review-progress">
+  <div class="rv-summary">
+    <div class="rv-stat" style="--c:var(--color-success)"><b>6</b><span>已达成共识</span></div>
+    <div class="rv-stat" style="--c:var(--mark)"><b>2</b><span>待补充压测</span></div>
+    <div class="rv-stat" style="--c:var(--accent)"><b>1</b><span>二期演进</span></div>
+  </div>
+  <div class="rv-bar">
+    <i style="--c:var(--color-success);width:66.6667%"></i>
+    <i style="--c:var(--mark);width:22.2222%"></i>
+    <i style="--c:var(--accent);width:11.1111%"></i>
+  </div>
+  <div class="rv-grid">
+    <article class="rv-card" style="--c:var(--color-success)">
+      <header><b>单点公平队列模型</b><span class="badge badge-done">已达成共识</span></header>
+      <p>按租户与目标池组合分队，队内按受理时间先到先发，消除跨层重复排队。</p>
+      <div class="rv-impact"><b>对本方案：</b>直接锁定调度表主键与索引结构，本周进入编码。</div>
+    </article>
+    <article class="rv-card" style="--c:var(--mark)">
+      <header><b>大报文内存预算阈值</b><span class="badge badge-warn">待补充压测</span></header>
+      <p>以字节预算替代固定并发槽位，需验证混合大小载荷下的峰值常驻内存。</p>
+      <div class="rv-impact"><b>对本方案：</b>预留可热更新水位参数，压测通过后再切换默认值。</div>
+    </article>
+  </div>
+</div>

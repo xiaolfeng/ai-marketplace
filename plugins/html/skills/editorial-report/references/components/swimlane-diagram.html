@@ -1,0 +1,53 @@
+<!-- 模块：泳道时序图 (Swimlane) -->
+<!-- 适用场景：跨组件调用链路、正反向消息、虚线回执、分段阶段框与单列自注释；支持 default 卡片式与 compact 紧凑式 -->
+<div class="sw-wrap" data-component="swimlane">
+  <p class="sw-hint">图较宽，窄屏可左右滑动查看</p>
+  <div class="sw" style="--n:4">
+    <div class="sw-actors">
+      <div class="sw-actor"><b>Web 客户端</b><span>发起导出请求</span></div>
+      <div class="sw-actor accent"><b>调度网关</b><span>持久受理 · 队列控制</span></div>
+      <div class="sw-actor"><b>渲染工作节点</b><span>异步执行</span></div>
+      <div class="sw-actor ok"><b>对象存储</b><span>归档产物</span></div>
+    </div>
+    <div class="sw-frag t-accent">
+      <div class="sw-tab"><b>阶段 A · 持久受理</b><small>写入任务记录后立即返回回执</small></div>
+      <div class="sw-row t-ink" style="--lo:1;--hi:2">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label"><span class="no">1</span>提交报表导出任务<small>携带幂等键与筛选快照</small></div></div>
+        <div class="sw-arrow"></div>
+      </div>
+      <div class="sw-row t-accent" style="--lo:1;--hi:2">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label"><span class="no">2</span>返回任务编号 <code>job_8492</code></div></div>
+        <div class="sw-arrow dash rev"></div>
+      </div>
+      <div class="sw-row self t-warn" style="--lo:2;--hi:2">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label chip">按租户配额排队，不占用客户端连接</div></div>
+      </div>
+    </div>
+    <div class="sw-frag t-ok">
+      <div class="sw-tab"><b>阶段 B · 异步执行与归档</b><small>工作节点拉取并上传归档</small></div>
+      <div class="sw-row t-ink" style="--lo:2;--hi:3">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label"><span class="no">3</span>派发分片任务并授予租约</div></div>
+        <div class="sw-arrow"></div>
+      </div>
+      <div class="sw-row t-ok" style="--lo:3;--hi:4">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label"><span class="no">4</span>流式写入压缩包并校验摘要</div></div>
+        <div class="sw-arrow"></div>
+      </div>
+      <div class="sw-row t-ok" style="--lo:2;--hi:3">
+        <i></i><i></i><i></i><i></i>
+        <div class="sw-text"><div class="sw-label"><span class="no">5</span>回报完成状态与下载签名地址</div></div>
+        <div class="sw-arrow dash rev"></div>
+      </div>
+    </div>
+    <div class="sw-legend">
+      <span class="t-ink"><em></em>同步调用 / 派发</span>
+      <span class="t-accent"><em class="dash"></em>受理回执</span>
+      <span class="t-ok"><em class="dash"></em>归档完成通知</span>
+    </div>
+  </div>
+</div>
